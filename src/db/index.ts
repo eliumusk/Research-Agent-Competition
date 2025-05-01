@@ -2,17 +2,34 @@
  * Connect to PostgreSQL Database (Supabase/Neon/Local PostgreSQL)
  * https://orm.drizzle.team/docs/tutorials/drizzle-with-supabase
  */
+import { websiteConfig } from '@/config/website';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error('DATABASE_URL is not set');
-}
+// Create a mock DB object or real DB connection based on auth setting
+let db: any;
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
-const db = drizzle(client);
+if (websiteConfig.auth.disabled) {
+  // Create a mock DB object if auth is disabled
+  db = {
+    // Add any methods or properties that might be used
+    query: async () => [],
+    select: () => ({ from: () => ({ where: () => ({ execute: async () => [] }) }) }),
+    insert: () => ({ values: () => ({ returning: () => ({ execute: async () => [] }) }) }),
+    update: () => ({ set: () => ({ where: () => ({ execute: async () => [] }) }) }),
+    delete: () => ({ where: () => ({ execute: async () => [] }) }),
+  };
+} else {
+  // Normal DB initialization
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is not set');
+  }
+
+  // Disable prefetch as it is not supported for "Transaction" pool mode
+  const client = postgres(connectionString, { prepare: false });
+  db = drizzle(client);
+}
 
 /**
  * Connect to Neon Database
