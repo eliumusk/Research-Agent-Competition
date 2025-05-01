@@ -23,6 +23,9 @@ export function PlausibleAnalytics() {
   }
 
   return (
+    <>
     <Script defer type="text/javascript" data-domain={domain} src={script} />
+    <Script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</Script>
+    </>
   );
 }
