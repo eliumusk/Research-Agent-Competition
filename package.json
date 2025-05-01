@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"content-collections watch\" \"next dev\"",
+    "dev": "concurrently \"content-collections watch\" \"next dev --port 3005\"",
     "build": "content-collections build && next build",
     "start": "next start",
     "lint": "biome check --write .",
