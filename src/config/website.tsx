@@ -23,11 +23,11 @@ export const websiteConfig: WebsiteConfig = {
       logoDark: '/logo-dark.png',
     },
     social: {
-      github: 'https://github.com/MkSaaSHQ',
-      twitter: 'https://x.com/mksaascom',
-      blueSky: 'https://bsky.app/profile/mksaas.com',
-      discord: 'https://discord.gg/yVwpEtTT',
-      youtube: 'https://www.youtube.com/@MkSaaS',
+      github: 'https://github.com/javayhu',
+      twitter: 'https://x.com/indie_maker_fox',
+      blueSky: 'https://bsky.app/profile/javayhu.com',
+      discord: 'https://discord.gg/r8Pty2qcGv',
+      youtube: 'https://www.youtube.com/@javayhu',
     },
   },
   routes: {
