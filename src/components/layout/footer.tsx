@@ -21,8 +21,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
     <footer className={cn('border-t', className)}>
       <Container className="px-4">
         <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-6">
-          <div className="flex flex-col items-start col-span-full md:col-span-2">
-            <div className="space-y-4">
+          <div className="flex flex-col items-center justify-center col-span-full">
+            <div className="space-y-4 flex flex-col items-center justify-center">
               {/* logo and name */}
               <div className="items-center space-x-2 flex">
                 <Logo />
@@ -32,7 +32,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               </div>
 
               {/* tagline */}
-              <p className="text-muted-foreground text-base py-2 md:pr-12">
+              <p className="text-muted-foreground text-base py-2">
                 {t('Marketing.footer.tagline')}
               </p>
 
@@ -62,7 +62,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
           </div>
 
           {/* footer links */}
-          {footerLinks?.map((section) => (
+          {/* {footerLinks?.map((section) => (
             <div
               key={section.title}
               className="col-span-1 md:col-span-1 items-start"
@@ -87,7 +87,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                 )}
               </ul>
             </div>
-          ))}
+          ))} */}
         </div>
       </Container>
 

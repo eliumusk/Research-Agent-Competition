@@ -1,8 +1,8 @@
 {
   "Metadata": {
-    "name": "MkSaaS Demo",
-    "title": "MkSaaS - The Best AI SaaS Boilerplate",
-    "description": "MkSaaS is the best AI SaaS boilerplate. Make AI SaaS in days, simply and effortlessly"
+    "name": "Indie Maker Fox",
+    "title": "Indie Maker Fox is Building in Public",
+    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and build amazing products people need."
   },
   "Common": {
     "login": "Log in",
@@ -391,7 +391,7 @@
       }
     },
     "footer": {
-      "tagline": "Make AI SaaS in days, simply and effortlessly",
+      "tagline": "Indie Maker Fox is Building in Public",
       "product": {
         "title": "Product",
         "items": {
