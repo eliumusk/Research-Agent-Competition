@@ -5,7 +5,6 @@ import { allCategories, allPosts } from 'content-collections';
 import type { MetadataRoute } from 'next';
 import type { Locale } from 'next-intl';
 import { getBaseUrl } from '../lib/urls/urls';
-import { websiteConfig } from '@/config/website';
 
 type Href = Parameters<typeof getLocalePathname>[0]['href'];
 
@@ -24,6 +23,8 @@ const staticRoutes = [
   '/privacy',
   '/terms',
   '/cookie',
+  '/auth/login',
+  '/auth/register',
 ];
 
 /**
@@ -34,11 +35,6 @@ const staticRoutes = [
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapList: MetadataRoute.Sitemap = []; // final result
-
-  // add auth routes if auth is enabled
-  if (!websiteConfig.auth.disabled) {
-    staticRoutes.push('/auth/login', '/auth/register');
-  }
 
   // add static routes
   sitemapList.push(

@@ -22,7 +22,6 @@ import type { PropsWithChildren } from 'react';
 export function Providers({ children }: PropsWithChildren) {
   const theme = useTheme();
   const defaultMode = websiteConfig.metadata.mode?.defaultMode ?? 'system';
-  const disableAuth = websiteConfig.auth.disabled;
 
   return (
     <ThemeProvider
@@ -34,11 +33,7 @@ export function Providers({ children }: PropsWithChildren) {
       <ActiveThemeProvider>
         <RootProvider theme={theme}>
           <TooltipProvider>
-            {disableAuth ? (
-              <>{children}</>
-            ) : (
-              <PaymentProvider>{children}</PaymentProvider>
-            )}
+            <PaymentProvider>{children}</PaymentProvider>
           </TooltipProvider>
         </RootProvider>
       </ActiveThemeProvider>
