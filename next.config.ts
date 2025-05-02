@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'blog.javayhu.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
       },
       {
