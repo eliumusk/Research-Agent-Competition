@@ -74,7 +74,7 @@ export function DashboardSidebar({
         {!isPending && mounted && (
           <>
             {/* show upgrade card if user is not a member */}
-            {currentUser && <UpgradeCard />}
+            {/* {currentUser && <UpgradeCard />} */}
 
             {/* show user profile if user is logged in */}
             {currentUser && <SidebarUser user={currentUser} />}

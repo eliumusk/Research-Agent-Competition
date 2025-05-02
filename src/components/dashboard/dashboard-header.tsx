@@ -69,7 +69,7 @@ export function DashboardHeader({
         <div className="ml-auto flex items-center gap-3 px-4">
           {actions}
 
-          <ThemeSelector />
+          {/* <ThemeSelector /> */}
           <ModeSwitcher />
           <LocaleSwitcher />
         </div>

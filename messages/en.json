@@ -2,7 +2,7 @@
   "Metadata": {
     "name": "Indie Maker Fox",
     "title": "Indie Maker Fox is Building in Public",
-    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and build amazing products people need."
+    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and I build amazing products people need."
   },
   "Common": {
     "login": "Log in",
@@ -111,11 +111,11 @@
   },
   "AboutPage": {
     "title": "About",
-    "description": "This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better.",
+    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and I build amazing products people need.",
     "subtitle": "Learn more about our company, mission, and values",
-    "authorName": "MkSaaS",
-    "authorBio": "AI SaaS Boilerplate",
-    "introduction": "👋 Hi there! This is MkSaaS, an AI SaaS template built with modern technologies, helping you build your SaaS faster and better. If you have any questions, welcome to contact me.",
+    "authorName": "Fox",
+    "authorBio": "Indie Maker",
+    "introduction": "👋 Hi there! This is Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and I build amazing products people need.",
     "talkWithMe": "Talk with me",
     "followMe": "Follow me on X"
   },
