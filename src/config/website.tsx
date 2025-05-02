@@ -60,8 +60,8 @@ export const websiteConfig: WebsiteConfig = {
   },
   mail: {
     provider: 'resend',
-    fromEmail: 'support@mksaas.com',
-    supportEmail: 'support@mksaas.com',
+    fromEmail: 'blog@javayhu.com',
+    supportEmail: 'blog@javayhu.com',
   },
   newsletter: {
     provider: 'resend',
