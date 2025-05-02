@@ -1,6 +1,7 @@
 import { betterFetch } from '@better-fetch/fetch';
 import createMiddleware from 'next-intl/middleware';
 import { type NextRequest, NextResponse } from 'next/server';
+import { websiteConfig } from './config/website';
 import { LOCALES, routing } from './i18n/routing';
 import type { Session } from './lib/auth-types';
 import {
@@ -25,7 +26,28 @@ export default async function middleware(req: NextRequest) {
   const { nextUrl, headers } = req;
   console.log('>> middleware start, pathname', nextUrl.pathname);
 
-  // do not use getSession() here, it will cause error related to edge runtime
+  // Get the pathname of the request (e.g. /zh/dashboard to /dashboard)
+  const pathnameWithoutLocale = getPathnameWithoutLocale(
+    nextUrl.pathname,
+    LOCALES
+  );
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    new RegExp(`^${route}$`).test(pathnameWithoutLocale)
+  );
+  // console.log('middleware, isProtectedRoute', isProtectedRoute);
+
+  // If auth is disabled in website config, skip auth checks
+  if (websiteConfig.auth.disabled) {
+    console.log('middleware, auth disabled, skipping auth checks');
+
+    if (isProtectedRoute) {
+      console.log('>> middleware end, auth disabled, redirecting to home');
+      return NextResponse.redirect(new URL('/', nextUrl));
+    }
+    return intlMiddleware(req);
+  }
+
   // const session = await getSession();
   const { data: session } = await betterFetch<Session>(
     '/api/auth/get-session',
@@ -39,12 +61,6 @@ export default async function middleware(req: NextRequest) {
   const isLoggedIn = !!session;
   // console.log('middleware, isLoggedIn', isLoggedIn);
 
-  // Get the pathname of the request (e.g. /zh/dashboard to /dashboard)
-  const pathnameWithoutLocale = getPathnameWithoutLocale(
-    nextUrl.pathname,
-    LOCALES
-  );
-
   // If the route can not be accessed by logged in users, redirect if the user is logged in
   if (isLoggedIn) {
     const isNotAllowedRoute = routesNotAllowedByLoggedInUsers.some((route) =>
@@ -57,11 +73,6 @@ export default async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
   }
-
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    new RegExp(`^${route}$`).test(pathnameWithoutLocale)
-  );
-  // console.log('middleware, isProtectedRoute', isProtectedRoute);
 
   // If the route is a protected route, redirect to login if user is not logged in
   if (!isLoggedIn && isProtectedRoute) {

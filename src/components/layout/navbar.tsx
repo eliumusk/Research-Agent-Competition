@@ -29,6 +29,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Skeleton } from '../ui/skeleton';
 import LocaleSwitcher from './locale-switcher';
+import { websiteConfig } from '@/config/website';
 
 interface NavBarProps {
   scroll?: boolean;
@@ -49,7 +50,11 @@ export function Navbar({ scroll }: NavBarProps) {
   const menuLinks = getNavbarLinks();
   const localePathname = useLocalePathname();
   const [mounted, setMounted] = useState(false);
-  const { data: session, isPending } = authClient.useSession();
+  
+  const disableAuth = websiteConfig.auth.disabled;
+  const { data: session, isPending } = disableAuth 
+    ? { data: null, isPending: false } 
+    : authClient.useSession();
   const currentUser = session?.user;
   // console.log(`Navbar, user:`, user);
 
@@ -217,34 +222,38 @@ export function Navbar({ scroll }: NavBarProps) {
 
           {/* navbar right show sign in or user */}
           <div className="flex items-center gap-x-4">
-            {!mounted || isPending ? (
-              <Skeleton className="size-8 border rounded-full" />
-            ) : currentUser ? (
-              <UserButton user={currentUser} />
-            ) : (
-              <div className="flex items-center gap-x-4">
-                <LoginWrapper mode="modal" asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="cursor-pointer"
-                  >
-                    {t('Common.login')}
-                  </Button>
-                </LoginWrapper>
+            {!disableAuth && (
+              <>
+                {!mounted || isPending ? (
+                  <Skeleton className="size-8 border rounded-full" />
+                ) : currentUser ? (
+                  <UserButton user={currentUser} />
+                ) : (
+                  <div className="flex items-center gap-x-4">
+                    <LoginWrapper mode="modal" asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="cursor-pointer"
+                      >
+                        {t('Common.login')}
+                      </Button>
+                    </LoginWrapper>
 
-                <LocaleLink
-                  href={Routes.Register}
-                  className={cn(
-                    buttonVariants({
-                      variant: 'default',
-                      size: 'sm',
-                    })
-                  )}
-                >
-                  {t('Common.signUp')}
-                </LocaleLink>
-              </div>
+                    <LocaleLink
+                      href={Routes.Register}
+                      className={cn(
+                        buttonVariants({
+                          variant: 'default',
+                          size: 'sm',
+                        })
+                      )}
+                    >
+                      {t('Common.signUp')}
+                    </LocaleLink>
+                  </div>
+                )}
+              </>
             )}
 
             <ModeSwitcher />

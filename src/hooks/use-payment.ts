@@ -1,3 +1,4 @@
+import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
 import { usePaymentStore } from '@/stores/payment-store';
 import { useEffect } from 'react';
@@ -9,6 +10,17 @@ import { useEffect } from 'react';
  * It also automatically fetches payment information when the user changes.
  */
 export function usePayment() {
+  const disableAuth = websiteConfig.auth.disabled;
+  if (disableAuth) {
+    return {
+      currentPlan: null,
+      subscription: null,
+      isLoading: false,
+      error: null,
+      refetch: () => {},
+    };
+  }
+  
   const { currentPlan, subscription, isLoading, error, fetchPayment } =
     usePaymentStore();
 
