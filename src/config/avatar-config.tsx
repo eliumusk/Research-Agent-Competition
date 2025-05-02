@@ -23,16 +23,16 @@ export function getAvatarLinks(): MenuItem[] {
   const t = useTranslations('Marketing.avatar');
 
   return [
-    {
-      title: t('dashboard'),
-      href: Routes.Dashboard,
-      icon: <LayoutDashboardIcon className="size-4 shrink-0" />,
-    },
-    {
-      title: t('billing'),
-      href: Routes.SettingsBilling,
-      icon: <CreditCardIcon className="size-4 shrink-0" />,
-    },
+    // {
+    //   title: t('dashboard'),
+    //   href: Routes.Dashboard,
+    //   icon: <LayoutDashboardIcon className="size-4 shrink-0" />,
+    // },
+    // {
+    //   title: t('billing'),
+    //   href: Routes.SettingsBilling,
+    //   icon: <CreditCardIcon className="size-4 shrink-0" />,
+    // },
     {
       title: t('settings'),
       href: Routes.SettingsProfile,

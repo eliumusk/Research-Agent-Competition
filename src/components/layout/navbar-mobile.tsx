@@ -160,7 +160,7 @@ function MainMobileMenu({ userLoggedIn, onLinkClicked }: MainMobileMenuProps) {
               onClick={onLinkClicked}
               className={cn(
                 buttonVariants({
-                  variant: 'outline',
+                  variant: 'default',
                   size: 'lg',
                 }),
                 'w-full'
@@ -168,7 +168,7 @@ function MainMobileMenu({ userLoggedIn, onLinkClicked }: MainMobileMenuProps) {
             >
               {t('Common.login')}
             </LocaleLink>
-            <LocaleLink
+            {/* <LocaleLink
               href={Routes.Register}
               className={cn(
                 buttonVariants({
@@ -180,7 +180,7 @@ function MainMobileMenu({ userLoggedIn, onLinkClicked }: MainMobileMenuProps) {
               onClick={onLinkClicked}
             >
               {t('Common.signUp')}
-            </LocaleLink>
+            </LocaleLink> */}
           </div>
         )}
 

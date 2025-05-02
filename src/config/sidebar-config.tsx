@@ -28,12 +28,12 @@ export function getSidebarLinks(): NestedMenuItem[] {
   const t = useTranslations('Dashboard');
 
   return [
-    {
-      title: t('dashboard.title'),
-      icon: <LayoutDashboardIcon className="size-4 shrink-0" />,
-      href: Routes.Dashboard,
-      external: false,
-    },
+    // {
+    //   title: t('dashboard.title'),
+    //   icon: <LayoutDashboardIcon className="size-4 shrink-0" />,
+    //   href: Routes.Dashboard,
+    //   external: false,
+    // },
     {
       title: t('admin.title'),
       icon: <SettingsIcon className="size-4 shrink-0" />,
@@ -57,12 +57,12 @@ export function getSidebarLinks(): NestedMenuItem[] {
           href: Routes.SettingsProfile,
           external: false,
         },
-        {
-          title: t('settings.billing.title'),
-          icon: <CreditCardIcon className="size-4 shrink-0" />,
-          href: Routes.SettingsBilling,
-          external: false,
-        },
+        // {
+        //   title: t('settings.billing.title'),
+        //   icon: <CreditCardIcon className="size-4 shrink-0" />,
+        //   href: Routes.SettingsBilling,
+        //   external: false,
+        // },
         {
           title: t('settings.security.title'),
           icon: <LockKeyholeIcon className="size-4 shrink-0" />,

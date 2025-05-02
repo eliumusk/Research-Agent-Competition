@@ -225,7 +225,7 @@ export function Navbar({ scroll }: NavBarProps) {
               <div className="flex items-center gap-x-4">
                 <LoginWrapper mode="modal" asChild>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     className="cursor-pointer"
                   >
@@ -233,7 +233,7 @@ export function Navbar({ scroll }: NavBarProps) {
                   </Button>
                 </LoginWrapper>
 
-                <LocaleLink
+                {/* <LocaleLink
                   href={Routes.Register}
                   className={cn(
                     buttonVariants({
@@ -243,7 +243,7 @@ export function Navbar({ scroll }: NavBarProps) {
                   )}
                 >
                   {t('Common.signUp')}
-                </LocaleLink>
+                </LocaleLink> */}
               </div>
             )}
 

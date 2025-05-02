@@ -27,11 +27,12 @@ export const websiteConfig: WebsiteConfig = {
       twitter: 'https://x.com/indie_maker_fox',
       blueSky: 'https://bsky.app/profile/javayhu.com',
       discord: 'https://discord.gg/r8Pty2qcGv',
+      mastodon: 'https://mastodon.social/@javayhu',
       youtube: 'https://www.youtube.com/@javayhu',
     },
   },
   routes: {
-    defaultLoginRedirect: '/dashboard',
+    defaultLoginRedirect: '/settings/profile',
   },
   analytics: {
     enableVercelAnalytics: false,
