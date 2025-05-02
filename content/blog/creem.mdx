@@ -1,0 +1,93 @@
+---
+title: 海外支付平台Creem注册教程
+description: 不用护照，不用港卡，不用注册公司，20分钟搞定海外收款，直接支付宝到账！本文主要介绍Creem注册流程，整个过程很简单，只需身份证和支付宝。
+image: /images/blog/post-4.png
+date: 2025-04-01T12:00:00.000Z
+published: true
+categories: [development]
+author: fox
+---
+
+不用护照，不用港卡，不用注册公司，20分钟搞定海外收款，直接支付宝到账！
+
+前言：很多海外支付平台都不支持大陆个人开发者注册使用，例如Stripe，通过护照+港卡注册Stripe个人账号虽然可行，但毕竟不正规，有被封号的风险，所以很多人都选择了注册海外公司再注册Stripe企业账号的道路。又如Lemon Squeezy，虽然以前大陆个人开发者可以注册使用，但是自从Lemon被Stripe收购之后，似乎对于提交的申请就不管不顾了，而且推特频繁出现Lemon有bug的帖子。
+
+最近，海外支付平台Creem宣布已经支持大陆个人开发者了，整个注册流程非常丝滑，不用护照，不用港卡，不用注册公司，从此海外收款，直接支付宝到账！
+
+creem supported countries
+
+如果你对Creem不熟悉，没有关系，你可以理解为它是Lemon Squeezy的平替，但是它在费率、功能等方面有一定的优势，例如你挣的前$1000美刀是不收费的！
+
+![image-20](https://blog.javayhu.com/images/a2025a085d1da27f14c151e84c997fa4.png)
+
+话不多说，感兴趣的朋友直接去 [Creem官网](https://www.creem.io/?ref=javayhu.com) 了解详情，本文主要介绍注册流程，整个注册过程很简单，20分钟就能搞定，只需要身份证和支付宝。
+
+## 1、注册账号 + 创建产品
+
+这步很简单，账号注册之后，就可以创建产品，输入产品信息即可。
+
+![image-21](https://blog.javayhu.com/images/b627d719804e09eba2f2f4bff9d947e3.png)
+
+![image-22](https://blog.javayhu.com/images/147fe8468c1ada27cb510dac8f182e46.png)
+
+## 2、设置提现方式
+
+### 2.1 创建提现账号
+
+在Balance的Payout Account中，选择创建一个新的账号，国家选择China，
+
+![image-23](https://blog.javayhu.com/images/6aeb197c1a103ef6993ef10216ff4fb4.png)
+
+![image-24](https://blog.javayhu.com/images/fb7928e7f7752923b474479d12bd6789.png)
+
+### 2.2 填写业务信息
+
+主要填写你的基本信息和你的产品是做什么的
+
+![image-25](https://blog.javayhu.com/images/60e11fe4c44c8553f885d80a6b75955d.png)
+
+### 2.3 完善个人信息
+
+请按照下面的流程，完成个人信息填写，上传大陆身份证的正反面，并且电脑摄像头拍照，最终你的个人信息会被保存到Sumsub ID中。
+
+![image-26](https://blog.javayhu.com/images/0a543106a80b4639f23b37a985ad0884.png)
+
+![image-27](https://blog.javayhu.com/images/c65cf0b174d21a2edad330838a596163.png)
+
+![image-28](https://blog.javayhu.com/images/bbabfc16d9da3831b17a29b7789feea1.png)
+
+![image-29](https://blog.javayhu.com/images/8ee125763f16ca63bf8c08e20e5551eb.png)
+
+![image-30](https://blog.javayhu.com/images/24ce9ec5f202b3ec749ab0e8824e7e5c.png)
+
+### 2.4 完善提现信息
+
+点击Payout Details的Manage Payout Account，完善提现信息。
+
+![image-31](https://blog.javayhu.com/images/c5959473c1d8674419b4c5482b37007b.png)
+
+填写提现账号的国家，选择China，币种选择CNY，转账方式选择支付宝。
+
+![image-32](https://blog.javayhu.com/images/e8f31909867d8d71e2e6ec3a92fb7f06.png)
+
+接着填写支付宝的账号，邮箱地址和全名（中文名）。
+
+![image-37](https://blog.javayhu.com/images/af57e4ff28c0175cb20fa0752d86543d.png)
+
+最后填写你的家庭地址，这里如实填写即可。
+
+![SCR-20250222-udjx-2](https://blog.javayhu.com/images/afa525eaad9ca32ba340ce530c7f547d.png)
+
+提交之后，个人信息和提现信息就完善好了。
+
+![image-35](https://blog.javayhu.com/images/3ae080aecc87ccc7651bed0117005259.png)
+
+### 2.5 等待审核
+
+最后就是等待审核，快的话，半天到一天就可以结果。
+
+![image-39](https://blog.javayhu.com/images/ee1c79ffc010a3b5602f5a6ed1201111.png)
+
+至此，Creem账号注册和产品注册就完成了，之后就可以参考文档进行接入，它的接入流程比Stripe要简单很多，这里就不赘述了，有兴趣的朋友可以体验试下。
+
+虽然我还没有在实际项目中使用，但是我跟开发者邮件沟通过，经过确认，中国大陆地区确实是支持的。于是，我计划在我今年的新项目，AI SaaS模板MkSaaS中支持并使用Creem支付，感兴趣的朋友可以关注下。

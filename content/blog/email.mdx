@@ -1,0 +1,173 @@
+---
+title: 搭建免费的企业邮箱
+description: 本文介绍如何使用Gmail+Resend+Cloudflare搭建免费的企业邮箱，不仅支持接收企业域名邮件，同时支持发送企业域名邮件。
+image: /images/blog/post-3.png
+date: 2025-04-01T12:00:00.000Z
+published: true
+categories: [development]
+author: fox
+---
+
+本文介绍如何使用Gmail+Resend+Cloudflare搭建免费的企业邮箱，不仅支持接收企业域名邮件，同时支持发送企业域名邮件。
+
+[Gmail](https://mail.google.com/?ref=javayhu.com) 是Google提供的免费邮件服务； [Resend](https://resend.com/?ref=javayhu.com) 是一个为开发者提供邮件服务的平台，专注于提高邮件送达率和开发者体验，它的免费计划每天可以免费发送100封邮件； [Cloudflare](https://www.cloudflare.com/?ref=javayhu.com) 是赛博菩萨，提供各种免费服务，其中就包括免费的邮件转发功能。
+
+## 1、在Resend绑定企业域名
+
+我们首先要在Resend绑定企业域名，这样的话我们就可以通过Resend以企业邮箱地址发送邮件了。
+
+### 1.1 添加域名
+
+在Resend的Domains中，点击add domain。
+
+![image-38](https://blog.javayhu.com/images/a387b176498aa473826acc685774d4af.png)
+
+resend add domain
+
+### 1.2 添加DNS解析记录
+
+按照提示，将需要添加的DNS解析记录，添加到Cloudflare的域名DNS解析中。
+
+![image-40](https://blog.javayhu.com/images/780e58ed8d83cd3c8a741f2f3a8557ef.png)
+
+resend add domain dns records
+
+![image-42](https://blog.javayhu.com/images/4258ee92eab4e99296c48c9b05165622.png)
+
+cloudflare domain dns records
+
+### 1.3 等待验证通过
+
+添加了DNS解析记录之后，回到Resend点击Verify然后等待验证通过。
+
+![image-41](https://blog.javayhu.com/images/ab928ec5b58b0ea8840db1b360e5a5ee.png)
+
+resend verify dns records success
+
+验证通过之后，你就拥有了 xxx@domain.com 的企业邮箱了，现在的问题是，用户发给企业邮箱地址的邮件，我们怎么接收呢？
+
+## 2、在Cloudflare上开启邮件转发
+
+接下来要配置的就是让Cloudflare帮我们把企业邮箱收到的邮件转发到我们的Gmail邮箱，这样就解决了收邮件的问题。
+
+### 2.1 开启邮件路由功能
+
+在Cloudflare域名下的Email中的Email Routing中，点击Get started。
+
+![image-43](https://blog.javayhu.com/images/c2ea89003e63eaee8a11d8db8f9da11a.png)
+
+cloudflare email routing
+
+### 2.2 设置企业邮箱地址和转发到的目标邮箱
+
+设置你要是用的企业邮箱地址，和将邮件转发到的目标邮箱。
+
+![image-44](https://blog.javayhu.com/images/e3db4d30dfa6e91a2d53e0a6fe6e6c1d.png)
+
+cloudflare custom address
+
+### 2.3 验证目标邮箱地址
+
+这一步要验证你的目标邮箱地址。
+
+![image-45](https://blog.javayhu.com/images/6f8031a2d4ea1b69b079174caa722fd6.png)
+
+cloudflare verify destination address
+
+### 2.4 配置DNS解析
+
+这步提示要配置DNS记录，点击Add records，Cloudflare会自动帮你添加。
+
+![image-46](https://blog.javayhu.com/images/ff01f4e0c31b8c6bfe4292e8056d760a.png)
+
+cloudflare email add dns records
+
+### 2.5 开启Catch-all的路由规则
+
+这步要开启Catch-all，这样的话所有发给企业域名邮箱的都会发送到目标邮箱。
+
+![image-47](https://blog.javayhu.com/images/70e3f208af670d8ece0d3ba4a8a215ce.png)
+
+cloudflare email catch-all address
+
+### 2.6 测试接收邮件
+
+用邮箱地址A给这个企业邮箱地址发邮件，测试目标邮箱地址B能够收到邮件。
+
+💡
+
+如果收件箱中没有收到邮件的话，可以看下垃圾箱中是否有邮件。
+
+![image-36](https://blog.javayhu.com/images/a82f858010191cafd05a181eea539c41.png)
+
+gmail send test email
+
+![image-37](https://blog.javayhu.com/images/37520d2003967d1e16d48cbc0b2ca901.png)
+
+gmail receive email
+
+上面通过Cloudflare的邮件转发功能实现了接收企业邮箱邮件的功能，现在我们想要以这个企业邮箱地址的身份发送邮件怎么办？
+
+## 3、在Gmail中添加企业邮箱账号
+
+接下来我们要在Gmail中添加企业邮箱账号，这样的话，回信时我们就可以选择这个账号而不是私人账号来回信了。
+
+### 3.1 在设置中找到Accounts设置
+
+在Accounts设置中，找到Send mail as，点击add other email address。
+
+![image-48](https://blog.javayhu.com/images/9d0de8e3eeb162ddd410d4561b9ca7a8.png)
+
+gmail accounts settings
+
+### 3.2 添加其他的邮箱地址
+
+填入你的企业邮箱地址，填好之后点击Next Step，会要求我们填写账号信息。
+
+![image-49](https://blog.javayhu.com/images/5f4bc985dddb812c944732476b699858.png)
+
+gmail add another email address
+
+### 3.2 在Resend新建API Key
+
+在Resend新建API Key，这个就是你的企业邮箱地址发送邮件的密码，保存下来。
+
+![image-50](https://blog.javayhu.com/images/6b3bbc38cfe39cac254e8e5183d980fc.png)
+
+resend add api key
+
+进入Resend的 [SMTP](https://resend.com/settings/smtp?ref=javayhu.com) 设置，这里就有企业邮箱的发送邮件的账号密码。
+
+![image-51](https://blog.javayhu.com/images/f36410b0d6d0198ef82e9cae077114ca.png)
+
+resend smtp settings
+
+### 3.3 配置企业邮箱账号的信息
+
+根据上面SMTP的信息，填写企业邮箱账号的信息，注意port和username。
+
+![image-52](https://blog.javayhu.com/images/3989e35e9a47c61a720ef33215d9d0b0.png)
+
+gmail add another email address
+
+### 3.4 确认添加企业邮箱地址
+
+Google会给企业邮箱地址发送邮件，前面我们已经配置了邮件转发，所以邮件会转发到你设置的目标邮箱，你点击链接确认即可。
+
+![image-54](https://blog.javayhu.com/images/c714a7de7c00d9fafd51cd8c7783079f.png)
+
+gmail confirmation
+
+### 3.5 测试企业邮件账号发送邮件
+
+用刚刚添加的企业邮件账号测试发送邮件，如果收到了那么流程就走通了。
+
+![image-55](https://blog.javayhu.com/images/896e9cd3cfbf8856fd19273824859c88.png)
+
+gmail send test email
+
+![image-56](https://blog.javayhu.com/images/c6b7e9cea1ca20d64fcb5fda95e55ded.png)
+
+gmail receive test email
+
+至此，你就实现了使用Gmail+Resend+Cloudflare搭建免费的企业邮箱，不仅支持接收企业域名邮件，同时支持发送企业域名邮件。

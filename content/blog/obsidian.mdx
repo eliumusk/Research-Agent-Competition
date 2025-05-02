@@ -1,0 +1,117 @@
+---
+title: 个人知识库搭建教程
+description: 本文介绍如何基于DeepSeek V3模型+Obsidian搭建个人知识库，效果就是你可以对Obsidian工作区的笔记进行提问，让AI帮你梳理和总结。
+image: /images/blog/post-2.png
+date: 2025-04-01T12:00:00.000Z
+published: true
+categories: [development]
+author: fox
+---
+
+本文介绍如何基于DeepSeek V3模型+Obsidian搭建个人知识库，效果就是你可以对Obsidian工作区的笔记进行提问，让AI帮你梳理和总结。
+
+我是Obsidian的重度用户，我经常编写笔记，记录日常开发，也经常用Obsidian Web Clipper插件将网页保存为笔记。虽然可以使用Cursor直接打开Obsidian工作区进行提问，但毕竟有点怪怪的，所以平时还是编程时才打开Cursor。最近DeepSeek模型火出圈，所以想着基于DeepSeek+Obsidian来搭建个人知识库。
+
+1、获取DeepSeek大模型的API密钥
+
+本文写于几周前，当时DeepSeek官方API访问还没有恢复稳定，正好硅基流动推出了自托管的DeepSeek的V3模型，而且还在搞活动，注册就送14元，邀请用户双方都送2000万tokens，所以可以转用硅基流动，下面是我的邀请链接。
+
+[https://cloud.siliconflow.cn/i/Czl0sFzp](https://cloud.siliconflow.cn/i/Czl0sFzp?ref=javayhu.com)
+
+账号注册后，新建API密钥，通过这个密钥，我们就可以调用大模型了。
+
+![image-1](https://blog.javayhu.com/images/dae27a6a3bbf57ea7e60ac0dfad0b232.png)
+
+create api key in siliconflow
+
+现在DeepSeek官方服务已经恢复，你也可以不用注册硅基流动，直接注册DeepSeek官方，然后新建一个API密钥。
+
+![image-17](https://blog.javayhu.com/images/d5f684a9631ea6aa0a29398c8e41b836.png)
+
+create api key in deepseek
+
+2、在Obsidian的插件市场中搜索并安装插件Copilot
+
+插件Copilot是一个支持以聊天框的形式对Obsidian工作区进行问答的插件。
+
+![image](https://blog.javayhu.com/images/40d37bcbc4248cf40812ccf667a47584.png)
+
+obsidian Copilot plugin
+
+3、添加 `DeepSeek-V3` 模型到Copilot的Chat Models
+
+![image-2](https://blog.javayhu.com/images/c109a5496b0122651d7df4f927b8856f.png)
+
+add custom Chat Model
+
+按照下面的参数进行配置，Model选择 `deepseek-chat` ，URL设置为 [`https://api.deepseek.com`](https://api.siliconflow.cn/v1?ref=javayhu.com) ，API Key就是上面创建的密钥。
+
+![image-18](https://blog.javayhu.com/images/e0b3dfd9270dc1025caee5a3ff73f23b.png)
+
+add DeepSeek-V3 model
+
+如果你是选择硅基流动上的DeepSeek模型，则按照下面的参数进行配置，Model选择 `deepseek-ai/DeepSeek-V3` ，URL设置为 [`https://api.siliconflow.cn/v1`](https://api.siliconflow.cn/v1?ref=javayhu.com) ，API Key就是上面创建的密钥。
+
+![image-3](https://blog.javayhu.com/images/434061384ec628c7e12bd56d7109a786.png)
+
+add DeepSeek-V3 model
+
+4、添加 `BAAI/bge-m3` 模型到Copilot的Embedding Models
+
+这个模型是免费的，配置方式跟上面的硅基流动的DeepSeek模型配置方式类似，只是模型名称换一下，其他参数保持不变，API密钥就用硅基流动那个密钥。
+
+![image-4](https://blog.javayhu.com/images/76128a64bc7e8f9dedae5724f20d430d.png)
+
+add custom Embedding model
+
+![image-5](https://blog.javayhu.com/images/a204785328b7732c07f9d254bb197ce2.png)
+
+add BAAI/bge-m3 model
+
+5、启用并设置默认的Chat Model和Embedding Model
+
+![image-7](https://blog.javayhu.com/images/9d9b8f1cd447ab60336ad19d91cad390.png)
+
+enable chat model
+
+![image-6](https://blog.javayhu.com/images/e58094df08255b48d3b97d35c12eeb38.png)
+
+enable embedding model
+
+启用之后，在Basic选项卡中设置这2个新增模型为默认的模型。
+
+![image-8](https://blog.javayhu.com/images/0f27dc5377fe32e1bd88045afd5c8eab.png)
+
+set default models
+
+6、测试对Obsidian知识库进行问答
+
+点击Obsidian侧边栏新增的聊天按钮就可以打开聊天框，然后设置模式为vault QA，模型是DeepSeek-V3，然后就可以针对知识库进行提问了！
+
+![image-9](https://blog.javayhu.com/images/d040cfc56e77554720675bb5ceea2d92.png)
+
+chat box of Copilot
+
+我让它帮我“梳理Mkdirs项目的时间线”，没想到它的结果很准确，Mkdirs确实是2024年10月21日发布，然后它列出了我什么时间点在什么reddit社区发了什么帖子，确实我有专门记录下发帖的情况，有这样的助理，是不是很神奇？
+
+![image-10](https://blog.javayhu.com/images/68a0e3c7f629c95e66016df06a3df3c4.png)
+
+QA for mkdirs p1
+
+![image-11](https://blog.javayhu.com/images/0006008cca2ff337991ce286ca1478dc.png)
+
+QA for mkdirs p2
+
+又比如，我让它计算我去年在购买软件和服务上花了多少钱，它计算得确实不错。
+
+![image-19](https://blog.javayhu.com/images/a46538b86b8bf2363c00546cb0e16d35.png)
+
+calculate the money spent on softwares
+
+问答之后，你就可以在硅基流动那边看到token的使用情况，可以看出这个token消耗很小，应该可以用很久。
+
+![image-13](https://blog.javayhu.com/images/7d7cc8e15d415ae4549aa1ec456dc34b.png)
+
+tokens
+
+如果你跟我一样，也是Obsidian的重度用户，也想要搭建一个简易的个人知识库的话，可以考虑试下文章的这个方案。你可以使用下面的邀请链接注册硅基流动账号，这样我们都可以获得2000万的tokens，那就可以用得更久了。
