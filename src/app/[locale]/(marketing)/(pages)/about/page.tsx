@@ -1,3 +1,5 @@
+import HomeNewsletterSection from '@/components/home/home-newsletter';
+import HomeProjectsSection from '@/components/home/home-projects';
 import { BlurFadeDemo } from '@/components/magicui/example/blur-fade-example';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -33,10 +35,10 @@ export default async function AboutPage() {
   const t = await getTranslations('AboutPage');
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="space-y-8">
       {/* about section */}
       <div className="relative max-w-(--breakpoint-md) mx-auto mb-24 mt-8 md:mt-16">
-        <div className="mx-auto flex flex-col justify-between">
+        <div className="mx-auto px-4 flex flex-col justify-between">
           <div className="grid gap-8 sm:grid-cols-2">
             {/* avatar and name */}
             <div className="flex items-center gap-8">
@@ -96,7 +98,13 @@ export default async function AboutPage() {
       </div>
 
       {/* image section */}
-      <BlurFadeDemo />
+      {/* <BlurFadeDemo /> */}
+
+      {/* projects section */}
+      <HomeProjectsSection />
+
+      {/* newsletter */}
+      <HomeNewsletterSection />
     </div>
   );
 }

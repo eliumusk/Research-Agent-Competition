@@ -1,4 +1,5 @@
 import { BlogCategoryFilter } from '@/components/blog/blog-category-filter';
+import HomeNewsletterSection from '@/components/home/home-newsletter';
 import Container from '@/components/layout/container';
 import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import type { NextPageProps } from '@/types/next-page-props';
@@ -37,13 +38,11 @@ export default async function BlogListLayout({
         <BlogCategoryFilter categoryList={categoryList} />
       </div>
 
-      <Container className="mt-8 px-4">
+      <Container className="mt-8 px-4 flex flex-col gap-8">
         {children}
 
         {/* newsletter */}
-        <div className="flex items-center justify-start mt-16">
-          <NewsletterCard />
-        </div>
+        <HomeNewsletterSection />
       </Container>
     </div>
   );

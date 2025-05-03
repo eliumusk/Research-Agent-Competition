@@ -34,7 +34,7 @@ export default async function HomeBlogSection() {
 
   return (
     <section id="blog" className="px-4 py-16">
-      <Container className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl">
         <HeaderSection
           title="Blog"
           subtitle="What I've written and what I'm thinking"
@@ -59,7 +59,7 @@ export default async function HomeBlogSection() {
             </div>
           )}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

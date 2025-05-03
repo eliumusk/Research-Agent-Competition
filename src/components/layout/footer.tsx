@@ -21,7 +21,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn('border-t', className)}>
       <Container className="px-4">
-        <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-6">
+        <div className="grid grid-cols-2 gap-8 pt-8 pb-8 md:grid-cols-6">
           <div className="flex flex-col items-center justify-center col-span-full">
             <div className="space-y-4 flex flex-col items-center justify-center">
               {/* logo and name */}
@@ -58,7 +58,28 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               </div>
 
               {/* built with button */}
-              <BuiltWithButton />
+              {/* <BuiltWithButton /> */}
+
+              <span className="text-muted-foreground text-sm">
+                &copy; {new Date().getFullYear()} Made with ❤️ by{' '}
+                <a
+                  href={websiteConfig.metadata.social?.twitter}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cursor-pointer text-primary hover:underline hover:underline-offset-4"
+                >
+                  Fox
+                </a>{' '}
+                using{' '}
+                <a
+                  href="https://mksaas.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cursor-pointer text-primary hover:underline hover:underline-offset-4"
+                >
+                  MkSaaS Template
+                </a>
+              </span>
             </div>
           </div>
 
@@ -92,8 +113,8 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
         </div>
       </Container>
 
-      <div className="border-t py-8">
-        <Container className="px-4 flex items-center justify-between gap-x-4">
+      {/* <div className="border-t py-8">
+        <Container className="px-4 flex items-center justify-center gap-x-4">
           <span className="text-muted-foreground text-sm">
             &copy; {new Date().getFullYear()} Made with ❤️ by{' '}
             <a
@@ -116,11 +137,11 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
           </span>
 
           <div className="flex items-center gap-x-4">
-            {/* <ThemeSelector /> */}
+            <ThemeSelector />
             <ModeSwitcherHorizontal />
           </div>
         </Container>
-      </div>
+      </div> */}
     </footer>
   );
 }

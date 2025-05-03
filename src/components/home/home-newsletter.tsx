@@ -3,7 +3,10 @@ import { NewsletterForm } from '../newsletter/newsletter-form';
 
 export default function HomeNewsletterSection() {
   return (
-    <section id="newsletter" className="px-4 pt-16 pb-8 bg-background">
+    <section
+      id="newsletter"
+      className="px-4 pt-16 pb-8 bg-background rounded-lg md:rounded-none"
+    >
       <div className="mx-auto">
         <HeaderSection
           title="Newsletter"

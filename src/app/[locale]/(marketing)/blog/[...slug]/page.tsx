@@ -19,6 +19,8 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import '@/styles/mdx.css';
+import HomeNewsletterSection from '@/components/home/home-newsletter';
+import HomeProjectsSection from '@/components/home/home-projects';
 
 /**
  * Gets the blog post from the params
@@ -245,10 +247,11 @@ export default async function BlogPostPage(props: NextPageProps) {
         </div>
       )}
 
+      {/* projects section */}
+      <HomeProjectsSection />
+
       {/* newsletter */}
-      <div className="flex items-center justify-start my-8">
-        <NewsletterCard />
-      </div>
+      <HomeNewsletterSection />
     </div>
   );
 }
