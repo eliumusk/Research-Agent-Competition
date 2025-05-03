@@ -1,8 +1,6 @@
 import BlogGrid from '@/components/blog/blog-grid';
 import EmptyGrid from '@/components/shared/empty-grid';
-import { websiteConfig } from '@/config/website';
 import { allPosts } from 'content-collections';
-import Container from '../layout/container';
 import { HeaderSection } from '../layout/header-section';
 
 export default async function HomeBlogSection() {
@@ -41,6 +39,7 @@ export default async function HomeBlogSection() {
           // description="I'm a full-stack developer and indie hacker. I'm building in public on social media, and I'm sharing my journey and thoughts here."
         />
 
+        {/* dont know why px-4 is needed here, otherwise the blog section will be wider than the navbar on the homepage */}
         <div className="mt-12 px-4">
           {/* when no posts are found */}
           {paginatedPosts.length === 0 && <EmptyGrid />}
