@@ -50,6 +50,46 @@ const nextConfig: NextConfig = {
         destination: '/blog',
         permanent: false,
       },
+      {
+        source: '/algorithm',
+        destination: '/blog/algorithm',
+        permanent: true,
+      },
+      {
+        source: '/shijing',
+        destination: '/blog/shijing',
+        permanent: true,
+      },
+      {
+        source: '/directory',
+        destination: '/blog/directory',
+        permanent: true,
+      },
+      {
+        source: '/haitang',
+        destination: '/blog/haitang',
+        permanent: true,
+      },
+      {
+        source: '/obsidian',
+        destination: '/blog/obsidian',
+        permanent: true,
+      },
+      {
+        source: '/creem',
+        destination: '/blog/creem',
+        permanent: true,
+      },
+      {
+        source: '/email',
+        destination: '/blog/email',
+        permanent: true,
+      },
+      {
+        source: '/dokploy',
+        destination: '/blog/dokploy',
+        permanent: true,
+      },
     ];
   },
 };
