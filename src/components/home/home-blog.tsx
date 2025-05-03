@@ -41,7 +41,7 @@ export default async function HomeBlogSection() {
           // description="I'm a full-stack developer and indie hacker. I'm building in public on social media, and I'm sharing my journey and thoughts here."
         />
 
-        <div className="mt-12">
+        <div className="mt-12 px-4">
           {/* when no posts are found */}
           {paginatedPosts.length === 0 && <EmptyGrid />}
 
