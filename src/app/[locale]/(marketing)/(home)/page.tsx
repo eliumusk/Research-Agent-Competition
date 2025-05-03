@@ -66,9 +66,11 @@ export default async function HomePage(props: HomePageProps) {
 
         {/* <FaqSection /> */}
 
+        {/* <CallToActionSection /> */}
+
         {/* <TestimonialsSection /> */}
 
-        {/* <CallToActionSection /> */}
+        {/* <NewsletterCard /> */}
       </div>
     </>
   );

@@ -3,20 +3,17 @@ import { NewsletterForm } from '../newsletter/newsletter-form';
 
 export default function HomeNewsletterSection() {
   return (
-    <section
-      id="newsletter"
-      className="px-4 pt-16 pb-8 bg-background rounded-lg md:rounded-none"
-    >
-      <div className="mx-auto">
+    <section id="newsletter" className="p-16 rounded-lg bg-muted/50">
+      <div className="flex flex-col items-center justify-center gap-8">
+        {/* Header */}
         <HeaderSection
           title="Newsletter"
           subtitle="Join the community"
           description="Subscribe to our newsletter to get the latest news and updates"
+          className="text-center"
         />
 
-        <div className="p-8 md:p-12">
-          <NewsletterForm />
-        </div>
+        <NewsletterForm />
       </div>
     </section>
   );
