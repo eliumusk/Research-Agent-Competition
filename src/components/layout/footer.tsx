@@ -6,6 +6,7 @@ import { ModeSwitcherHorizontal } from '@/components/layout/mode-switcher-horizo
 import BuiltWithButton from '@/components/shared/built-with-button';
 import { getFooterLinks } from '@/config/footer-config';
 import { getSocialLinks } from '@/config/social-config';
+import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
@@ -94,8 +95,24 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
       <div className="border-t py-8">
         <Container className="px-4 flex items-center justify-between gap-x-4">
           <span className="text-muted-foreground text-sm">
-            &copy; {new Date().getFullYear()} {t('Metadata.name')} All Rights
-            Reserved.
+            &copy; {new Date().getFullYear()} Made with ❤️ by{' '}
+            <a
+              href={websiteConfig.metadata.social?.twitter}
+              target="_blank"
+              rel="noreferrer"
+              className="cursor-pointer text-primary hover:underline hover:underline-offset-4"
+            >
+              Fox
+            </a>{' '}
+            using{' '}
+            <a
+              href="https://mksaas.com"
+              target="_blank"
+              rel="noreferrer"
+              className="cursor-pointer text-primary hover:underline hover:underline-offset-4"
+            >
+              MkSaaS
+            </a>
           </span>
 
           <div className="flex items-center gap-x-4">
