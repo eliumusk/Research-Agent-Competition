@@ -1,24 +1,16 @@
-import { NextjsIcon } from '@/components/icons/nextjs';
-import { ShadcnuiIcon } from '@/components/icons/shadcnui';
 import { Card } from '@/components/ui/card';
-import { LocaleLink } from '@/i18n/navigation';
-import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type * as React from 'react';
 import { HeaderSection } from '../layout/header-section';
-import { Logo } from '../layout/logo';
-import { Button } from '../ui/button';
 
-export default function HomeIntegrationSection() {
-  const t = useTranslations('HomePage.integration');
-
+export default function HomeProjectsSection() {
   return (
     <section id="integration" className="px-4 py-16">
       <div className="mx-auto max-w-5xl">
         <HeaderSection
-          title="Tech Stack"
-          subtitle="Build with your favorite tech stack"
-          description="Use the latest industry-standard tech stack for your next project"
+          title="Projects"
+          subtitle="What I've done and what I'm doing"
+          // description="I'm a full-stack developer and indie hacker. I'm building in public on social media, and I'm sharing my journey and thoughts here."
         />
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -85,7 +77,7 @@ export default function HomeIntegrationSection() {
           <IntegrationCard
             link="https://og.indiehub.best/"
             title="OG Generator"
-            description="Generate beautiful Open Graph images with zero effort"
+            description="Generate Open Graph images for free"
           >
             <img
               src="/images/logos/og.png"
