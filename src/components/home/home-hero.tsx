@@ -35,7 +35,7 @@ export default function HomeHeroSection() {
 
   return (
     <>
-      <main id="hero" className="overflow-hidden">
+      <main id="hero" className="overflow-hidden pb-16">
         {/* background, light shadows on top of the hero section */}
         <div
           aria-hidden

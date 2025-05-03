@@ -73,7 +73,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             {/* Post excerpt */}
             <div className="mt-2">
               {post.description && (
-                <p className="line-clamp-2 text-sm text-muted-foreground">
+                <p className="line-clamp-3 text-sm text-muted-foreground">
                   {post.description}
                 </p>
               )}

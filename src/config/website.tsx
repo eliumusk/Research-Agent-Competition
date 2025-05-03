@@ -57,7 +57,7 @@ export const websiteConfig: WebsiteConfig = {
   },
   blog: {
     paginationSize: 12,
-    relatedPostsSize: 3,
+    relatedPostsSize: 4,
   },
   mail: {
     provider: 'resend',

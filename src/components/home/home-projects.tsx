@@ -1,12 +1,13 @@
 import { Card } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import type * as React from 'react';
+import Container from '../layout/container';
 import { HeaderSection } from '../layout/header-section';
 
 export default function HomeProjectsSection() {
   return (
-    <section id="integration" className="px-4 py-16">
-      <div className="mx-auto max-w-5xl">
+    <section id="projects" className="px-4 py-16">
+      <Container className="mx-auto max-w-6xl">
         <HeaderSection
           title="Projects"
           subtitle="What I've done and what I'm doing"
@@ -86,7 +87,7 @@ export default function HomeProjectsSection() {
             />
           </IntegrationCard>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
