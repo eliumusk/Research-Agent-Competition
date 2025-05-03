@@ -13,18 +13,18 @@ type Href = Parameters<typeof getLocalePathname>[0]['href'];
  */
 const staticRoutes = [
   '/',
-  '/pricing',
+  // '/pricing',
   '/blog',
-  '/docs',
+  // '/docs',
   '/about',
-  '/contact',
-  '/waitlist',
-  '/changelog',
-  '/privacy',
-  '/terms',
-  '/cookie',
-  '/auth/login',
-  '/auth/register',
+  // '/contact',
+  // '/waitlist',
+  // '/changelog',
+  // '/privacy',
+  // '/terms',
+  // '/cookie',
+  // '/auth/login',
+  // '/auth/register',
 ];
 
 /**
