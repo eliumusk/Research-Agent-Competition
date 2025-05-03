@@ -58,44 +58,43 @@ export default async function AboutPage() {
                   {t('authorBio')}
                 </p>
               </div>
-            </div>
 
-            {/* introduction */}
-            <div>
-              <p className="mb-8 text-base text-muted-foreground">
-                {t('introduction')}
-              </p>
+              {/* introduction */}
+              <div>
+                <p className="mb-8 text-base text-muted-foreground">
+                  {t('introduction')}
+                </p>
 
-              <div className="flex items-center gap-4">
-                {websiteConfig.metadata.social?.twitter && (
-                  <a
-                    href={websiteConfig.metadata.social.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'rounded-lg cursor-pointer'
-                    )}
-                  >
-                    <TwitterIcon className="mr-1 size-4" />
-                    {t('followMe')}
-                  </a>
-                )}
-                {websiteConfig.mail.supportEmail && (
-                  <div className="flex items-center gap-4">
-                    <Button className="rounded-lg cursor-pointer">
-                      <MailIcon className="mr-1 size-4" />
-                      <a href={`mailto:${websiteConfig.mail.supportEmail}`}>
-                        {t('talkWithMe')}
-                      </a>
-                    </Button>
-                  </div>
-                )}
+                <div className="flex items-center gap-4">
+                  {websiteConfig.metadata.social?.twitter && (
+                    <a
+                      href={websiteConfig.metadata.social.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        buttonVariants({ variant: 'outline' }),
+                        'rounded-lg cursor-pointer'
+                      )}
+                    >
+                      <TwitterIcon className="mr-1 size-4" />
+                      {t('followMe')}
+                    </a>
+                  )}
+                  {websiteConfig.mail.supportEmail && (
+                    <div className="flex items-center gap-4">
+                      <Button className="rounded-lg cursor-pointer">
+                        <MailIcon className="mr-1 size-4" />
+                        <a href={`mailto:${websiteConfig.mail.supportEmail}`}>
+                          {t('talkWithMe')}
+                        </a>
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       {/* image section */}
       {/* <BlurFadeDemo /> */}
