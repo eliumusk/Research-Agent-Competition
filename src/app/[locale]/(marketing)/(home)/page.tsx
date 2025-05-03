@@ -10,6 +10,10 @@ import LogoCloud from '@/components/blocks/logo-cloud/logo-cloud';
 import PricingSection from '@/components/blocks/pricing/pricing';
 import StatsSection from '@/components/blocks/stats/stats';
 import TestimonialsSection from '@/components/blocks/testimonials/testimonials';
+import HomeHeroSection from '@/components/home/home-hero';
+import HomeNewsletterSection from '@/components/home/home-newsletter';
+import HomeProjectsSection from '@/components/home/home-projects';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
@@ -46,29 +50,35 @@ export default async function HomePage(props: HomePageProps) {
   return (
     <>
       <div className="flex flex-col">
-        <HeroSection />
+        <HomeHeroSection />
 
-        <LogoCloud />
+        <HomeProjectsSection />
 
-        <StatsSection />
+        <HomeNewsletterSection />
 
-        <IntegrationSection />
+        {/* <HeroSection /> */}
 
-        <FeaturesSection />
+        {/* <LogoCloud /> */}
 
-        <Features2Section />
+        {/* <StatsSection /> */}
 
-        <Features3Section />
+        {/* <IntegrationSection /> */}
 
-        <Integration2Section />
+        {/* <FeaturesSection /> */}
 
-        <PricingSection />
+        {/* <Features2Section /> */}
 
-        <FaqSection />
+        {/* <Features3Section /> */}
 
-        <TestimonialsSection />
+        {/* <Integration2Section /> */}
 
-        <CallToActionSection />
+        {/* <PricingSection /> */}
+
+        {/* <FaqSection /> */}
+
+        {/* <TestimonialsSection /> */}
+
+        {/* <CallToActionSection /> */}
       </div>
     </>
   );
