@@ -36,11 +36,10 @@ export default async function HomeBlogSection() {
         <HeaderSection
           title="Blog"
           subtitle="What I've written and what I'm thinking"
-          // description="I'm a full-stack developer and indie hacker. I'm building in public on social media, and I'm sharing my journey and thoughts here."
         />
 
         {/* dont know why px-4 is needed here, otherwise the blog section will be wider than the navbar on the homepage */}
-        <div className="mt-12 px-4">
+        <div className="mt-12 px-0 md:px-4">
           {/* when no posts are found */}
           {paginatedPosts.length === 0 && <EmptyGrid />}
 

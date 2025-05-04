@@ -38,12 +38,7 @@ export default async function BlogListLayout({
         <BlogCategoryFilter categoryList={categoryList} />
       </div>
 
-      <Container className="mt-8 px-4 flex flex-col gap-8">
-        {children}
-
-        {/* newsletter */}
-        <HomeNewsletterSection />
-      </Container>
+      <Container className="mt-8 px-4">{children}</Container>
     </div>
   );
 }

@@ -96,8 +96,8 @@ export default function HomeHeroSection() {
                   className="mx-auto mt-8 max-w-4xl text-balance text-lg text-muted-foreground"
                 >
                   I'm a full-stack developer and indie hacker. I'm building in
-                  public on social media, and I'm sharing my journey and
-                  thoughts here.
+                  public on social media, and sharing my journey and thoughts
+                  here.
                 </TextEffect>
 
                 {/* action buttons */}

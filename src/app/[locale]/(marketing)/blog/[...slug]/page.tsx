@@ -246,12 +246,6 @@ export default async function BlogPostPage(props: NextPageProps) {
           <BlogGrid posts={relatedPosts} />
         </div>
       )}
-
-      {/* projects section */}
-      <HomeProjectsSection />
-
-      {/* newsletter */}
-      <HomeNewsletterSection />
     </div>
   );
 }
