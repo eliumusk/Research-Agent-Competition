@@ -1,3 +1,4 @@
+import FriendsSection from '@/components/about/friends';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
 import Container from '@/components/layout/container';
@@ -109,6 +110,9 @@ export default async function AboutPage() {
 
       {/* projects section */}
       <HomeProjectsSection />
+
+      {/* friends section */}
+      <FriendsSection />
 
       {/* newsletter */}
       <HomeNewsletterSection />
