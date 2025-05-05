@@ -1,6 +1,4 @@
 import { Card } from '@/components/ui/card';
-import { Favicon } from 'favicon-stealer';
-import type * as React from 'react';
 import { HeaderSection } from '../layout/header-section';
 
 const friends = [
@@ -17,7 +15,7 @@ const friends = [
     image: '/images/friends/corey.jpg',
   },
   {
-    title: 'liruifengv',
+    title: 'Liruifengv',
     description: 'Astro Maintainer & Founder of astro-cn.com',
     link: 'https://liruifengv.com/',
     image: '/images/friends/liruifengv.jpg',
