@@ -23,11 +23,10 @@ export default async function HomeBlogSection() {
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
-  // Paginate posts
+  // Paginate posts, but only show 8 posts at most
   const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
-  const totalCount = filteredPosts.length;
-  const totalPages = Math.ceil(totalCount / paginationSize);
-
+  // const totalCount = filteredPosts.length;
+  // const totalPages = Math.ceil(totalCount / paginationSize);
   // console.log("BlogPage, totalCount", totalCount, ", totalPages", totalPages,);
 
   return (
