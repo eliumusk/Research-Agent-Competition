@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs
+    // https://nextjs.org/docs/app/api-reference/components/image#unoptimized
+    // vercel has limits on image optimization, 1000 images per month
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -56,7 +60,17 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/2016-nian-mian-shi-zhi-nan-zhi-suan-fa-mian-shi-xin-de',
+        destination: '/blog/algorithm',
+        permanent: true,
+      },
+      {
         source: '/shijing',
+        destination: '/blog/shijing',
+        permanent: true,
+      },
+      {
+        source: '/2018-nian-yi-ge-xiao-fu-ye-de-kai-fa-xin-de',
         destination: '/blog/shijing',
         permanent: true,
       },
@@ -66,12 +80,27 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/2024-nian-du-li-kai-fa-zhe-dao-hang-zhan-kai-yuan',
+        destination: '/blog/directory',
+        permanent: true,
+      },
+      {
         source: '/haitang',
         destination: '/blog/haitang',
         permanent: true,
       },
       {
+        source: '/2024-nian-hai-tang-shi-she-xiakai-yuan',
+        destination: '/blog/haitang',
+        permanent: true,
+      },
+      {
         source: '/obsidian',
+        destination: '/blog/obsidian',
+        permanent: true,
+      },
+      {
+        source: '/ge-ren-zhi-shi-ku-da-jian-jiao-cheng',
         destination: '/blog/obsidian',
         permanent: true,
       },
@@ -86,7 +115,17 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/da-jian-mian-fei-de-qi-ye-you-xiang-gmail-resend-cloudflare',
+        destination: '/blog/email',
+        permanent: true,
+      },
+      {
         source: '/dokploy',
+        destination: '/blog/dokploy',
+        permanent: true,
+      },
+      {
+        source: '/dokployde-ji-jian-jiao-cheng',
         destination: '/blog/dokploy',
         permanent: true,
       },
