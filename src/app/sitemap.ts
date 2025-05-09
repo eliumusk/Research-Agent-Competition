@@ -72,18 +72,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     )
   );
 
-  // add docs
-  const docsParams = source.generateParams();
-  sitemapList.push(
-    ...docsParams.flatMap((param) =>
-      routing.locales.map((locale) => ({
-        url: getUrl(`/docs/${param.slug.join('/')}`, locale),
-        lastModified: new Date(),
-        priority: 0.8,
-        changeFrequency: 'weekly' as const,
-      }))
-    )
-  );
+  // add docs => remove docs for blog website
+  // const docsParams = source.generateParams();
+  // sitemapList.push(
+  //   ...docsParams.flatMap((param) =>
+  //     routing.locales.map((locale) => ({
+  //       url: getUrl(`/docs/${param.slug.join('/')}`, locale),
+  //       lastModified: new Date(),
+  //       priority: 0.8,
+  //       changeFrequency: 'weekly' as const,
+  //     }))
+  //   )
+  // );
 
   return sitemapList;
 }
