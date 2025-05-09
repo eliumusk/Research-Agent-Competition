@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card';
+import { title } from 'process';
 import { HeaderSection } from '../layout/header-section';
 
 const friends = [
@@ -33,10 +34,46 @@ const friends = [
     image: '/images/friends/justin.jpg',
   },
   {
+    title: '5KM',
+    description: 'Indie Hacker & Founder of 5km.tech',
+    link: 'https://5km.studio/',
+    image: '/images/friends/5km.jpg',
+  },
+  {
+    title: 'Meepo',
+    description: 'Indie Hacker & Founder of meepo.fun',
+    link: 'https://meepo.me/',
+    image: '/images/friends/meepo.jpg',
+  },
+  {
     title: 'Tony Wu',
     description: 'Indie Hacker & Founder of mycareerhelp.ai',
     link: 'https://tonywu.ai/',
     image: '/images/friends/tony.jpg',
+  },
+  {
+    title: 'OuOu Opacity',
+    description: 'Indie Hacker & Founder of setupyourpay.com/',
+    link: 'https://www.opacity-made.com/',
+    image: '/images/friends/opacity.jpg',
+  },
+  {
+    title: 'Sylwair',
+    description: 'Indie Hacker & Founder of yournewphotos.com',
+    link: 'https://www.sylwair.com/',
+    image: '/images/friends/sylwair.jpg',
+  },
+  {
+    title: 'Justin Lee',
+    description: 'Founder of reddit-translator.com',
+    link: 'https://justinlee.com/',
+    image: '/images/friends/justinlee.jpg',
+  },
+  {
+    title: 'Xiaoji',
+    description: 'Indie Hacker & Founder of Kiko Card',
+    link: 'https://www.bmms.me/',
+    image: '/images/friends/xiaoji.jpg',
   },
 ];
 
