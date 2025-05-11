@@ -1,7 +1,10 @@
 import { Card } from '@/components/ui/card';
-import { title } from 'process';
 import { HeaderSection } from '../layout/header-section';
 
+/**
+ * TODO:
+ * https://x.com/AwesomeYang_com
+ */
 const friends = [
   {
     title: 'Miantiao',
