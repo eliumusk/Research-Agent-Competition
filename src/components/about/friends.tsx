@@ -73,10 +73,10 @@ const friends = [
     image: '/images/friends/justinlee.jpg',
   },
   {
-    title: 'Xiaoji',
-    description: 'Indie Hacker & Founder of Kiko Card',
-    link: 'https://www.bmms.me/',
-    image: '/images/friends/xiaoji.jpg',
+    title: 'Awesome Yang',
+    description: 'Indie Hacker & Founder of aiwith.me',
+    link: 'https://awesomeyang.com/',
+    image: '/images/friends/yang.jpg',
   },
 ];
 
@@ -118,7 +118,7 @@ const FriendCard = ({
       <Card className="p-6 group cursor-pointer transition-all duration-300 ease-in-out hover:scale-105">
         <div className="relative overflow-hidden">
           <div className="flex items-center justify-start gap-4">
-            <div className="*:size-10">
+            <div className="*:size-10 border-2 border-gray-200 rounded-full">
               <img src={image} alt={title} className="rounded-full" />
             </div>
             <h3 className="text-base font-medium">{title}</h3>
