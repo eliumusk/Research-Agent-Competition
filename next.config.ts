@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'blog.javayhu.com',
+        hostname: 'blog.mksaas.me',
       },
       {
         protocol: 'https',

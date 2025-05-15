@@ -1,16 +1,16 @@
-# https://javayhu.com llms.txt
+# https://mksaas.me llms.txt
 
-- [Indie Maker Fox](https://javayhu.com): Indie maker Fox is Building in Public and Coding for Future.
-- [Indie Maker Fox](https://javayhu.com/about): Indie maker Fox shares projects and insights on hacking.
-- [AI and Development Tutorials](https://javayhu.com/blog): Explore tutorials on AI, development, and project insights.
-- [AI Insights and Tutorials](https://javayhu.com/blog/category/ai): Explore AI insights, tutorials, and projects for developers.
-- [Algorithm Interview Guide](https://javayhu.com/blog/category/algorithm): Explore algorithm interview preparation tips and common questions.
-- [Development Tutorials](https://javayhu.com/blog/category/development): Explore various development tutorials and guides for projects.
-- [Indie Developer Projects](https://javayhu.com/blog/category/project): Explore various projects and insights for indie developers.
-- [Algorithm Interview Guide](https://javayhu.com/blog/algorithm): Prepare for algorithm interviews with essential knowledge and tips.
-- [Creem Registration Guide](https://javayhu.com/blog/creem): Quick guide to register on Creem payment platform.
-- [Dokploy Installation Guide](https://javayhu.com/blog/dokploy): A guide to installing and using Dokploy for deployment.
-- [Free Business Email Setup](https://javayhu.com/blog/email): Learn to set up a free business email using Gmail.
-- [Digital Poetry Haven](https://javayhu.com/blog/haitang): Explore a digital haven for ancient Chinese poetry.
-- [Obsidian Knowledge Base Guide](https://javayhu.com/blog/obsidian): Learn to build a personal knowledge base using Obsidian.
-- [Algorithm Interview Guide](https://javayhu.com/blog/algorithm): Prepare for algorithm interviews with essential knowledge and tips.
+- [Indie Maker Fox](https://mksaas.me): Indie maker Fox is Building in Public and Coding for Future.
+- [Indie Maker Fox](https://mksaas.me/about): Indie maker Fox shares projects and insights on hacking.
+- [AI and Development Tutorials](https://mksaas.me/blog): Explore tutorials on AI, development, and project insights.
+- [AI Insights and Tutorials](https://mksaas.me/blog/category/ai): Explore AI insights, tutorials, and projects for developers.
+- [Algorithm Interview Guide](https://mksaas.me/blog/category/algorithm): Explore algorithm interview preparation tips and common questions.
+- [Development Tutorials](https://mksaas.me/blog/category/development): Explore various development tutorials and guides for projects.
+- [Indie Developer Projects](https://mksaas.me/blog/category/project): Explore various projects and insights for indie developers.
+- [Algorithm Interview Guide](https://mksaas.me/blog/algorithm): Prepare for algorithm interviews with essential knowledge and tips.
+- [Creem Registration Guide](https://mksaas.me/blog/creem): Quick guide to register on Creem payment platform.
+- [Dokploy Installation Guide](https://mksaas.me/blog/dokploy): A guide to installing and using Dokploy for deployment.
+- [Free Business Email Setup](https://mksaas.me/blog/email): Learn to set up a free business email using Gmail.
+- [Digital Poetry Haven](https://mksaas.me/blog/haitang): Explore a digital haven for ancient Chinese poetry.
+- [Obsidian Knowledge Base Guide](https://mksaas.me/blog/obsidian): Learn to build a personal knowledge base using Obsidian.
+- [Algorithm Interview Guide](https://mksaas.me/blog/algorithm): Prepare for algorithm interviews with essential knowledge and tips.

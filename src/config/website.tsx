@@ -61,8 +61,8 @@ export const websiteConfig: WebsiteConfig = {
   },
   mail: {
     provider: 'resend',
-    fromEmail: 'Indie Maker Fox <blog@javayhu.com>',
-    supportEmail: 'Indie Maker Fox <blog@javayhu.com>',
+    fromEmail: 'Indie Maker Fox <blog@mksaas.me>',
+    supportEmail: 'Indie Maker Fox <blog@mksaas.me>',
   },
   newsletter: {
     provider: 'resend',
