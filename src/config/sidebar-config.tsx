@@ -37,19 +37,19 @@ export function getSidebarLinks(): NestedMenuItem[] {
     //   href: Routes.Dashboard,
     //   external: false,
     // },
-    {
-      title: t('admin.title'),
-      icon: <SettingsIcon className="size-4 shrink-0" />,
-      authorizeOnly: isDemo ? ['admin', 'user'] : ['admin'],
-      items: [
-        {
-          title: t('admin.users.title'),
-          icon: <UsersRoundIcon className="size-4 shrink-0" />,
-          href: Routes.AdminUsers,
-          external: false,
-        },
-      ],
-    },
+    // {
+    //   title: t('admin.title'),
+    //   icon: <SettingsIcon className="size-4 shrink-0" />,
+    //   authorizeOnly: isDemo ? ['admin', 'user'] : ['admin'],
+    //   items: [
+    //     {
+    //       title: t('admin.users.title'),
+    //       icon: <UsersRoundIcon className="size-4 shrink-0" />,
+    //       href: Routes.AdminUsers,
+    //       external: false,
+    //     },
+    //   ],
+    // },
     {
       title: t('settings.title'),
       icon: <Settings2Icon className="size-4 shrink-0" />,
