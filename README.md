@@ -1,8 +1,8 @@
 # MkSaaS
 
-Make AI SaaS in days, simply and effortlessly.
+Make AI SaaS in a weekend.
 
-MkSaaS is a complete Next.js boilerplate for building AI SaaS websites. Make money from day one with our battle-tested stack and built-in monetization features.
+The complete Next.js boilerplate for building profitable SaaS, with auth, payments, i18n, newsletter, dashboard, blog, docs, blocks, themes, SEO and more.
 
 ## Author
 
@@ -18,10 +18,10 @@ If you found anything that could be improved, please let me know.
 
 - 🔥 website: [mksaas.com](https://mksaas.com)
 - 🌐 demo: [demo.mksaas.com](https://demo.mksaas.com)
-- 👨‍💻 discord: [discord.gg/r8Pty2qcGv](https://discord.gg/r8Pty2qcGv)
 - 📚 documentation: [mksaas.com/docs](https://mksaas.com/docs)
-- 🗓️ roadmap: [mksaas project](https://github.com/orgs/MkSaaSHQ/projects/1)
-- 📹 video (WIP): [youtube.com/@MkSaaSHQ](https://www.youtube.com/@MkSaaSHQ)
+- 🗓️ roadmap: [mksaas project](https://mksaas.link/roadmap)
+- 👨‍💻 discord: [mksaas.link/discord](https://mksaas.link/discord)
+- 📹 video (WIP): [mksaas.link/youtube](https://mksaas.link/youtube)
 
 ## Repositories
 

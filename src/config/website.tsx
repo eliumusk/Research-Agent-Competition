@@ -26,9 +26,9 @@ export const websiteConfig: WebsiteConfig = {
       github: 'https://github.com/javayhu',
       twitter: 'https://x.com/indie_maker_fox',
       blueSky: 'https://bsky.app/profile/javayhu.com',
-      discord: 'https://discord.gg/r8Pty2qcGv',
       mastodon: 'https://mastodon.social/@javayhu',
-      youtube: 'https://www.youtube.com/@javayhu',
+      discord: 'https://mksaas.link/discord',
+      youtube: 'https://mksaas.link/youtube',
     },
   },
   routes: {
