@@ -22,7 +22,7 @@ export async function generateMetadata({
   return constructMetadata({
     title: t('title'),
     description: t('description'),
-    canonicalUrl: getUrlWithLocale('/', locale),
+    canonicalUrl: getUrlWithLocale('', locale),
   });
 }
 
@@ -71,6 +71,8 @@ export default async function HomePage(props: HomePageProps) {
         {/* <TestimonialsSection /> */}
 
         {/* <NewsletterCard /> */}
+
+        {/* <DiscordWidget /> */}
       </div>
     </>
   );
