@@ -24,9 +24,9 @@ export const websiteConfig: WebsiteConfig = {
     },
     social: {
       github: 'https://github.com/javayhu',
-      twitter: 'https://x.com/indie_maker_fox',
-      blueSky: 'https://bsky.app/profile/mksaas.me',
-      mastodon: 'https://mastodon.social/@javayhu',
+      twitter: 'https://mksaas.link/fox-x',
+      blueSky: 'https://mksaas.link/fox-bsky',
+      mastodon: 'https://mksaas.link/fox-mastodon',
       discord: 'https://mksaas.link/discord',
       youtube: 'https://mksaas.link/youtube',
     },
