@@ -35,6 +35,7 @@ export const websiteConfig: WebsiteConfig = {
     enableDiscordWidget: false,
     enableUpgradeCard: false,
     enableAffonsoAffiliate: false,
+    enablePromotekitAffiliate: false,
   },
   routes: {
     defaultLoginRedirect: '/settings/profile',
