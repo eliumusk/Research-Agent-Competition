@@ -1,12 +1,12 @@
 import { randomUUID } from 'crypto';
-import db from '@/db';
+import { getDb } from '@/db';
 import { payment, session, user } from '@/db/schema';
-import { sendMessageToDiscord } from '@/lib/discord';
 import {
   findPlanByPlanId,
   findPlanByPriceId,
   findPriceInPlan,
 } from '@/lib/price-plan';
+import { sendNotification } from '@/notification/notification';
 import { desc, eq } from 'drizzle-orm';
 import { Stripe } from 'stripe';
 import {
@@ -114,6 +114,7 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<void> {
     try {
       // Update user record with customer ID if email matches
+      const db = await getDb();
       const result = await db
         .update(user)
         .set({
@@ -144,6 +145,7 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<string | undefined> {
     try {
       // Query the user table for a matching customerId
+      const db = await getDb();
       const result = await db
         .select({ id: user.id })
         .from(user)
@@ -318,6 +320,7 @@ export class StripeProvider implements PaymentProvider {
 
     try {
       // Build query to fetch subscriptions from database
+      const db = await getDb();
       const subscriptions = await db
         .select()
         .from(payment)
@@ -459,6 +462,7 @@ export class StripeProvider implements PaymentProvider {
       updatedAt: new Date(),
     };
 
+    const db = await getDb();
     const result = await db
       .insert(payment)
       .values(createFields)
@@ -518,6 +522,7 @@ export class StripeProvider implements PaymentProvider {
       updatedAt: new Date(),
     };
 
+    const db = await getDb();
     const result = await db
       .update(payment)
       .set(updateFields)
@@ -545,6 +550,7 @@ export class StripeProvider implements PaymentProvider {
     console.log(
       `>> Mark payment record for Stripe subscription ${stripeSubscription.id} as canceled`
     );
+    const db = await getDb();
     const result = await db
       .update(payment)
       .set({
@@ -594,6 +600,7 @@ export class StripeProvider implements PaymentProvider {
 
     // Create a one-time payment record
     const now = new Date();
+    const db = await getDb();
     const result = await db
       .insert(payment)
       .values({
@@ -619,9 +626,9 @@ export class StripeProvider implements PaymentProvider {
       `<< Created one-time payment record for user ${userId}, price: ${priceId}`
     );
 
-    // Send message to Discord channel
+    // Send notification
     const amount = session.amount_total ? session.amount_total / 100 : 0;
-    await sendMessageToDiscord(session.id, customerId, userId, amount);
+    await sendNotification(session.id, customerId, userId, amount);
   }
 
   /**

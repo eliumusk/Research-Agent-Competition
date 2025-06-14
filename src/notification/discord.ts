@@ -67,7 +67,6 @@ export async function sendMessageToDiscord(
     });
 
     if (!response.ok) {
-      // throw new Error(`Discord webhook request failed with status ${response.status}`);
       console.error(
         `<< Failed to send Discord notification for user ${userName}:`,
         response
