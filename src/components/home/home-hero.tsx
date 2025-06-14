@@ -6,6 +6,9 @@ import { LocaleLink } from '@/i18n/navigation';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import React from 'react';
+import { CustomHighlightText } from '../custom/highlight';
+import { CustomTextEffect } from '../custom/text-effect';
 
 const transitionVariants = {
   item: {
@@ -76,15 +79,30 @@ export default function HomeHeroSection() {
                 </AnimatedGroup> */}
 
                 {/* title */}
-                <TextEffect
-                  per="line"
+                <CustomTextEffect
+                  per="word"
                   preset="fade-in-blur"
                   speedSegment={0.3}
                   as="h1"
-                  className="mt-8 text-balance text-5xl font-bricolage-grotesque lg:mt-16 xl:text-[5rem]"
+                  className="mt-8 text-balance font-bricolage-grotesque lg:mt-16 text-5xl xl:text-[5rem]"
                 >
-                  👋 Hi, I'm Indie Maker Fox
-                </TextEffect>
+                  {[
+                    '👋',
+                    'Hi,',
+                    'I',
+                    'am',
+                    <CustomHighlightText
+                      key="fox"
+                      text="Indie Maker Fox"
+                      className="mx-1 py-0.5"
+                    />,
+                  ].map((word, i) => (
+                    <React.Fragment key={i}>
+                      {i > 0 && ' '}
+                      {word}
+                    </React.Fragment>
+                  ))}
+                </CustomTextEffect>
 
                 {/* description */}
                 <TextEffect
