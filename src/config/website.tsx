@@ -19,7 +19,7 @@ export const websiteConfig: WebsiteConfig = {
     },
     images: {
       ogImage: '/og.png?v=20250517',
-      logoLight: '/logo.png?',
+      logoLight: '/logo.png',
       logoDark: '/logo-dark.png',
     },
     social: {
