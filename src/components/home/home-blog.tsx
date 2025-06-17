@@ -1,6 +1,7 @@
 import BlogGrid from '@/components/blog/blog-grid';
 import EmptyGrid from '@/components/shared/empty-grid';
-import { allPosts } from 'content-collections';
+import { DEFAULT_LOCALE } from '@/i18n/routing';
+import { blogSource } from '@/lib/docs/source';
 import { HeaderSection } from '../layout/header-section';
 
 export default async function HomeBlogSection() {
@@ -10,17 +11,20 @@ export default async function HomeBlogSection() {
   const endIndex = startIndex + paginationSize;
 
   // Filter posts by locale
-  const localePosts = allPosts;
+  const locale = DEFAULT_LOCALE;
+  const localePosts = blogSource
+    .getPages(locale)
+    .filter((post) => post.data.published);
 
   // If no posts found for the current locale, show all published posts
   const filteredPosts =
     localePosts.length > 0
       ? localePosts
-      : allPosts.filter((post) => post.published);
+      : blogSource.getPages().filter((post) => post.data.published);
 
   // Sort posts by date (newest first)
   const sortedPosts = [...filteredPosts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
   );
 
   // Paginate posts, but only show 8 posts at most
@@ -45,7 +49,7 @@ export default async function HomeBlogSection() {
           {/* when posts are found */}
           {paginatedPosts.length > 0 && (
             <div>
-              <BlogGrid posts={paginatedPosts} />
+              <BlogGrid posts={paginatedPosts} locale={locale} />
 
               {/* <div className="mt-8 flex items-center justify-center">
                 <CustomPagination
