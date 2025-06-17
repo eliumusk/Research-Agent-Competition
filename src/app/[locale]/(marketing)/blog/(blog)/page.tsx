@@ -1,6 +1,7 @@
 import BlogGridWithPagination from '@/components/blog/blog-grid-with-pagination';
+import { websiteConfig } from '@/config/website';
 import { LOCALES } from '@/i18n/routing';
-import { getPaginatedBlogPosts } from '@/lib/blog/data';
+import { blogSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Locale } from 'next-intl';
@@ -14,11 +15,11 @@ export async function generateMetadata({ params }: BlogPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Metadata' });
   const pt = await getTranslations({ locale, namespace: 'BlogPage' });
-  const canonicalPath = '/blog';
+
   return constructMetadata({
     title: `${pt('title')} | ${t('title')}`,
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale(canonicalPath, locale),
+    canonicalUrl: getUrlWithLocale('/blog', locale),
   });
 }
 
@@ -30,14 +31,23 @@ interface BlogPageProps {
 
 export default async function BlogPage({ params }: BlogPageProps) {
   const { locale } = await params;
-  const currentPage = 1;
-  const { paginatedPosts, totalPages } = getPaginatedBlogPosts({
-    locale,
-    page: currentPage,
+  const localePosts = blogSource.getPages(locale);
+  const publishedPosts = localePosts.filter((post) => post.data.published);
+  const sortedPosts = publishedPosts.sort((a, b) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   });
+  const currentPage = 1;
+  const blogPageSize = websiteConfig.blog.paginationSize;
+  const paginatedLocalePosts = sortedPosts.slice(
+    (currentPage - 1) * blogPageSize,
+    currentPage * blogPageSize
+  );
+  const totalPages = Math.ceil(sortedPosts.length / blogPageSize);
+
   return (
     <BlogGridWithPagination
-      posts={paginatedPosts}
+      locale={locale}
+      posts={paginatedLocalePosts}
       totalPages={totalPages}
       routePrefix={'/blog'}
     />

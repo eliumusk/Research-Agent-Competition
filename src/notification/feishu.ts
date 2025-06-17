@@ -25,7 +25,7 @@ export async function sendMessageToFeishu(
     const message = {
       msg_type: 'text',
       content: {
-        text: `🎉 New Purchase\nUsername: ${userName}\nAmount: $${amount.toFixed(2)}\nCustomer ID: \`${customerId}\`\nSession ID: \`${sessionId}\``,
+        text: `🎉 New Purchase\nUsername: ${userName}\nAmount: $${amount.toFixed(2)}\nCustomer ID: ${customerId}\nSession ID: ${sessionId}`,
       },
     };
 

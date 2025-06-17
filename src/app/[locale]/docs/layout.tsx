@@ -5,24 +5,14 @@ import { websiteConfig } from '@/config/website';
 import { docsI18nConfig } from '@/lib/docs/i18n';
 import { source } from '@/lib/docs/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
-import { I18nProvider, type Translations } from 'fumadocs-ui/i18n';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { BookIcon, HomeIcon } from 'lucide-react';
+import { HomeIcon } from 'lucide-react';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
 import '@/styles/mdx.css';
-
-// available languages that will be displayed on UI
-// make sure `locale` is consistent with your i18n config
-const locales = Object.entries(websiteConfig.i18n.locales).map(
-  ([locale, data]) => ({
-    name: data.name,
-    locale,
-  })
-);
 
 interface DocsLayoutProps {
   children: ReactNode;
@@ -50,17 +40,6 @@ export default async function DocsRootLayout({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'DocsPage' });
 
-  // Create translations object for fumadocs-ui from our message files
-  const translations: Partial<Translations> = {
-    toc: t('toc'),
-    search: t('search'),
-    lastUpdate: t('lastUpdate'),
-    searchNoResult: t('searchNoResult'),
-    previousPage: t('previousPage'),
-    nextPage: t('nextPage'),
-    chooseLanguage: t('chooseLanguage'),
-  };
-
   // Docs layout configurations
   const showLocaleSwitch = Object.keys(websiteConfig.i18n.locales).length > 1;
   const docsOptions: BaseLayoutProps = {
@@ -85,14 +64,14 @@ export default async function DocsRootLayout({
       },
       ...(websiteConfig.metadata.social?.twitter
         ? [
-            {
-              type: 'icon' as const,
-              icon: <XTwitterIcon />,
-              text: 'X',
-              url: websiteConfig.metadata.social.twitter,
-              secondary: true,
-            },
-          ]
+          {
+            type: 'icon' as const,
+            icon: <XTwitterIcon />,
+            text: 'X',
+            url: websiteConfig.metadata.social.twitter,
+            secondary: true,
+          },
+        ]
         : []),
     ],
     themeSwitch: {
@@ -103,10 +82,8 @@ export default async function DocsRootLayout({
   };
 
   return (
-    <I18nProvider locales={locales} locale={locale} translations={translations}>
-      <DocsLayout tree={source.pageTree[locale]} {...docsOptions}>
-        {children}
-      </DocsLayout>
-    </I18nProvider>
+    <DocsLayout tree={source.pageTree[locale]} {...docsOptions}>
+      {children}
+    </DocsLayout>
   );
 }

@@ -1,19 +1,20 @@
 import BlogCard, { BlogCardSkeleton } from '@/components/blog/blog-card';
 import { websiteConfig } from '@/config/website';
-import type { Post } from 'content-collections';
+import type { BlogType } from '@/lib/docs/source';
 
 interface BlogGridProps {
-  posts: Post[];
+  locale: string;
+  posts: BlogType[];
 }
 
-export default function BlogGrid({ posts }: BlogGridProps) {
+export default function BlogGrid({ locale, posts }: BlogGridProps) {
   // console.log('BlogGrid, posts', posts);
   return (
     <div>
       {posts?.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {posts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
+            <BlogCard key={post.slugs.join('/')} locale={locale} post={post} />
           ))}
         </div>
       )}

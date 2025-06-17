@@ -1,15 +1,17 @@
-import type { Post } from 'content-collections';
+import type { BlogType } from '@/lib/docs/source';
 import EmptyGrid from '../shared/empty-grid';
 import CustomPagination from '../shared/pagination';
 import BlogGrid from './blog-grid';
 
 interface BlogGridWithPaginationProps {
-  posts: Post[];
+  locale: string;
+  posts: BlogType[];
   totalPages: number;
   routePrefix: string;
 }
 
 export default function BlogGridWithPagination({
+  locale,
   posts,
   totalPages,
   routePrefix,
@@ -19,7 +21,7 @@ export default function BlogGridWithPagination({
       {posts.length === 0 && <EmptyGrid />}
       {posts.length > 0 && (
         <div>
-          <BlogGrid posts={posts} />
+          <BlogGrid locale={locale} posts={posts} />
           <div className="mt-8 flex items-center justify-center">
             <CustomPagination
               routePrefix={routePrefix}

@@ -1,4 +1,4 @@
-import { withContentCollections } from '@content-collections/next';
+import { createMDX } from 'fumadocs-mdx/next';
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
   // Remove all console.* calls in production only
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // removeConsole: process.env.NODE_ENV === 'production',
   },
 
   images: {
@@ -145,8 +145,9 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin();
 
 /**
- * withContentCollections must be the outermost plugin
- *
- * https://www.content-collections.dev/docs/quickstart/next
+ * https://fumadocs.dev/docs/ui/manual-installation
+ * https://fumadocs.dev/docs/mdx/plugin
  */
-export default withContentCollections(withNextIntl(nextConfig));
+const withMDX = createMDX();
+
+export default withMDX(withNextIntl(nextConfig));

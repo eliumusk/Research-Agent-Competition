@@ -19,6 +19,7 @@ alwaysApply: false
 - `src/payment/`: Payment integration
 - `src/analytics/`: Analytics and tracking
 - `src/storage/`: File storage integration
+- `src/notification/`: Sending Notifications
 
 ## Configuration Files
 - `next.config.ts`: Next.js configuration
@@ -29,7 +30,7 @@ alwaysApply: false
 
 ## Content Management
 - `content/`: MDX content files
-- `content-collections.ts`: Content collection configuration
+- `source.config.ts`: Fumadocs source configuration
 
 ## Environment
 - `env.example`: Environment variables template

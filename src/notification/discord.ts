@@ -1,3 +1,7 @@
+import { websiteConfig } from '@/config/website';
+import { defaultMessages } from '@/i18n/messages';
+import { getBaseUrl } from '@/lib/urls/urls';
+
 /**
  * Send a message to Discord when a user makes a purchase
  * @param sessionId The Stripe checkout session ID
@@ -24,8 +28,8 @@ export async function sendMessageToDiscord(
     // Format the message
     const message = {
       // You can customize these values later
-      username: 'MkSaaS Bot',
-      avatar_url: 'https://mksaas.com/logo.png',
+      username: `${defaultMessages.Metadata.name} Bot`,
+      avatar_url: `${getBaseUrl()}${websiteConfig.metadata?.images?.logoLight}`,
       embeds: [
         {
           title: '🎉 New Purchase',

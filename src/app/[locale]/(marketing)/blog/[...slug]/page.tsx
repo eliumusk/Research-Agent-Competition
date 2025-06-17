@@ -1,17 +1,19 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
-import { BlogToc } from '@/components/blog/blog-toc';
+import { getMDXComponents } from '@/components/custom/mdx-components';
 import { NewsletterCard } from '@/components/newsletter/newsletter-card';
-import { CustomMDXContent } from '@/components/shared/custom-mdx-content';
 import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
-import { LOCALES } from '@/i18n/routing';
-import { getTableOfContents } from '@/lib/blog/toc';
+import {
+  type BlogType,
+  authorSource,
+  blogSource,
+  categorySource,
+} from '@/lib/docs/source';
 import { formatDate } from '@/lib/formatter';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
-import { type Post, allPosts } from 'content-collections';
-import { CalendarIcon, ClockIcon, FileTextIcon } from 'lucide-react';
+import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
@@ -19,52 +21,17 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import '@/styles/mdx.css';
-import HomeNewsletterSection from '@/components/home/home-newsletter';
-import HomeProjectsSection from '@/components/home/home-projects';
-
-/**
- * Gets the blog post from the params
- * @param slug - The slug of the blog post
- * @param locale - The locale of the blog post
- * @returns The blog post
- *
- * How it works:
- * /[locale]/blog/first-post:
- * params.slug = ["first-post"]
- * slug becomes "first-post" after join('/')
- * Matches post where slugAsParams === "first-post" AND locale === params.locale
- */
-async function getBlogPostFromParams(locale: Locale, slug: string) {
-  // console.log('getBlogPostFromParams', locale, slug);
-  // Find post with matching slug and locale
-  const post = allPosts.find(
-    (post) =>
-      (post.slugAsParams === slug ||
-        (!slug && post.slugAsParams === 'index')) &&
-      post.locale === locale
-  );
-
-  if (!post) {
-    // If no post found with the current locale, try to find one with the default locale
-    const defaultPost = allPosts.find(
-      (post) =>
-        post.slugAsParams === slug || (!slug && post.slugAsParams === 'index')
-    );
-
-    return defaultPost;
-  }
-
-  return post;
-}
+import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 
 /**
  * get related posts, random pick from all posts with same locale, different slug,
  * max size is websiteConfig.blog.relatedPostsSize
  */
-async function getRelatedPosts(post: Post) {
-  const relatedPosts = allPosts
-    .filter((p) => p.locale === post.locale)
-    .filter((p) => p.slugAsParams !== post.slugAsParams)
+async function getRelatedPosts(post: BlogType) {
+  const relatedPosts = blogSource
+    .getPages(post.locale)
+    .filter((p) => p.data.published)
+    .filter((p) => p.slugs.join('/') !== post.slugs.join('/'))
     .sort(() => Math.random() - 0.5)
     .slice(0, websiteConfig.blog.relatedPostsSize);
 
@@ -72,20 +39,22 @@ async function getRelatedPosts(post: Post) {
 }
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((locale) => {
-    const posts = allPosts.filter((post) => post.locale === locale);
-    return posts.map((post) => ({
-      locale,
-      slug: [post.slugAsParams],
-    }));
-  });
+  return blogSource
+    .getPages()
+    .filter((post) => post.data.published)
+    .flatMap((post) => {
+      return {
+        locale: post.locale,
+        slug: post.slugs,
+      };
+    });
 }
 
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata | undefined> {
   const { locale, slug } = await params;
-  const post = await getBlogPostFromParams(locale, slug.join('/'));
+  const post = blogSource.getPage(slug, locale);
   if (!post) {
     notFound();
   }
@@ -93,10 +62,10 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return constructMetadata({
-    title: `${post.title} | ${t('title')}`,
-    description: post.description,
-    canonicalUrl: getUrlWithLocale(post.slug, locale),
-    image: post.image,
+    title: `${post.data.title} | ${t('title')}`,
+    description: post.data.description,
+    canonicalUrl: getUrlWithLocale(`/blog/${slug}`, locale),
+    image: post.data.image,
   });
 }
 
@@ -109,14 +78,20 @@ interface BlogPostPageProps {
 
 export default async function BlogPostPage(props: BlogPostPageProps) {
   const { locale, slug } = await props.params;
-  const post = await getBlogPostFromParams(locale, slug.join('/'));
+  const post = blogSource.getPage(slug, locale);
   if (!post) {
     notFound();
   }
 
-  const publishDate = post.date;
-  const date = formatDate(new Date(publishDate));
-  const toc = await getTableOfContents(post.content);
+  const { date, title, description, image, author, categories } = post.data;
+  const publishDate = formatDate(new Date(date));
+
+  const blogAuthor = authorSource.getPage([author], locale);
+  const blogCategories = categorySource
+    .getPages(locale)
+    .filter((category) => categories.includes(category.slugs[0] ?? ''));
+
+  const MDX = post.data.body;
 
   // getTranslations may cause error DYNAMIC_SERVER_USAGE, so we set dynamic to force-static
   const t = await getTranslations('BlogPage');
@@ -134,11 +109,11 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
           <div className="space-y-8">
             {/* blog post image */}
             <div className="group overflow-hidden relative aspect-16/9 rounded-lg transition-all border">
-              {post.image && (
+              {image && (
                 <Image
-                  src={post.image}
-                  alt={post.title || 'image for blog post'}
-                  title={post.title || 'image for blog post'}
+                  src={image}
+                  alt={title || 'image for blog post'}
+                  title={title || 'image for blog post'}
                   loading="eager"
                   fill
                   className="object-cover"
@@ -146,34 +121,28 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
               )}
             </div>
 
-            {/* blog post date and reading time */}
+            {/* blog post date */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <CalendarIcon className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground leading-none my-auto">
-                  {date}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <ClockIcon className="size-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground leading-none my-auto">
-                  {t('readTime', { minutes: post.estimatedTime })}
+                  {publishDate}
                 </span>
               </div>
             </div>
 
             {/* blog post title */}
-            <h1 className="text-3xl font-bold">{post.title}</h1>
+            <h1 className="text-3xl font-bold">{title}</h1>
 
             {/* blog post description */}
-            <p className="text-lg text-muted-foreground">{post.description}</p>
+            <p className="text-lg text-muted-foreground">{description}</p>
           </div>
 
           {/* blog post content */}
           {/* in order to make the mdx.css work, we need to add the className prose to the div */}
           {/* https://github.com/tailwindlabs/tailwindcss-typography */}
           <div className="mt-8 max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-            <CustomMDXContent code={post.body} />
+            <MDX components={getMDXComponents()} />
           </div>
 
           <div className="flex items-center justify-start my-16">
@@ -185,36 +154,38 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
         <div>
           <div className="space-y-4 lg:sticky lg:top-24">
             {/* author info */}
-            <div className="bg-muted/50 rounded-lg p-6">
-              <h2 className="text-lg font-semibold mb-4">{t('author')}</h2>
-              <div className="flex items-center gap-4">
-                <div className="relative h-8 w-8 shrink-0">
-                  {post.author?.avatar && (
-                    <Image
-                      src={post.author.avatar}
-                      alt={`avatar for ${post.author.name}`}
-                      className="rounded-full object-cover border"
-                      fill
-                    />
-                  )}
+            {blogAuthor && (
+              <div className="bg-muted/50 rounded-lg p-6">
+                <h2 className="text-lg font-semibold mb-4">{t('author')}</h2>
+                <div className="flex items-center gap-4">
+                  <div className="relative h-8 w-8 shrink-0">
+                    {blogAuthor.data.avatar && (
+                      <Image
+                        src={blogAuthor.data.avatar}
+                        alt={`avatar for ${blogAuthor.data.name}`}
+                        className="rounded-full object-cover border"
+                        fill
+                      />
+                    )}
+                  </div>
+                  <span className="line-clamp-1">{blogAuthor.data.name}</span>
                 </div>
-                <span className="line-clamp-1">{post.author?.name}</span>
               </div>
-            </div>
+            )}
 
             {/* categories */}
             <div className="bg-muted/50 rounded-lg p-6">
               <h2 className="text-lg font-semibold mb-4">{t('categories')}</h2>
               <ul className="flex flex-wrap gap-4">
-                {post.categories?.filter(Boolean).map(
+                {blogCategories.map(
                   (category) =>
                     category && (
-                      <li key={category.slug}>
+                      <li key={category.slugs[0]}>
                         <LocaleLink
-                          href={`/blog/category/${category.slug}`}
+                          href={`/blog/category/${category.slugs[0]}`}
                           className="text-sm font-medium text-muted-foreground hover:text-primary"
                         >
-                          {category.name}
+                          {category.data.name}
                         </LocaleLink>
                       </li>
                     )
@@ -223,13 +194,15 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
             </div>
 
             {/* table of contents */}
-            <div className="bg-muted/50 rounded-lg p-6 hidden lg:block">
-              <h2 className="text-lg font-semibold mb-4">
-                {t('tableOfContents')}
-              </h2>
-              <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
-                <BlogToc toc={toc} />
-              </div>
+            <div className="max-h-[calc(100vh-18rem)] overflow-y-auto">
+              {post.data.toc && (
+                <InlineTOC
+                  items={post.data.toc}
+                  open={true}
+                  defaultOpen={true}
+                  className="bg-muted/50 border-none"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -245,7 +218,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
             </h2>
           </div>
 
-          <BlogGrid posts={relatedPosts} />
+          <BlogGrid posts={relatedPosts} locale={locale} />
         </div>
       )}
     </div>

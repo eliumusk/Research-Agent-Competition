@@ -1,6 +1,6 @@
 import { CustomPage } from '@/components/page/custom-page';
+import { pagesSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
-import { getPage } from '@/lib/page/get-page';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
 import type { Metadata } from 'next';
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata | undefined> {
   const { locale } = await params;
-  const page = await getPage('terms-of-service', locale);
+  const page = pagesSource.getPage(['terms-of-service'], locale);
 
   if (!page) {
     console.warn(
@@ -26,8 +26,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return constructMetadata({
-    title: page.title + ' | ' + t('title'),
-    description: page.description,
+    title: page.data.title + ' | ' + t('title'),
+    description: page.data.description,
     canonicalUrl: getUrlWithLocale('/terms', locale),
   });
 }
@@ -39,18 +39,11 @@ export default async function TermsOfServicePage(props: NextPageProps) {
   }
 
   const locale = params.locale as string;
-  const page = await getPage('terms-of-service', locale);
+  const page = pagesSource.getPage(['terms-of-service'], locale);
 
   if (!page) {
     notFound();
   }
 
-  return (
-    <CustomPage
-      title={page.title}
-      description={page.description}
-      date={page.date}
-      content={page.body}
-    />
-  );
+  return <CustomPage page={page} />;
 }

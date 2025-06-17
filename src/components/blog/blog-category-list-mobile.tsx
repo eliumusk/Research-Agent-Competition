@@ -9,14 +9,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import type { Category } from 'content-collections';
+import type { BlogCategory } from '@/types/blog-types';
 import { LayoutListIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 export type BlogCategoryListMobileProps = {
-  categoryList: Category[];
+  categoryList: BlogCategory[];
 };
 
 export function BlogCategoryListMobile({

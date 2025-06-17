@@ -22,6 +22,8 @@
   "search.exclude": {
     "**/node_modules": true,
     ".next": true,
-    ".content-collections": true,
+    ".source": true,
+    ".wrangler": true,
+    ".open-next": true
   }
 }

@@ -1,22 +1,17 @@
-import { CustomMDXContent } from '@/components/shared/custom-mdx-content';
+import type { PagesType } from '@/lib/docs/source';
 import { formatDate } from '@/lib/formatter';
 import { CalendarIcon } from 'lucide-react';
+import { getMDXComponents } from '../custom/mdx-components';
 import { Card, CardContent } from '../ui/card';
 
 interface CustomPageProps {
-  title: string;
-  description: string;
-  date: string;
-  content: any; // MDX content
+  page: PagesType;
 }
 
-export function CustomPage({
-  title,
-  description,
-  date,
-  content,
-}: CustomPageProps) {
+export function CustomPage({ page }: CustomPageProps) {
+  const { title, description, date } = page.data;
   const formattedDate = formatDate(new Date(date));
+  const MDX = page.data.body;
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -38,7 +33,7 @@ export function CustomPage({
       <Card className="mb-8">
         <CardContent>
           <div className="max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-            <CustomMDXContent code={content} />
+            <MDX components={getMDXComponents()} />
           </div>
         </CardContent>
       </Card>

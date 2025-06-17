@@ -100,7 +100,7 @@ function GitHubStarsButton({
   React.useEffect(() => {
     fetch(`https://api.github.com/repos/${username}/${repo}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: any) => {
         if (data && typeof data.stargazers_count === 'number') {
           setStars(data.stargazers_count);
         }

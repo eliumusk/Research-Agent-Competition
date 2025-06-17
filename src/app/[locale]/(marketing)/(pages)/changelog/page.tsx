@@ -1,6 +1,7 @@
-import { ReleaseCard } from '@/components/release/release-card';
+import { ReleaseCard } from '@/components/changelog/release-card';
+import Container from '@/components/layout/container';
+import { changelogSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
-import { getReleases } from '@/lib/release/get-releases';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
 import type { Metadata } from 'next';
@@ -9,7 +10,6 @@ import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 import '@/styles/mdx.css';
-import Container from '@/components/layout/container';
 
 export async function generateMetadata({
   params,
@@ -34,9 +34,15 @@ export default async function ChangelogPage(props: NextPageProps) {
   }
 
   const locale = params.locale as Locale;
-  const releases = await getReleases(locale);
+  const localeReleases = changelogSource.getPages(locale);
+  const publishedReleases = localeReleases
+    .filter((releaseItem) => releaseItem.data.published)
+    .sort(
+      (a, b) =>
+        new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+    );
 
-  if (!releases || releases.length === 0) {
+  if (!publishedReleases || publishedReleases.length === 0) {
     notFound();
   }
 
@@ -57,16 +63,14 @@ export default async function ChangelogPage(props: NextPageProps) {
 
         {/* Releases */}
         <div className="mt-8">
-          {releases.map((release) => (
-            <ReleaseCard
-              key={release.slug}
-              title={release.title}
-              description={release.description}
-              date={release.date}
-              version={release.version}
-              content={release.body}
-            />
-          ))}
+          {publishedReleases.map((releaseItem) => {
+            return (
+              <ReleaseCard
+                key={releaseItem.data.version}
+                releaseItem={releaseItem}
+              />
+            );
+          })}
         </div>
       </div>
     </Container>

@@ -12,6 +12,7 @@ import { TikTokIcon } from '@/components/icons/tiktok';
 import { XTwitterIcon } from '@/components/icons/x';
 import { YouTubeIcon } from '@/components/icons/youtube';
 import type { MenuItem } from '@/types';
+import { MailIcon } from 'lucide-react';
 import { websiteConfig } from './website';
 
 /**
@@ -112,6 +113,14 @@ export function getSocialLinks(): MenuItem[] {
       title: 'Telegram',
       href: websiteConfig.metadata.social.telegram,
       icon: <TelegramIcon className="size-4 shrink-0" />,
+    });
+  }
+
+  if (websiteConfig.mail.supportEmail) {
+    socialLinks.push({
+      title: 'Email',
+      href: `mailto:${websiteConfig.mail.supportEmail}`,
+      icon: <MailIcon className="size-4 shrink-0" />,
     });
   }
 

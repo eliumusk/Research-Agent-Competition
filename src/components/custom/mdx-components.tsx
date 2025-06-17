@@ -1,7 +1,6 @@
 import { ImageWrapper } from '@/components/docs/image-wrapper';
 import { Wrapper } from '@/components/docs/wrapper';
 import { YoutubeVideo } from '@/components/docs/youtube-video';
-import { MDXContent } from '@content-collections/mdx/react';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Callout } from 'fumadocs-ui/components/callout';
 import { File, Files, Folder } from 'fumadocs-ui/components/files';
@@ -13,24 +12,16 @@ import * as LucideIcons from 'lucide-react';
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentProps, FC } from 'react';
 
-interface CustomMDXContentProps {
-  code: string;
-  customComponents?: Record<string, any>;
-}
-
 /**
  * Enhanced MDX Content component that includes commonly used MDX components
  * It can be used for blog posts, documentation, and custom pages
  */
-export async function CustomMDXContent({
-  code,
-  customComponents = {},
-}: CustomMDXContentProps) {
+export function getMDXComponents(components?: MDXComponents): MDXComponents {
   // Start with default components
   const baseComponents: Record<string, any> = {
     ...defaultMdxComponents,
     ...LucideIcons,
-    ...((await import('lucide-react')) as unknown as MDXComponents),
+    // ...((await import('lucide-react')) as unknown as MDXComponents),
     YoutubeVideo,
     Tabs,
     Tab,
@@ -45,10 +36,10 @@ export async function CustomMDXContent({
     Files,
     blockquote: Callout as unknown as FC<ComponentProps<'blockquote'>>,
     img: ImageWrapper,
-    ...customComponents,
   };
 
-  return (
-    <MDXContent code={code} components={baseComponents as MDXComponents} />
-  );
+  return {
+    ...baseComponents,
+    ...components,
+  };
 }

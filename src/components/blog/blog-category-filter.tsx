@@ -1,10 +1,10 @@
 import Container from '@/components/layout/container';
-import type { Category } from 'content-collections';
+import type { BlogCategory } from '@/types/blog-types';
 import { BlogCategoryListDesktop } from './blog-category-list-desktop';
 import { BlogCategoryListMobile } from './blog-category-list-mobile';
 
 interface BlogCategoryFilterProps {
-  categoryList: Category[];
+  categoryList: BlogCategory[];
 }
 
 export function BlogCategoryFilter({ categoryList }: BlogCategoryFilterProps) {

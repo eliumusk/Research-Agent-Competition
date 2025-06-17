@@ -1,26 +1,19 @@
-import { CustomMDXContent } from '@/components/shared/custom-mdx-content';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import type { ChangelogType } from '@/lib/docs/source';
 import { formatDate } from '@/lib/formatter';
 import { CalendarIcon, TagIcon } from 'lucide-react';
+import { getMDXComponents } from '../custom/mdx-components';
 
 interface ReleaseCardProps {
-  title: string;
-  description: string;
-  date: string;
-  version: string;
-  content: any; // MDX content
+  releaseItem: ChangelogType;
 }
 
-export function ReleaseCard({
-  title,
-  description,
-  date,
-  version,
-  content,
-}: ReleaseCardProps) {
+export function ReleaseCard({ releaseItem }: ReleaseCardProps) {
+  const { title, description, date, version } = releaseItem.data;
   const formattedDate = formatDate(new Date(date));
+  const MDX = releaseItem.data.body;
 
   return (
     <Card className="mb-8">
@@ -41,7 +34,7 @@ export function ReleaseCard({
       </CardHeader>
       <CardContent>
         <div className="max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-          <CustomMDXContent code={content} />
+          <MDX components={getMDXComponents()} />
         </div>
       </CardContent>
     </Card>
