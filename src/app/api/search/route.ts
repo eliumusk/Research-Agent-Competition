@@ -56,11 +56,11 @@ const searchAPI = createI18nSearchAPI('advanced', {
 
 /**
  * Fumadocs 15.2.8 fixed the bug that the `locale` is not passed to the search API
- * 
+ *
  * ref:
  * https://x.com/indie_maker_fox/status/1913457083997192589
- * 
- * NOTICE: 
+ *
+ * NOTICE:
  * Fumadocs 15.1.2 has a bug that the `locale` is not passed to the search API
  * 1. Wrap the GET handler for debugging docs search
  * 2. Detect locale from referer header, and add the locale parameter to the search API

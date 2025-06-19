@@ -1,14 +1,8 @@
 import { randomUUID } from 'crypto';
-import {
-  GetObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { s3mini } from 's3mini';
 import { storageConfig } from '../config/storage-config';
 import {
   ConfigurationError,
-  type PresignedUploadUrlParams,
   type StorageConfig,
   StorageError,
   type StorageProvider,
@@ -18,19 +12,19 @@ import {
 } from '../types';
 
 /**
- * Amazon S3 storage provider implementation
+ * Amazon S3 storage provider implementation using s3mini
  *
  * docs:
  * https://mksaas.com/docs/storage
  *
  * This provider works with Amazon S3 and compatible services like Cloudflare R2
- * https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html
- * https://www.npmjs.com/package/@aws-sdk/client-s3
+ * using s3mini for better Cloudflare Workers compatibility
+ * https://github.com/good-lly/s3mini
  * https://developers.cloudflare.com/r2/
  */
 export class S3Provider implements StorageProvider {
   private config: StorageConfig;
-  private s3Client: S3Client | null = null;
+  private s3Client: s3mini | null = null;
 
   constructor(config: StorageConfig = storageConfig) {
     this.config = config;
@@ -46,33 +40,41 @@ export class S3Provider implements StorageProvider {
   /**
    * Get the S3 client instance
    */
-  private getS3Client(): S3Client {
+  private getS3Client(): s3mini {
     if (this.s3Client) {
       return this.s3Client;
     }
 
-    const { region, endpoint, accessKeyId, secretAccessKey, forcePathStyle } =
+    const { region, endpoint, accessKeyId, secretAccessKey, bucketName } =
       this.config;
 
     if (!region) {
       throw new ConfigurationError('Storage region is not configured');
     }
 
-    const clientOptions: any = {
-      region,
-      credentials: {
-        accessKeyId,
-        secretAccessKey,
-      },
-    };
-
-    // Add custom endpoint for S3-compatible services like Cloudflare R2
-    if (endpoint) {
-      clientOptions.endpoint = endpoint;
-      clientOptions.forcePathStyle = forcePathStyle !== false;
+    if (!accessKeyId || !secretAccessKey) {
+      throw new ConfigurationError('Storage credentials are not configured');
     }
 
-    this.s3Client = new S3Client(clientOptions);
+    if (!endpoint) {
+      throw new ConfigurationError('Storage endpoint is required for s3mini');
+    }
+
+    if (!bucketName) {
+      throw new ConfigurationError('Storage bucket name is not configured');
+    }
+
+    // s3mini client configuration
+    // The bucket name needs to be included in the endpoint URL for s3mini
+    const endpointWithBucket = `${endpoint.replace(/\/$/, '')}/${bucketName}`;
+
+    this.s3Client = new s3mini({
+      accessKeyId,
+      secretAccessKey,
+      endpoint: endpointWithBucket,
+      region,
+    });
+
     return this.s3Client;
   }
 
@@ -94,30 +96,23 @@ export class S3Provider implements StorageProvider {
       const s3 = this.getS3Client();
       const { bucketName } = this.config;
 
-      if (!bucketName) {
-        throw new ConfigurationError('Storage bucket name is not configured');
-      }
-
       const uniqueFilename = this.generateUniqueFilename(filename);
       const key = folder ? `${folder}/${uniqueFilename}` : uniqueFilename;
 
       // Convert Blob to Buffer if needed
-      let fileBuffer: Buffer;
+      let fileContent: Buffer | string;
       if (file instanceof Blob) {
-        fileBuffer = Buffer.from(await file.arrayBuffer());
+        fileContent = Buffer.from(await file.arrayBuffer());
       } else {
-        fileBuffer = file;
+        fileContent = file;
       }
 
-      // Upload the file
-      const command = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-        Body: fileBuffer,
-        ContentType: contentType,
-      });
+      // Upload the file using s3mini
+      const response = await s3.putObject(key, fileContent, contentType);
 
-      await s3.send(command);
+      if (!response.ok) {
+        throw new UploadError(`Failed to upload file: ${response.statusText}`);
+      }
 
       // Generate the URL
       const { publicUrl } = this.config;
@@ -128,13 +123,11 @@ export class S3Provider implements StorageProvider {
         url = `${publicUrl.replace(/\/$/, '')}/${key}`;
         console.log('uploadFile, public url', url);
       } else {
-        // Generate a pre-signed URL if no public URL is provided
-        const getCommand = new GetObjectCommand({
-          Bucket: bucketName,
-          Key: key,
-        });
-        url = await getSignedUrl(s3, getCommand, { expiresIn: 3600 * 24 * 7 }); // 7 days
-        console.log('uploadFile, signed url', url);
+        // For s3mini, we construct the URL manually
+        // Since bucket is included in endpoint, we just append the key
+        const baseUrl = this.config.endpoint?.replace(/\/$/, '') || '';
+        url = `${baseUrl}/${key}`;
+        console.log('uploadFile, constructed url', url);
       }
 
       return { url, key };
@@ -159,65 +152,20 @@ export class S3Provider implements StorageProvider {
   public async deleteFile(key: string): Promise<void> {
     try {
       const s3 = this.getS3Client();
-      const { bucketName } = this.config;
 
-      if (!bucketName) {
-        throw new ConfigurationError('Storage bucket name is not configured');
+      const wasDeleted = await s3.deleteObject(key);
+
+      if (!wasDeleted) {
+        console.warn(
+          `File with key ${key} was not found or could not be deleted`
+        );
       }
-
-      const command = {
-        Bucket: bucketName,
-        Key: key,
-      };
-
-      await s3.send(
-        new PutObjectCommand({
-          ...command,
-          Body: '',
-        })
-      );
     } catch (error) {
       const message =
         error instanceof Error
           ? error.message
           : 'Unknown error occurred during file deletion';
       console.error('deleteFile, error', message);
-      throw new StorageError(message);
-    }
-  }
-
-  /**
-   * Generate a pre-signed URL for direct browser uploads
-   */
-  public async getPresignedUploadUrl(
-    params: PresignedUploadUrlParams
-  ): Promise<UploadFileResult> {
-    try {
-      const { filename, contentType, folder, expiresIn = 3600 } = params;
-      const s3 = this.getS3Client();
-      const { bucketName } = this.config;
-
-      if (!bucketName) {
-        throw new ConfigurationError('Storage bucket name is not configured');
-      }
-
-      const uniqueFilename = this.generateUniqueFilename(filename);
-      const key = folder ? `${folder}/${uniqueFilename}` : uniqueFilename;
-
-      const command = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-        ContentType: contentType,
-      });
-
-      const url = await getSignedUrl(s3, command, { expiresIn });
-      return { url, key };
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'Unknown error occurred while generating presigned URL';
-      console.error('getPresignedUploadUrl, error', message);
       throw new StorageError(message);
     }
   }

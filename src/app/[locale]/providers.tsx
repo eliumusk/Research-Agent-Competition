@@ -4,7 +4,7 @@ import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
 import { PaymentProvider } from '@/components/layout/payment-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { websiteConfig } from '@/config/website';
-import { Translations } from 'fumadocs-ui/i18n';
+import type { Translations } from 'fumadocs-ui/i18n';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { useTranslations } from 'next-intl';
 import { ThemeProvider, useTheme } from 'next-themes';

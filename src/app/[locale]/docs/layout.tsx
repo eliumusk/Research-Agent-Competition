@@ -64,14 +64,14 @@ export default async function DocsRootLayout({
       },
       ...(websiteConfig.metadata.social?.twitter
         ? [
-          {
-            type: 'icon' as const,
-            icon: <XTwitterIcon />,
-            text: 'X',
-            url: websiteConfig.metadata.social.twitter,
-            secondary: true,
-          },
-        ]
+            {
+              type: 'icon' as const,
+              icon: <XTwitterIcon />,
+              text: 'X',
+              url: websiteConfig.metadata.social.twitter,
+              secondary: true,
+            },
+          ]
         : []),
     ],
     themeSwitch: {

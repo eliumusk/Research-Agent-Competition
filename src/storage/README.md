@@ -1,18 +1,18 @@
 # Storage Module
 
-This module provides a unified interface for storing and retrieving files using various cloud storage providers. Currently, it supports Amazon S3 and compatible services like Cloudflare R2.
+This module provides a unified interface for storing and retrieving files using various cloud storage providers. Currently, it supports Amazon S3 and compatible services like Cloudflare R2 using the `s3mini` library for better Cloudflare Workers compatibility.
 
 ## Features
 
 - Upload files to cloud storage
-- Generate pre-signed URLs for direct browser-to-storage uploads
 - Delete files from storage
-- Client-side upload helpers for both small and large files
+- Client-side upload helpers through API endpoints
+- Cloudflare Workers compatible using s3mini
 
 ## Basic Usage
 
 ```typescript
-import { uploadFile, deleteFile, getPresignedUploadUrl } from '@/storage';
+import { uploadFile, deleteFile } from '@/storage';
 
 // Upload a file
 const { url, key } = await uploadFile(
@@ -24,13 +24,6 @@ const { url, key } = await uploadFile(
 
 // Delete a file
 await deleteFile(key);
-
-// Generate a pre-signed URL for direct upload
-const { url, key } = await getPresignedUploadUrl(
-  'filename.jpg',
-  'image/jpeg',
-  'uploads/images'
-);
 ```
 
 ## Client-Side Upload
@@ -40,15 +33,15 @@ For client-side uploads, use the `uploadFileFromBrowser` function:
 ```typescript
 'use client';
 
-import { uploadFileFromBrowser } from '@/storage';
+import { uploadFileFromBrowser } from '@/storage/client';
 
 // In your component
 async function handleFileUpload(event) {
   const file = event.target.files[0];
-  
+
   try {
-    // This will automatically use the most appropriate upload method
-    // based on the file size
+    // All uploads go through the direct upload API endpoint
+    // since s3mini doesn't support presigned URLs
     const { url, key } = await uploadFileFromBrowser(file, 'uploads/images');
     console.log('File uploaded:', url);
   } catch (error) {
@@ -78,14 +71,15 @@ export const websiteConfig = {
 
 ```
 # Required
-STORAGE_REGION=us-east-1
+STORAGE_REGION=auto
 STORAGE_ACCESS_KEY_ID=your-access-key
 STORAGE_SECRET_ACCESS_KEY=your-secret-key
 STORAGE_BUCKET_NAME=your-bucket-name
 STORAGE_ENDPOINT=https://custom-endpoint.com
 STORAGE_PUBLIC_URL=https://cdn.example.com
-STORAGE_FORCE_PATH_STYLE=true
 ```
+
+**Note**: When using s3mini, the `STORAGE_ENDPOINT` is required and the bucket name will be included in the endpoint URL.
 
 ## Advanced Usage
 
@@ -125,11 +119,6 @@ class CustomStorageProvider implements StorageProvider {
     // Your implementation
   }
 
-  async getPresignedUploadUrl(params: PresignedUploadUrlParams): Promise<PresignedUploadUrlResult> {
-    // Your implementation
-    return { url: 'https://example.com/upload', key: 'file.jpg' };
-  }
-
   getProviderName(): string {
     return 'CustomProvider';
   }
@@ -144,14 +133,32 @@ const result = await customProvider.uploadFile({
 });
 ```
 
+## Important Limitations
+
+### s3mini Limitations
+
+Since this implementation uses `s3mini` for Cloudflare Workers compatibility, there are some limitations compared to the full AWS SDK:
+
+- **No Presigned URLs**: s3mini doesn't support presigned URLs. All browser uploads must go through your API server.
+- **Endpoint Configuration**: The bucket name is included in the endpoint URL configuration.
+- **Manual URL Construction**: File URLs are constructed manually rather than using AWS SDK's getSignedUrl.
+
 ## API Reference
 
-### Main Functions
+### Server-Side Functions
+
+For server-side usage (in API routes, server actions, etc.):
 
 - `uploadFile(file, filename, contentType, folder?)`: Upload a file to storage
 - `deleteFile(key)`: Delete a file from storage
-- `getPresignedUploadUrl(filename, contentType, folder?, expiresIn?)`: Generate a pre-signed URL
-- `uploadFileFromBrowser(file, folder?)`: Upload a file from the browser
+
+### Client-Side Functions
+
+For client-side usage (in React components with 'use client'):
+
+- `uploadFileFromBrowser(file, folder?)`: Upload a file from the browser (via API)
+
+**Note**: Import client-side functions from `@/storage/client` to avoid Node.js module conflicts in the browser.
 
 ### Provider Interface
 
@@ -159,17 +166,15 @@ The `StorageProvider` interface defines the following methods:
 
 - `uploadFile(params)`: Upload a file to storage
 - `deleteFile(key)`: Delete a file from storage
-- `getPresignedUploadUrl(params)`: Generate a pre-signed URL
 - `getProviderName()`: Get the provider name
 
 ### Configuration
 
 The `StorageConfig` interface defines the configuration options:
 
-- `region`: Storage region (e.g., 'us-east-1')
-- `endpoint?`: Custom endpoint URL for S3-compatible services
+- `region`: Storage region (e.g., 'auto' for Cloudflare R2)
+- `endpoint?`: Custom endpoint URL for S3-compatible services (required for s3mini)
 - `accessKeyId`: Access key ID for authentication
 - `secretAccessKey`: Secret access key for authentication
 - `bucketName`: Storage bucket name
 - `publicUrl?`: Public URL for accessing files
-- `forcePathStyle?`: Whether to use path-style URLs 

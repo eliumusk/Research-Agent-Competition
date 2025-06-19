@@ -54,16 +54,6 @@ export interface UploadFileResult {
 }
 
 /**
- * Presigned upload URL parameters
- */
-export interface PresignedUploadUrlParams {
-  filename: string;
-  contentType: string;
-  folder?: string;
-  expiresIn?: number;
-}
-
-/**
  * Storage provider interface
  */
 export interface StorageProvider {
@@ -76,13 +66,6 @@ export interface StorageProvider {
    * Delete a file from storage
    */
   deleteFile(key: string): Promise<void>;
-
-  /**
-   * Generate a pre-signed URL for client-side uploads
-   */
-  getPresignedUploadUrl(
-    params: PresignedUploadUrlParams
-  ): Promise<UploadFileResult>;
 
   /**
    * Get the provider's name

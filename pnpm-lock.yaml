@@ -287,6 +287,9 @@ importers:
       resend:
         specifier: ^4.4.1
         version: 4.4.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      s3mini:
+        specifier: ^0.2.0
+        version: 0.2.0
       shiki:
         specifier: ^2.4.2
         version: 2.5.0
@@ -5982,6 +5985,10 @@ packages:
 
   rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+
+  s3mini@0.2.0:
+    resolution: {integrity: sha512-wEiPibnyGN8B/1vJiOQGZbaF/t5A356RjAH4ch75UZi5e04LM9qaRh3A5KXk2Eq/qdU7I/2qXtigk1ifFl6yEA==}
+    engines: {node: '>=20'}
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
@@ -12685,6 +12692,8 @@ snapshots:
   rxjs@7.8.1:
     dependencies:
       tslib: 2.8.1
+
+  s3mini@0.2.0: {}
 
   safe-buffer@5.2.1: {}
 
