@@ -1,17 +1,17 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
-import { getMDXComponents } from '@/components/custom/mdx-components';
+import { getMDXComponents } from '@/components/docs/mdx-components';
 import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
+import { formatDate } from '@/lib/formatter';
+import { constructMetadata } from '@/lib/metadata';
 import {
   type BlogType,
   authorSource,
   blogSource,
   categorySource,
-} from '@/lib/docs/source';
-import { formatDate } from '@/lib/formatter';
-import { constructMetadata } from '@/lib/metadata';
+} from '@/lib/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';

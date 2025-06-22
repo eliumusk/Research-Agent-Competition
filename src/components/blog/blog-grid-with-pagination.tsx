@@ -1,4 +1,4 @@
-import type { BlogType } from '@/lib/docs/source';
+import type { BlogType } from '@/lib/source';
 import EmptyGrid from '../shared/empty-grid';
 import CustomPagination from '../shared/pagination';
 import BlogGrid from './blog-grid';

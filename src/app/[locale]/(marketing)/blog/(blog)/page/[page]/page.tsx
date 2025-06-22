@@ -1,8 +1,8 @@
 import BlogGridWithPagination from '@/components/blog/blog-grid-with-pagination';
 import { websiteConfig } from '@/config/website';
 import { LOCALES } from '@/i18n/routing';
-import { blogSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
+import { blogSource } from '@/lib/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';

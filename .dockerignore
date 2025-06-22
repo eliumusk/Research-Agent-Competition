@@ -1,0 +1,13 @@
+.cursor
+.github
+.next
+.open-next
+.source
+.vscode
+.git
+.wrangler
+.dockerignore
+node_modules
+**/node_modules
+Dockerfile
+LICENSE

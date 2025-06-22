@@ -1,7 +1,7 @@
 import { BlogCategoryFilter } from '@/components/blog/blog-category-filter';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import Container from '@/components/layout/container';
-import { categorySource } from '@/lib/docs/source';
+import { categorySource } from '@/lib/source';
 import { getTranslations } from 'next-intl/server';
 import type { PropsWithChildren } from 'react';
 

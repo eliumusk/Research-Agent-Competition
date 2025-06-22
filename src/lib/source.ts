@@ -2,15 +2,8 @@ import { type InferPageType, loader } from 'fumadocs-core/source';
 import { createMDXSource } from 'fumadocs-mdx';
 import * as LucideIcons from 'lucide-react';
 import { createElement } from 'react';
-import {
-  author,
-  blog,
-  category,
-  changelog,
-  docs,
-  pages,
-} from '../../../.source';
-import { docsI18nConfig } from './i18n';
+import { author, blog, category, changelog, docs, pages } from '../../.source';
+import { docsI18nConfig } from './docs/i18n';
 
 /**
  * Turn a content source into a unified interface

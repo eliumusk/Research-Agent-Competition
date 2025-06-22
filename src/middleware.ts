@@ -3,6 +3,7 @@ import createMiddleware from 'next-intl/middleware';
 import { type NextRequest, NextResponse } from 'next/server';
 import { LOCALES, routing } from './i18n/routing';
 import type { Session } from './lib/auth-types';
+import { getBaseUrl } from './lib/urls/urls';
 import {
   DEFAULT_LOGIN_REDIRECT,
   protectedRoutes,
@@ -30,7 +31,7 @@ export default async function middleware(req: NextRequest) {
   const { data: session } = await betterFetch<Session>(
     '/api/auth/get-session',
     {
-      baseURL: req.nextUrl.origin,
+      baseURL: getBaseUrl(),
       headers: {
         cookie: req.headers.get('cookie') || '', // Forward the cookies from the request
       },

@@ -1,6 +1,6 @@
 import BlogCard, { BlogCardSkeleton } from '@/components/blog/blog-card';
 import { websiteConfig } from '@/config/website';
-import type { BlogType } from '@/lib/docs/source';
+import type { BlogType } from '@/lib/source';
 
 interface BlogGridProps {
   locale: string;

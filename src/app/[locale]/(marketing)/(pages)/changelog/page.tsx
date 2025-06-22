@@ -1,7 +1,7 @@
 import { ReleaseCard } from '@/components/changelog/release-card';
 import Container from '@/components/layout/container';
-import { changelogSource } from '@/lib/docs/source';
 import { constructMetadata } from '@/lib/metadata';
+import { changelogSource } from '@/lib/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
 import type { Metadata } from 'next';
