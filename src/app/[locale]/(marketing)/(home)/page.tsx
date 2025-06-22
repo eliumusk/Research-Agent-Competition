@@ -1,4 +1,5 @@
 import HomeBlogSection from '@/components/home/home-blog';
+import HomeDiscordSection from '@/components/home/home-discord';
 import HomeHeroSection from '@/components/home/home-hero';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
@@ -44,7 +45,9 @@ export default async function HomePage(props: HomePageProps) {
 
         <HomeBlogSection />
 
-        <HomeNewsletterSection />
+        <HomeDiscordSection />
+
+        {/* <HomeNewsletterSection /> */}
 
         {/* <HeroSection /> */}
 

@@ -1,4 +1,5 @@
 import FriendsSection from '@/components/about/friends';
+import HomeDiscordSection from '@/components/home/home-discord';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
 import { DiscordIcon } from '@/components/icons/discord';
@@ -128,7 +129,10 @@ export default async function AboutPage() {
       <FriendsSection />
 
       {/* newsletter */}
-      <HomeNewsletterSection />
+      {/* <HomeNewsletterSection /> */}
+
+      {/* discord */}
+      <HomeDiscordSection />
     </div>
   );
 }

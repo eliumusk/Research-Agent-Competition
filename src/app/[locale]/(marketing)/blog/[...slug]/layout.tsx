@@ -1,3 +1,4 @@
+import HomeDiscordSection from '@/components/home/home-discord';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
 import Container from '@/components/layout/container';
@@ -12,7 +13,10 @@ export default function BlogPostLayout({ children }: PropsWithChildren) {
       <HomeProjectsSection />
 
       {/* newsletter */}
-      <HomeNewsletterSection />
+      {/* <HomeNewsletterSection /> */}
+
+      {/* discord */}
+      <HomeDiscordSection />
     </div>
   );
 }

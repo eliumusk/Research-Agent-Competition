@@ -1,7 +1,7 @@
 import BlogGrid from '@/components/blog/blog-grid';
 import EmptyGrid from '@/components/shared/empty-grid';
 import { DEFAULT_LOCALE } from '@/i18n/routing';
-import { blogSource } from '@/lib/docs/source';
+import { blogSource } from '@/lib/source';
 import { HeaderSection } from '../layout/header-section';
 
 export default async function HomeBlogSection() {
