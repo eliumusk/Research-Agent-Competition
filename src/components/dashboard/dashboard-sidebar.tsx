@@ -20,6 +20,7 @@ import { useTranslations } from 'next-intl';
 import type * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Logo } from '../layout/logo';
+import { DiscordCard } from './discord-card';
 import { UpgradeCard } from './upgrade-card';
 
 /**
@@ -77,6 +78,9 @@ export function DashboardSidebar({
           <>
             {/* show upgrade card if user is not a member, and sidebar is not collapsed */}
             {currentUser && state !== 'collapsed' && <UpgradeCard />}
+
+            {/* show discord card if user is not a member, and sidebar is not collapsed */}
+            {currentUser && state !== 'collapsed' && <DiscordCard />}
 
             {/* show user profile if user is logged in */}
             {currentUser && <SidebarUser user={currentUser} />}
