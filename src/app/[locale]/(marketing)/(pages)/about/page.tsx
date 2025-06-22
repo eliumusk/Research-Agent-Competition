@@ -1,6 +1,7 @@
 import FriendsSection from '@/components/about/friends';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
+import { DiscordIcon } from '@/components/icons/discord';
 import Container from '@/components/layout/container';
 import { BlurFadeDemo } from '@/components/magicui/example/blur-fade-example';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -87,7 +88,7 @@ export default async function AboutPage() {
                         {t('followMe')}
                       </a>
                     )}
-                    {websiteConfig.mail.supportEmail && (
+                    {/* {websiteConfig.mail.supportEmail && (
                       <div className="flex items-center gap-4">
                         <Button className="rounded-lg cursor-pointer">
                           <MailIcon className="mr-1 size-4" />
@@ -96,6 +97,18 @@ export default async function AboutPage() {
                           </a>
                         </Button>
                       </div>
+                    )} */}
+                    {websiteConfig.metadata?.social?.discord && (
+                      <a
+                        href={`${websiteConfig.metadata.social.discord}`}
+                        className={cn(
+                          buttonVariants({ variant: 'default' }),
+                          'rounded-lg cursor-pointer'
+                        )}
+                      >
+                        <DiscordIcon className="mr-1 size-4" />
+                        {t('talkWithMe')}
+                      </a>
                     )}
                   </div>
                 </div>
