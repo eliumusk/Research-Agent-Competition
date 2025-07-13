@@ -63,9 +63,10 @@ export function Providers({ children, locale }: ProvidersProps) {
       <ActiveThemeProvider>
         <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
           <TooltipProvider>
-            <PaymentProvider>
+            {/* <PaymentProvider>
               <CreditsProvider>{children}</CreditsProvider>
-            </PaymentProvider>
+            </PaymentProvider> */}
+            {children}
           </TooltipProvider>
         </RootProvider>
       </ActiveThemeProvider>

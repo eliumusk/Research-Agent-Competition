@@ -144,7 +144,7 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   credits: {
-    enableCredits: true,
+    enableCredits: false,
     enableForFreePlan: false,
     registerGiftCredits: {
       enable: true,
