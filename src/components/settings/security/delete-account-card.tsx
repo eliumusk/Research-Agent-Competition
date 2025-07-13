@@ -79,7 +79,7 @@ export function DeleteAccountCard() {
   return (
     <Card
       className={cn(
-        'w-full max-w-lg md:max-w-xl border-destructive/50 overflow-hidden pt-6 pb-0 flex flex-col'
+        'w-full border-destructive/50 overflow-hidden pt-6 pb-0 flex flex-col'
       )}
     >
       <CardHeader>

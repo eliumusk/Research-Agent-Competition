@@ -107,14 +107,14 @@ export function PricingCard({
     <Card
       className={cn(
         'flex flex-col h-full',
-        plan.recommended && 'relative',
+        plan.popular && 'relative',
         isCurrentPlan &&
           'border-blue-500 shadow-lg shadow-blue-100 dark:shadow-blue-900/20',
         className
       )}
     >
       {/* show popular badge if plan is recommended */}
-      {plan.recommended && (
+      {plan.popular && (
         <span
           className="absolute inset-x-0 -top-3 mx-auto flex h-6 w-fit items-center rounded-full px-3 py-1 text-xs font-medium border
         bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200  border-purple-200 dark:border-purple-800 shadow-sm"
@@ -166,7 +166,7 @@ export function PricingCard({
         ) : isCurrentPlan ? (
           <Button
             disabled
-            className="mt-4 w-full bg-blue-100 dark:bg-blue-800 
+            className="mt-4 w-full bg-blue-100 dark:bg-blue-800
           text-blue-700 dark:text-blue-100 hover:bg-blue-100 dark:hover:bg-blue-800 border border-blue-200 dark:border-blue-700"
           >
             {t('yourCurrentPlan')}
@@ -203,7 +203,7 @@ export function PricingCard({
         {hasTrialPeriod && (
           <div className="my-4">
             <span
-              className="inline-block px-2.5 py-1.5 text-xs font-medium rounded-md 
+              className="inline-block px-2.5 py-1.5 text-xs font-medium rounded-md
             bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm"
             >
               {t('daysTrial', { days: price.trialPeriodDays as number })}

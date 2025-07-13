@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { getAvatarLinks } from '@/config/avatar-config';
+import { websiteConfig } from '@/config/website';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { usePaymentStore } from '@/stores/payment-store';
@@ -17,6 +18,7 @@ import { LogOutIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { CreditsBalanceMenu } from './credits-balance-menu';
 
 interface UserButtonProps {
   user: User;
@@ -57,6 +59,7 @@ export function UserButton({ user }: UserButtonProps) {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        {/* show user name and email */}
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             <p className="font-medium">{user.name}</p>
@@ -66,6 +69,16 @@ export function UserButton({ user }: UserButtonProps) {
           </div>
         </div>
         <DropdownMenuSeparator />
+
+        {/* show credits balance button if credits are enabled */}
+        {websiteConfig.credits.enableCredits && (
+          <>
+            <DropdownMenuItem className="cursor-pointer">
+              <CreditsBalanceMenu />
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
 
         {avatarLinks.map((item) => (
           <DropdownMenuItem

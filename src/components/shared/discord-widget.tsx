@@ -9,6 +9,9 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * Discord Widget, shows the channels and messages in the discord server
  *
+ * @deprecated
+ * This feature is deprecated for Discord Widget can not be used anymore.
+ *
  * https://docs.widgetbot.io/embed/react-embed/
  */
 export default function DiscordWidget() {

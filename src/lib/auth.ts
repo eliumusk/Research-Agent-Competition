@@ -1,14 +1,19 @@
 import { websiteConfig } from '@/config/website';
+import {
+  addMonthlyFreeCredits,
+  addRegisterGiftCredits,
+} from '@/credits/credits';
 import { getDb } from '@/db/index';
 import { defaultMessages } from '@/i18n/messages';
 import { LOCALE_COOKIE_NAME, routing } from '@/i18n/routing';
 import { sendEmail } from '@/mail';
 import { subscribe } from '@/newsletter';
-import { betterAuth } from 'better-auth';
+import { type User, betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
 import { parse as parseCookies } from 'cookie';
 import type { Locale } from 'next-intl';
+import { getAllPricePlans } from './price-plan';
 import { getBaseUrl, getUrlWithLocaleInCallbackUrl } from './urls/urls';
 
 /**
@@ -114,21 +119,7 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          // Auto subscribe user to newsletter after sign up if enabled in website config
-          if (user.email && websiteConfig.newsletter.autoSubscribeAfterSignUp) {
-            try {
-              const subscribed = await subscribe(user.email);
-              if (!subscribed) {
-                console.error(
-                  `Failed to subscribe user ${user.email} to newsletter`
-                );
-              } else {
-                console.log(`User ${user.email} subscribed to newsletter`);
-              }
-            } catch (error) {
-              console.error('Newsletter subscription error:', error);
-            }
-          }
+          await onCreateUser(user);
         },
       },
     },
@@ -163,4 +154,60 @@ export const auth = betterAuth({
 export function getLocaleFromRequest(request?: Request): Locale {
   const cookies = parseCookies(request?.headers.get('cookie') ?? '');
   return (cookies[LOCALE_COOKIE_NAME] as Locale) ?? routing.defaultLocale;
+}
+
+/**
+ * On create user hook
+ *
+ * @param user - The user to create
+ */
+async function onCreateUser(user: User) {
+  // Auto subscribe user to newsletter after sign up if enabled in website config
+  if (user.email && websiteConfig.newsletter.autoSubscribeAfterSignUp) {
+    try {
+      const subscribed = await subscribe(user.email);
+      if (!subscribed) {
+        console.error(`Failed to subscribe user ${user.email} to newsletter`);
+      } else {
+        console.log(`User ${user.email} subscribed to newsletter`);
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+    }
+  }
+
+  // Add register gift credits to the user if enabled in website config
+  if (
+    websiteConfig.credits.registerGiftCredits.enable &&
+    websiteConfig.credits.registerGiftCredits.credits > 0
+  ) {
+    try {
+      await addRegisterGiftCredits(user.id);
+      const credits = websiteConfig.credits.registerGiftCredits.credits;
+      console.log(
+        `added register gift credits for user ${user.id}, credits: ${credits}`
+      );
+    } catch (error) {
+      console.error('Register gift credits error:', error);
+    }
+  }
+
+  // Add free monthly credits to the user if enabled in website config
+  const pricePlans = await getAllPricePlans();
+  const freePlan = pricePlans.find((plan) => plan.isFree);
+  if (
+    freePlan?.credits?.enable &&
+    freePlan?.credits?.amount &&
+    freePlan?.credits?.amount > 0
+  ) {
+    try {
+      await addMonthlyFreeCredits(user.id);
+      const credits = freePlan.credits.amount;
+      console.log(
+        `added free monthly credits for user ${user.id}, credits: ${credits}`
+      );
+    } catch (error) {
+      console.error('Free monthly credits error:', error);
+    }
+  }
 }

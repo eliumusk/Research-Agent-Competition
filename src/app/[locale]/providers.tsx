@@ -4,6 +4,7 @@ import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
 import { PaymentProvider } from '@/components/layout/payment-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { websiteConfig } from '@/config/website';
+import { CreditsProvider } from '@/providers/credits-provider';
 import type { Translations } from 'fumadocs-ui/i18n';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { useTranslations } from 'next-intl';
@@ -25,6 +26,7 @@ interface ProvidersProps {
  * - RootProvider: Provides the root provider for Fumadocs UI.
  * - TooltipProvider: Provides the tooltip to the app.
  * - PaymentProvider: Provides the payment state to the app.
+ * - CreditsProvider: Provides the credits state to the app.
  */
 export function Providers({ children, locale }: ProvidersProps) {
   const theme = useTheme();
@@ -61,8 +63,9 @@ export function Providers({ children, locale }: ProvidersProps) {
       <ActiveThemeProvider>
         <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
           <TooltipProvider>
-            {/* <PaymentProvider>{children}</PaymentProvider> */}
-            {children}
+            <PaymentProvider>
+              <CreditsProvider>{children}</CreditsProvider>
+            </PaymentProvider>
           </TooltipProvider>
         </RootProvider>
       </ActiveThemeProvider>

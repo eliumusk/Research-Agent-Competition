@@ -114,7 +114,7 @@ export function UpdatePasswordCard({ className }: UpdatePasswordCardProps) {
   return (
     <Card
       className={cn(
-        'w-full max-w-lg md:max-w-xl overflow-hidden pt-6 pb-0 flex flex-col',
+        'w-full overflow-hidden pt-6 pb-0 flex flex-col',
         className
       )}
     >

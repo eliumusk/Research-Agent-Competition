@@ -94,7 +94,10 @@ export function NavbarMobile({
           {isPending ? (
             <Skeleton className="size-8 border rounded-full" />
           ) : currentUser ? (
-            <UserButtonMobile user={currentUser} />
+            <>
+              {/* <CreditsBalanceButton /> */}
+              <UserButtonMobile user={currentUser} />
+            </>
           ) : null}
 
           <Button

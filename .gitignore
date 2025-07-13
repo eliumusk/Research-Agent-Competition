@@ -30,11 +30,16 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+certificates
+
 # env files (can opt-in for committing if needed)
 .env*
 
 # vercel
 .vercel
+
+# claude code
+.claude
 
 # typescript
 *.tsbuildinfo

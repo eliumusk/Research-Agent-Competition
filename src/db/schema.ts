@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
@@ -68,4 +68,27 @@ export const payment = pgTable("payment", {
 	trialEnd: timestamp('trial_end'),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export const userCredit = pgTable("user_credit", {
+	id: text("id").primaryKey(),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
+	currentCredits: integer("current_credits").notNull().default(0),
+	lastRefreshAt: timestamp("last_refresh_at"),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const creditTransaction = pgTable("credit_transaction", {
+	id: text("id").primaryKey(),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
+	type: text("type").notNull(),
+	description: text("description"),
+	amount: integer("amount").notNull(),
+	remainingAmount: integer("remaining_amount"),
+	paymentId: text("payment_id"),
+	expirationDate: timestamp("expiration_date"),
+	expirationDateProcessedAt: timestamp("expiration_date_processed_at"),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

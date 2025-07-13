@@ -69,7 +69,7 @@ export function DashboardSidebar({
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarMain items={filteredSidebarLinks} />
+        {!isPending && mounted && <SidebarMain items={filteredSidebarLinks} />}
       </SidebarContent>
 
       <SidebarFooter className="flex flex-col gap-4">

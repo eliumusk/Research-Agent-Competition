@@ -28,7 +28,21 @@
     "saving": "保存中...",
     "loading": "加载中...",
     "cancel": "取消",
-    "logoutFailed": "退出失败"
+    "logoutFailed": "退出失败",
+    "table": {
+      "totalRecords": "总共 {count} 条记录",
+      "noResults": "无结果",
+      "loading": "加载中...",
+      "columns": "列",
+      "rowsPerPage": "每页行数",
+      "page": "页",
+      "firstPage": "第一页",
+      "lastPage": "最后一页",
+      "nextPage": "下一页",
+      "previousPage": "上一页",
+      "ascending": "升序",
+      "descending": "降序"
+    }
   },
   "PricingPage": {
     "title": "价格",
@@ -94,10 +108,27 @@
         "feature-3": "专属支持",
         "feature-4": "企业级安全",
         "feature-5": "高级集成",
-        "feature-6": "自定义域名",
-        "feature-7": "自定义品牌",
-        "feature-8": "终身更新"
+        "feature-6": "自定义品牌",
+        "feature-7": "终身更新"
       }
+    }
+  },
+  "CreditPackages": {
+    "basic": {
+      "name": "基础版",
+      "description": "基础版功能介绍放这里"
+    },
+    "standard": {
+      "name": "标准版",
+      "description": "标准版功能介绍放这里"
+    },
+    "premium": {
+      "name": "高级版",
+      "description": "高级版功能介绍放这里"
+    },
+    "enterprise": {
+      "name": "企业版",
+      "description": "企业版功能介绍放这里"
     }
   },
   "NotFoundPage": {
@@ -203,7 +234,9 @@
       "hidePassword": "隐藏密码",
       "nameRequired": "请输入姓名",
       "emailRequired": "请输入邮箱",
-      "passwordRequired": "请输入密码"
+      "passwordRequired": "请输入密码",
+      "captchaInvalid": "验证码验证失败",
+      "captchaError": "验证码验证出错"
     },
     "forgotPassword": {
       "title": "忘记密码",
@@ -374,13 +407,13 @@
           "comparator": {
             "title": "Comparator 组件"
           },
-          "faqs": {
-            "title": "FAQs 组件"
+          "faq": {
+            "title": "FAQ 组件"
           },
           "login": {
             "title": "Login 组件"
           },
-          "sign-up": {
+          "signup": {
             "title": "Signup 组件"
           },
           "forgot-password": {
@@ -431,6 +464,7 @@
     "avatar": {
       "dashboard": "工作台",
       "billing": "账单",
+      "credits": "积分",
       "settings": "设置"
     }
   },
@@ -456,14 +490,6 @@
           "banReason": "封禁原因",
           "banExpires": "封禁到期时间"
         },
-        "noResults": "没有结果",
-        "firstPage": "第一页",
-        "lastPage": "最后一页",
-        "nextPage": "下一页",
-        "previousPage": "上一页",
-        "rowsPerPage": "每页行数",
-        "page": "页",
-        "loading": "加载中...",
         "admin": "管理员",
         "user": "用户",
         "email": {
@@ -545,6 +571,7 @@
           "createCustomerPortalFailed": "打开Stripe客户界面失败"
         },
         "price": "价格：",
+        "periodStartDate": "周期开始日期：",
         "nextBillingDate": "下次账单日期：",
         "trialEnds": "试用结束日期：",
         "freePlanMessage": "您当前使用的是功能有限的免费方案",
@@ -553,7 +580,75 @@
         "manageBilling": "管理账单",
         "upgradePlan": "升级方案",
         "retry": "重试",
-        "errorMessage": "获取数据失败"
+        "errorMessage": "获取数据失败",
+        "paymentSuccess": "支付成功"
+      },
+      "credits": {
+        "title": "积分",
+        "description": "管理您的积分交易",
+        "balance": {
+          "title": "积分余额",
+          "description": "您的积分余额",
+          "credits": "积分",
+          "creditsDescription": "您有 {credits} 积分",
+          "creditsExpired": "积分已过期",
+          "creditsAdded": "积分已添加到您的账户",
+          "viewTransactions": "查看积分记录",
+          "retry": "重试",
+          "subscriptionCredits": "本月订阅获得 {credits} 积分",
+          "lifetimeCredits": "本月终身会员获得 {credits} 积分",
+          "expiringCredits": "{credits} 积分将在 {date} 过期"
+        },
+        "packages": {
+          "title": "积分套餐",
+          "description": "购买积分以使用我们的更多服务",
+          "purchase": "购买",
+          "processing": "处理中...",
+          "popular": "热门",
+          "completePurchase": "请支付订单",
+          "failedToFetchCredits": "获取积分失败",
+          "failedToCreatePaymentIntent": "创建付款意向失败",
+          "failedToInitiatePayment": "发起付款失败",
+          "cancel": "取消",
+          "purchaseFailed": "购买积分失败",
+          "checkoutFailed": "创建支付会话失败",
+          "loading": "加载中...",
+          "pay": "支付"
+        },
+        "transactions": {
+          "title": "积分记录",
+          "error": "获取积分交易记录失败",
+          "search": "搜索积分交易记录...",
+          "paymentIdCopied": "支付ID已复制到剪贴板",
+          "columns": {
+            "columns": "列",
+            "id": "ID",
+            "type": "类型",
+            "description": "描述",
+            "amount": "金额",
+            "remainingAmount": "剩余金额",
+            "paymentId": "支付编号",
+            "expirationDate": "过期日期",
+            "expirationDateProcessedAt": "过期处理时间",
+            "createdAt": "创建时间",
+            "updatedAt": "更新时间"
+          },
+          "types": {
+            "MONTHLY_REFRESH": "每月赠送",
+            "REGISTER_GIFT": "注册赠送",
+            "PURCHASE": "购买积分",
+            "USAGE": "使用积分",
+            "EXPIRE": "过期积分",
+            "SUBSCRIPTION_RENEWAL": "订阅月度积分",
+            "LIFETIME_MONTHLY": "终身月度积分"
+          },
+          "detailViewer": {
+            "title": "积分交易详情",
+            "close": "关闭"
+          },
+          "expired": "已过期",
+          "never": "永不过期"
+        }
       },
       "notification": {
         "title": "通知",

@@ -4,6 +4,7 @@
     "bradlc.vscode-tailwindcss",
     "Lokalise.i18n-ally",
     "unifiedjs.vscode-mdx",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "editorconfig.editorconfig"
   ]
 }

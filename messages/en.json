@@ -28,7 +28,21 @@
     "save": "Save",
     "loading": "Loading...",
     "cancel": "Cancel",
-    "logoutFailed": "Failed to log out"
+    "logoutFailed": "Failed to log out",
+    "table": {
+      "totalRecords": "Total {count} records",
+      "noResults": "No results",
+      "loading": "Loading...",
+      "columns": "Columns",
+      "rowsPerPage": "Rows per page",
+      "page": "Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "previousPage": "Previous Page",
+      "ascending": "Asc",
+      "descending": "Desc"
+    }
   },
   "PricingPage": {
     "title": "Pricing",
@@ -97,6 +111,24 @@
         "feature-6": "Custom branding",
         "feature-7": "Lifetime updates"
       }
+    }
+  },
+  "CreditPackages": {
+    "basic": {
+      "name": "Basic",
+      "description": "Basic credits package description"
+    },
+    "standard": {
+      "name": "Standard",
+      "description": "Standard credits package description"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Premium credits package description"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "description": "Enterprise credits package description"
     }
   },
   "NotFoundPage": {
@@ -202,7 +234,9 @@
       "hidePassword": "Hide password",
       "nameRequired": "Please enter your name",
       "emailRequired": "Please enter your email",
-      "passwordRequired": "Please enter your password"
+      "passwordRequired": "Please enter your password",
+      "captchaInvalid": "Captcha verification failed",
+      "captchaError": "Captcha verification error"
     },
     "forgotPassword": {
       "title": "Forgot Password",
@@ -430,6 +464,7 @@
     "avatar": {
       "dashboard": "Dashboard",
       "billing": "Billing",
+      "credits": "Credits",
       "settings": "Settings"
     }
   },
@@ -455,14 +490,6 @@
           "banReason": "Ban Reason",
           "banExpires": "Ban Expires"
         },
-        "noResults": "No results",
-        "firstPage": "First Page",
-        "lastPage": "Last Page",
-        "nextPage": "Next Page",
-        "previousPage": "Previous Page",
-        "rowsPerPage": "Rows per page",
-        "page": "Page",
-        "loading": "Loading...",
         "admin": "Admin",
         "user": "User",
         "email": {
@@ -472,8 +499,8 @@
         "emailCopied": "Email copied to clipboard",
         "banned": "Banned",
         "active": "Active",
-        "joined": "Joined",
-        "updated": "Updated",
+        "joined": "Joined at",
+        "updated": "Updated at",
         "ban": {
           "reason": "Ban Reason",
           "reasonPlaceholder": "Enter the reason for banning this user",
@@ -544,6 +571,7 @@
           "createCustomerPortalFailed": "Failed to open Stripe customer portal"
         },
         "price": "Price:",
+        "periodStartDate": "Period start date:",
         "nextBillingDate": "Next billing date:",
         "trialEnds": "Trial ends:",
         "freePlanMessage": "You are currently on the free plan with limited features",
@@ -552,7 +580,75 @@
         "manageBilling": "Manage Billing",
         "upgradePlan": "Upgrade Plan",
         "retry": "Retry",
-        "errorMessage": "Failed to get data"
+        "errorMessage": "Failed to get data",
+        "paymentSuccess": "Payment successful"
+      },
+      "credits": {
+        "title": "Credits",
+        "description": "Manage your credit transactions",
+        "balance": {
+          "title": "Credit Balance",
+          "description": "Your credit balance",
+          "credits": "Credits",
+          "creditsDescription": "You have {credits} credits",
+          "creditsExpired": "Credits expired",
+          "creditsAdded": "Credits have been added to your account",
+          "viewTransactions": "View Credit Transactions",
+          "retry": "Retry",
+          "subscriptionCredits": "{credits} credits from subscription this month",
+          "lifetimeCredits": "{credits} credits from lifetime plan this month",
+          "expiringCredits": "{credits} credits expiring on {date}"
+        },
+        "packages": {
+          "title": "Credit Packages",
+          "description": "Purchase additional credits to use our services",
+          "purchase": "Purchase",
+          "processing": "Processing...",
+          "popular": "Popular",
+          "completePurchase": "Complete Your Purchase",
+          "failedToFetchCredits": "Failed to fetch credits",
+          "failedToCreatePaymentIntent": "Failed to create payment intent",
+          "failedToInitiatePayment": "Failed to initiate payment",
+          "cancel": "Cancel",
+          "purchaseFailed": "Purchase credits failed",
+          "checkoutFailed": "Failed to create checkout session",
+          "loading": "Loading...",
+          "pay": "Pay"
+        },
+        "transactions": {
+          "title": "Credit Transactions",
+          "error": "Failed to get credit transactions",
+          "search": "Search credit transactions...",
+          "paymentIdCopied": "Payment ID copied to clipboard",
+          "columns": {
+            "columns": "Columns",
+            "id": "ID",
+            "type": "Type",
+            "description": "Description",
+            "amount": "Amount",
+            "remainingAmount": "Remaining Amount",
+            "paymentId": "Payment ID",
+            "expirationDate": "Expiration Date",
+            "expirationDateProcessedAt": "Expiration Date Processed At",
+            "createdAt": "Created At",
+            "updatedAt": "Updated At"
+          },
+          "types": {
+            "MONTHLY_REFRESH": "Monthly Refresh",
+            "REGISTER_GIFT": "Register Gift",
+            "PURCHASE": "Purchased Credits",
+            "USAGE": "Consumed Credits",
+            "EXPIRE": "Expired Credits",
+            "SUBSCRIPTION_RENEWAL": "Subscription Renewal",
+            "LIFETIME_MONTHLY": "Lifetime Monthly"
+          },
+          "detailViewer": {
+            "title": "Credit Transaction Detail",
+            "close": "Close"
+          },
+          "expired": "Expired",
+          "never": "Never"
+        }
       },
       "notification": {
         "title": "Notification",

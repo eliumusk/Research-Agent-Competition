@@ -5,6 +5,9 @@ import { getAllPricePlans } from '@/lib/price-plan';
 import type { PricePlan, Subscription } from '@/payment/types';
 import { create } from 'zustand';
 
+// Cache duration: 2 minutes (optimized for better UX)
+const CACHE_DURATION = 2 * 60 * 1000;
+
 /**
  * Payment state interface
  */
@@ -17,9 +20,14 @@ export interface PaymentState {
   isLoading: boolean;
   // Error state
   error: string | null;
+  // Last fetch timestamp to avoid frequent requests
+  lastFetchTime: number | null;
 
   // Actions
-  fetchPayment: (user: Session['user'] | null | undefined) => Promise<void>;
+  fetchPayment: (
+    user: Session['user'] | null | undefined,
+    force?: boolean
+  ) => Promise<void>;
   resetState: () => void;
 }
 
@@ -33,12 +41,13 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
   subscription: null,
   isLoading: false,
   error: null,
+  lastFetchTime: null,
 
   /**
    * Fetch payment and subscription data for the current user
    * @param user Current user from auth session
    */
-  fetchPayment: async (user) => {
+  fetchPayment: async (user, force = false) => {
     // Skip if already loading
     if (get().isLoading) return;
 
@@ -48,8 +57,19 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
         currentPlan: null,
         subscription: null,
         error: null,
+        lastFetchTime: null,
       });
       return;
+    }
+
+    // Check if we have recent data (within cache duration) unless force refresh
+    if (!force) {
+      const { lastFetchTime } = get();
+      const now = Date.now();
+      if (lastFetchTime && now - lastFetchTime < CACHE_DURATION) {
+        console.log('fetchPayment, use cached data');
+        return; // Use cached data
+      }
     }
 
     // Fetch subscription data
@@ -66,30 +86,26 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
       const result = await getLifetimeStatusAction({ userId: user.id });
       if (result?.data?.success) {
         isLifetimeMember = result.data.isLifetimeMember || false;
-        console.log('get lifetime status result', result);
+        console.log('fetchPayment, lifetime status', isLifetimeMember);
       } else {
-        console.warn('get lifetime status failed', result?.data?.error);
-        // set({
-        //   error: result?.data?.error || 'Failed to fetch payment data',
-        //   isLoading: false
-        // });
+        console.warn(
+          'fetchPayment, lifetime status error',
+          result?.data?.error
+        );
       }
     } catch (error) {
-      console.error('get lifetime status error:', error);
-      // set({
-      //   error: 'Failed to fetch payment data',
-      //   isLoading: false
-      // });
+      console.error('fetchPayment, lifetime status error:', error);
     }
 
     // If lifetime member, set the lifetime plan
     if (isLifetimeMember) {
-      console.log('set lifetime plan for user', user.id);
+      console.log('fetchPayment, set lifetime plan');
       set({
         currentPlan: lifetimePlan || null,
         subscription: null,
         isLoading: false,
         error: null,
+        lastFetchTime: Date.now(),
       });
       return;
     }
@@ -108,34 +124,29 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
                 (price) => price.priceId === activeSubscription.priceId
               )
             ) || null;
-          console.log(
-            'subscription found, setting plan for user',
-            user.id,
-            plan?.id
-          );
+          console.log('fetchPayment, subscription found, set pro plan');
           set({
             currentPlan: plan,
             subscription: activeSubscription,
             isLoading: false,
             error: null,
+            lastFetchTime: Date.now(),
           });
         } else {
           // No subscription found - set to free plan
-          console.log(
-            'no subscription found, setting free plan for user',
-            user.id
-          );
+          console.log('fetchPayment, no subscription found, set free plan');
           set({
             currentPlan: freePlan || null,
             subscription: null,
             isLoading: false,
             error: null,
+            lastFetchTime: Date.now(),
           });
         }
       } else {
         // Failed to fetch subscription
         console.error(
-          'fetch subscription for user failed',
+          'fetchPayment, subscription for user failed',
           result?.data?.error
         );
         set({
@@ -144,7 +155,7 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
         });
       }
     } catch (error) {
-      console.error('fetch payment data error:', error);
+      console.error('fetchPayment, error:', error);
       set({
         error: 'Failed to fetch payment data',
         isLoading: false,
@@ -163,6 +174,7 @@ export const usePaymentStore = create<PaymentState>((set, get) => ({
       subscription: null,
       isLoading: false,
       error: null,
+      lastFetchTime: null,
     });
   },
 }));

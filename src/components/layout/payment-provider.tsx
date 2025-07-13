@@ -15,10 +15,10 @@ export function PaymentProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = authClient.useSession();
 
   useEffect(() => {
-    // Initialize payment state
-    const currentUser = session?.user;
-    fetchPayment(currentUser);
-  }, [session, fetchPayment]);
+    if (session?.user) {
+      fetchPayment(session.user);
+    }
+  }, [session?.user, fetchPayment]);
 
   return <>{children}</>;
 }

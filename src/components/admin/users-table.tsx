@@ -6,6 +6,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -27,6 +29,7 @@ import {
 import type { User } from '@/lib/auth-types';
 import { formatDate } from '@/lib/formatter';
 import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
+import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -40,7 +43,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import {
-  ArrowUpDownIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -68,20 +70,47 @@ function DataTableColumnHeader<TData, TValue>({
   title,
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+  const tTable = useTranslations('Common.table');
   if (!column.getCanSort()) {
     return <div className={className}>{title}</div>;
   }
 
+  const isSorted = column.getIsSorted(); // 'asc' | 'desc' | false
+
   return (
     <div className={className}>
-      <Button
-        variant="ghost"
-        className="cursor-pointer flex items-center gap-2"
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {title}
-        <ArrowUpDownIcon className="h-4 w-4" />
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="cursor-pointer flex items-center gap-2 h-8 data-[state=open]:bg-accent"
+          >
+            {title}
+            {isSorted === 'asc' && <IconCaretUpFilled className="h-4 w-4" />}
+            {isSorted === 'desc' && <IconCaretDownFilled className="h-4 w-4" />}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-36">
+          <DropdownMenuRadioGroup
+            value={isSorted === false ? '' : isSorted}
+            onValueChange={(value) => {
+              if (value === 'asc') column.toggleSorting(false);
+              else if (value === 'desc') column.toggleSorting(true);
+            }}
+          >
+            <DropdownMenuRadioItem value="asc">
+              <span className="flex items-center gap-2">
+                {tTable('ascending')}
+              </span>
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="desc">
+              <span className="flex items-center gap-2">
+                {tTable('descending')}
+              </span>
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }
@@ -115,7 +144,10 @@ export function UsersTable({
   onSortingChange,
 }: UsersTableProps) {
   const t = useTranslations('Dashboard.admin.users');
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const tTable = useTranslations('Common.table');
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'createdAt', desc: true },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
@@ -145,6 +177,8 @@ export function UsersTable({
         const user = row.original;
         return <UserDetailViewer user={user} />;
       },
+      minSize: 120,
+      size: 140,
     },
     {
       accessorKey: 'email',
@@ -173,6 +207,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 180,
+      size: 200,
     },
     {
       accessorKey: 'role',
@@ -193,6 +229,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 100,
+      size: 120,
     },
     {
       accessorKey: 'createdAt',
@@ -207,6 +245,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 140,
+      size: 160,
     },
     {
       accessorKey: 'customerId',
@@ -235,6 +275,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 120,
+      size: 140,
     },
     {
       accessorKey: 'banned',
@@ -256,6 +298,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 100,
+      size: 120,
     },
     {
       accessorKey: 'banReason',
@@ -270,6 +314,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 120,
+      size: 140,
     },
     {
       accessorKey: 'banExpires',
@@ -287,6 +333,8 @@ export function UsersTable({
           </div>
         );
       },
+      minSize: 140,
+      size: 160,
     },
   ];
 
@@ -395,16 +443,7 @@ export function UsersTable({
               ))}
             </TableHeader>
             <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    {t('loading')}
-                  </TableCell>
-                </TableRow>
-              ) : table.getRowModel().rows?.length ? (
+              {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
@@ -426,7 +465,7 @@ export function UsersTable({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    {t('noResults')}
+                    {loading ? tTable('loading') : tTable('noResults')}
                   </TableCell>
                 </TableRow>
               )}
@@ -440,7 +479,7 @@ export function UsersTable({
           <div className="flex w-full items-center gap-8 lg:w-fit">
             <div className="hidden items-center gap-2 lg:flex">
               <Label htmlFor="rows-per-page" className="text-sm font-medium">
-                {t('rowsPerPage')}
+                {tTable('rowsPerPage')}
               </Label>
               <Select
                 value={`${pageSize}`}
@@ -466,7 +505,7 @@ export function UsersTable({
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
-              {t('page')} {pageIndex + 1} {' / '}
+              {tTable('page')} {pageIndex + 1} {' / '}
               {Math.max(1, Math.ceil(total / pageSize))}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -476,7 +515,7 @@ export function UsersTable({
                 onClick={() => onPageChange(0)}
                 disabled={pageIndex === 0}
               >
-                <span className="sr-only">{t('firstPage')}</span>
+                <span className="sr-only">{tTable('firstPage')}</span>
                 <ChevronsLeftIcon />
               </Button>
               <Button
@@ -486,7 +525,7 @@ export function UsersTable({
                 onClick={() => onPageChange(pageIndex - 1)}
                 disabled={pageIndex === 0}
               >
-                <span className="sr-only">{t('previousPage')}</span>
+                <span className="sr-only">{tTable('previousPage')}</span>
                 <ChevronLeftIcon />
               </Button>
               <Button
@@ -496,7 +535,7 @@ export function UsersTable({
                 onClick={() => onPageChange(pageIndex + 1)}
                 disabled={pageIndex + 1 >= Math.ceil(total / pageSize)}
               >
-                <span className="sr-only">{t('nextPage')}</span>
+                <span className="sr-only">{tTable('nextPage')}</span>
                 <ChevronRightIcon />
               </Button>
               <Button
@@ -508,7 +547,7 @@ export function UsersTable({
                 }
                 disabled={pageIndex + 1 >= Math.ceil(total / pageSize)}
               >
-                <span className="sr-only">{t('lastPage')}</span>
+                <span className="sr-only">{tTable('lastPage')}</span>
                 <ChevronsRightIcon />
               </Button>
             </div>

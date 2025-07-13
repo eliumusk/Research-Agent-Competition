@@ -1,3 +1,4 @@
+import { ConsumeCreditCard } from '@/ai/text/components/consume-credit-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
@@ -28,7 +29,7 @@ export default async function AITextPage() {
     <div className="max-w-4xl mx-auto space-y-8">
       {/* about section */}
       <div className="relative max-w-(--breakpoint-md) mx-auto mb-24 mt-8 md:mt-16">
-        <div className="mx-auto flex flex-col justify-between">
+        <div className="mx-auto flex flex-col justify-between gap-8">
           <div className="flex flex-row items-center gap-8">
             {/* avatar and name */}
             <div className="flex items-center gap-8">
@@ -48,6 +49,9 @@ export default async function AITextPage() {
               </div>
             </div>
           </div>
+
+          {/* simulate consume credits */}
+          <ConsumeCreditCard />
         </div>
       </div>
     </div>

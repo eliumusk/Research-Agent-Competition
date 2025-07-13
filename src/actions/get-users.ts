@@ -44,8 +44,13 @@ export const getUsersAction = actionClient
     try {
       const { pageIndex, pageSize, search, sorting } = parsedInput;
 
+      // search by name, email, and customerId
       const where = search
-        ? or(ilike(user.name, `%${search}%`), ilike(user.email, `%${search}%`))
+        ? or(
+            ilike(user.name, `%${search}%`),
+            ilike(user.email, `%${search}%`),
+            ilike(user.customerId, `%${search}%`)
+          )
         : undefined;
 
       const offset = pageIndex * pageSize;

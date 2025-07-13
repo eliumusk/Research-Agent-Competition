@@ -3,6 +3,7 @@ import { StripeProvider } from './provider/stripe';
 import type {
   CheckoutResult,
   CreateCheckoutParams,
+  CreateCreditCheckoutParams,
   CreatePortalParams,
   PaymentProvider,
   PortalResult,
@@ -54,6 +55,18 @@ export const createCheckout = async (
 ): Promise<CheckoutResult> => {
   const provider = getPaymentProvider();
   return provider.createCheckout(params);
+};
+
+/**
+ * Create a checkout session for a credit package
+ * @param params Parameters for creating the checkout session
+ * @returns Checkout result
+ */
+export const createCreditCheckout = async (
+  params: CreateCreditCheckoutParams
+): Promise<CheckoutResult> => {
+  const provider = getPaymentProvider();
+  return provider.createCreditCheckout(params);
 };
 
 /**

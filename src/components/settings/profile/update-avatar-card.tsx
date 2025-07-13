@@ -128,7 +128,7 @@ export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
   return (
     <Card
       className={cn(
-        'w-full max-w-lg md:max-w-xl overflow-hidden py-0 pt-6 flex flex-col',
+        'w-full overflow-hidden py-0 pt-6 flex flex-col',
         className
       )}
     >

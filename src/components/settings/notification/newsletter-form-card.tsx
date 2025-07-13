@@ -165,12 +165,7 @@ export function NewsletterFormCard({ className }: NewsletterFormCardProps) {
   };
 
   return (
-    <Card
-      className={cn(
-        'w-full max-w-lg md:max-w-xl overflow-hidden pt-6 pb-0',
-        className
-      )}
-    >
+    <Card className={cn('w-full overflow-hidden pt-6 pb-0', className)}>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">
           {t('newsletter.title')}

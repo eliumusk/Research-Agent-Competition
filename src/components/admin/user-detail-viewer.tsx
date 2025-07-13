@@ -24,6 +24,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { authClient } from '@/lib/auth-client';
 import type { User } from '@/lib/auth-types';
 import { formatDate } from '@/lib/formatter';
+import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
 import { cn } from '@/lib/utils';
 import { useUsersStore } from '@/stores/users-store';
 import {
@@ -149,7 +150,7 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
             />
             <div>
               <DrawerTitle>{user.name}</DrawerTitle>
-              <DrawerDescription>{user.email}</DrawerDescription>
+              {/* <DrawerDescription>{user.email}</DrawerDescription> */}
             </div>
           </div>
         </DrawerHeader>
@@ -188,12 +189,51 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
               </div>
             </div>
 
-            {/* information */}
-            <div className="text-muted-foreground">
-              {t('joined')}: {formatDate(user.createdAt)}
+            {/* email */}
+            {user.email && (
+              <div className="grid gap-3">
+                <span className="text-muted-foreground text-xs">
+                  {t('columns.email')}:
+                </span>
+                <span
+                  className="break-words cursor-pointer hover:bg-accent px-2 py-1 rounded border"
+                  onClick={() => {
+                    navigator.clipboard.writeText(user.email!);
+                    toast.success(t('emailCopied'));
+                  }}
+                >
+                  {user.email}
+                </span>
+              </div>
+            )}
+
+            {/* customerId */}
+            {user.customerId && (
+              <div className="grid gap-3">
+                <span className="text-muted-foreground text-xs">
+                  {t('columns.customerId')}:
+                </span>
+                <a
+                  href={getStripeDashboardCustomerUrl(user.customerId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-sm hover:underline hover:underline-offset-4 rounded break-all"
+                >
+                  {user.customerId}
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Timestamps */}
+          <div className="grid gap-3">
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">{t('joined')}:</span>
+              <span>{formatDate(user.createdAt)}</span>
             </div>
-            <div className="text-muted-foreground">
-              {t('updated')}: {formatDate(user.updatedAt)}
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">{t('updated')}:</span>
+              <span>{formatDate(user.updatedAt)}</span>
             </div>
           </div>
           <Separator />

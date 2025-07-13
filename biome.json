@@ -23,6 +23,7 @@
       "src/components/tailark/*.tsx",
       "src/app/[[]locale]/preview/**",
       "src/payment/types.ts",
+      "src/credits/types.ts",
       "src/types/index.d.ts",
       "public/sw.js"
     ]
@@ -81,6 +82,7 @@
       "src/components/tailark/*.tsx",
       "src/app/[[]locale]/preview/**",
       "src/payment/types.ts",
+      "src/credits/types.ts",
       "src/types/index.d.ts",
       "public/sw.js"
     ]
