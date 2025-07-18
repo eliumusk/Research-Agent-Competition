@@ -11,7 +11,7 @@ export default function HomeDiscordSection() {
         <HeaderSection
           title="Community"
           subtitle="Join the Discord community"
-          description="600+ excellent indie makers are cooking here"
+          description="1500+ excellent indie makers are cooking here"
           className="text-center"
         />
 
@@ -22,7 +22,7 @@ export default function HomeDiscordSection() {
             rel="noreferrer"
           >
             <DiscordIcon className="w-4 h-4" />
-            Join Discord Community
+            Join Discord server for free
           </a>
         </Button>
       </div>
