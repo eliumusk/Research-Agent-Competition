@@ -16,7 +16,7 @@ Dokploy是开源的应用部署解决方案，可以简单将它理解为是一�
 
 Dokploy可以让你实现像Vercel一样简单高效地管理你的应用和数据，并且还可以监控你服务器的状态、备份数据库、管理证书、管理多个服务器等等。
 
-![dokploy website](https://blog.mksaas.me/images/d1faa33175f072995d8d7b9f6bbf57ed.png)
+![dokploy website](https://cdn.mksaas.me/images/d1faa33175f072995d8d7b9f6bbf57ed.png)
 
 ## 2、安装Dokploy
 
@@ -28,7 +28,7 @@ Dokploy可以让你实现像Vercel一样简单高效地管理你的应用和数�
 
 本文以腾讯云轻量云服务器为例，配置是2核+4G内存，服务器位置是在新加坡，这样拉取Docker镜像就不容易出现问题，或者你可以直接选择国外的服务器提供商，例如[Hostinger](https://www.hostinger.com/referral?REFERRALCODE=javayhu&ref=mksaas.me)，费用也很便宜，2核8G服务器1个月7美刀，4核8G服务器1个月10美刀，比腾讯云服务器要便宜很多，有兴趣的朋友可以点击下面链接买台试试。
 
-![Hostinger](https://blog.mksaas.me/images/923a97a1f701219e9547a5420fae82d3.png)
+![Hostinger](https://cdn.mksaas.me/images/923a97a1f701219e9547a5420fae82d3.png)
 
 ### 2.2 安装Dokploy
 
@@ -40,31 +40,31 @@ curl -sSL https://dokploy.com/install.sh | sh
 
 命令执行成功之后，就可以看到访问Dokploy的链接，默认端口是3000
 
-![install dokploy](https://blog.mksaas.me/images/04f7211d232067f85f2f3061952b43e2.png)
+![install dokploy](https://cdn.mksaas.me/images/04f7211d232067f85f2f3061952b43e2.png)
 
 ### 2.3 配置防火墙
 
 在服务器的防火墙配置中新增一条规则，允许3000端口可以被外界访问。
 
-![dokploy setup the server](https://blog.mksaas.me/images/f4cbdf4a1f73bc55ad69ac38f25877c4.png)
+![dokploy setup the server](https://cdn.mksaas.me/images/f4cbdf4a1f73bc55ad69ac38f25877c4.png)
 
 访问 `http://<VPS IP>:3000` ，就可以看到Dokploy的管理员注册界面。
 
-![dokploy setup the server](https://blog.mksaas.me/images/f4cbdf4a1f73bc55ad69ac38f25877c4.png)
+![dokploy setup the server](https://cdn.mksaas.me/images/f4cbdf4a1f73bc55ad69ac38f25877c4.png)
 
 ### 2.4 绑定域名
 
 每次通过http协议＋服务器IP地址访问Dokploy不安全，所以先绑定一个域名。
 
-![dokploy bind domain](https://blog.mksaas.me/images/d41b18392078b646b91b102fc3ac718c.png)
+![dokploy bind domain](https://cdn.mksaas.me/images/d41b18392078b646b91b102fc3ac718c.png)
 
 图片中设置的是个子域名，你也可以设置主域，设置完成后，在域名的DNS解析中添加一条记录，类型是A，将配置的域名指向服务器的IP地址。
 
-![dns record](https://blog.mksaas.me/images/2c24e724e45a7cc6ec4e3eb0ba01f670.png)
+![dns record](https://cdn.mksaas.me/images/2c24e724e45a7cc6ec4e3eb0ba01f670.png)
 
 DNS解析配置后，我们就可以通过https+域名的方式来访问服务器上的Dokploy。
 
-![visit dokploy with https://domain](https://blog.mksaas.me/images/5bc42ba4b73ceb135995fb1034a9a4c7.png)
+![visit dokploy with https://domain](https://cdn.mksaas.me/images/5bc42ba4b73ceb135995fb1034a9a4c7.png)
 
 ## 3、配置Dokploy
 
@@ -74,15 +74,15 @@ DNS解析配置后，我们就可以通过https+域名的方式来访问服务�
 
 点击左侧菜单Git，选择Github，依次操作，完成Github应用的创建和配置，完成之后你可以在 [https://github.com/settings/apps](https://github.com/settings/apps?ref=mksaas.me) 中查看这个Github应用。
 
-![setup github](https://blog.mksaas.me/images/0f2de55c2d81ab8256c91451488753ce.png)
+![setup github](https://cdn.mksaas.me/images/0f2de55c2d81ab8256c91451488753ce.png)
 
-![create github app](https://blog.mksaas.me/images/bc79b2cc5ebf22955d29c272c0edb0d0.png)
+![create github app](https://cdn.mksaas.me/images/bc79b2cc5ebf22955d29c272c0edb0d0.png)
 
 等Github应用创建完成之后，可以点击这个应用，进行Github授权，这样的话Dokploy就可以访问你的Github账号下的代码仓库。
 
-![config git providers](https://blog.mksaas.me/images/73e5ab19befc8793b387357978315f31.png)
+![config git providers](https://cdn.mksaas.me/images/73e5ab19befc8793b387357978315f31.png)
 
-![authorize the Github app](https://blog.mksaas.me/images/74c110cb26cf8b5cc8edf864df5357a0.png)
+![authorize the Github app](https://cdn.mksaas.me/images/74c110cb26cf8b5cc8edf864df5357a0.png)
 
 ### 3.2 部署Nextjs应用
 
@@ -90,31 +90,31 @@ DNS解析配置后，我们就可以通过https+域名的方式来访问服务�
 
 在Dokploy的Projects中，新建Project，再新建Application，配置Provider为Github，选择项目仓库和分支，构建类型选择Dockerfile，并设置Dockerfile文件的路径。配置好之后，点击Deploy触发构建。
 
-![deploy settings for github repository](https://blog.mksaas.me/images/80eef6e611771bef1ad285f3106ac3b1.png)
+![deploy settings for github repository](https://cdn.mksaas.me/images/80eef6e611771bef1ad285f3106ac3b1.png)
 
-![deploy settings for build type](https://blog.mksaas.me/images/537b03c6a8be60614428ff36ffc7a533.png)
+![deploy settings for build type](https://cdn.mksaas.me/images/537b03c6a8be60614428ff36ffc7a533.png)
 
 首次构建失败了，可以查下编译日志，原因是pnpm-lock.yaml文件缺失。
 
-![build fail logs](https://blog.mksaas.me/images/bb4a6aa37c4108dda10d313470deef36.png)
+![build fail logs](https://cdn.mksaas.me/images/bb4a6aa37c4108dda10d313470deef36.png)
 
 新增pnpm-lock.yaml文件([提交记录](https://github.com/javayhu/dokploy-demo/commit/2c66c1f390a9085e191ff9e42da5a40af36b9ad2?ref=mksaas.me))后，Dokploy会触发自动构建，这次构建成功。
 
-![deployments](https://blog.mksaas.me/images/23ecef885028b1ef76c51d9d1efc2b97.png)
+![deployments](https://cdn.mksaas.me/images/23ecef885028b1ef76c51d9d1efc2b97.png)
 
 ### 3.3 绑定域名
 
 构建成功之后，我们就可以绑定域名，然后通过域名访问这个应用。在Application的Domain中，点击Add Domain，如果你有自己的域名，那么输入一个域名，如果没有域名可以点击右侧的骰子，它会自动生成一个`xxx.traefik.me`的域名。
 
-![bind domain](https://blog.mksaas.me/images/751e31c97cdaccfa563349455103e624.png)
+![bind domain](https://cdn.mksaas.me/images/751e31c97cdaccfa563349455103e624.png)
 
 这里我设置的是一个自定义子域名，然后在DNS解析中配置子域名指向服务器IP。
 
-![add dns record](https://blog.mksaas.me/images/64d104e1560b107c25b6fd5822b1ecb1.png)
+![add dns record](https://cdn.mksaas.me/images/64d104e1560b107c25b6fd5822b1ecb1.png)
 
 等待一段时间之后，就可以通过https+域名访问这个Nextjs应用。
 
-![visit nextjs app by https://domain](https://blog.mksaas.me/images/dd6347d0b8cb231b7982ebbe77c0708e.png)
+![visit nextjs app by https://domain](https://cdn.mksaas.me/images/dd6347d0b8cb231b7982ebbe77c0708e.png)
 
 ### 3.4 利用Github Actions构建镜像
 
@@ -124,23 +124,23 @@ DNS解析配置后，我们就可以通过https+域名的方式来访问服务�
 
 首先要创建一个Github Token，这个Token需要有权限拉取你上传到Github镜像注册中心的镜像，你可以在 [这里](https://github.com/settings/tokens/new?ref=mksaas.me) 创建一个Token。
 
-![personal access token](https://blog.mksaas.me/images/e8d267b6ef0bca54c7c200a371c53c99.png)
+![personal access token](https://cdn.mksaas.me/images/e8d267b6ef0bca54c7c200a371c53c99.png)
 
 #### 3.4.2 配置Registry
 
 在Dokploy的Docker Registry配置中，新建一个外部Registry，Username是你的Github账号名，Password是上面创建的Token，URL是 `https://ghcr.io` 。
 
-![add external registry](https://blog.mksaas.me/images/8eedf647c88df1d0ad1102a459211a4e.png)
+![add external registry](https://cdn.mksaas.me/images/8eedf647c88df1d0ad1102a459211a4e.png)
 
 #### 3.4.3 重新配置部署方式
 
 为了演示，这里我新建一个Application，这次我们换成Docker的部署方式。首先在应用的高级设置中，设置Registry是我们刚才创建的Registry。
 
-![cluster settings](https://blog.mksaas.me/images/3c2243ad1f7f574e191352a7504e6036.png)
+![cluster settings](https://cdn.mksaas.me/images/3c2243ad1f7f574e191352a7504e6036.png)
 
 然后，配置部署参数，Docker Image是 `ghcr.io/[Github账号名]/[Repository项目名]:[分支名]` ，然后保存。意思是，部署时，Dokploy去Registry中找到这个Docker镜像，把最新镜像拉取下来并部署上线。
 
-![deploy settings](https://blog.mksaas.me/images/92fc4acc6e00f996cfe482fe4482d2a7.png)
+![deploy settings](https://cdn.mksaas.me/images/92fc4acc6e00f996cfe482fe4482d2a7.png)
 
 #### 3.4.4 配置Github Actions
 
@@ -148,15 +148,15 @@ DNS解析配置后，我们就可以通过https+域名的方式来访问服务�
 
 workflow的代码可以参考 [这个提交记录](https://github.com/javayhu/dokploy-demo/commit/bdc5249e93ac2301e6d25b6808698ea29b7e8509?ref=mksaas.me) ，需要注意的是结尾有个触发Dokploy重新部署的逻辑，这里涉及到Deployment Webhook URL，Dokploy上部署的项目都有一个Deployment Webhook URL，只要访问这个URL就会自动触发重新构建。
 
-![deployment webhook url](https://blog.mksaas.me/images/61f09698b721d2a2217b4fb7c3d239d5.png)
+![deployment webhook url](https://cdn.mksaas.me/images/61f09698b721d2a2217b4fb7c3d239d5.png)
 
 #### 3.4.5 测试访问
 
 待部署成功之后，我们同样可以绑定域名，配置DNS解析，然后就可以通过https+域名进行安全地访问了。
 
-![deployment success](https://blog.mksaas.me/images/2c68da0a3d49d123d129c9b2892fd8fb.png)
+![deployment success](https://cdn.mksaas.me/images/2c68da0a3d49d123d129c9b2892fd8fb.png)
 
-![visit by https://domain](https://blog.mksaas.me/images/0943e7a67b5d533446d3c8e1b9a2a49e.png)
+![visit by https://domain](https://cdn.mksaas.me/images/0943e7a67b5d533446d3c8e1b9a2a49e.png)
 
 ## 4、Dokploy其他功能
 
@@ -166,36 +166,36 @@ Dokploy的功能还有很多，一篇文章很难讲完，下面列举几个我�
 
 如果你长期使用服务器既构建又部署，很容易导致太多没用的Docker容器占用磁盘空间，导致磁盘空间满了而访问不了，可以在Server设置中开启Daily Docker Cleanup，就会每天自动清理不用的Docker容器。
 
-![daily docker cleanup](https://blog.mksaas.me/images/030a042cfd742e20ba455f299697a421.png)
+![daily docker cleanup](https://cdn.mksaas.me/images/030a042cfd742e20ba455f299697a421.png)
 
 ### 4.2 服务器监控
 
 Dokploy还自带了服务器监控的能力，你可以直接查看服务器的CPU利用率、内存利用率、磁盘空间，以及网络IO等。
 
-![dokploy monitoring](https://blog.mksaas.me/images/594c814a751800d88df06423ada4b56f.png)
+![dokploy monitoring](https://cdn.mksaas.me/images/594c814a751800d88df06423ada4b56f.png)
 
 ### 4.3 数据库部署和备份
 
 Dokploy也可以部署数据库，常见的数据库Postgres、MySQL、MongoDB都支持，部署之后，设置了外网访问端口就可以访问了。
 
-![select a database](https://blog.mksaas.me/images/379bf8753d61e90dccffabe019950fdd.png)
+![select a database](https://cdn.mksaas.me/images/379bf8753d61e90dccffabe019950fdd.png)
 
 在External Port中设置一个端口号，然后保存就可以得到一个DB URL，只要防火墙配置中允许访问服务器的这个端口号，那么就可以连接数据库了。
 
-![external host](https://blog.mksaas.me/images/a73e96e35da174a03e06546ec302fa80.png)
+![external host](https://cdn.mksaas.me/images/a73e96e35da174a03e06546ec302fa80.png)
 
 下面用免费的Navicat Premium Lite配置好数据库连接信息测试连接没问题。
 
-![navicat premium lite](https://blog.mksaas.me/images/6835e67c51eb1e34b8f93a08883cdecb.png)
+![navicat premium lite](https://cdn.mksaas.me/images/6835e67c51eb1e34b8f93a08883cdecb.png)
 
 Dokploy还支持备份数据库，可以在S3 Destinations中配置AWS S3或者Cloudflare R2，然后将它作为目标备份点添加到这里，最后在Database的备份配置中选择这个备份点就可以实现数据库备份了。
 
-![s3 destinations](https://blog.mksaas.me/images/aa32c75bacdd76b0658122abbdd2eade.png)
+![s3 destinations](https://cdn.mksaas.me/images/aa32c75bacdd76b0658122abbdd2eade.png)
 
 ### 4.4 模板
 
 我最喜欢的就是模板功能，很多优秀的开源项目都可以一键部署，例如我现在的个人博客Ghost、统计分析工具Plausible都是通过Dokploy一键部署的。你甚至可以一键部署Supabase、Wordpress、Pocketbase等项目，希望将来支持的应用越来越多。
 
-![templates](https://blog.mksaas.me/images/91a02bf3da9711fe58192e5aabb006bd.png)
+![templates](https://cdn.mksaas.me/images/91a02bf3da9711fe58192e5aabb006bd.png)
 
 除此之外，Dokploy还支持管理其他的服务器，支持管理证书等等，有些功能我也还没有用上，等将来用上了再来分享。

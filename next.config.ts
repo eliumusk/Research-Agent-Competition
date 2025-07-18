@@ -26,7 +26,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'blog.mksaas.me',
+        hostname: 'cdn.mksaas.me',
       },
       {
         protocol: 'https',
