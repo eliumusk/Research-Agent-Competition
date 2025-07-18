@@ -9,6 +9,8 @@
     "ignoreUnknown": true,
     "ignore": [
       ".next/**",
+      ".open-next/**",
+      ".wrangler/**",
       ".cursor/**",
       ".vscode/**",
       ".source/**",
@@ -33,7 +35,8 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 80,
-    "formatWithErrors": true
+    "formatWithErrors": true,
+    "useEditorconfig": true
   },
   "organizeImports": {
     "enabled": true
@@ -68,6 +71,8 @@
     },
     "ignore": [
       ".next/**",
+      ".open-next/**",
+      ".wrangler/**",
       ".cursor/**",
       ".vscode/**",
       ".source/**",
