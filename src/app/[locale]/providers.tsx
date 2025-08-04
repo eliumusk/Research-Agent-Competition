@@ -1,10 +1,10 @@
 'use client';
 
 import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
+import { CreditsProvider } from '@/components/layout/credits-provider';
 import { PaymentProvider } from '@/components/layout/payment-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { websiteConfig } from '@/config/website';
-import { CreditsProvider } from '@/providers/credits-provider';
 import type { Translations } from 'fumadocs-ui/i18n';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { useTranslations } from 'next-intl';

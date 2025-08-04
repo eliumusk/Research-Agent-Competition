@@ -23,7 +23,7 @@ import { CreditCheckoutButton } from './credit-checkout-button';
  * @returns Credit packages component
  */
 export function CreditPackages() {
-  // If credits are not enabled, return null
+  // Check if credits are enabled - move this check before any hooks
   if (!websiteConfig.credits.enableCredits) {
     return null;
   }
@@ -34,16 +34,18 @@ export function CreditPackages() {
   const currentUser = useCurrentUser();
   const { currentPlan } = usePayment();
 
-  // Check if user is on free plan and enableForFreePlan is false
-  const isFreePlan = currentPlan?.isFree === true;
-  if (isFreePlan && !websiteConfig.credits.enableForFreePlan) {
-    return null;
-  }
-
-  // show only enabled packages
+  // Get credit packages with translations - must be called here to maintain hook order
   const creditPackages = Object.values(getCreditPackages()).filter(
     (pkg) => !pkg.disabled && pkg.price.priceId
   );
+
+  // Check if user is on free plan and enableForFreePlan is false
+  const isFreePlan = currentPlan?.isFree === true;
+
+  // Check if user is on free plan and enableForFreePlan is false
+  if (isFreePlan && !websiteConfig.credits.enableForFreePlan) {
+    return null;
+  }
 
   return (
     <Card className="w-full">

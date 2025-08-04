@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { useMounted } from '@/hooks/use-mounted';
 import { useLocalePathname } from '@/i18n/navigation';
 import { formatPrice } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
@@ -79,6 +80,7 @@ export function PricingCard({
   const price = getPriceForPlan(plan, interval, paymentType);
   const currentUser = useCurrentUser();
   const currentPath = useLocalePathname();
+  const mounted = useMounted();
   // console.log('pricing card, currentPath', currentPath);
 
   // generate formatted price and price label
@@ -152,7 +154,7 @@ export function PricingCard({
 
         {/* show action buttons based on plans */}
         {plan.isFree ? (
-          currentUser ? (
+          mounted && currentUser ? (
             <Button variant="outline" className="mt-4 w-full disabled">
               {t('getStartedForFree')}
             </Button>
@@ -172,7 +174,7 @@ export function PricingCard({
             {t('yourCurrentPlan')}
           </Button>
         ) : isPaidPlan ? (
-          currentUser ? (
+          mounted && currentUser ? (
             <CheckoutButton
               userId={currentUser.id}
               planId={plan.id}

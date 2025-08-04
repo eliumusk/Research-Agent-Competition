@@ -38,7 +38,7 @@ export function WaitlistFormCard() {
 
   // Create a schema for waitlist form validation
   const formSchema = z.object({
-    email: z.string().email({ message: t('emailValidation') }),
+    email: z.email({ message: t('emailValidation') }),
   });
 
   // Initialize the form

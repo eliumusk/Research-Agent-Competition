@@ -14,7 +14,7 @@ const actionClient = createSafeActionClient();
 
 // Input schema
 const schema = z.object({
-  userId: z.string().min(1, { message: 'User ID is required' }),
+  userId: z.string().min(1, { error: 'User ID is required' }),
 });
 
 /**

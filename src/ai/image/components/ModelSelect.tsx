@@ -15,7 +15,6 @@ import {
   FireworksIcon,
   OpenAIIcon,
   ReplicateIcon,
-  // VertexIcon,
   falAILogo,
 } from '../lib/logos';
 import type { ProviderKey } from '../lib/provider-config';
@@ -40,7 +39,6 @@ interface ModelSelectProps {
 const PROVIDER_ICONS = {
   openai: OpenAIIcon,
   replicate: ReplicateIcon,
-  // vertex: VertexIcon,
   fireworks: FireworksIcon,
   fal: falAILogo,
 } as const;
@@ -48,7 +46,6 @@ const PROVIDER_ICONS = {
 const PROVIDER_LINKS = {
   openai: 'openai',
   replicate: 'replicate',
-  // vertex: 'google-vertex',
   fireworks: 'fireworks',
   fal: 'fal',
 } as const;

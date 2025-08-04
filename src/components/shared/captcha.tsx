@@ -23,15 +23,23 @@ type Props = Omit<ComponentProps<typeof Turnstile>, 'siteKey'> & {
  */
 export const Captcha = ({ validationError, ...props }: Props) => {
   const turnstileEnabled = websiteConfig.features.enableTurnstileCaptcha;
-  if (!turnstileEnabled || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
-    console.error('Captcha, NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set');
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+  // If turnstile is disabled in config, don't render anything
+  if (!turnstileEnabled) {
+    return null;
+  }
+
+  // If turnstile is enabled but site key is missing, show error message
+  if (!siteKey) {
+    console.error('Captcha: NEXT_PUBLIC_TURNSTILE_SITE_KEY is not set');
     return null;
   }
 
   const theme = useTheme();
   const locale = useLocale();
 
-  return turnstileEnabled ? (
+  return (
     <>
       <Turnstile
         options={{
@@ -40,7 +48,7 @@ export const Captcha = ({ validationError, ...props }: Props) => {
           theme: theme.theme === 'dark' ? 'dark' : 'light',
         }}
         {...props}
-        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}
+        siteKey={siteKey}
       />
 
       {validationError && (
@@ -49,5 +57,5 @@ export const Captcha = ({ validationError, ...props }: Props) => {
         </FormMessage>
       )}
     </>
-  ) : null;
+  );
 };

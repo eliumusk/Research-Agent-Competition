@@ -15,6 +15,7 @@ import { useState } from 'react';
 
 interface SocialLoginButtonProps {
   callbackUrl?: string;
+  showDivider?: boolean;
 }
 
 /**
@@ -22,6 +23,7 @@ interface SocialLoginButtonProps {
  */
 export const SocialLoginButton = ({
   callbackUrl: propCallbackUrl,
+  showDivider = true,
 }: SocialLoginButtonProps) => {
   if (
     !websiteConfig.auth.enableGoogleLogin &&
@@ -93,7 +95,7 @@ export const SocialLoginButton = ({
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <DividerWithText text={t('or')} />
+      {showDivider && <DividerWithText text={t('or')} />}
       {websiteConfig.auth.enableGoogleLogin && (
         <Button
           size="lg"

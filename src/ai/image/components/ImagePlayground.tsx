@@ -61,7 +61,6 @@ export function ImagePlayground({
 
   const providerToModel = {
     replicate: selectedModels.replicate,
-    // vertex: selectedModels.vertex,
     openai: selectedModels.openai,
     fireworks: selectedModels.fireworks,
     fal: selectedModels.fal,

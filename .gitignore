@@ -41,6 +41,9 @@ certificates
 # claude code
 .claude
 
+# kiro
+.kiro
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

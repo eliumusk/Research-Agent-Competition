@@ -18,10 +18,10 @@ const actionClient = createSafeActionClient();
 // Checkout schema for validation
 // metadata is optional, and may contain referral information if you need
 const checkoutSchema = z.object({
-  userId: z.string().min(1, { message: 'User ID is required' }),
-  planId: z.string().min(1, { message: 'Plan ID is required' }),
-  priceId: z.string().min(1, { message: 'Price ID is required' }),
-  metadata: z.record(z.string()).optional(),
+  userId: z.string().min(1, { error: 'User ID is required' }),
+  planId: z.string().min(1, { error: 'Plan ID is required' }),
+  priceId: z.string().min(1, { error: 'Price ID is required' }),
+  metadata: z.record(z.string(), z.string()).optional(),
 });
 
 /**

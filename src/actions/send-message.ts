@@ -17,13 +17,13 @@ const actionClient = createSafeActionClient();
 const contactFormSchema = z.object({
   name: z
     .string()
-    .min(3, { message: 'Name must be at least 3 characters' })
-    .max(30, { message: 'Name must not exceed 30 characters' }),
-  email: z.string().email({ message: 'Please enter a valid email address' }),
+    .min(3, { error: 'Name must be at least 3 characters' })
+    .max(30, { error: 'Name must not exceed 30 characters' }),
+  email: z.email({ error: 'Please enter a valid email address' }),
   message: z
     .string()
-    .min(10, { message: 'Message must be at least 10 characters' })
-    .max(500, { message: 'Message must not exceed 500 characters' }),
+    .min(10, { error: 'Message must be at least 10 characters' })
+    .max(500, { error: 'Message must not exceed 500 characters' }),
 });
 
 // Create a safe action for contact form submission

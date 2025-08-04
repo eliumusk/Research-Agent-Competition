@@ -40,7 +40,7 @@ export function ContactFormCard() {
   // Create a schema for contact form validation
   const formSchema = z.object({
     name: z.string().min(3, t('nameMinLength')).max(30, t('nameMaxLength')),
-    email: z.string().email(t('emailValidation')),
+    email: z.email(t('emailValidation')),
     message: z
       .string()
       .min(10, t('messageMinLength'))

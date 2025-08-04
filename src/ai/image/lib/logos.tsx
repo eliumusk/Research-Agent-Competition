@@ -62,55 +62,6 @@ export const ReplicateIcon = ({ size = 16 }) => {
   );
 };
 
-export const VertexIcon = ({ size = 16 }) => {
-  return (
-    <svg
-      height={size}
-      width={size}
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ color: 'currentcolor' }}
-    >
-      <g transform="scale(0.8) translate(65,65)">
-        <path
-          d="M128,249c-8.8,0-16-7.2-16-16v-105c0-8.8,7.2-16,16-16s16,7.2,16,16v105c0,8.8-7.2,16-16,16Z"
-          fill="white"
-        />
-        <path
-          d="M256,464c-3,0-6-.8-8.6-2.5l-176-112c-7.5-4.7-9.7-14.6-4.9-22.1,4.8-7.5,14.6-9.6,22.1-4.9l167.4,106.5,167.4-106.5c7.5-4.7,17.3-2.5,22.1,4.9,4.7,7.5,2.5,17.3-4.9,22.1l-176,112c-2.6,1.7-5.6,2.5-8.6,2.5h0Z"
-          fill="white"
-        />
-        <path
-          d="M256,394c-8.8,0-16-7.2-16-16v-73.1c0-8.8,7.2-16,16-16s16,7.2,16,16v73.1c0,8.8-7.2,16-16,16Z"
-          fill="white"
-        />
-        <circle cx="128" cy="64" r="16" fill="white" />
-        <circle cx="128" cy="297" r="16" fill="white" />
-        <path
-          d="M384.2,314c-8.8,0-16-7.1-16-16l-.2-106c0-8.8,7.1-16,16-16h0c8.8,0,16,7.1,16,16l.2,106c0,8.8-7.1,16-16,16h0Z"
-          fill="white"
-        />
-        <circle cx="384" cy="64" r="16" fill="white" />
-        <circle cx="384" cy="128" r="16" fill="white" />
-        <path
-          d="M320,225c-8.8,0-16-7.2-16-16v-103c0-8.8,7.2-16,16-16s16,7.2,16,16v103c0,8.8-7.2,16-16,16Z"
-          fill="white"
-        />
-        <circle cx="256" cy="177" r="16" fill="white" />
-        <circle cx="256" cy="241" r="16" fill="white" />
-        <circle cx="320" cy="273" r="16" fill="white" />
-        <circle cx="320" cy="337" r="16" fill="white" />
-        <path
-          d="M192,225c-8.8,0-16-7.2-16-16v-103c0-8.8,7.2-16,16-16s16,7.2,16,16v103c0,8.8-7.2,16-16,16Z"
-          fill="white"
-        />
-        <circle cx="192" cy="273" r="16" fill="white" />
-        <circle cx="192" cy="337" r="16" fill="white" />
-      </g>
-    </svg>
-  );
-};
-
 export const falAILogo = ({ size = 16 }: { size: number }) => {
   return (
     <svg

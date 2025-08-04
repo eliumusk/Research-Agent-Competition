@@ -33,11 +33,13 @@ export const websiteConfig: WebsiteConfig = {
   },
   features: {
     enableDiscordWidget: false,
+    enableCrispChat: false,
     enableUpgradeCard: false,
+    enableUpdateAvatar: true,
     enableAffonsoAffiliate: false,
     enablePromotekitAffiliate: false,
     enableDatafastRevenueTrack: false,
-    enableTurnstileCaptcha: true,
+    enableTurnstileCaptcha: false,
   },
   routes: {
     defaultLoginRedirect: '/settings/profile',
@@ -49,6 +51,7 @@ export const websiteConfig: WebsiteConfig = {
   auth: {
     enableGoogleLogin: true,
     enableGithubLogin: true,
+    enableCredentialLogin: true,
   },
   i18n: {
     defaultLocale: 'en',

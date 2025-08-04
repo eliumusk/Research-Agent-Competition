@@ -16,10 +16,10 @@ const actionClient = createSafeActionClient();
 
 // Portal schema for validation
 const portalSchema = z.object({
-  userId: z.string().min(1, { message: 'User ID is required' }),
+  userId: z.string().min(1, { error: 'User ID is required' }),
   returnUrl: z
     .string()
-    .url({ message: 'Return URL must be a valid URL' })
+    .url({ error: 'Return URL must be a valid URL' })
     .optional(),
 });
 

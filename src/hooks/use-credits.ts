@@ -1,3 +1,4 @@
+import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
 import { useCreditsStore } from '@/stores/credits-store';
 import { useCallback, useEffect } from 'react';
@@ -7,8 +8,21 @@ import { useCallback, useEffect } from 'react';
  *
  * This hook provides access to the credits state and methods to manage it.
  * It also automatically fetches credits information when the user changes.
+ * Only works when credits are enabled in the website configuration.
  */
 export function useCredits() {
+  // Return default values if credits are disabled
+  if (!websiteConfig.credits.enableCredits) {
+    return {
+      balance: 0,
+      isLoading: false,
+      error: null,
+      fetchCredits: () => Promise.resolve(),
+      consumeCredits: () => Promise.resolve(false),
+      hasEnoughCredits: () => false,
+    };
+  }
+
   const {
     balance,
     isLoading,

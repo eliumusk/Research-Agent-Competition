@@ -32,7 +32,7 @@ export const ForgotPasswordForm = ({ className }: { className?: string }) => {
   const searchParams = useSearchParams();
 
   const ForgotPasswordSchema = z.object({
-    email: z.string().email({
+    email: z.email({
       message: t('emailRequired'),
     }),
   });

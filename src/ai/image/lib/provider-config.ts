@@ -1,9 +1,4 @@
-export type ProviderKey =
-  | 'replicate'
-  // | 'vertex'
-  | 'openai'
-  | 'fireworks'
-  | 'fal';
+export type ProviderKey = 'replicate' | 'openai' | 'fireworks' | 'fal';
 export type ModelMode = 'performance' | 'quality';
 
 export const PROVIDERS: Record<
@@ -37,12 +32,6 @@ export const PROVIDERS: Record<
       'stability-ai/stable-diffusion-3.5-large-turbo',
     ],
   },
-  // vertex: {
-  //   displayName: 'Vertex AI',
-  //   iconPath: '/provider-icons/vertex.svg',
-  //   color: 'from-green-500 to-emerald-500',
-  //   models: ['imagen-3.0-generate-001', 'imagen-3.0-fast-generate-001'],
-  // },
   // https://ai-sdk.dev/providers/ai-sdk-providers/openai#image-models
   openai: {
     displayName: 'OpenAI',
@@ -92,14 +81,12 @@ export const PROVIDERS: Record<
 export const MODEL_CONFIGS: Record<ModelMode, Record<ProviderKey, string>> = {
   performance: {
     replicate: 'black-forest-labs/flux-1.1-pro',
-    // vertex: 'imagen-3.0-fast-generate-001',
     openai: 'dall-e-3',
     fireworks: 'accounts/fireworks/models/flux-1-schnell-fp8',
     fal: 'fal-ai/flux/dev',
   },
   quality: {
     replicate: 'stability-ai/stable-diffusion-3.5-large',
-    // vertex: 'imagen-3.0-generate-001',
     openai: 'dall-e-3',
     fireworks: 'accounts/fireworks/models/flux-1-dev-fp8',
     fal: 'fal-ai/flux-pro/v1.1-ultra',
@@ -108,7 +95,6 @@ export const MODEL_CONFIGS: Record<ModelMode, Record<ProviderKey, string>> = {
 
 export const PROVIDER_ORDER: ProviderKey[] = [
   'replicate',
-  // 'vertex',
   'openai',
   'fireworks',
   'fal',

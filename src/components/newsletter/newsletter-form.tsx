@@ -29,7 +29,7 @@ export function NewsletterForm() {
 
   // newsletter schema
   const NewsletterFormSchema = z.object({
-    email: z.string().email({
+    email: z.email({
       message: t('emailValidation'),
     }),
   });

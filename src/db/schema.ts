@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, timestamp, index } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
@@ -13,7 +13,11 @@ export const user = pgTable("user", {
 	banReason: text('ban_reason'),
 	banExpires: timestamp('ban_expires'),
 	customerId: text('customer_id'),
-});
+}, (table) => ({
+	userIdIdx: index("user_id_idx").on(table.id),
+	userCustomerIdIdx: index("user_customer_id_idx").on(table.customerId),
+	userRoleIdx: index("user_role_idx").on(table.role),
+}));
 
 export const session = pgTable("session", {
 	id: text("id").primaryKey(),
@@ -25,7 +29,10 @@ export const session = pgTable("session", {
 	userAgent: text('user_agent'),
 	userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
 	impersonatedBy: text('impersonated_by')
-});
+}, (table) => ({
+	sessionTokenIdx: index("session_token_idx").on(table.token),
+	sessionUserIdIdx: index("session_user_id_idx").on(table.userId),
+}));
 
 export const account = pgTable("account", {
 	id: text("id").primaryKey(),
@@ -41,7 +48,11 @@ export const account = pgTable("account", {
 	password: text('password'),
 	createdAt: timestamp('created_at').notNull(),
 	updatedAt: timestamp('updated_at').notNull()
-});
+}, (table) => ({
+	accountUserIdIdx: index("account_user_id_idx").on(table.userId),
+	accountAccountIdIdx: index("account_account_id_idx").on(table.accountId),
+	accountProviderIdIdx: index("account_provider_id_idx").on(table.providerId),
+}));
 
 export const verification = pgTable("verification", {
 	id: text("id").primaryKey(),
@@ -60,6 +71,7 @@ export const payment = pgTable("payment", {
 	userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
 	customerId: text('customer_id').notNull(),
 	subscriptionId: text('subscription_id'),
+	sessionId: text('session_id'),
 	status: text('status').notNull(),
 	periodStart: timestamp('period_start'),
 	periodEnd: timestamp('period_end'),
@@ -68,7 +80,15 @@ export const payment = pgTable("payment", {
 	trialEnd: timestamp('trial_end'),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
+}, (table) => ({
+	paymentTypeIdx: index("payment_type_idx").on(table.type),
+	paymentPriceIdIdx: index("payment_price_id_idx").on(table.priceId),
+	paymentUserIdIdx: index("payment_user_id_idx").on(table.userId),
+	paymentCustomerIdIdx: index("payment_customer_id_idx").on(table.customerId),
+	paymentStatusIdx: index("payment_status_idx").on(table.status),
+	paymentSubscriptionIdIdx: index("payment_subscription_id_idx").on(table.subscriptionId),
+	paymentSessionIdIdx: index("payment_session_id_idx").on(table.sessionId),
+}));
 
 export const userCredit = pgTable("user_credit", {
 	id: text("id").primaryKey(),
@@ -77,7 +97,9 @@ export const userCredit = pgTable("user_credit", {
 	lastRefreshAt: timestamp("last_refresh_at"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}, (table) => ({
+	userCreditUserIdIdx: index("user_credit_user_id_idx").on(table.userId),
+}));
 
 export const creditTransaction = pgTable("credit_transaction", {
 	id: text("id").primaryKey(),
@@ -91,4 +113,7 @@ export const creditTransaction = pgTable("credit_transaction", {
 	expirationDateProcessedAt: timestamp("expiration_date_processed_at"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}, (table) => ({
+	creditTransactionUserIdIdx: index("credit_transaction_user_id_idx").on(table.userId),
+	creditTransactionTypeIdx: index("credit_transaction_type_idx").on(table.type),
+}));

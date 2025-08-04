@@ -742,9 +742,24 @@ export class StripeProvider implements PaymentProvider {
     }
 
     try {
+      const db = await getDb();
+
+      // Check if this session has already been processed to prevent duplicate processing
+      const existingPayment = await db
+        .select({ id: payment.id })
+        .from(payment)
+        .where(eq(payment.sessionId, session.id))
+        .limit(1);
+
+      if (existingPayment.length > 0) {
+        console.log(
+          'One-time payment session already processed: ' + session.id
+        );
+        return;
+      }
+
       // Create a one-time payment record
       const now = new Date();
-      const db = await getDb();
       const result = await db
         .insert(payment)
         .values({
@@ -753,6 +768,7 @@ export class StripeProvider implements PaymentProvider {
           type: PaymentTypes.ONE_TIME,
           userId: userId,
           customerId: customerId,
+          sessionId: session.id, // Track the session ID
           status: 'completed', // One-time payments are always completed
           periodStart: now,
           createdAt: now,
@@ -827,6 +843,34 @@ export class StripeProvider implements PaymentProvider {
     }
 
     try {
+      // Check if this session has already been processed to prevent duplicate credit additions
+      const db = await getDb();
+      const existingPayment = await db
+        .select({ id: payment.id })
+        .from(payment)
+        .where(eq(payment.sessionId, session.id))
+        .limit(1);
+
+      if (existingPayment.length > 0) {
+        console.log('Credit purchase session already processed: ' + session.id);
+        return;
+      }
+
+      // Create payment record first to mark this session as processed
+      const now = new Date();
+      await db.insert(payment).values({
+        id: randomUUID(),
+        priceId: session.metadata?.priceId || '',
+        type: PaymentTypes.ONE_TIME,
+        userId: userId,
+        customerId: customerId,
+        sessionId: session.id, // Use sessionId to track processed sessions
+        status: 'completed',
+        periodStart: now,
+        createdAt: now,
+        updatedAt: now,
+      });
+
       // add credits to user account
       const amount = session.amount_total ? session.amount_total / 100 : 0;
       await addCredits({

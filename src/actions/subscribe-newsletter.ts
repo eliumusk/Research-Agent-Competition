@@ -11,7 +11,7 @@ const actionClient = createSafeActionClient();
 
 // Newsletter schema for validation
 const newsletterSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email address' }),
+  email: z.email({ error: 'Please enter a valid email address' }),
 });
 
 // Create a safe action for newsletter subscription

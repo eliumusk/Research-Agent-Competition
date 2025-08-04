@@ -10,7 +10,7 @@ const actionClient = createSafeActionClient();
 
 // Input schema
 const schema = z.object({
-  userId: z.string().min(1, { message: 'User ID is required' }),
+  userId: z.string().min(1, { error: 'User ID is required' }),
 });
 
 /**
@@ -44,6 +44,18 @@ export const getActiveSubscriptionAction = actionClient
       return {
         success: false,
         error: 'Not authorized to do this action',
+      };
+    }
+
+    // Check if Stripe environment variables are configured
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!stripeSecretKey || !stripeWebhookSecret) {
+      console.log('Stripe environment variables not configured, return');
+      return {
+        success: true,
+        data: null, // No subscription = free plan
       };
     }
 
