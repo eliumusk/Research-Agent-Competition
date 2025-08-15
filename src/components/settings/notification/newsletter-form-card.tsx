@@ -49,7 +49,7 @@ export function NewsletterFormCard({ className }: NewsletterFormCardProps) {
 
   // Create a schema for newsletter subscription
   const formSchema = z.object({
-    subscribed: z.boolean().default(false),
+    subscribed: z.boolean(),
   });
 
   // Initialize the form
