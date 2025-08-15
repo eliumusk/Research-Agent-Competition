@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { isDemoWebsite } from '@/lib/demo';
 import React, { type ReactNode } from 'react';
 import { CreditsBalanceButton } from '../layout/credits-balance-button';
 import LocaleSwitcher from '../layout/locale-switcher';
@@ -30,8 +31,7 @@ export function DashboardHeader({
   breadcrumbs,
   actions,
 }: DashboardHeaderProps) {
-  // if is demo website, allow user to access admin and user pages, but data is fake
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true';
+  const isDemo = isDemoWebsite();
 
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">

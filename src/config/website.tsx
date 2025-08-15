@@ -33,12 +33,12 @@ export const websiteConfig: WebsiteConfig = {
   },
   features: {
     enableDiscordWidget: false,
-    enableCrispChat: false,
     enableUpgradeCard: false,
     enableUpdateAvatar: true,
     enableAffonsoAffiliate: false,
     enablePromotekitAffiliate: false,
     enableDatafastRevenueTrack: false,
+    enableCrispChat: false,
     enableTurnstileCaptcha: false,
   },
   routes: {
@@ -67,8 +67,12 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   blog: {
+    enable: true,
     paginationSize: 12,
     relatedPostsSize: 4,
+  },
+  docs: {
+    enable: false,
   },
   mail: {
     provider: 'resend',
@@ -76,10 +80,12 @@ export const websiteConfig: WebsiteConfig = {
     supportEmail: 'Indie Maker Fox <blog@mksaas.me>',
   },
   newsletter: {
+    enable: true,
     provider: 'resend',
     autoSubscribeAfterSignUp: true,
   },
   storage: {
+    enable: true,
     provider: 's3',
   },
   payment: {

@@ -34,6 +34,7 @@ import {
   WandSparklesIcon,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { websiteConfig } from './website';
 
 /**
  * Get navbar config with translations

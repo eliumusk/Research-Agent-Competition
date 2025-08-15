@@ -1,10 +1,16 @@
 'use client';
 
 import { NewsletterForm } from '@/components/newsletter/newsletter-form';
+import { websiteConfig } from '@/config/website';
 import { useTranslations } from 'next-intl';
 import { HeaderSection } from '../layout/header-section';
 
 export function NewsletterCard() {
+  // show nothing if newsletter is disabled
+  if (!websiteConfig.newsletter.enable) {
+    return null;
+  }
+
   const t = useTranslations('Newsletter');
 
   return (

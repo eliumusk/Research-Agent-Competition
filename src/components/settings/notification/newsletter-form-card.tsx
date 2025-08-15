@@ -20,6 +20,7 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { Switch } from '@/components/ui/switch';
+import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,6 +41,11 @@ interface NewsletterFormCardProps {
  * Allows users to toggle their newsletter subscription status
  */
 export function NewsletterFormCard({ className }: NewsletterFormCardProps) {
+  // show nothing if newsletter is disabled
+  if (!websiteConfig.newsletter.enable) {
+    return null;
+  }
+
   const t = useTranslations('Dashboard.settings.notification');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>('');

@@ -27,6 +27,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { User } from '@/lib/auth-types';
+import { isDemoWebsite } from '@/lib/demo';
 import { formatDate } from '@/lib/formatter';
 import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
 import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
@@ -152,7 +153,7 @@ export function UsersTable({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   // show fake data in demo website
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true';
+  const isDemo = isDemoWebsite();
 
   // Map column IDs to translation keys
   const columnIdToTranslationKey = {

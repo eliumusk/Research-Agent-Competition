@@ -2,6 +2,7 @@
 
 import { getDb } from '@/db';
 import { user } from '@/db/schema';
+import { isDemoWebsite } from '@/lib/demo';
 import { asc, desc, ilike, or, sql } from 'drizzle-orm';
 import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
@@ -75,7 +76,8 @@ export const getUsersAction = actionClient
       ]);
 
       // hide user data in demo website
-      if (process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true') {
+      const isDemo = isDemoWebsite();
+      if (isDemo) {
         items = items.map((item) => ({
           ...item,
           name: 'Demo User',

@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { authClient } from '@/lib/auth-client';
 import type { User } from '@/lib/auth-types';
+import { isDemoWebsite } from '@/lib/demo';
 import { formatDate } from '@/lib/formatter';
 import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
 import { cn } from '@/lib/utils';
@@ -53,7 +54,7 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
   const triggerRefresh = useUsersStore((state) => state.triggerRefresh);
 
   // show fake data in demo website
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true';
+  const isDemo = isDemoWebsite();
 
   const handleBan = async () => {
     if (!banReason) {

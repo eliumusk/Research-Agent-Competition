@@ -13,6 +13,7 @@ export type WebsiteConfig = {
   auth: AuthConfig;
   i18n: I18nConfig;
   blog: BlogConfig;
+  docs: DocsConfig;
   mail: MailConfig;
   newsletter: NewsletterConfig;
   storage: StorageConfig;
@@ -111,8 +112,16 @@ export interface I18nConfig {
  * Blog configuration
  */
 export interface BlogConfig {
+  enable: boolean;                   // Whether to enable the blog
   paginationSize: number;            // Number of posts per page
   relatedPostsSize: number;          // Number of related posts to show
+}
+
+/**
+ * Docs configuration
+ */
+export interface DocsConfig {
+  enable: boolean;                   // Whether to enable the docs
 }
 
 /**
@@ -128,6 +137,7 @@ export interface MailConfig {
  * Newsletter configuration
  */
 export interface NewsletterConfig {
+  enable: boolean;                   // Whether to enable the newsletter
   provider: 'resend';                 // The newsletter provider, only resend is supported for now
   autoSubscribeAfterSignUp?: boolean; // Whether to automatically subscribe users to the newsletter after sign up
 }
@@ -136,6 +146,7 @@ export interface NewsletterConfig {
  * Storage configuration
  */
 export interface StorageConfig {
+  enable: boolean;                   // Whether to enable the storage
   provider: 's3';                    // The storage provider, only s3 is supported for now
 }
 

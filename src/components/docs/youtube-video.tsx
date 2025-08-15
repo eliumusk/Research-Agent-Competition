@@ -19,7 +19,7 @@ interface YoutubeVideoProps {
 export const YoutubeVideo = ({
   url,
   width = 560,
-  height = 315,
+  height = 460,
 }: YoutubeVideoProps) => {
   return (
     <div className="my-4">

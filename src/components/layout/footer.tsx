@@ -11,7 +11,6 @@ import { LocaleLink } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import type React from 'react';
-import { ThemeSelector } from './theme-selector';
 
 export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
@@ -47,7 +46,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={link.title}
-                      className="border border-border inline-flex h-8 w-8 items-center 
+                      className="border border-border inline-flex h-8 w-8 items-center
                           justify-center rounded-full hover:bg-accent hover:text-accent-foreground"
                     >
                       <span className="sr-only">{link.title}</span>
@@ -137,7 +136,6 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
           </span>
 
           <div className="flex items-center gap-x-4">
-            <ThemeSelector />
             <ModeSwitcherHorizontal />
           </div>
         </Container>

@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { uploadFileFromBrowser } from '@/storage/client';
@@ -27,6 +28,14 @@ interface UpdateAvatarCardProps {
  * Update the user's avatar
  */
 export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
+  // show nothing if storage is disabled or update avatar is disabled
+  if (
+    !websiteConfig.storage.enable ||
+    !websiteConfig.features.enableUpdateAvatar
+  ) {
+    return null;
+  }
+
   const t = useTranslations('Dashboard.settings.profile');
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | undefined>('');
