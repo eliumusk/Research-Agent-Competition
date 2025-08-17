@@ -1,4 +1,4 @@
-import { distributeCreditsToAllUsers } from '@/credits/credits';
+import { distributeCreditsToAllUsers } from '@/credits/distribute';
 import { NextResponse } from 'next/server';
 
 // Basic authentication middleware
@@ -45,13 +45,15 @@ export async function GET(request: Request) {
     });
   }
 
-  console.log('distribute credits start');
-  const { processedCount, errorCount } = await distributeCreditsToAllUsers();
+  console.log('route: distribute credits start');
+  const { usersCount, processedCount, errorCount } =
+    await distributeCreditsToAllUsers();
   console.log(
-    `distribute credits end, processed: ${processedCount}, errors: ${errorCount}`
+    `route: distribute credits end, users: ${usersCount}, processed: ${processedCount}, errors: ${errorCount}`
   );
   return NextResponse.json({
-    message: `distribute credits success, processed: ${processedCount}, errors: ${errorCount}`,
+    message: `distribute credits success, users: ${usersCount}, processed: ${processedCount}, errors: ${errorCount}`,
+    usersCount,
     processedCount,
     errorCount,
   });

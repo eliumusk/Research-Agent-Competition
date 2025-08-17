@@ -20,7 +20,6 @@ import { CreditCheckoutButton } from './credit-checkout-button';
 
 /**
  * Credit packages component
- * @returns Credit packages component
  */
 export function CreditPackages() {
   // Check if credits are enabled - move this check before any hooks

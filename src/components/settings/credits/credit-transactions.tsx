@@ -8,7 +8,10 @@ import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export function CreditTransactionsPageClient() {
+/**
+ * Credit transactions component
+ */
+export function CreditTransactions() {
   const t = useTranslations('Dashboard.settings.credits.transactions');
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);

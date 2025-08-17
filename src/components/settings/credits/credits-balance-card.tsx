@@ -15,7 +15,7 @@ import { websiteConfig } from '@/config/website';
 import { useCredits } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
 import { usePayment } from '@/hooks/use-payment';
-import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
+import { useLocaleRouter } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
@@ -25,6 +25,9 @@ import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+/**
+ * Credits balance card, show credit balance
+ */
 export default function CreditsBalanceCard() {
   // Don't render if credits are disabled - move this check before any hooks
   if (!websiteConfig.credits.enableCredits) {
@@ -101,7 +104,7 @@ export default function CreditsBalanceCard() {
       // Clean up URL parameters
       const url = new URL(window.location.href);
       url.searchParams.delete('credits_session_id');
-      localeRouter.replace(Routes.SettingsBilling + url.search);
+      localeRouter.replace(Routes.SettingsCredits + url.search);
     }
   }, [searchParams, localeRouter, fetchCredits, fetchCreditStats, t]);
 
@@ -132,9 +135,7 @@ export default function CreditsBalanceCard() {
             <Skeleton className="h-6 w-3/5" />
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
-          <Skeleton className="h-10 w-1/2" />
-        </CardFooter>
+        <CardFooter className="">{/* show nothing */}</CardFooter>
       </Card>
     );
   }
@@ -224,12 +225,12 @@ export default function CreditsBalanceCard() {
           )}
         </div>
       </CardContent>
-      <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
-        <Button variant="default" className="cursor-pointer" asChild>
+      <CardFooter className="">
+        {/* <Button variant="default" className="cursor-pointer" asChild>
           <LocaleLink href={Routes.SettingsCredits}>
             {t('viewTransactions')}
           </LocaleLink>
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );

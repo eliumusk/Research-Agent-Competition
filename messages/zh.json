@@ -588,6 +588,10 @@
       "credits": {
         "title": "积分",
         "description": "管理您的积分交易",
+        "tabs": {
+          "balance": "积分余额",
+          "transactions": "交易记录"
+        },
         "balance": {
           "title": "积分余额",
           "description": "您的积分余额",

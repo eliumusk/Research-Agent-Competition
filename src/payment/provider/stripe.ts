@@ -578,13 +578,10 @@ export class StripeProvider implements PaymentProvider {
       console.warn('<< No payment record created for Stripe subscription');
     }
 
-    // Conditionally handle credits after subscription creation
+    // Conditionally handle credits after subscription creation if enables credits
     if (websiteConfig.credits?.enableCredits) {
-      // Add subscription renewal credits if plan config enables credits
-      const pricePlan = findPlanByPriceId(priceId);
-      if (pricePlan?.credits?.enable) {
-        await addSubscriptionCredits(userId, priceId);
-      }
+      await addSubscriptionCredits(userId, priceId);
+      console.log('<< Added subscription monthly credits for user');
     }
   }
 
@@ -662,21 +659,13 @@ export class StripeProvider implements PaymentProvider {
 
       // Add credits for subscription renewal
       const currentPayment = payments[0];
-      if (
-        isRenewal &&
-        currentPayment.userId &&
-        websiteConfig.credits?.enableCredits
-      ) {
-        // Add subscription renewal credits if plan config enables credits
-        const pricePlan = findPlanByPriceId(priceId);
-        if (pricePlan?.credits?.enable) {
-          try {
-            await addSubscriptionCredits(currentPayment.userId, priceId);
-            console.log('<< Added renewal credits for user');
-          } catch (error) {
-            console.error('<< Failed to add renewal credits for user:', error);
-          }
-        }
+      const userId = currentPayment.userId;
+      // Add subscription renewal credits if plan config enables credits
+      if (isRenewal && userId && websiteConfig.credits?.enableCredits) {
+        // Note: For yearly subscriptions, this webhook only triggers once per year
+        // Monthly credits for yearly subscribers are handled by the distributeCreditsToAllUsers cron job
+        await addSubscriptionCredits(userId, priceId);
+        console.log('<< Added subscription renewal credits for user');
       } else {
         console.log(
           '<< No renewal credits added for user, isRenewal: ' + isRenewal
@@ -784,15 +773,9 @@ export class StripeProvider implements PaymentProvider {
 
       // Conditionally handle credits after one-time payment
       if (websiteConfig.credits?.enableCredits) {
-        // If the plan is lifetime and credits are enabled, add lifetime monthly credits if needed
-        const lifetimePlan = Object.values(
-          websiteConfig.price?.plans || {}
-        ).find(
-          (plan) => plan.isLifetime && !plan.disabled && plan.credits?.enable
-        );
-        if (lifetimePlan?.prices?.some((p) => p.priceId === priceId)) {
-          await addLifetimeMonthlyCredits(userId);
-        }
+        // For now, one time payment is only for lifetime plan
+        await addLifetimeMonthlyCredits(userId, priceId);
+        console.log('<< Added lifetime monthly credits for user');
       }
 
       // Send notification

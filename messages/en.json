@@ -588,6 +588,10 @@
       "credits": {
         "title": "Credits",
         "description": "Manage your credit transactions",
+        "tabs": {
+          "balance": "Balance",
+          "transactions": "Transactions"
+        },
         "balance": {
           "title": "Credit Balance",
           "description": "Your credit balance",
