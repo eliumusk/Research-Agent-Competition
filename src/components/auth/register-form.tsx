@@ -94,6 +94,10 @@ export const RegisterForm = ({
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     // Validate captcha token if turnstile is enabled and site key is available
     if (captchaConfigured && values.captchaToken) {
+      setIsPending(true);
+      setError('');
+      setSuccess('');
+
       const captchaResult = await validateCaptchaAction({
         captchaToken: values.captchaToken,
       });
@@ -119,13 +123,13 @@ export const RegisterForm = ({
       },
       {
         onRequest: (ctx) => {
-          console.log('register, request:', ctx.url);
+          // console.log('register, request:', ctx.url);
           setIsPending(true);
           setError('');
           setSuccess('');
         },
         onResponse: (ctx) => {
-          console.log('register, response:', ctx.response);
+          // console.log('register, response:', ctx.response);
           setIsPending(false);
         },
         onSuccess: (ctx) => {

@@ -1,13 +1,10 @@
 'use server';
 
 import { websiteConfig } from '@/config/website';
+import { actionClient } from '@/lib/safe-action';
 import { sendEmail } from '@/mail';
 import { getLocale } from 'next-intl/server';
-import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
-
-// Create a safe action client
-const actionClient = createSafeActionClient();
 
 /**
  * DOC: When using Zod for validation, how can I localize error messages?

@@ -2,18 +2,15 @@
 
 import { websiteConfig } from '@/config/website';
 import { getCreditPackageById } from '@/credits/server';
-import { getSession } from '@/lib/server';
+import type { User } from '@/lib/auth-types';
+import { userActionClient } from '@/lib/safe-action';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { createCreditCheckout } from '@/payment';
 import type { CreateCreditCheckoutParams } from '@/payment/types';
 import { Routes } from '@/routes';
 import { getLocale } from 'next-intl/server';
-import { createSafeActionClient } from 'next-safe-action';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
-
-// Create a safe action client
-const actionClient = createSafeActionClient();
 
 // Credit checkout schema for validation
 // metadata is optional, and may contain referral information if you need
@@ -27,33 +24,11 @@ const creditCheckoutSchema = z.object({
 /**
  * Create a checkout session for a credit package
  */
-export const createCreditCheckoutSession = actionClient
+export const createCreditCheckoutSession = userActionClient
   .schema(creditCheckoutSchema)
-  .action(async ({ parsedInput }) => {
-    const { userId, packageId, priceId, metadata } = parsedInput;
-
-    // Get the current user session for authorization
-    const session = await getSession();
-    if (!session) {
-      console.warn(
-        `unauthorized request to create credit checkout session for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Unauthorized',
-      };
-    }
-
-    // Only allow users to create their own checkout session
-    if (session.user.id !== userId) {
-      console.warn(
-        `current user ${session.user.id} is not authorized to create credit checkout session for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Not authorized to do this action',
-      };
-    }
+  .action(async ({ parsedInput, ctx }) => {
+    const { packageId, priceId, metadata } = parsedInput;
+    const currentUser = (ctx as { user: User }).user;
 
     try {
       // Get the current locale from the request
@@ -74,8 +49,8 @@ export const createCreditCheckoutSession = actionClient
         type: 'credit_purchase',
         packageId,
         credits: creditPackage.credits.toString(),
-        userId: session.user.id,
-        userName: session.user.name,
+        userId: currentUser.id,
+        userName: currentUser.name,
       };
 
       // https://datafa.st/docs/stripe-checkout-api
@@ -98,7 +73,7 @@ export const createCreditCheckoutSession = actionClient
       const params: CreateCreditCheckoutParams = {
         packageId,
         priceId,
-        customerEmail: session.user.email,
+        customerEmail: currentUser.email,
         metadata: customMetadata,
         successUrl,
         cancelUrl,

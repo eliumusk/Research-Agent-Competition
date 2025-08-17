@@ -3,34 +3,23 @@
 import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
-import { getSession } from '@/lib/server';
+import type { User } from '@/lib/auth-types';
+import { userActionClient } from '@/lib/safe-action';
 import { addDays } from 'date-fns';
 import { and, eq, gte, isNotNull, lte, sql, sum } from 'drizzle-orm';
-import { createSafeActionClient } from 'next-safe-action';
 
 const CREDITS_EXPIRATION_DAYS = 31;
 const CREDITS_MONTHLY_DAYS = 31;
 
-// Create a safe action client
-const actionClient = createSafeActionClient();
-
 /**
  * Get credit statistics for a user
  */
-export const getCreditStatsAction = actionClient.action(async () => {
+export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
   try {
-    const session = await getSession();
-    if (!session) {
-      console.warn('unauthorized request to get credit stats');
-      return {
-        success: false,
-        error: 'Unauthorized',
-      };
-    }
+    const currentUser = (ctx as { user: User }).user;
+    const userId = currentUser.id;
 
     const db = await getDb();
-    const userId = session.user.id;
-
     // Get credits expiring in the next CREDITS_EXPIRATION_DAYS days
     const expirationDaysFromNow = addDays(new Date(), CREDITS_EXPIRATION_DAYS);
     const expiringCredits = await db

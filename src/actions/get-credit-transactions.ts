@@ -2,13 +2,10 @@
 
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
-import { getSession } from '@/lib/server';
+import type { User } from '@/lib/auth-types';
+import { userActionClient } from '@/lib/safe-action';
 import { and, asc, desc, eq, ilike, or, sql } from 'drizzle-orm';
-import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
-
-// Create a safe action client
-const actionClient = createSafeActionClient();
 
 // Define the schema for getCreditTransactions parameters
 const getCreditTransactionsSchema = z.object({
@@ -40,23 +37,17 @@ const sortFieldMap = {
 } as const;
 
 // Create a safe action for getting credit transactions
-export const getCreditTransactionsAction = actionClient
+export const getCreditTransactionsAction = userActionClient
   .schema(getCreditTransactionsSchema)
-  .action(async ({ parsedInput }) => {
+  .action(async ({ parsedInput, ctx }) => {
     try {
-      const session = await getSession();
-      if (!session) {
-        return {
-          success: false,
-          error: 'Unauthorized',
-        };
-      }
       const { pageIndex, pageSize, search, sorting } = parsedInput;
+      const currentUser = (ctx as { user: User }).user;
 
       // search by type, amount, paymentId, description, and restrict to current user
       const where = search
         ? and(
-            eq(creditTransaction.userId, session.user.id),
+            eq(creditTransaction.userId, currentUser.id),
             or(
               ilike(creditTransaction.type, `%${search}%`),
               ilike(creditTransaction.amount, `%${search}%`),
@@ -65,7 +56,7 @@ export const getCreditTransactionsAction = actionClient
               ilike(creditTransaction.description, `%${search}%`)
             )
           )
-        : eq(creditTransaction.userId, session.user.id);
+        : eq(creditTransaction.userId, currentUser.id);
 
       const offset = pageIndex * pageSize;
 

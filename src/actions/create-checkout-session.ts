@@ -1,19 +1,16 @@
 'use server';
 
 import { websiteConfig } from '@/config/website';
+import type { User } from '@/lib/auth-types';
 import { findPlanByPlanId } from '@/lib/price-plan';
-import { getSession } from '@/lib/server';
+import { userActionClient } from '@/lib/safe-action';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import { createCheckout } from '@/payment';
 import type { CreateCheckoutParams } from '@/payment/types';
 import { Routes } from '@/routes';
 import { getLocale } from 'next-intl/server';
-import { createSafeActionClient } from 'next-safe-action';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
-
-// Create a safe action client
-const actionClient = createSafeActionClient();
 
 // Checkout schema for validation
 // metadata is optional, and may contain referral information if you need
@@ -27,33 +24,11 @@ const checkoutSchema = z.object({
 /**
  * Create a checkout session for a price plan
  */
-export const createCheckoutAction = actionClient
+export const createCheckoutAction = userActionClient
   .schema(checkoutSchema)
-  .action(async ({ parsedInput }) => {
-    const { userId, planId, priceId, metadata } = parsedInput;
-
-    // Get the current user session for authorization
-    const session = await getSession();
-    if (!session) {
-      console.warn(
-        `unauthorized request to create checkout session for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Unauthorized',
-      };
-    }
-
-    // Only allow users to create their own checkout session
-    if (session.user.id !== userId) {
-      console.warn(
-        `current user ${session.user.id} is not authorized to create checkout session for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Not authorized to do this action',
-      };
-    }
+  .action(async ({ parsedInput, ctx }) => {
+    const { planId, priceId, metadata } = parsedInput;
+    const currentUser = (ctx as { user: User }).user;
 
     try {
       // Get the current locale from the request
@@ -71,8 +46,8 @@ export const createCheckoutAction = actionClient
       // Add user id to metadata, so we can get it in the webhook event
       const customMetadata: Record<string, string> = {
         ...metadata,
-        userId: session.user.id,
-        userName: session.user.name,
+        userId: currentUser.id,
+        userName: currentUser.name,
       };
 
       // https://datafa.st/docs/stripe-checkout-api
@@ -94,7 +69,7 @@ export const createCheckoutAction = actionClient
       const params: CreateCheckoutParams = {
         planId,
         priceId,
-        customerEmail: session.user.email,
+        customerEmail: currentUser.email,
         metadata: customMetadata,
         successUrl,
         cancelUrl,

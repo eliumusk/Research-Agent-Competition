@@ -76,7 +76,7 @@ export const useCreditsStore = create<CreditsState>((set, get) => ({
 
     try {
       const result = await getCreditBalanceAction();
-      if (result?.data?.success) {
+      if (result?.data?.success && result.data.credits !== undefined) {
         const newBalance = result.data.credits || 0;
         console.log('fetchCredits, set new balance', newBalance);
         set({
@@ -88,7 +88,8 @@ export const useCreditsStore = create<CreditsState>((set, get) => ({
       } else {
         console.warn('fetchCredits, failed to fetch credit balance', result);
         set({
-          error: result?.data?.error || 'Failed to fetch credit balance',
+          error:
+            (result?.data as any)?.error || 'Failed to fetch credit balance',
           isLoading: false,
         });
       }

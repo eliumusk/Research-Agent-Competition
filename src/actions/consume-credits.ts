@@ -1,11 +1,9 @@
 'use server';
 
 import { consumeCredits } from '@/credits/credits';
-import { getSession } from '@/lib/server';
-import { createSafeActionClient } from 'next-safe-action';
+import type { User } from '@/lib/auth-types';
+import { userActionClient } from '@/lib/safe-action';
 import { z } from 'zod';
-
-const actionClient = createSafeActionClient();
 
 // consume credits schema
 const consumeSchema = z.object({
@@ -16,21 +14,17 @@ const consumeSchema = z.object({
 /**
  * Consume credits
  */
-export const consumeCreditsAction = actionClient
+export const consumeCreditsAction = userActionClient
   .schema(consumeSchema)
-  .action(async ({ parsedInput }) => {
-    const session = await getSession();
-    if (!session) {
-      console.warn('unauthorized request to consume credits');
-      return { success: false, error: 'Unauthorized' };
-    }
+  .action(async ({ parsedInput, ctx }) => {
+    const { amount, description } = parsedInput;
+    const currentUser = (ctx as { user: User }).user;
 
     try {
       await consumeCredits({
-        userId: session.user.id,
-        amount: parsedInput.amount,
-        description:
-          parsedInput.description || `Consume credits: ${parsedInput.amount}`,
+        userId: currentUser.id,
+        amount,
+        description: description || `Consume credits: ${amount}`,
       });
       return { success: true };
     } catch (error) {

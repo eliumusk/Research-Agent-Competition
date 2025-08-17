@@ -95,6 +95,10 @@ export const LoginForm = ({
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     // Validate captcha token if turnstile is enabled and site key is available
     if (captchaConfigured && values.captchaToken) {
+      setIsPending(true);
+      setError('');
+      setSuccess('');
+
       const captchaResult = await validateCaptchaAction({
         captchaToken: values.captchaToken,
       });

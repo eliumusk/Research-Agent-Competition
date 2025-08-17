@@ -2,29 +2,21 @@
 
 import { getWebContentAnalysisCost } from '@/ai/text/utils/web-content-analyzer-config';
 import { getUserCredits, hasEnoughCredits } from '@/credits/credits';
-import { getSession } from '@/lib/server';
-import { createSafeActionClient } from 'next-safe-action';
-
-const actionClient = createSafeActionClient();
+import type { User } from '@/lib/auth-types';
+import { userActionClient } from '@/lib/safe-action';
 
 /**
  * Check if user has enough credits for web content analysis
  */
-export const checkWebContentAnalysisCreditsAction = actionClient.action(
-  async () => {
-    const session = await getSession();
-    if (!session) {
-      console.warn(
-        'unauthorized request to check web content analysis credits'
-      );
-      return { success: false, error: 'Unauthorized' };
-    }
+export const checkWebContentAnalysisCreditsAction = userActionClient.action(
+  async ({ ctx }) => {
+    const currentUser = (ctx as { user: User }).user;
 
     try {
       const requiredCredits = getWebContentAnalysisCost();
-      const currentCredits = await getUserCredits(session.user.id);
+      const currentCredits = await getUserCredits(currentUser.id);
       const hasCredits = await hasEnoughCredits({
-        userId: session.user.id,
+        userId: currentUser.id,
         requiredCredits,
       });
 

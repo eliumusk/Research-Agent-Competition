@@ -2,15 +2,12 @@
 
 import { getDb } from '@/db';
 import { payment } from '@/db/schema';
+import type { User } from '@/lib/auth-types';
 import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
-import { getSession } from '@/lib/server';
+import { userActionClient } from '@/lib/safe-action';
 import { PaymentTypes } from '@/payment/types';
 import { and, eq } from 'drizzle-orm';
-import { createSafeActionClient } from 'next-safe-action';
 import { z } from 'zod';
-
-// Create a safe action client
-const actionClient = createSafeActionClient();
 
 // Input schema
 const schema = z.object({
@@ -25,33 +22,11 @@ const schema = z.object({
  * in order to do this, you have to update the logic to check the lifetime status,
  * for example, just check the planId is `lifetime` or not.
  */
-export const getLifetimeStatusAction = actionClient
+export const getLifetimeStatusAction = userActionClient
   .schema(schema)
-  .action(async ({ parsedInput }) => {
-    const { userId } = parsedInput;
-
-    // Get the current user session for authorization
-    const session = await getSession();
-    if (!session) {
-      console.warn(
-        `unauthorized request to get lifetime status for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Unauthorized',
-      };
-    }
-
-    // Only allow users to check their own status unless they're admins
-    if (session.user.id !== userId && session.user.role !== 'admin') {
-      console.warn(
-        `current user ${session.user.id} is not authorized to get lifetime status for user ${userId}`
-      );
-      return {
-        success: false,
-        error: 'Not authorized to do this action',
-      };
-    }
+  .action(async ({ ctx }) => {
+    const currentUser = (ctx as { user: User }).user;
+    const userId = currentUser.id;
 
     try {
       // Get lifetime plans
