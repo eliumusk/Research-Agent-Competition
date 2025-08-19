@@ -111,7 +111,6 @@ export default function BillingCard() {
             <Skeleton className="h-6 w-1/5" />
           </div>
           <div className="text-sm text-muted-foreground space-y-2">
-            <Skeleton className="h-6 w-2/5" />
             <Skeleton className="h-6 w-3/5" />
           </div>
         </CardContent>

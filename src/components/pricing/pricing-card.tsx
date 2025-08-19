@@ -24,6 +24,7 @@ import {
 import { CheckCircleIcon, XCircleIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { LoginWrapper } from '../auth/login-wrapper';
+import { Badge } from '../ui/badge';
 import { CheckoutButton } from './create-checkout-button';
 
 interface PricingCardProps {
@@ -117,22 +118,26 @@ export function PricingCard({
     >
       {/* show popular badge if plan is recommended */}
       {plan.popular && (
-        <span
-          className="absolute inset-x-0 -top-3 mx-auto flex h-6 w-fit items-center rounded-full px-3 py-1 text-xs font-medium border
-        bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200  border-purple-200 dark:border-purple-800 shadow-sm"
-        >
-          {t('popular')}
-        </span>
+        <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+          <Badge
+            variant="default"
+            className="bg-primary text-primary-foreground"
+          >
+            {t('popular')}
+          </Badge>
+        </div>
       )}
 
       {/* show current plan badge if plan is current plan */}
       {isCurrentPlan && (
-        <span
-          className="absolute inset-x-0 -top-3 mx-auto flex h-6 w-fit items-center rounded-full px-3 py-1 text-xs font-medium border
-        bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 border-blue-200 dark:border-blue-800 shadow-sm"
-        >
-          {t('currentPlan')}
-        </span>
+        <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+          <Badge
+            variant="default"
+            className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 border-blue-200 dark:border-blue-800"
+          >
+            {t('currentPlan')}
+          </Badge>
+        </div>
       )}
 
       <CardHeader>
