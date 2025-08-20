@@ -11,7 +11,11 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
-import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
+import {
+  creditsKeys,
+  useCreditBalance,
+  useCreditStats,
+} from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
@@ -19,6 +23,7 @@ import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
+import { useQueryClient } from '@tanstack/react-query';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
@@ -37,6 +42,7 @@ export default function CreditsBalanceCard() {
   const t = useTranslations('Dashboard.settings.credits.balance');
   const searchParams = useSearchParams();
   const localeRouter = useLocaleRouter();
+  const queryClient = useQueryClient();
   const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
@@ -44,8 +50,8 @@ export default function CreditsBalanceCard() {
   const {
     data: balance = 0,
     isLoading: isLoadingBalance,
-    error,
-    refetch: refetchCredits,
+    error: balanceError,
+    refetch: refetchBalance,
   } = useCreditBalance();
 
   // Get payment info to check plan type
@@ -58,7 +64,7 @@ export default function CreditsBalanceCard() {
     data: creditStats,
     isLoading: isLoadingStats,
     error: statsError,
-    refetch: refetchCreditStats,
+    refetch: refetchStats,
   } = useCreditStats();
 
   // Check for payment success and show success message
@@ -67,35 +73,48 @@ export default function CreditsBalanceCard() {
     if (sessionId && !hasHandledSession.current) {
       hasHandledSession.current = true;
 
-      setTimeout(() => {
-        // Show success toast and refresh data after payment
-        toast.success(t('creditsAdded'));
-
-        // Force refresh credits data to show updated balance
-        refetchCredits();
-        // Refresh credit stats
-        refetchCreditStats();
-      }, 0);
-
-      // Clean up URL parameters
+      // Clean up URL parameters first
       const url = new URL(window.location.href);
       url.searchParams.delete('credits_session_id');
       localeRouter.replace(Routes.SettingsCredits + url.search);
+
+      // Handle payment success with proper timing
+      const handlePaymentSuccess = async () => {
+        // Show success toast (must be in setTimeout to avoid errors)
+        setTimeout(() => {
+          toast.success(t('creditsAdded'));
+        }, 0);
+
+        // Wait for webhook to process
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Force refresh data
+        queryClient.invalidateQueries({
+          queryKey: creditsKeys.balance(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: creditsKeys.stats(),
+        });
+      };
+
+      handlePaymentSuccess();
     }
-  }, [searchParams, localeRouter, refetchCredits, refetchCreditStats, t]);
+  }, [searchParams, localeRouter, queryClient, t]);
 
   // Retry all data fetching
   const handleRetry = useCallback(() => {
     // console.log('handleRetry, refetch credits data');
-    // Force refresh credits balance (ignore cache)
-    refetchCredits();
-    // Refresh credit stats
-    refetchCreditStats();
-  }, [refetchCredits, refetchCreditStats]);
+    // Force invalidate cache to ensure fresh data
+    queryClient.invalidateQueries({
+      queryKey: creditsKeys.balance(),
+    });
+    queryClient.invalidateQueries({
+      queryKey: creditsKeys.stats(),
+    });
+  }, [queryClient]);
 
   // Render loading skeleton
-  const isPageLoading = isLoadingBalance || isLoadingStats;
-  if (!mounted || isPageLoading) {
+  if (!mounted || isLoadingBalance || isLoadingStats) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -116,7 +135,7 @@ export default function CreditsBalanceCard() {
   }
 
   // Render error state
-  if (error || statsError) {
+  if (balanceError || statsError) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -125,7 +144,7 @@ export default function CreditsBalanceCard() {
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
           <div className="text-destructive text-sm">
-            {error?.message || statsError?.message}
+            {balanceError?.message || statsError?.message}
           </div>
         </CardContent>
         <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">

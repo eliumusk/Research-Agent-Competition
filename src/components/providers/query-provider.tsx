@@ -15,8 +15,8 @@ export function QueryProvider({ children }: QueryProviderProps) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 5 * 60 * 1000, // 5 minutes
-            gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+            staleTime: 5 * 60 * 1000, // 5 minutes - default stale time
+            gcTime: 10 * 60 * 1000, // 10 minutes - default garbage collection time
             retry: 1,
             refetchOnWindowFocus: false,
           },

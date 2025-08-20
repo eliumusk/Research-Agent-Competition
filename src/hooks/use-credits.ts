@@ -19,31 +19,39 @@ export const creditsKeys = {
   }) => [...creditsKeys.transactions(), filters] as const,
 };
 
-// Hook to fetch credit statistics
-export function useCreditStats() {
-  return useQuery({
-    queryKey: creditsKeys.stats(),
-    queryFn: async () => {
-      const result = await getCreditStatsAction();
-      if (!result?.data?.success) {
-        throw new Error(result?.data?.error || 'Failed to fetch credit stats');
-      }
-      return result.data.data;
-    },
-  });
-}
-
 // Hook to fetch credit balance
 export function useCreditBalance() {
   return useQuery({
     queryKey: creditsKeys.balance(),
     queryFn: async () => {
+      console.log('Fetching credit balance...');
       const result = await getCreditBalanceAction();
       if (!result?.data?.success) {
         throw new Error('Failed to fetch credit balance');
       }
+      console.log('Credit balance fetched:', result.data.credits);
       return result.data.credits || 0;
     },
+    staleTime: 30 * 1000, // 30 seconds - reasonable stale time
+    retry: 2, // Retry up to 2 times on failure
+  });
+}
+
+// Hook to fetch credit statistics
+export function useCreditStats() {
+  return useQuery({
+    queryKey: creditsKeys.stats(),
+    queryFn: async () => {
+      console.log('Fetching credit stats...');
+      const result = await getCreditStatsAction();
+      if (!result?.data?.success) {
+        throw new Error(result?.data?.error || 'Failed to fetch credit stats');
+      }
+      console.log('Credit stats fetched:', result.data.data);
+      return result.data.data;
+    },
+    staleTime: 30 * 1000, // 30 seconds - reasonable stale time
+    retry: 2, // Retry up to 2 times on failure
   });
 }
 
