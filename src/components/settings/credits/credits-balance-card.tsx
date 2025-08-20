@@ -13,8 +13,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits-query';
 import { useMounted } from '@/hooks/use-mounted';
-import { usePayment } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment-query';
 import { useLocaleRouter } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
@@ -48,7 +49,9 @@ export default function CreditsBalanceCard() {
   } = useCreditBalance();
 
   // Get payment info to check plan type
-  const { currentPlan } = usePayment();
+  const { data: session } = authClient.useSession();
+  const { data: paymentData } = useCurrentPlan(session?.user?.id);
+  const currentPlan = paymentData?.currentPlan;
 
   // TanStack Query hook for credit statistics
   const {
