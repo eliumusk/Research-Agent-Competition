@@ -1,6 +1,5 @@
 'use client';
 
-import { getCreditStatsAction } from '@/actions/get-credit-stats';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -12,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
-import { useCredits } from '@/hooks/use-credits';
+import { useCreditBalance, useCreditStats } from '@/hooks/use-credits-query';
 import { useMounted } from '@/hooks/use-mounted';
 import { usePayment } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
@@ -22,7 +21,7 @@ import { Routes } from '@/routes';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 
 /**
@@ -40,50 +39,24 @@ export default function CreditsBalanceCard() {
   const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
-  // Use the credits hook to get balance
+  // Use TanStack Query hooks for credits
   const {
-    balance,
+    data: balance = 0,
     isLoading: isLoadingBalance,
     error,
-    fetchCredits,
-  } = useCredits();
+    refetch: refetchCredits,
+  } = useCreditBalance();
 
   // Get payment info to check plan type
   const { currentPlan } = usePayment();
 
-  // State for credit statistics
-  const [creditStats, setCreditStats] = useState<{
-    expiringCredits: {
-      amount: number;
-      earliestExpiration: string | Date | null;
-    };
-    subscriptionCredits: { amount: number };
-    lifetimeCredits: { amount: number };
-  } | null>(null);
-  const [isLoadingStats, setIsLoadingStats] = useState(true);
-
-  // Fetch credit statistics
-  const fetchCreditStats = useCallback(async () => {
-    console.log('fetchCreditStats, fetch start');
-    setIsLoadingStats(true);
-    try {
-      const result = await getCreditStatsAction();
-      if (result?.data?.success && result.data.data) {
-        setCreditStats(result.data.data);
-      } else {
-        console.error('fetchCreditStats, failed to fetch credit stats', result);
-      }
-    } catch (error) {
-      console.error('fetchCreditStats, error:', error);
-    } finally {
-      setIsLoadingStats(false);
-    }
-  }, []);
-
-  // Fetch stats on component mount
-  useEffect(() => {
-    fetchCreditStats();
-  }, []);
+  // TanStack Query hook for credit statistics
+  const {
+    data: creditStats,
+    isLoading: isLoadingStats,
+    error: statsError,
+    refetch: refetchCreditStats,
+  } = useCreditStats();
 
   // Check for payment success and show success message
   useEffect(() => {
@@ -96,9 +69,9 @@ export default function CreditsBalanceCard() {
         toast.success(t('creditsAdded'));
 
         // Force refresh credits data to show updated balance
-        fetchCredits(true);
+        refetchCredits();
         // Refresh credit stats
-        fetchCreditStats();
+        refetchCreditStats();
       }, 0);
 
       // Clean up URL parameters
@@ -106,16 +79,16 @@ export default function CreditsBalanceCard() {
       url.searchParams.delete('credits_session_id');
       localeRouter.replace(Routes.SettingsCredits + url.search);
     }
-  }, [searchParams, localeRouter, fetchCredits, fetchCreditStats, t]);
+  }, [searchParams, localeRouter, refetchCredits, refetchCreditStats, t]);
 
   // Retry all data fetching
   const handleRetry = useCallback(() => {
     // console.log('handleRetry, refetch credits data');
     // Force refresh credits balance (ignore cache)
-    fetchCredits(true);
+    refetchCredits();
     // Refresh credit stats
-    fetchCreditStats();
-  }, [fetchCredits, fetchCreditStats]);
+    refetchCreditStats();
+  }, [refetchCredits, refetchCreditStats]);
 
   // Render loading skeleton
   const isPageLoading = isLoadingBalance || isLoadingStats;
@@ -140,7 +113,7 @@ export default function CreditsBalanceCard() {
   }
 
   // Render error state
-  if (error) {
+  if (error || statsError) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -148,7 +121,9 @@ export default function CreditsBalanceCard() {
           <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
-          <div className="text-destructive text-sm">{error}</div>
+          <div className="text-destructive text-sm">
+            {error?.message || statsError?.message}
+          </div>
         </CardContent>
         <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
           <Button

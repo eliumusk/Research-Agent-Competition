@@ -6,7 +6,7 @@ import type { SortingState } from '@tanstack/react-table';
 // Query keys
 export const usersKeys = {
   all: ['users'] as const,
-  lists: () => [...usersKeys.all, 'list'] as const,
+  lists: () => [...usersKeys.all, 'lists'] as const,
   list: (filters: {
     pageIndex: number;
     pageSize: number;

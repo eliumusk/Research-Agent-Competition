@@ -1,7 +1,6 @@
 'use client';
 
 import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
-import { CreditsProvider } from '@/components/layout/credits-provider';
 import { PaymentProvider } from '@/components/layout/payment-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -65,9 +64,7 @@ export function Providers({ children, locale }: ProvidersProps) {
         <ActiveThemeProvider>
           <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
             <TooltipProvider>
-              <PaymentProvider>
-                <CreditsProvider>{children}</CreditsProvider>
-              </PaymentProvider>
+              <PaymentProvider>{children}</PaymentProvider>
             </TooltipProvider>
           </RootProvider>
         </ActiveThemeProvider>
