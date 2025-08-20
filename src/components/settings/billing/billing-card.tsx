@@ -14,7 +14,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
-import { useCurrentPlan } from '@/hooks/use-payment-query';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';

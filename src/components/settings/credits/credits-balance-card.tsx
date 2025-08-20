@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
-import { useCreditBalance, useCreditStats } from '@/hooks/use-credits-query';
+import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { useCurrentPlan } from '@/hooks/use-payment-query';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';

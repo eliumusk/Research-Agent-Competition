@@ -1,7 +1,7 @@
 'use client';
 
 import { websiteConfig } from '@/config/website';
-import { useCreditBalance } from '@/hooks/use-credits-query';
+import { useCreditBalance } from '@/hooks/use-credits';
 import { useLocaleRouter } from '@/i18n/navigation';
 import { Routes } from '@/routes';
 import { CoinsIcon, Loader2Icon } from 'lucide-react';

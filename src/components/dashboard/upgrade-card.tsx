@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { websiteConfig } from '@/config/website';
-import { useCurrentPlan } from '@/hooks/use-payment-query';
+import { useCurrentPlan } from '@/hooks/use-payment';
 import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { Routes } from '@/routes';

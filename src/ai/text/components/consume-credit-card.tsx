@@ -2,7 +2,7 @@
 
 import { CreditsBalanceButton } from '@/components/layout/credits-balance-button';
 import { Button } from '@/components/ui/button';
-import { useConsumeCredits, useCreditBalance } from '@/hooks/use-credits-query';
+import { useConsumeCredits, useCreditBalance } from '@/hooks/use-credits';
 import { CoinsIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
