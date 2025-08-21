@@ -32,8 +32,6 @@ export function useCreditBalance() {
       console.log('Credit balance fetched:', result.data.credits);
       return result.data.credits || 0;
     },
-    staleTime: 30 * 1000, // 30 seconds - reasonable stale time
-    retry: 2, // Retry up to 2 times on failure
   });
 }
 
@@ -50,8 +48,6 @@ export function useCreditStats() {
       console.log('Credit stats fetched:', result.data.data);
       return result.data.data;
     },
-    staleTime: 30 * 1000, // 30 seconds - reasonable stale time
-    retry: 2, // Retry up to 2 times on failure
   });
 }
 

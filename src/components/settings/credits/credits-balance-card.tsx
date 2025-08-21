@@ -11,11 +11,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
-import {
-  creditsKeys,
-  useCreditBalance,
-  useCreditStats,
-} from '@/hooks/use-credits';
+import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
@@ -23,7 +19,6 @@ import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
-import { useQueryClient } from '@tanstack/react-query';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
@@ -42,7 +37,6 @@ export default function CreditsBalanceCard() {
   const t = useTranslations('Dashboard.settings.credits.balance');
   const searchParams = useSearchParams();
   const localeRouter = useLocaleRouter();
-  const queryClient = useQueryClient();
   const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
@@ -67,6 +61,21 @@ export default function CreditsBalanceCard() {
     refetch: refetchStats,
   } = useCreditStats();
 
+  // Handle payment success after credits purchase
+  const handlePaymentSuccess = useCallback(async () => {
+    // Use queueMicrotask to avoid React rendering conflicts
+    queueMicrotask(() => {
+      toast.success(t('creditsAdded'));
+    });
+
+    // Wait for webhook to process (simplified approach)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Force refresh data
+    refetchBalance();
+    refetchStats();
+  }, [t, refetchBalance, refetchStats]);
+
   // Check for payment success and show success message
   useEffect(() => {
     const sessionId = searchParams.get('credits_session_id');
@@ -78,40 +87,17 @@ export default function CreditsBalanceCard() {
       url.searchParams.delete('credits_session_id');
       localeRouter.replace(Routes.SettingsCredits + url.search);
 
-      // Handle payment success with proper timing
-      const handlePaymentSuccess = async () => {
-        // Show success toast (must be in setTimeout to avoid errors)
-        setTimeout(() => {
-          toast.success(t('creditsAdded'));
-        }, 0);
-
-        // Wait for webhook to process
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Force refresh data
-        queryClient.invalidateQueries({
-          queryKey: creditsKeys.balance(),
-        });
-        queryClient.invalidateQueries({
-          queryKey: creditsKeys.stats(),
-        });
-      };
-
+      // Handle payment success
       handlePaymentSuccess();
     }
-  }, [searchParams, localeRouter, queryClient, t]);
+  }, [searchParams, localeRouter, handlePaymentSuccess]);
 
-  // Retry all data fetching
+  // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {
-    // console.log('handleRetry, refetch credits data');
-    // Force invalidate cache to ensure fresh data
-    queryClient.invalidateQueries({
-      queryKey: creditsKeys.balance(),
-    });
-    queryClient.invalidateQueries({
-      queryKey: creditsKeys.stats(),
-    });
-  }, [queryClient]);
+    // Use refetch methods for immediate data refresh
+    refetchBalance();
+    refetchStats();
+  }, [refetchBalance, refetchStats]);
 
   // Render loading skeleton
   if (!mounted || isLoadingBalance || isLoadingStats) {
