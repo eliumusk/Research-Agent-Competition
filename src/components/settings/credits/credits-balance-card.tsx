@@ -13,9 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { useCurrentPlan } from '@/hooks/use-payment';
 import { useLocaleRouter } from '@/i18n/navigation';
-import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
@@ -47,11 +45,6 @@ export default function CreditsBalanceCard() {
     error: balanceError,
     refetch: refetchBalance,
   } = useCreditBalance();
-
-  // Get payment info to check plan type
-  const { data: session } = authClient.useSession();
-  const { data: paymentData } = useCurrentPlan(session?.user?.id);
-  const currentPlan = paymentData?.currentPlan;
 
   // TanStack Query hook for credit statistics
   const {
@@ -167,44 +160,22 @@ export default function CreditsBalanceCard() {
 
         {/* Balance information */}
         <div className="text-sm text-muted-foreground space-y-2">
-          {/* Plan-based credits info */}
-          {!isLoadingStats && creditStats && (
-            <>
-              {/* Subscription credits (for paid plans) */}
-              {!currentPlan?.isFree &&
-                (creditStats.subscriptionCredits.amount > 0 ||
-                  creditStats.lifetimeCredits.amount > 0) && (
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <span>
-                      {currentPlan?.isLifetime
-                        ? t('lifetimeCredits', {
-                            credits: creditStats.lifetimeCredits.amount,
-                          })
-                        : t('subscriptionCredits', {
-                            credits: creditStats.subscriptionCredits.amount,
-                          })}
-                    </span>
-                  </div>
-                )}
-
-              {/* Expiring credits warning */}
-              {creditStats.expiringCredits.amount > 0 &&
-                creditStats.expiringCredits.earliestExpiration && (
-                  <div className="flex items-center gap-2 text-amber-600">
-                    <span>
-                      {t('expiringCredits', {
-                        credits: creditStats.expiringCredits.amount,
-                        date: formatDate(
-                          new Date(
-                            creditStats.expiringCredits.earliestExpiration
-                          )
-                        ),
-                      })}
-                    </span>
-                  </div>
-                )}
-            </>
-          )}
+          {/* Expiring credits warning */}
+          {!isLoadingStats &&
+            creditStats &&
+            creditStats.expiringCredits.amount > 0 &&
+            creditStats.expiringCredits.earliestExpiration && (
+              <div className="flex items-center gap-2 text-amber-600">
+                <span>
+                  {t('expiringCredits', {
+                    credits: creditStats.expiringCredits.amount,
+                    date: formatDate(
+                      new Date(creditStats.expiringCredits.earliestExpiration)
+                    ),
+                  })}
+                </span>
+              </div>
+            )}
         </div>
       </CardContent>
       <CardFooter className="">
