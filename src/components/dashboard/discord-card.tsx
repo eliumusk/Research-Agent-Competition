@@ -33,7 +33,7 @@ export function DiscordCard() {
         </CardTitle>
         <CardDescription>
           Join our Discord community to get help, share your ideas, and connect
-          with other users.
+          with 1600+ makers.
         </CardDescription>
       </CardHeader>
       <CardContent>
