@@ -9,20 +9,18 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { websiteConfig } from '@/config/website';
-import { usePayment } from '@/hooks/use-payment';
 import { LocaleLink } from '@/i18n/navigation';
 import { useEffect, useState } from 'react';
 import { DiscordIcon } from '../icons/discord';
 
 export function DiscordCard() {
   const [mounted, setMounted] = useState(false);
-  const { isLoading } = usePayment();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted || isLoading) {
+  if (!mounted) {
     return null;
   }
 
@@ -35,7 +33,7 @@ export function DiscordCard() {
         </CardTitle>
         <CardDescription>
           Join our Discord community to get help, share your ideas, and connect
-          with other users.
+          with 1600+ makers.
         </CardDescription>
       </CardHeader>
       <CardContent>
