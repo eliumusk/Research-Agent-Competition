@@ -35,7 +35,13 @@ export function UpgradeCard() {
   const isMember =
     paymentData?.currentPlan?.isLifetime || !!paymentData?.subscription;
 
-  if (!mounted || isLoading || isMember) {
+  // Ensure the upgrade card is only shown when the data is loaded
+  if (!mounted || isLoading || !paymentData) {
+    return null;
+  }
+
+  // If the user is a member, don't show the upgrade card
+  if (isMember) {
     return null;
   }
 
