@@ -146,7 +146,7 @@ export default function CreditsBalanceCard() {
         <CardTitle className="text-lg font-semibold">{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 flex-1">
+      <CardContent className="flex-1">
         {/* Credits balance display */}
         <div className="flex items-center justify-start space-x-4">
           <div className="flex items-center space-x-2">
@@ -157,7 +157,8 @@ export default function CreditsBalanceCard() {
           </div>
           {/* <Badge variant="outline">available</Badge> */}
         </div>
-
+      </CardContent>
+      <CardFooter className="px-6 py-4 flex justify-between items-center bg-background rounded-none">
         {/* Balance information */}
         <div className="text-sm text-muted-foreground space-y-2">
           {/* Expiring credits warning */}
@@ -177,13 +178,6 @@ export default function CreditsBalanceCard() {
               </div>
             )}
         </div>
-      </CardContent>
-      <CardFooter className="">
-        {/* <Button variant="default" className="cursor-pointer" asChild>
-          <LocaleLink href={Routes.SettingsCredits}>
-            {t('viewTransactions')}
-          </LocaleLink>
-        </Button> */}
       </CardFooter>
     </Card>
   );
