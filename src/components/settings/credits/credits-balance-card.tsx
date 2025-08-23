@@ -14,7 +14,7 @@ import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
 import { useLocaleRouter } from '@/i18n/navigation';
-import { formatDate } from '@/lib/formatter';
+import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { RefreshCwIcon } from 'lucide-react';
@@ -102,13 +102,12 @@ export default function CreditsBalanceCard() {
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
           <div className="flex items-center justify-start space-x-4">
-            <Skeleton className="h-6 w-1/5" />
-          </div>
-          <div className="text-sm text-muted-foreground space-y-2">
-            <Skeleton className="h-6 w-3/5" />
+            <Skeleton className="h-8 w-1/5" />
           </div>
         </CardContent>
-        <CardFooter className="">{/* show nothing */}</CardFooter>
+        <CardFooter className="px-6 py-4 flex justify-between items-center bg-background rounded-none">
+          <Skeleton className="h-6 w-3/5" />
+        </CardFooter>
       </Card>
     );
   }
@@ -147,7 +146,7 @@ export default function CreditsBalanceCard() {
         <CardDescription>{t('description')}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
-        {/* Credits balance display */}
+        {/* Credits balance */}
         <div className="flex items-center justify-start space-x-4">
           <div className="flex items-center space-x-2">
             {/* <CoinsIcon className="h-6 w-6 text-muted-foreground" /> */}
@@ -159,25 +158,20 @@ export default function CreditsBalanceCard() {
         </div>
       </CardContent>
       <CardFooter className="px-6 py-4 flex justify-between items-center bg-background rounded-none">
-        {/* Balance information */}
-        <div className="text-sm text-muted-foreground space-y-2">
-          {/* Expiring credits warning */}
-          {!isLoadingStats &&
-            creditStats &&
-            creditStats.expiringCredits.amount > 0 &&
-            creditStats.expiringCredits.earliestExpiration && (
-              <div className="flex items-center gap-2 text-amber-600">
-                <span>
-                  {t('expiringCredits', {
-                    credits: creditStats.expiringCredits.amount,
-                    date: formatDate(
-                      new Date(creditStats.expiringCredits.earliestExpiration)
-                    ),
-                  })}
-                </span>
-              </div>
-            )}
-        </div>
+        {/* Expiring credits warning */}
+        {!isLoadingStats && creditStats && (
+          <div className="text-sm text-muted-foreground space-y-2">
+            {' '}
+            <div className="flex items-center gap-2 text-amber-600">
+              <span>
+                {t('expiringCredits', {
+                  credits: creditStats.expiringCredits.amount,
+                  days: CREDITS_EXPIRATION_DAYS,
+                })}
+              </span>
+            </div>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );
