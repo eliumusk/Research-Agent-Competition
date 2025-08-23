@@ -41,10 +41,10 @@ export function CreditPackages() {
     (pkg) => !pkg.disabled && pkg.price.priceId
   );
 
-  // Check if user is on free plan and enableForFreePlan is false
+  // Check if user is on free plan and enablePackagesForFreePlan is false
   const isFreePlan = currentPlan?.isFree === true;
 
-  // Check if user is on free plan and enableForFreePlan is false
+  // Check if user is on free plan and enablePackagesForFreePlan is false
   if (isFreePlan && !websiteConfig.credits.enablePackagesForFreePlan) {
     return null;
   }
