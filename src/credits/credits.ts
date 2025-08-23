@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto';
 import { websiteConfig } from '@/config/website';
 import { getDb } from '@/db';
 import { creditTransaction, userCredit } from '@/db/schema';
-import { findPlanByPriceId } from '@/lib/price-plan';
+import { findPlanByPlanId, findPlanByPriceId } from '@/lib/price-plan';
 import { addDays, isAfter } from 'date-fns';
 import { and, asc, eq, gt, isNull, not, or } from 'drizzle-orm';
 import { CREDIT_TRANSACTION_TYPE } from './types';
@@ -442,11 +442,11 @@ export async function addRegisterGiftCredits(userId: string) {
 /**
  * Add free monthly credits
  * @param userId - User ID
- * @param priceId - Price ID
+ * @param planId - Plan ID
  */
-export async function addMonthlyFreeCredits(userId: string, priceId: string) {
+export async function addMonthlyFreeCredits(userId: string, planId: string) {
   // NOTICE: make sure the free plan is not disabled and has credits enabled
-  const pricePlan = findPlanByPriceId(priceId);
+  const pricePlan = findPlanByPlanId(planId);
   if (
     !pricePlan ||
     pricePlan.disabled ||
@@ -455,7 +455,7 @@ export async function addMonthlyFreeCredits(userId: string, priceId: string) {
     !pricePlan.credits.enable
   ) {
     console.log(
-      `addMonthlyFreeCredits, no credits configured for plan ${priceId}`
+      `addMonthlyFreeCredits, no credits configured for plan ${planId}`
     );
     return;
   }
