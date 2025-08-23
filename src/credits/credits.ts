@@ -404,6 +404,33 @@ export async function canAddMonthlyCredits(userId: string) {
 }
 
 /**
+ * Check if subscription credits can be added for a user based on last refresh time
+ * @param userId - User ID
+ */
+export async function canAddSubscriptionCredits(userId: string) {
+  const db = await getDb();
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const existingTransaction = await db
+    .select()
+    .from(creditTransaction)
+    .where(
+      and(
+        eq(creditTransaction.userId, userId),
+        eq(
+          creditTransaction.type,
+          CREDIT_TRANSACTION_TYPE.SUBSCRIPTION_RENEWAL
+        ),
+        gt(creditTransaction.createdAt, startOfMonth)
+      )
+    )
+    .limit(1);
+
+  return existingTransaction.length === 0;
+}
+
+/**
  * Add register gift credits
  * @param userId - User ID
  */
@@ -508,7 +535,7 @@ export async function addSubscriptionCredits(userId: string, priceId: string) {
     return;
   }
 
-  const canAdd = await canAddMonthlyCredits(userId);
+  const canAdd = await canAddSubscriptionCredits(userId);
   const now = new Date();
 
   // Add credits if it's a new month
