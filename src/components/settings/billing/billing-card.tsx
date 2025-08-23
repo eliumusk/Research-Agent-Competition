@@ -111,14 +111,14 @@ export default function BillingCard() {
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
           <div className="flex items-center justify-start space-x-4">
-            <Skeleton className="h-6 w-1/5" />
+            <Skeleton className="h-8 w-1/5" />
           </div>
           <div className="text-sm text-muted-foreground space-y-2">
             <Skeleton className="h-6 w-3/5" />
           </div>
         </CardContent>
         <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
-          <Skeleton className="h-10 w-1/2" />
+          <Skeleton className="h-8 w-1/4" />
         </CardFooter>
       </Card>
     );

@@ -70,7 +70,7 @@ function PasswordSkeletonCard() {
         <Skeleton className="h-6 w-full" />
       </CardContent>
       <CardFooter className="px-6 py-4 flex justify-end items-center bg-background rounded-none">
-        <Skeleton className="h-10 w-1/4" />
+        <Skeleton className="h-8 w-1/4" />
       </CardFooter>
     </Card>
   );
