@@ -100,7 +100,7 @@ export default function BillingCard() {
 
   // Render loading skeleton if not mounted or in a loading state
   const isPageLoading = isLoadingPayment || isLoadingSession;
-  if (!mounted || isPageLoading) {
+  if (!mounted || isPageLoading || !paymentData) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
