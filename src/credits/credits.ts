@@ -450,7 +450,7 @@ export async function addRegisterGiftCredits(userId: string) {
 
   // add register gift credits if user has not received them yet
   if (record.length === 0) {
-    const credits = websiteConfig.credits.registerGiftCredits.credits;
+    const credits = websiteConfig.credits.registerGiftCredits.amount;
     const expireDays = websiteConfig.credits.registerGiftCredits.expireDays;
     await addCredits({
       userId,

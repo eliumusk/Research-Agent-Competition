@@ -84,7 +84,7 @@ export function CreditPackages() {
                   <div className="text-left">
                     <div className="text-2xl font-semibold flex items-center gap-2">
                       <CoinsIcon className="h-4 w-4 text-muted-foreground" />
-                      {creditPackage.credits.toLocaleString()}
+                      {creditPackage.amount.toLocaleString()}
                     </div>
                   </div>
                   <div className="text-right">

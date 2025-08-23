@@ -190,7 +190,7 @@ async function onCreateUser(user: User) {
   if (
     websiteConfig.credits.enableCredits &&
     websiteConfig.credits.registerGiftCredits.enable &&
-    websiteConfig.credits.registerGiftCredits.credits > 0
+    websiteConfig.credits.registerGiftCredits.amount > 0
   ) {
     try {
       await addRegisterGiftCredits(user.id);
