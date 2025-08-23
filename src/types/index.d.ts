@@ -169,7 +169,7 @@ export interface PriceConfig {
  */
 export interface CreditsConfig {
   enableCredits: boolean;            // Whether to enable credits
-  enableForFreePlan: boolean;        // Whether to enable purchase credits for free plan users
+  enablePackagesForFreePlan: boolean;// Whether to enable purchase credits for free plan users
   registerGiftCredits: {
     enable: boolean;                 // Whether to enable register gift credits
     credits: number;                 // The number of credits to give to the user

@@ -45,7 +45,7 @@ export function CreditPackages() {
   const isFreePlan = currentPlan?.isFree === true;
 
   // Check if user is on free plan and enableForFreePlan is false
-  if (isFreePlan && !websiteConfig.credits.enableForFreePlan) {
+  if (isFreePlan && !websiteConfig.credits.enablePackagesForFreePlan) {
     return null;
   }
 
