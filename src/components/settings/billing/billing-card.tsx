@@ -100,7 +100,7 @@ export default function BillingCard() {
 
   // Render loading skeleton if not mounted or in a loading state
   const isPageLoading = isLoadingPayment || isLoadingSession;
-  if (!mounted || isPageLoading) {
+  if (!mounted || isPageLoading || !paymentData) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -111,14 +111,14 @@ export default function BillingCard() {
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
           <div className="flex items-center justify-start space-x-4">
-            <Skeleton className="h-6 w-1/5" />
+            <Skeleton className="h-8 w-1/5" />
           </div>
           <div className="text-sm text-muted-foreground space-y-2">
             <Skeleton className="h-6 w-3/5" />
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
-          <Skeleton className="h-10 w-1/2" />
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
+          <Skeleton className="h-8 w-1/4" />
         </CardFooter>
       </Card>
     );
@@ -139,7 +139,7 @@ export default function BillingCard() {
             {loadPaymentError?.message}
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
           <Button
             variant="outline"
             className="cursor-pointer"
@@ -262,7 +262,7 @@ export default function BillingCard() {
           </div>
         )}
       </CardContent>
-      <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+      <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
         {/* user is on free plan, show upgrade plan button */}
         {isFreePlan && (
           <Button variant="default" className="cursor-pointer" asChild>

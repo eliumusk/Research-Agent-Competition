@@ -320,6 +320,10 @@
             "title": "AI 图像",
             "description": "展示如何使用 AI 生成精美图像"
           },
+          "chat": {
+            "title": "AI 聊天",
+            "description": "展示如何使用 AI 与客户聊天"
+          },
           "video": {
             "title": "AI 视频",
             "description": "展示如何使用 AI 生成惊人视频"
@@ -601,8 +605,7 @@
           "creditsAdded": "积分已添加到您的账户",
           "viewTransactions": "查看积分记录",
           "retry": "重试",
-
-          "expiringCredits": "{credits} 积分将在 {date} 过期"
+          "expiringCredits": "{credits} 积分将在 {days} 天内过期"
         },
         "packages": {
           "title": "积分套餐",
@@ -1041,17 +1044,18 @@
   },
   "AIImagePage": {
     "title": "AI 图片",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力",
-    "content": "正在开发中"
+    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+  },
+  "AIChatPage": {
+    "title": "AI 聊天",
+    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
   },
   "AIVideoPage": {
     "title": "AI 视频",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力",
-    "content": "正在开发中"
+    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
   },
   "AIAudioPage": {
     "title": "AI 音频",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力",
-    "content": "正在开发中"
+    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
   }
 }

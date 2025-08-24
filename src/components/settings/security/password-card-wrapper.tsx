@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -57,7 +58,7 @@ export function PasswordCardWrapper() {
 function PasswordSkeletonCard() {
   const t = useTranslations('Dashboard.settings.security.updatePassword');
   return (
-    <Card className={cn('w-full overflow-hidden pt-6 pb-6 flex flex-col')}>
+    <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
       <CardHeader>
         <CardTitle className="text-lg font-semibold">{t('title')}</CardTitle>
         <CardDescription>{t('description')}</CardDescription>
@@ -67,9 +68,10 @@ function PasswordSkeletonCard() {
         <Skeleton className="h-6 w-full" />
         <Skeleton className="h-5 w-1/2" />
         <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-5 w-3/4" />
-        <Skeleton className="h-6 w-full" />
       </CardContent>
+      <CardFooter className="px-6 py-4 flex justify-end items-center bg-muted rounded-none">
+        <Skeleton className="h-8 w-1/4" />
+      </CardFooter>
     </Card>
   );
 }

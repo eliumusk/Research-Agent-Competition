@@ -212,8 +212,8 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
       {relatedPosts && relatedPosts.length > 0 && (
         <div className="flex flex-col gap-8 mt-8">
           <div className="flex items-center gap-2">
-            <FileTextIcon className="size-4 text-muted-foreground" />
-            <h2 className="text-lg tracking-wider font-semibold text-gradient_indigo-purple">
+            <FileTextIcon className="size-4 text-primary" />
+            <h2 className="text-lg tracking-wider font-semibold text-primary">
               {t('morePosts')}
             </h2>
           </div>

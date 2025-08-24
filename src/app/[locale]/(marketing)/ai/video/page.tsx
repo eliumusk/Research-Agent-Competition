@@ -42,10 +42,6 @@ export default async function AIVideoPage() {
                   <div className="size-32 text-muted-foreground" />
                 </AvatarFallback>
               </Avatar>
-
-              <div>
-                <h1 className="text-4xl text-foreground">{t('content')}</h1>
-              </div>
             </div>
           </div>
         </div>

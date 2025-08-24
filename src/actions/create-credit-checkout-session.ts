@@ -48,7 +48,7 @@ export const createCreditCheckoutSession = userActionClient
         ...metadata,
         type: 'credit_purchase',
         packageId,
-        credits: creditPackage.credits.toString(),
+        credits: creditPackage.amount.toString(),
         userId: currentUser.id,
         userName: currentUser.name,
       };

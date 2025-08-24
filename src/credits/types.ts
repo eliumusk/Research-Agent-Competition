@@ -26,7 +26,7 @@ export interface CreditPackagePrice {
  */
 export interface CreditPackage {
   id: string;                          // Unique identifier for the package
-  credits: number;                     // Number of credits in the package
+  amount: number;                      // Amount of credits in the package
   price: CreditPackagePrice;           // Price of the package
   popular: boolean;                    // Whether the package is popular
   name?: string;                       // Display name of the package

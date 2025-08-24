@@ -3,11 +3,10 @@
 import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
 import type { User } from '@/lib/auth-types';
+import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { userActionClient } from '@/lib/safe-action';
 import { addDays } from 'date-fns';
-import { and, eq, gte, isNotNull, lte, sql, sum } from 'drizzle-orm';
-
-const CREDITS_EXPIRATION_DAYS = 31;
+import { and, eq, gt, gte, isNotNull, lte, sum } from 'drizzle-orm';
 
 /**
  * Get credit statistics for a user
@@ -18,12 +17,14 @@ export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
     const userId = currentUser.id;
 
     const db = await getDb();
-    // Get credits expiring in the next CREDITS_EXPIRATION_DAYS days
-    const expirationDaysFromNow = addDays(new Date(), CREDITS_EXPIRATION_DAYS);
-    const expiringCredits = await db
+    const now = new Date();
+    // Get credits expiring in the next 30 days
+    const expirationDaysFromNow = addDays(now, CREDITS_EXPIRATION_DAYS);
+
+    // Get total credits expiring in the next 30 days
+    const expiringCreditsResult = await db
       .select({
-        amount: sum(creditTransaction.remainingAmount),
-        earliestExpiration: sql<Date>`MIN(${creditTransaction.expirationDate})`,
+        totalAmount: sum(creditTransaction.remainingAmount),
       })
       .from(creditTransaction)
       .where(
@@ -31,18 +32,20 @@ export const getCreditStatsAction = userActionClient.action(async ({ ctx }) => {
           eq(creditTransaction.userId, userId),
           isNotNull(creditTransaction.expirationDate),
           isNotNull(creditTransaction.remainingAmount),
-          gte(creditTransaction.remainingAmount, 1),
+          gt(creditTransaction.remainingAmount, 0),
           lte(creditTransaction.expirationDate, expirationDaysFromNow),
-          gte(creditTransaction.expirationDate, new Date())
+          gte(creditTransaction.expirationDate, now)
         )
       );
+
+    const totalExpiringCredits =
+      Number(expiringCreditsResult[0]?.totalAmount) || 0;
 
     return {
       success: true,
       data: {
         expiringCredits: {
-          amount: Number(expiringCredits[0]?.amount) || 0,
-          earliestExpiration: expiringCredits[0]?.earliestExpiration || null,
+          amount: totalExpiringCredits,
         },
       },
     };

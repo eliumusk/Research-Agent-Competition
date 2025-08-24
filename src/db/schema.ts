@@ -94,7 +94,7 @@ export const userCredit = pgTable("user_credit", {
 	id: text("id").primaryKey(),
 	userId: text("user_id").notNull().references(() => user.id, { onDelete: 'cascade' }),
 	currentCredits: integer("current_credits").notNull().default(0),
-	lastRefreshAt: timestamp("last_refresh_at"),
+	lastRefreshAt: timestamp("last_refresh_at"), // deprecated
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (table) => ({

@@ -2,9 +2,9 @@ import { randomUUID } from 'crypto';
 import { websiteConfig } from '@/config/website';
 import { getDb } from '@/db';
 import { creditTransaction, userCredit } from '@/db/schema';
-import { findPlanByPriceId } from '@/lib/price-plan';
+import { findPlanByPlanId, findPlanByPriceId } from '@/lib/price-plan';
 import { addDays, isAfter } from 'date-fns';
-import { and, asc, eq, gt, isNull, not, or } from 'drizzle-orm';
+import { and, asc, eq, gt, isNull, not, or, sql } from 'drizzle-orm';
 import { CREDIT_TRANSACTION_TYPE } from './types';
 
 /**
@@ -46,23 +46,6 @@ export async function updateUserCredits(userId: string, credits: number) {
       .where(eq(userCredit.userId, userId));
   } catch (error) {
     console.error('updateUserCredits, error:', error);
-  }
-}
-
-/**
- * Update user's last refresh time
- * @param userId - User ID
- * @param date - Last refresh time
- */
-export async function updateUserLastRefreshAt(userId: string, date: Date) {
-  try {
-    const db = await getDb();
-    await db
-      .update(userCredit)
-      .set({ lastRefreshAt: date, updatedAt: new Date() })
-      .where(eq(userCredit.userId, userId));
-  } catch (error) {
-    console.error('updateUserLastRefreshAt, error:', error);
   }
 }
 
@@ -164,7 +147,6 @@ export async function addCredits({
       .update(userCredit)
       .set({
         currentCredits: newBalance,
-        // lastRefreshAt: new Date(), // NOTE: we can not update this field here
         updatedAt: new Date(),
       })
       .where(eq(userCredit.userId, userId));
@@ -175,7 +157,6 @@ export async function addCredits({
       id: randomUUID(),
       userId,
       currentCredits: newBalance,
-      // lastRefreshAt: new Date(), // NOTE: we can not update this field here
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -375,33 +356,38 @@ export async function processExpiredCredits(userId: string) {
 }
 
 /**
- * Check if credits can be added for a user based on last refresh time
+ * Check if specific type of credits can be added for a user based on transaction history
  * @param userId - User ID
+ * @param creditType - Type of credit transaction to check
  */
-export async function canAddMonthlyCredits(userId: string) {
+export async function canAddCreditsByType(userId: string, creditType: string) {
   const db = await getDb();
-  const record = await db
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  // Check if user has already received this type of credits this month
+  const existingTransaction = await db
     .select()
-    .from(userCredit)
-    .where(eq(userCredit.userId, userId))
+    .from(creditTransaction)
+    .where(
+      and(
+        eq(creditTransaction.userId, userId),
+        eq(creditTransaction.type, creditType),
+        // Check if transaction was created in the current month and year
+        sql`EXTRACT(MONTH FROM ${creditTransaction.createdAt}) = ${currentMonth + 1}`,
+        sql`EXTRACT(YEAR FROM ${creditTransaction.createdAt}) = ${currentYear}`
+      )
+    )
     .limit(1);
 
-  const now = new Date();
-  let canAdd = false;
-
-  // Check if user has never received credits or it's a new month
-  if (!record[0]?.lastRefreshAt) {
-    canAdd = true;
-  } else {
-    // different month or year means new month
-    const last = new Date(record[0].lastRefreshAt);
-    canAdd =
-      now.getMonth() !== last.getMonth() ||
-      now.getFullYear() !== last.getFullYear();
-  }
-
-  return canAdd;
+  return existingTransaction.length === 0;
 }
+
+/**
+ * Check if subscription credits can be added for a user based on last refresh time
+ * @param userId - User ID
+ */
 
 /**
  * Add register gift credits
@@ -423,7 +409,7 @@ export async function addRegisterGiftCredits(userId: string) {
 
   // add register gift credits if user has not received them yet
   if (record.length === 0) {
-    const credits = websiteConfig.credits.registerGiftCredits.credits;
+    const credits = websiteConfig.credits.registerGiftCredits.amount;
     const expireDays = websiteConfig.credits.registerGiftCredits.expireDays;
     await addCredits({
       userId,
@@ -442,11 +428,11 @@ export async function addRegisterGiftCredits(userId: string) {
 /**
  * Add free monthly credits
  * @param userId - User ID
- * @param priceId - Price ID
+ * @param planId - Plan ID
  */
-export async function addMonthlyFreeCredits(userId: string, priceId: string) {
+export async function addMonthlyFreeCredits(userId: string, planId: string) {
   // NOTICE: make sure the free plan is not disabled and has credits enabled
-  const pricePlan = findPlanByPriceId(priceId);
+  const pricePlan = findPlanByPlanId(planId);
   if (
     !pricePlan ||
     pricePlan.disabled ||
@@ -455,12 +441,15 @@ export async function addMonthlyFreeCredits(userId: string, priceId: string) {
     !pricePlan.credits.enable
   ) {
     console.log(
-      `addMonthlyFreeCredits, no credits configured for plan ${priceId}`
+      `addMonthlyFreeCredits, no credits configured for plan ${planId}`
     );
     return;
   }
 
-  const canAdd = await canAddMonthlyCredits(userId);
+  const canAdd = await canAddCreditsByType(
+    userId,
+    CREDIT_TRANSACTION_TYPE.MONTHLY_REFRESH
+  );
   const now = new Date();
 
   // add credits if it's a new month
@@ -474,9 +463,6 @@ export async function addMonthlyFreeCredits(userId: string, priceId: string) {
       description: `Free monthly credits: ${credits} for ${now.getFullYear()}-${now.getMonth() + 1}`,
       expireDays,
     });
-
-    // Update last refresh time for free monthly credits
-    await updateUserLastRefreshAt(userId, now);
 
     console.log(
       `addMonthlyFreeCredits, ${credits} credits for user ${userId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`
@@ -508,7 +494,10 @@ export async function addSubscriptionCredits(userId: string, priceId: string) {
     return;
   }
 
-  const canAdd = await canAddMonthlyCredits(userId);
+  const canAdd = await canAddCreditsByType(
+    userId,
+    CREDIT_TRANSACTION_TYPE.SUBSCRIPTION_RENEWAL
+  );
   const now = new Date();
 
   // Add credits if it's a new month
@@ -523,9 +512,6 @@ export async function addSubscriptionCredits(userId: string, priceId: string) {
       description: `Subscription renewal credits: ${credits} for ${now.getFullYear()}-${now.getMonth() + 1}`,
       expireDays,
     });
-
-    // Update last refresh time for subscription credits
-    await updateUserLastRefreshAt(userId, now);
 
     console.log(
       `addSubscriptionCredits, ${credits} credits for user ${userId}, priceId: ${priceId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`
@@ -561,7 +547,10 @@ export async function addLifetimeMonthlyCredits(
     return;
   }
 
-  const canAdd = await canAddMonthlyCredits(userId);
+  const canAdd = await canAddCreditsByType(
+    userId,
+    CREDIT_TRANSACTION_TYPE.LIFETIME_MONTHLY
+  );
   const now = new Date();
 
   // Add credits if it's a new month
@@ -576,9 +565,6 @@ export async function addLifetimeMonthlyCredits(
       description: `Lifetime monthly credits: ${credits} for ${now.getFullYear()}-${now.getMonth() + 1}`,
       expireDays,
     });
-
-    // Update last refresh time for lifetime credits
-    await updateUserLastRefreshAt(userId, now);
 
     console.log(
       `addLifetimeMonthlyCredits, ${credits} credits for user ${userId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`

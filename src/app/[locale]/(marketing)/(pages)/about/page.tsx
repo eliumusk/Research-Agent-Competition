@@ -4,7 +4,6 @@ import HomeNewsletterSection from '@/components/home/home-newsletter';
 import HomeProjectsSection from '@/components/home/home-projects';
 import { DiscordIcon } from '@/components/icons/discord';
 import Container from '@/components/layout/container';
-import { BlurFadeDemo } from '@/components/magicui/example/blur-fade-example';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { websiteConfig } from '@/config/website';

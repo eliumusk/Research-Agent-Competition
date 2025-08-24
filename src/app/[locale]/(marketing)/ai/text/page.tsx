@@ -26,7 +26,7 @@ export default async function AITextPage() {
   const t = await getTranslations('AITextPage');
 
   return (
-    <div className="min-h-screen bg-background rounded-lg">
+    <div className="min-h-screen bg-muted/50 rounded-lg">
       <div className="container mx-auto px-4 py-8 md:py-16">
         {/* Header Section */}
         <div className="text-center space-y-6 mb-12">

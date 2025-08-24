@@ -320,6 +320,10 @@
             "title": "AI Image",
             "description": "Show how to use AI to generate beautiful images"
           },
+          "chat": {
+            "title": "AI Chat",
+            "description": "Show how to use AI to chat with your customers"
+          },
           "video": {
             "title": "AI Video",
             "description": "Show how to use AI to generate amazing videos"
@@ -601,8 +605,7 @@
           "creditsAdded": "Credits have been added to your account",
           "viewTransactions": "View Credit Transactions",
           "retry": "Retry",
-
-          "expiringCredits": "{credits} credits expiring on {date}"
+          "expiringCredits": "{credits} credits expiring in the next {days} days"
         },
         "packages": {
           "title": "Credit Packages",
@@ -1041,17 +1044,18 @@
   },
   "AIImagePage": {
     "title": "AI Image",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
-    "content": "Working in progress"
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "AIChatPage": {
+    "title": "AI Chat",
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
   },
   "AIVideoPage": {
     "title": "AI Video",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
-    "content": "Working in progress"
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
   },
   "AIAudioPage": {
     "title": "AI Audio",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly",
-    "content": "Working in progress"
+    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
   }
 }
