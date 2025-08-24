@@ -117,7 +117,7 @@ export default function BillingCard() {
             <Skeleton className="h-6 w-3/5" />
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
           <Skeleton className="h-8 w-1/4" />
         </CardFooter>
       </Card>
@@ -139,7 +139,7 @@ export default function BillingCard() {
             {loadPaymentError?.message}
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
           <Button
             variant="outline"
             className="cursor-pointer"
@@ -262,7 +262,7 @@ export default function BillingCard() {
           </div>
         )}
       </CardContent>
-      <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+      <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
         {/* user is on free plan, show upgrade plan button */}
         {isFreePlan && (
           <Button variant="default" className="cursor-pointer" asChild>

@@ -105,7 +105,7 @@ export default function CreditsBalanceCard() {
             <Skeleton className="h-8 w-1/5" />
           </div>
         </CardContent>
-        <CardFooter className="px-6 py-4 flex justify-between items-center bg-background rounded-none">
+        <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted rounded-none">
           <Skeleton className="h-6 w-3/5" />
         </CardFooter>
       </Card>
@@ -125,7 +125,7 @@ export default function CreditsBalanceCard() {
             {balanceError?.message || statsError?.message}
           </div>
         </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-background rounded-none">
+        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
           <Button
             variant="outline"
             className="cursor-pointer"
@@ -157,7 +157,7 @@ export default function CreditsBalanceCard() {
           {/* <Badge variant="outline">available</Badge> */}
         </div>
       </CardContent>
-      <CardFooter className="px-6 py-4 flex justify-between items-center bg-background rounded-none">
+      <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted rounded-none">
         {/* Expiring credits warning */}
         {!isLoadingStats && creditStats && (
           <div className="text-sm text-muted-foreground space-y-2">

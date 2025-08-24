@@ -173,7 +173,7 @@ export function NewsletterFormCard({ className }: NewsletterFormCardProps) {
               }
             />
           </CardContent>
-          <CardFooter className="mt-6 px-6 py-4 bg-background rounded-none">
+          <CardFooter className="mt-6 px-6 py-4 bg-muted rounded-none">
             <p className="text-sm text-muted-foreground">
               {t('newsletter.hint')}
             </p>
