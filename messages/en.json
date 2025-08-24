@@ -320,6 +320,10 @@
             "title": "AI Image",
             "description": "Show how to use AI to generate beautiful images"
           },
+          "chat": {
+            "title": "AI Chat",
+            "description": "Show how to use AI to chat with your customers"
+          },
           "video": {
             "title": "AI Video",
             "description": "Show how to use AI to generate amazing videos"

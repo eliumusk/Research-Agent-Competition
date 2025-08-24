@@ -20,6 +20,7 @@ import {
   LogInIcon,
   MailIcon,
   MailboxIcon,
+  MessageCircleIcon,
   NewspaperIcon,
   RocketIcon,
   ShieldCheckIcon,
@@ -93,6 +94,13 @@ export function getNavbarLinks(): NestedMenuItem[] {
           description: t('ai.items.image.description'),
           icon: <ImageIcon className="size-4 shrink-0" />,
           href: Routes.AIImage,
+          external: false,
+        },
+        {
+          title: t('ai.items.chat.title'),
+          description: t('ai.items.chat.description'),
+          icon: <MessageCircleIcon className="size-4 shrink-0" />,
+          href: Routes.AIChat,
           external: false,
         },
         // {

@@ -320,6 +320,10 @@
             "title": "AI 图像",
             "description": "展示如何使用 AI 生成精美图像"
           },
+          "chat": {
+            "title": "AI 聊天",
+            "description": "展示如何使用 AI 与客户聊天"
+          },
           "video": {
             "title": "AI 视频",
             "description": "展示如何使用 AI 生成惊人视频"
