@@ -85,12 +85,12 @@ export function getSidebarLinks(): NestedMenuItem[] {
           href: Routes.SettingsSecurity,
           external: false,
         },
-        {
-          title: t('settings.notification.title'),
-          icon: <BellIcon className="size-4 shrink-0" />,
-          href: Routes.SettingsNotifications,
-          external: false,
-        },
+        // {
+        //   title: t('settings.notification.title'),
+        //   icon: <BellIcon className="size-4 shrink-0" />,
+        //   href: Routes.SettingsNotifications,
+        //   external: false,
+        // },
       ],
     },
   ];
