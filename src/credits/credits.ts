@@ -147,7 +147,6 @@ export async function addCredits({
       .update(userCredit)
       .set({
         currentCredits: newBalance,
-        // lastRefreshAt: new Date(), // NOTE: we can not update this field here
         updatedAt: new Date(),
       })
       .where(eq(userCredit.userId, userId));
@@ -158,7 +157,6 @@ export async function addCredits({
       id: randomUUID(),
       userId,
       currentCredits: newBalance,
-      // lastRefreshAt: new Date(), // NOTE: we can not update this field here
       createdAt: new Date(),
       updatedAt: new Date(),
     });
