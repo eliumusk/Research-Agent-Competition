@@ -1,6 +1,4 @@
-import { CreditsTest } from '@/components/dev/credits-test';
 import Container from '@/components/layout/container';
-import { BlurFadeDemo } from '@/components/magicui/example/blur-fade-example';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { websiteConfig } from '@/config/website';
@@ -99,12 +97,6 @@ export default async function AboutPage() {
             </div>
           </div>
         </div>
-
-        {/* image section */}
-        {/* <BlurFadeDemo /> */}
-
-        {/* credits test */}
-        {/* <CreditsTest /> */}
       </div>
     </Container>
   );

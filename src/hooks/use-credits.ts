@@ -31,7 +31,9 @@ export function useCreditBalance() {
       console.log('Fetching credit balance...');
       const result = await getCreditBalanceAction();
       if (!result?.data?.success) {
-        throw new Error('Failed to fetch credit balance');
+        throw new Error(
+          result?.data?.error || 'Failed to fetch credit balance'
+        );
       }
       console.log('Credit balance fetched:', result.data.credits);
       return result.data.credits || 0;
