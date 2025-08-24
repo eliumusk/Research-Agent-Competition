@@ -2,8 +2,10 @@ import { consumeCreditsAction } from '@/actions/consume-credits';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { getCreditStatsAction } from '@/actions/get-credit-stats';
 import { getCreditTransactionsAction } from '@/actions/get-credit-transactions';
+import { useCreditsStore } from '@/stores/credits-store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { SortingState } from '@tanstack/react-table';
+import { useEffect } from 'react';
 
 // Query keys
 export const creditsKeys = {
@@ -21,7 +23,9 @@ export const creditsKeys = {
 
 // Hook to fetch credit balance
 export function useCreditBalance() {
-  return useQuery({
+  const updateTrigger = useCreditsStore((state) => state.updateTrigger);
+
+  const query = useQuery({
     queryKey: creditsKeys.balance(),
     queryFn: async () => {
       console.log('Fetching credit balance...');
@@ -33,11 +37,23 @@ export function useCreditBalance() {
       return result.data.credits || 0;
     },
   });
+
+  // Refetch when updateTrigger changes
+  useEffect(() => {
+    if (updateTrigger > 0) {
+      console.log('Credits update triggered, refetching balance...');
+      query.refetch();
+    }
+  }, [updateTrigger, query]);
+
+  return query;
 }
 
 // Hook to fetch credit statistics
 export function useCreditStats() {
-  return useQuery({
+  const updateTrigger = useCreditsStore((state) => state.updateTrigger);
+
+  const query = useQuery({
     queryKey: creditsKeys.stats(),
     queryFn: async () => {
       console.log('Fetching credit stats...');
@@ -49,11 +65,22 @@ export function useCreditStats() {
       return result.data.data;
     },
   });
+
+  // Refetch when updateTrigger changes
+  useEffect(() => {
+    if (updateTrigger > 0) {
+      console.log('Credits update triggered, refetching stats...');
+      query.refetch();
+    }
+  }, [updateTrigger, query]);
+
+  return query;
 }
 
 // Hook to consume credits
 export function useConsumeCredits() {
   const queryClient = useQueryClient();
+  const triggerUpdate = useCreditsStore((state) => state.triggerUpdate);
 
   return useMutation({
     mutationFn: async ({
@@ -73,6 +100,9 @@ export function useConsumeCredits() {
       return result.data;
     },
     onSuccess: () => {
+      // Trigger credits update in store to notify all components
+      triggerUpdate();
+
       // Invalidate credit balance and stats after consuming credits
       queryClient.invalidateQueries({
         queryKey: creditsKeys.balance(),
