@@ -50,23 +50,6 @@ export async function updateUserCredits(userId: string, credits: number) {
 }
 
 /**
- * Update user's last refresh time
- * @param userId - User ID
- * @param date - Last refresh time
- */
-export async function updateUserLastRefreshAt(userId: string, date: Date) {
-  try {
-    const db = await getDb();
-    await db
-      .update(userCredit)
-      .set({ lastRefreshAt: date, updatedAt: new Date() })
-      .where(eq(userCredit.userId, userId));
-  } catch (error) {
-    console.error('updateUserLastRefreshAt, error:', error);
-  }
-}
-
-/**
  * Write a credit transaction record
  * @param params - Credit transaction parameters
  */
@@ -483,9 +466,6 @@ export async function addMonthlyFreeCredits(userId: string, planId: string) {
       expireDays,
     });
 
-    // Update last refresh time for free monthly credits
-    await updateUserLastRefreshAt(userId, now);
-
     console.log(
       `addMonthlyFreeCredits, ${credits} credits for user ${userId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`
     );
@@ -534,9 +514,6 @@ export async function addSubscriptionCredits(userId: string, priceId: string) {
       description: `Subscription renewal credits: ${credits} for ${now.getFullYear()}-${now.getMonth() + 1}`,
       expireDays,
     });
-
-    // Update last refresh time for subscription credits
-    await updateUserLastRefreshAt(userId, now);
 
     console.log(
       `addSubscriptionCredits, ${credits} credits for user ${userId}, priceId: ${priceId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`
@@ -590,9 +567,6 @@ export async function addLifetimeMonthlyCredits(
       description: `Lifetime monthly credits: ${credits} for ${now.getFullYear()}-${now.getMonth() + 1}`,
       expireDays,
     });
-
-    // Update last refresh time for lifetime credits
-    await updateUserLastRefreshAt(userId, now);
 
     console.log(
       `addLifetimeMonthlyCredits, ${credits} credits for user ${userId}, date: ${now.getFullYear()}-${now.getMonth() + 1}`
