@@ -37,8 +37,8 @@ const customNavigationMenuTriggerStyle = cn(
   'relative bg-transparent text-muted-foreground cursor-pointer',
   'hover:bg-accent hover:text-accent-foreground',
   'focus:bg-accent focus:text-accent-foreground',
-  'data-active:font-semibold data-active:bg-transparent data-active:text-foreground',
-  'data-[state=open]:bg-transparent data-[state=open]:text-foreground'
+  'data-active:font-semibold data-active:bg-transparent data-active:text-accent-foreground',
+  'data-[state=open]:bg-transparent data-[state=open]:text-accent-foreground'
 );
 
 export function Navbar({ scroll }: NavBarProps) {
@@ -132,10 +132,10 @@ export function Navbar({ scroll }: NavBarProps) {
                                       className={cn(
                                         'flex size-8 shrink-0 items-center justify-center transition-colors',
                                         'bg-transparent text-muted-foreground',
-                                        'group-hover:bg-transparent group-hover:text-foreground',
-                                        'group-focus:bg-transparent group-focus:text-foreground',
+                                        'group-hover:bg-transparent group-hover:text-accent-foreground',
+                                        'group-focus:bg-transparent group-focus:text-accent-foreground',
                                         isSubItemActive &&
-                                          'bg-transparent text-foreground'
+                                          'bg-transparent text-accent-foreground'
                                       )}
                                     >
                                       {subItem.icon ? subItem.icon : null}
@@ -144,10 +144,10 @@ export function Navbar({ scroll }: NavBarProps) {
                                       <div
                                         className={cn(
                                           'text-sm font-medium text-muted-foreground',
-                                          'group-hover:bg-transparent group-hover:text-foreground',
-                                          'group-focus:bg-transparent group-focus:text-foreground',
+                                          'group-hover:bg-transparent group-hover:text-accent-foreground',
+                                          'group-focus:bg-transparent group-focus:text-accent-foreground',
                                           isSubItemActive &&
-                                            'bg-transparent text-foreground'
+                                            'bg-transparent text-accent-foreground'
                                         )}
                                       >
                                         {subItem.title}
@@ -156,10 +156,10 @@ export function Navbar({ scroll }: NavBarProps) {
                                         <div
                                           className={cn(
                                             'text-sm text-muted-foreground',
-                                            'group-hover:bg-transparent group-hover:text-foreground/80',
-                                            'group-focus:bg-transparent group-focus:text-foreground/80',
+                                            'group-hover:bg-transparent group-hover:text-accent-foreground/80',
+                                            'group-focus:bg-transparent group-focus:text-accent-foreground/80',
                                             isSubItemActive &&
-                                              'bg-transparent text-foreground/80'
+                                              'bg-transparent text-accent-foreground/80'
                                           )}
                                         >
                                           {subItem.description}
@@ -170,10 +170,10 @@ export function Navbar({ scroll }: NavBarProps) {
                                       <ArrowUpRightIcon
                                         className={cn(
                                           'size-4 shrink-0 text-muted-foreground',
-                                          'group-hover:bg-transparent group-hover:text-foreground',
-                                          'group-focus:bg-transparent group-focus:text-foreground',
+                                          'group-hover:bg-transparent group-hover:text-accent-foreground',
+                                          'group-focus:bg-transparent group-focus:text-accent-foreground',
                                           isSubItemActive &&
-                                            'bg-transparent text-foreground'
+                                            'bg-transparent text-accent-foreground'
                                         )}
                                       />
                                     )}
