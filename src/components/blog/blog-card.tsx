@@ -20,7 +20,7 @@ export default function BlogCard({ locale, post }: BlogCardProps) {
 
   return (
     <LocaleLink href={`/blog/${post.slugs}`} className="block h-full">
-      <div className="group flex flex-col border rounded-lg overflow-hidden h-full">
+      <div className="group flex flex-col border border-border rounded-lg overflow-hidden h-full transition-all duration-300 ease-in-out hover:border-primary hover:shadow-lg hover:shadow-primary/20">
         {/* Image container - fixed aspect ratio */}
         <div className="group overflow-hidden relative aspect-16/9 w-full">
           {image && (
@@ -57,19 +57,7 @@ export default function BlogCard({ locale, post }: BlogCardProps) {
         <div className="flex flex-col justify-between p-4 flex-1">
           <div>
             {/* Post title */}
-            <h3 className="text-lg line-clamp-2 font-medium">
-              <span
-                className="bg-linear-to-r from-green-200 to-green-100
-                  bg-[length:0px_10px] bg-left-bottom bg-no-repeat
-                  transition-[background-size]
-                  duration-500
-                  hover:bg-[length:100%_3px]
-                  group-hover:bg-[length:100%_10px]
-                  dark:from-purple-800 dark:to-purple-900"
-              >
-                {title}
-              </span>
-            </h3>
+            <h3 className="text-lg line-clamp-2 font-medium">{title}</h3>
 
             {/* Post excerpt */}
             <div className="mt-2">
