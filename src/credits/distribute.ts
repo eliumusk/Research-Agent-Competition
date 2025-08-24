@@ -5,6 +5,7 @@ import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
 import { PlanIntervals } from '@/payment/types';
 import { addDays } from 'date-fns';
 import { and, eq, gt, inArray, isNull, lt, not, or, sql } from 'drizzle-orm';
+import { canAddCreditsByType } from './credits';
 import { CREDIT_TRANSACTION_TYPE } from './types';
 
 /**
@@ -218,7 +219,6 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
     const userCredits = await tx
       .select({
         userId: userCredit.userId,
-        lastRefreshAt: userCredit.lastRefreshAt,
         currentCredits: userCredit.currentCredits,
       })
       .from(userCredit)
@@ -229,19 +229,17 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
       userCredits.map((record) => [record.userId, record])
     );
 
-    // Filter users who can receive credits
-    const eligibleUserIds = userIds.filter((userId) => {
-      const record = userCreditMap.get(userId);
-      if (!record?.lastRefreshAt) {
-        return true; // never added credits before
-      }
-      // different month or year means new month
-      const last = new Date(record.lastRefreshAt);
-      return (
-        now.getMonth() !== last.getMonth() ||
-        now.getFullYear() !== last.getFullYear()
+    // Check which users can receive credits based on transaction history
+    const eligibleUserIds: string[] = [];
+    for (const userId of userIds) {
+      const canAdd = await canAddCreditsByType(
+        userId,
+        CREDIT_TRANSACTION_TYPE.MONTHLY_REFRESH
       );
-    });
+      if (canAdd) {
+        eligibleUserIds.push(userId);
+      }
+    }
 
     if (eligibleUserIds.length === 0) {
       console.log('batchAddMonthlyFreeCredits, no eligible users');
@@ -280,7 +278,6 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
         id: randomUUID(),
         userId,
         currentCredits: credits,
-        lastRefreshAt: now,
         createdAt: now,
         updatedAt: now,
       }));
@@ -297,7 +294,6 @@ export async function batchAddMonthlyFreeCredits(userIds: string[]) {
           .update(userCredit)
           .set({
             currentCredits: newBalance,
-            lastRefreshAt: now,
             updatedAt: now,
           })
           .where(eq(userCredit.userId, userId));
@@ -362,7 +358,6 @@ export async function batchAddLifetimeMonthlyCredits(
       const userCredits = await tx
         .select({
           userId: userCredit.userId,
-          lastRefreshAt: userCredit.lastRefreshAt,
           currentCredits: userCredit.currentCredits,
         })
         .from(userCredit)
@@ -373,19 +368,17 @@ export async function batchAddLifetimeMonthlyCredits(
         userCredits.map((record) => [record.userId, record])
       );
 
-      // Filter users who can receive credits
-      const eligibleUserIds = userIdsForPrice.filter((userId: string) => {
-        const record = userCreditMap.get(userId);
-        if (!record?.lastRefreshAt) {
-          return true; // never added credits before
-        }
-        // different month or year means new month
-        const last = new Date(record.lastRefreshAt);
-        return (
-          now.getMonth() !== last.getMonth() ||
-          now.getFullYear() !== last.getFullYear()
+      // Check which users can receive credits based on transaction history
+      const eligibleUserIds: string[] = [];
+      for (const userId of userIdsForPrice) {
+        const canAdd = await canAddCreditsByType(
+          userId,
+          CREDIT_TRANSACTION_TYPE.LIFETIME_MONTHLY
         );
-      });
+        if (canAdd) {
+          eligibleUserIds.push(userId);
+        }
+      }
 
       if (eligibleUserIds.length === 0) {
         console.log(
@@ -426,7 +419,6 @@ export async function batchAddLifetimeMonthlyCredits(
           id: randomUUID(),
           userId,
           currentCredits: credits,
-          lastRefreshAt: now,
           createdAt: now,
           updatedAt: now,
         }));
@@ -443,7 +435,6 @@ export async function batchAddLifetimeMonthlyCredits(
             .update(userCredit)
             .set({
               currentCredits: newBalance,
-              lastRefreshAt: now,
               updatedAt: now,
             })
             .where(eq(userCredit.userId, userId));
@@ -508,7 +499,6 @@ export async function batchAddYearlyUsersMonthlyCredits(
       const userCredits = await tx
         .select({
           userId: userCredit.userId,
-          lastRefreshAt: userCredit.lastRefreshAt,
           currentCredits: userCredit.currentCredits,
         })
         .from(userCredit)
@@ -519,19 +509,17 @@ export async function batchAddYearlyUsersMonthlyCredits(
         userCredits.map((record) => [record.userId, record])
       );
 
-      // Filter users who can receive credits
-      const eligibleUserIds = userIds.filter((userId) => {
-        const record = userCreditMap.get(userId);
-        if (!record?.lastRefreshAt) {
-          return true; // never added credits before
-        }
-        // different month or year means new month
-        const last = new Date(record.lastRefreshAt);
-        return (
-          now.getMonth() !== last.getMonth() ||
-          now.getFullYear() !== last.getFullYear()
+      // Check which users can receive credits based on transaction history
+      const eligibleUserIds: string[] = [];
+      for (const userId of userIds) {
+        const canAdd = await canAddCreditsByType(
+          userId,
+          CREDIT_TRANSACTION_TYPE.SUBSCRIPTION_RENEWAL
         );
-      });
+        if (canAdd) {
+          eligibleUserIds.push(userId);
+        }
+      }
 
       if (eligibleUserIds.length === 0) {
         console.log(
@@ -572,7 +560,6 @@ export async function batchAddYearlyUsersMonthlyCredits(
           id: randomUUID(),
           userId,
           currentCredits: credits,
-          lastRefreshAt: now,
           createdAt: now,
           updatedAt: now,
         }));
@@ -589,7 +576,6 @@ export async function batchAddYearlyUsersMonthlyCredits(
             .update(userCredit)
             .set({
               currentCredits: newBalance,
-              lastRefreshAt: now,
               updatedAt: now,
             })
             .where(eq(userCredit.userId, userId));
