@@ -9,7 +9,6 @@ import { webContentAnalyzerConfig } from '@/ai/text/utils/web-content-analyzer-c
 export enum ErrorType {
   VALIDATION = 'validation',
   NETWORK = 'network',
-  CREDITS = 'credits',
   SCRAPING = 'scraping',
   ANALYSIS = 'analysis',
   TIMEOUT = 'timeout',
@@ -92,22 +91,6 @@ export function classifyError(error: unknown): WebContentAnalyzerError {
         'Request timed out. Please try again with a simpler webpage.',
         ErrorSeverity.MEDIUM,
         true,
-        error
-      );
-    }
-
-    // Credit errors
-    if (
-      message.includes('credit') ||
-      message.includes('insufficient') ||
-      message.includes('balance')
-    ) {
-      return new WebContentAnalyzerError(
-        ErrorType.CREDITS,
-        error.message,
-        'Insufficient credits to perform analysis. Please purchase more credits.',
-        ErrorSeverity.HIGH,
-        false,
         error
       );
     }
@@ -276,16 +259,6 @@ export function getRecoveryActions(error: WebContentAnalyzerError): Array<{
       return [
         { label: 'Try Again', action: 'retry', primary: true },
         { label: 'Try Simpler URL', action: 'simplify_url' },
-      ];
-
-    case ErrorType.CREDITS:
-      return [
-        {
-          label: 'Purchase Credits',
-          action: 'purchase_credits',
-          primary: true,
-        },
-        { label: 'Check Balance', action: 'check_balance' },
       ];
 
     case ErrorType.SCRAPING:

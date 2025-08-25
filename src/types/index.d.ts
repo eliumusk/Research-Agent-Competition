@@ -6,6 +6,7 @@ import type { CreditPackage } from '@/credits/types';
  * website config, without translations
  */
 export type WebsiteConfig = {
+  ui: UiConfig;
   metadata: MetadataConfig;
   features: FeaturesConfig;
   routes: RoutesConfig;
@@ -23,11 +24,17 @@ export type WebsiteConfig = {
 };
 
 /**
+ * UI configuration
+ */
+export interface UiConfig {
+  mode?: ModeConfig;
+  theme?: ThemeConfig;
+}
+
+/**
  * Website metadata
  */
 export interface MetadataConfig {
-  mode?: ModeConfig;
-  theme?: ThemeConfig;
   images?: ImagesConfig;
   social?: SocialConfig;
 }
@@ -69,7 +76,6 @@ export interface SocialConfig {
  * Website features
  */
 export interface FeaturesConfig {
-  enableDiscordWidget?: boolean;      // Whether to enable the discord widget, deprecated
   enableCrispChat?: boolean;          // Whether to enable the crisp chat
   enableUpgradeCard?: boolean;        // Whether to enable the upgrade card in the sidebar
   enableUpdateAvatar?: boolean;       // Whether to enable the update avatar in settings

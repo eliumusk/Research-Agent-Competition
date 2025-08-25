@@ -67,7 +67,7 @@ export interface AnalysisState {
 }
 
 // Component Props Interfaces
-export type ModelProvider = 'openai' | 'gemini' | 'deepseek';
+export type ModelProvider = 'openai' | 'gemini' | 'deepseek' | 'openrouter';
 
 export interface WebContentAnalyzerProps {
   className?: string;

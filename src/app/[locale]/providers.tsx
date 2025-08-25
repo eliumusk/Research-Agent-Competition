@@ -29,7 +29,7 @@ interface ProvidersProps {
  */
 export function Providers({ children, locale }: ProvidersProps) {
   const theme = useTheme();
-  const defaultMode = websiteConfig.metadata.mode?.defaultMode ?? 'system';
+  const defaultMode = websiteConfig.ui.mode?.defaultMode ?? 'system';
 
   // available languages that will be displayed in the docs UI
   // make sure `locale` is consistent with your i18n config

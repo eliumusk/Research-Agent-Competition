@@ -194,7 +194,8 @@ export function WebContentAnalyzer({ className }: WebContentAnalyzerProps) {
   const [state, dispatch] = useReducer(analysisReducer, initialState);
 
   // Model provider state
-  const [modelProvider, setModelProvider] = useState<ModelProvider>('openai');
+  const [modelProvider, setModelProvider] =
+    useState<ModelProvider>('openrouter');
 
   // Enhanced error state
   const [analyzedError, setAnalyzedError] =
@@ -230,16 +231,6 @@ export function WebContentAnalyzer({ className }: WebContentAnalyzerProps) {
             switch (response.status) {
               case 400:
                 errorType = ErrorType.VALIDATION;
-                retryable = false;
-                break;
-              case 401:
-                errorType = ErrorType.AUTHENTICATION;
-                severity = ErrorSeverity.HIGH;
-                retryable = false;
-                break;
-              case 402:
-                errorType = ErrorType.CREDITS;
-                severity = ErrorSeverity.HIGH;
                 retryable = false;
                 break;
               case 408:

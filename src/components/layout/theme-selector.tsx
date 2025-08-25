@@ -21,7 +21,7 @@ import { useThemeConfig } from './active-theme-provider';
  * https://github.com/TheOrcDev/orcish-dashboard/blob/main/components/theme-selector.tsx
  */
 export function ThemeSelector() {
-  if (!websiteConfig.metadata.theme?.enableSwitch) {
+  if (!websiteConfig.ui.theme?.enableSwitch) {
     return null;
   }
 

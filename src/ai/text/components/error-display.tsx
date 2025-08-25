@@ -34,7 +34,6 @@ interface ErrorDisplayProps {
 const errorIcons = {
   [ErrorType.VALIDATION]: AlertCircleIcon,
   [ErrorType.NETWORK]: WifiOffIcon,
-  [ErrorType.CREDITS]: CreditCardIcon,
   [ErrorType.SCRAPING]: ServerIcon,
   [ErrorType.ANALYSIS]: HelpCircleIcon,
   [ErrorType.TIMEOUT]: ClockIcon,
@@ -84,7 +83,6 @@ const severityColors = {
 const errorTitles = {
   [ErrorType.VALIDATION]: 'Invalid Input',
   [ErrorType.NETWORK]: 'Connection Error',
-  [ErrorType.CREDITS]: 'Insufficient Credits',
   [ErrorType.SCRAPING]: 'Unable to Access Website',
   [ErrorType.ANALYSIS]: 'Analysis Failed',
   [ErrorType.TIMEOUT]: 'Request Timed Out',

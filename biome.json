@@ -12,6 +12,8 @@
       ".open-next/**",
       ".wrangler/**",
       ".cursor/**",
+      ".claude/**",
+      ".kiro/**",
       ".vscode/**",
       ".source/**",
       "node_modules/**",
@@ -27,8 +29,7 @@
       "src/app/[[]locale]/preview/**",
       "src/payment/types.ts",
       "src/credits/types.ts",
-      "src/types/index.d.ts",
-      "public/sw.js"
+      "src/types/index.d.ts"
     ]
   },
   "formatter": {
@@ -75,6 +76,8 @@
       ".open-next/**",
       ".wrangler/**",
       ".cursor/**",
+      ".claude/**",
+      ".kiro/**",
       ".vscode/**",
       ".source/**",
       "node_modules/**",
@@ -90,8 +93,7 @@
       "src/app/[[]locale]/preview/**",
       "src/payment/types.ts",
       "src/credits/types.ts",
-      "src/types/index.d.ts",
-      "public/sw.js"
+      "src/types/index.d.ts"
     ]
   },
   "javascript": {
