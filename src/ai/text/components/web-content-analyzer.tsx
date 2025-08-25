@@ -232,16 +232,6 @@ export function WebContentAnalyzer({ className }: WebContentAnalyzerProps) {
                 errorType = ErrorType.VALIDATION;
                 retryable = false;
                 break;
-              case 401:
-                errorType = ErrorType.AUTHENTICATION;
-                severity = ErrorSeverity.HIGH;
-                retryable = false;
-                break;
-              case 402:
-                errorType = ErrorType.CREDITS;
-                severity = ErrorSeverity.HIGH;
-                retryable = false;
-                break;
               case 408:
                 errorType = ErrorType.TIMEOUT;
                 break;

@@ -13,12 +13,9 @@ import {
   validateUrl,
 } from '@/ai/text/utils/web-content-analyzer';
 import {
-  getWebContentAnalysisCost,
   validateFirecrawlConfig,
   webContentAnalyzerConfig,
 } from '@/ai/text/utils/web-content-analyzer-config';
-import { consumeCredits, hasEnoughCredits } from '@/credits/credits';
-import { getSession } from '@/lib/server';
 import { createDeepSeek } from '@ai-sdk/deepseek';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
@@ -30,7 +27,6 @@ import { z } from 'zod';
 
 // Constants from configuration
 const TIMEOUT_MILLIS = webContentAnalyzerConfig.timeoutMillis;
-const CREDITS_COST = getWebContentAnalysisCost();
 const MAX_CONTENT_LENGTH = webContentAnalyzerConfig.maxContentLength;
 
 // Initialize Firecrawl client
@@ -361,28 +357,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check authentication
-    const session = await getSession();
-    if (!session) {
-      const authError = new WebContentAnalyzerError(
-        ErrorType.AUTHENTICATION,
-        'Authentication required',
-        'Please sign in to analyze web content.',
-        ErrorSeverity.HIGH,
-        false
-      );
-
-      logError(authError, { requestId });
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: authError.userMessage,
-        } satisfies AnalyzeContentResponse,
-        { status: 401 }
-      );
-    }
-
     // Check if Firecrawl is configured
     if (!validateFirecrawlConfig()) {
       const configError = new WebContentAnalyzerError(
@@ -404,39 +378,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if user has sufficient credits before starting analysis
-    const hasCredits = await hasEnoughCredits({
-      userId: session.user.id,
-      requiredCredits: CREDITS_COST,
-    });
-
-    if (!hasCredits) {
-      const creditError = new WebContentAnalyzerError(
-        ErrorType.CREDITS,
-        'Insufficient credits to perform analysis',
-        "You don't have enough credits to analyze this webpage. Please purchase more credits.",
-        ErrorSeverity.HIGH,
-        false
-      );
-
-      logError(creditError, {
-        requestId,
-        userId: session.user.id,
-        requiredCredits: CREDITS_COST,
-      });
-
-      return NextResponse.json(
-        {
-          success: false,
-          error: creditError.userMessage,
-        } satisfies AnalyzeContentResponse,
-        { status: 402 }
-      );
-    }
-
-    console.log(
-      `Starting analysis [requestId=${requestId}, url=${url}, userId=${session.user.id}]`
-    );
+    console.log(`Starting analysis [requestId=${requestId}, url=${url}]`);
 
     // Perform analysis with timeout and enhanced error handling
     const analysisPromise = (async () => {
@@ -446,13 +388,6 @@ export async function POST(req: NextRequest) {
 
         // Step 2: Analyze content with AI (pass provider)
         const analysis = await analyzeContent(content, url, modelProvider);
-
-        // Step 3: Consume credits (only on successful analysis)
-        await consumeCredits({
-          userId: session.user.id,
-          amount: CREDITS_COST,
-          description: `Web content analysis: ${url}`,
-        });
 
         return { analysis, screenshot };
       } catch (error) {
@@ -477,7 +412,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       data: result,
-      creditsConsumed: CREDITS_COST,
     } satisfies AnalyzeContentResponse);
   } catch (error) {
     const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
@@ -498,12 +432,6 @@ export async function POST(req: NextRequest) {
     switch (analyzedError.type) {
       case ErrorType.VALIDATION:
         statusCode = 400;
-        break;
-      case ErrorType.AUTHENTICATION:
-        statusCode = 401;
-        break;
-      case ErrorType.CREDITS:
-        statusCode = 402;
         break;
       case ErrorType.TIMEOUT:
         statusCode = 408;

@@ -7,11 +7,6 @@
 
 export const webContentAnalyzerConfig = {
   /**
-   * Credit cost for performing a web content analysis
-   */
-  creditsCost: 100,
-
-  /**
    * Maximum content length for AI analysis (in characters)
    * Optimized to prevent token limit issues while maintaining quality
    */
@@ -118,20 +113,13 @@ export const webContentAnalyzerConfig = {
     maxTokens: 2000,
   },
   openrouter: {
-    model: 'openrouter/horizon-beta',
+    // model: 'openrouter/horizon-beta',
     // model: 'x-ai/grok-3-beta',
-    // model: 'openai/gpt-4o-mini',
+    model: 'openai/gpt-4o-mini',
     temperature: 0.1,
     maxTokens: 2000,
   },
 } as const;
-
-/**
- * Get the credit cost for web content analysis
- */
-export function getWebContentAnalysisCost(): number {
-  return webContentAnalyzerConfig.creditsCost;
-}
 
 /**
  * Validates if the Firecrawl API key is configured
@@ -151,8 +139,6 @@ export function validateFirecrawlConfig(): boolean {
  */
 export function validateWebContentAnalyzerConfig(): boolean {
   return (
-    typeof webContentAnalyzerConfig.creditsCost === 'number' &&
-    webContentAnalyzerConfig.creditsCost > 0 &&
     typeof webContentAnalyzerConfig.maxContentLength === 'number' &&
     webContentAnalyzerConfig.maxContentLength > 0 &&
     typeof webContentAnalyzerConfig.timeoutMillis === 'number' &&
