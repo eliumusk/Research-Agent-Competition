@@ -1,5 +1,5 @@
 import Container from '@/components/layout/container';
-import { ConsumeCreditsCard } from '@/components/test/credits-test';
+import { ConsumeCreditsCard } from '@/components/test/consume-credits-card';
 
 export default async function TestPage() {
   return (
