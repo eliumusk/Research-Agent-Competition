@@ -91,10 +91,10 @@ export function UrlInputForm({
               <SelectValue placeholder="Select model" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="openrouter">OpenRouter</SelectItem>
               <SelectItem value="openai">OpenAI GPT-4o</SelectItem>
               <SelectItem value="gemini">Google Gemini</SelectItem>
-              <SelectItem value="deepseek">DeepSeek</SelectItem>
-              <SelectItem value="openrouter">OpenRouter</SelectItem>
+              <SelectItem value="deepseek">DeepSeek R1</SelectItem>
             </SelectContent>
           </Select>
         </div>

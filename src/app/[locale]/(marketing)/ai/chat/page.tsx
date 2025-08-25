@@ -37,7 +37,9 @@ export default async function AIChatPage() {
         </div>
 
         {/* Chat Bot */}
-        <ChatBot />
+        <div className="max-w-6xl mx-auto">
+          <ChatBot />
+        </div>
       </div>
     </div>
   );

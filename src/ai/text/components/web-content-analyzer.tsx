@@ -194,7 +194,8 @@ export function WebContentAnalyzer({ className }: WebContentAnalyzerProps) {
   const [state, dispatch] = useReducer(analysisReducer, initialState);
 
   // Model provider state
-  const [modelProvider, setModelProvider] = useState<ModelProvider>('openai');
+  const [modelProvider, setModelProvider] =
+    useState<ModelProvider>('openrouter');
 
   // Enhanced error state
   const [analyzedError, setAnalyzedError] =

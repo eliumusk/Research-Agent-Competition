@@ -115,7 +115,8 @@ export const webContentAnalyzerConfig = {
   openrouter: {
     // model: 'openrouter/horizon-beta',
     // model: 'x-ai/grok-3-beta',
-    model: 'openai/gpt-4o-mini',
+    // model: 'openai/gpt-4o-mini',
+    model: 'deepseek/deepseek-r1:free',
     temperature: 0.1,
     maxTokens: 2000,
   },

@@ -76,9 +76,9 @@ export function ImagePlayground({
 
   return (
     <div className="rounded-lg bg-background py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto">
         {/* header */}
-        <ImageGeneratorHeader />
+        {/* <ImageGeneratorHeader /> */}
 
         {/* input prompt */}
         <PromptInput
