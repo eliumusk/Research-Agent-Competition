@@ -14,7 +14,7 @@ export const websiteConfig: WebsiteConfig = {
       enableSwitch: true,
     },
     mode: {
-      defaultMode: 'system',
+      defaultMode: 'dark',
       enableSwitch: true,
     },
     images: {
