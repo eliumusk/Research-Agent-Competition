@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
  * Mode switcher component, used in the footer
  */
 export function ModeSwitcherHorizontal() {
-  if (!websiteConfig.metadata.mode?.enableSwitch) {
+  if (!websiteConfig.ui.mode?.enableSwitch) {
     return null;
   }
 

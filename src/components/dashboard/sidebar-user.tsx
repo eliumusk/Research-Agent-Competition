@@ -71,7 +71,7 @@ export function SidebarUser({ user, className }: SidebarUserProps) {
     });
   };
 
-  const showModeSwitch = websiteConfig.metadata.mode?.enableSwitch ?? false;
+  const showModeSwitch = websiteConfig.ui.mode?.enableSwitch ?? false;
   const showLocaleSwitch = LOCALES.length > 1;
 
   const handleSignOut = async () => {

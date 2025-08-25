@@ -8,7 +8,7 @@ import type { WebsiteConfig } from '@/types';
  * https://mksaas.com/docs/config/website
  */
 export const websiteConfig: WebsiteConfig = {
-  metadata: {
+  ui: {
     theme: {
       defaultTheme: 'default',
       enableSwitch: true,
@@ -17,6 +17,8 @@ export const websiteConfig: WebsiteConfig = {
       defaultMode: 'dark',
       enableSwitch: true,
     },
+  },
+  metadata: {
     images: {
       ogImage: '/og.png',
       logoLight: '/logo.png',

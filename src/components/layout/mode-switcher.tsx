@@ -16,7 +16,7 @@ import { useTheme } from 'next-themes';
  * Mode switcher component, used in the navbar
  */
 export function ModeSwitcher() {
-  if (!websiteConfig.metadata.mode?.enableSwitch) {
+  if (!websiteConfig.ui.mode?.enableSwitch) {
     return null;
   }
 
