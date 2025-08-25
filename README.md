@@ -21,7 +21,7 @@ If you found anything that could be improved, please let me know.
 - 📚 documentation: [mksaas.com/docs](https://mksaas.com/docs)
 - 🗓️ roadmap: [mksaas roadmap](https://mksaas.link/roadmap)
 - 👨‍💻 discord: [mksaas.link/discord](https://mksaas.link/discord)
-- 📹 video (WIP): [mksaas.link/youtube](https://mksaas.link/youtube)
+- 📹 video: [mksaas.link/youtube](https://mksaas.link/youtube)
 
 ## Repositories
 
