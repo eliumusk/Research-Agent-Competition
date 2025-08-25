@@ -35,7 +35,6 @@ export const websiteConfig: WebsiteConfig = {
     },
   },
   features: {
-    enableDiscordWidget: false,
     enableUpgradeCard: true,
     enableUpdateAvatar: true,
     enableAffonsoAffiliate: false,
