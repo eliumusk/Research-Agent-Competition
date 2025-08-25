@@ -6,19 +6,27 @@ import { CoinsIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-export function CreditsTest() {
-  const { data: balance = 0, isLoading } = useCreditBalance();
+const CONSUME_CREDITS = 10;
+
+export function ConsumeCreditsCard() {
+  const { data: balance = 0, isLoading: isLoadingBalance } = useCreditBalance();
   const consumeCreditsMutation = useConsumeCredits();
   const [loading, setLoading] = useState(false);
 
+  const hasEnoughCredits = (amount: number) => balance >= amount;
+
   const handleConsume = async () => {
+    if (!hasEnoughCredits(CONSUME_CREDITS)) {
+      toast.error('Insufficient credits, please buy more credits.');
+      return;
+    }
     setLoading(true);
     try {
       await consumeCreditsMutation.mutateAsync({
-        amount: 10,
-        description: 'Test credit consumption',
+        amount: CONSUME_CREDITS,
+        description: `Test credit consumption (${CONSUME_CREDITS} credits)`,
       });
-      toast.success('10 credits consumed successfully!');
+      toast.success(`${CONSUME_CREDITS} credits consumed successfully!`);
     } catch (error) {
       toast.error('Failed to consume credits');
     } finally {
@@ -39,11 +47,13 @@ export function CreditsTest() {
       <div className="flex gap-2">
         <Button
           onClick={handleConsume}
-          disabled={loading || consumeCreditsMutation.isPending}
+          disabled={
+            loading || consumeCreditsMutation.isPending || isLoadingBalance
+          }
           size="sm"
         >
           <CoinsIcon className="w-4 h-4 mr-2" />
-          Consume 10 Credits
+          Consume {CONSUME_CREDITS} Credits
         </Button>
       </div>
 
