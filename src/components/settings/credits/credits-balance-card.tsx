@@ -102,11 +102,11 @@ export default function CreditsBalanceCard() {
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
           <div className="flex items-center justify-start space-x-4">
-            <Skeleton className="h-8 w-1/5" />
+            <Skeleton className="h-9 w-1/5" />
           </div>
         </CardContent>
         <CardFooter className="px-6 py-4 flex justify-between items-center bg-muted rounded-none">
-          <Skeleton className="h-6 w-3/5" />
+          <Skeleton className="h-4 w-3/5" />
         </CardFooter>
       </Card>
     );
