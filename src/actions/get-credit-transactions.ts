@@ -44,17 +44,30 @@ export const getCreditTransactionsAction = userActionClient
       const { pageIndex, pageSize, search, sorting } = parsedInput;
       const currentUser = (ctx as { user: User }).user;
 
-      // search by type, amount, paymentId, description, and restrict to current user
+      // Search logic: text fields use ilike, and if search is a number, also search amount fields
+      const searchConditions = [];
+      if (search) {
+        // Always search text fields
+        searchConditions.push(
+          ilike(creditTransaction.type, `%${search}%`),
+          ilike(creditTransaction.paymentId, `%${search}%`),
+          ilike(creditTransaction.description, `%${search}%`)
+        );
+
+        // If search is a valid number, also search numeric fields
+        const numericSearch = Number.parseInt(search, 10);
+        if (!Number.isNaN(numericSearch)) {
+          searchConditions.push(
+            eq(creditTransaction.amount, numericSearch),
+            eq(creditTransaction.remainingAmount, numericSearch)
+          );
+        }
+      }
+
       const where = search
         ? and(
             eq(creditTransaction.userId, currentUser.id),
-            or(
-              ilike(creditTransaction.type, `%${search}%`),
-              ilike(creditTransaction.amount, `%${search}%`),
-              ilike(creditTransaction.remainingAmount, `%${search}%`),
-              ilike(creditTransaction.paymentId, `%${search}%`),
-              ilike(creditTransaction.description, `%${search}%`)
-            )
+            or(...searchConditions)
           )
         : eq(creditTransaction.userId, currentUser.id);
 
