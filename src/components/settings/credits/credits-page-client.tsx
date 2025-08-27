@@ -5,6 +5,7 @@ import { CreditTransactions } from '@/components/settings/credits/credit-transac
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslations } from 'next-intl';
+import { parseAsStringLiteral, useQueryState } from 'nuqs';
 
 /**
  * Credits page client, show credit balance and transactions
@@ -12,9 +13,24 @@ import { useTranslations } from 'next-intl';
 export default function CreditsPageClient() {
   const t = useTranslations('Dashboard.settings.credits');
 
+  const [activeTab, setActiveTab] = useQueryState(
+    'tab',
+    parseAsStringLiteral(['balance', 'transactions']).withDefault('balance')
+  );
+
+  const handleTabChange = (value: string) => {
+    if (value === 'balance' || value === 'transactions') {
+      setActiveTab(value);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8">
-      <Tabs defaultValue="balance" className="w-full">
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="w-full"
+      >
         <TabsList className="">
           <TabsTrigger value="balance">{t('tabs.balance')}</TabsTrigger>
           <TabsTrigger value="transactions">

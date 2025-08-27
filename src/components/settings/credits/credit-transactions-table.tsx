@@ -76,6 +76,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Badge } from '../../ui/badge';
 import { Label } from '../../ui/label';
+import { Skeleton } from '../../ui/skeleton';
 
 // Define the credit transaction interface
 export interface CreditTransaction {
@@ -152,12 +153,27 @@ function DataTableColumnHeader<TData, TValue>({
   );
 }
 
+function TableRowSkeleton({ columns }: { columns: number }) {
+  return (
+    <TableRow>
+      {Array.from({ length: columns }).map((_, index) => (
+        <TableCell key={index} className="py-4">
+          <div className="flex items-center gap-2 pl-3">
+            <Skeleton className="h-6 w-full max-w-32" />
+          </div>
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+}
+
 interface CreditTransactionsTableProps {
   data: CreditTransaction[];
   total: number;
   pageIndex: number;
   pageSize: number;
   search: string;
+  sorting?: SortingState;
   loading?: boolean;
   onSearch: (search: string) => void;
   onPageChange: (page: number) => void;
@@ -171,6 +187,7 @@ export function CreditTransactionsTable({
   pageIndex,
   pageSize,
   search,
+  sorting = [{ id: 'createdAt', desc: true }],
   loading,
   onSearch,
   onPageChange,
@@ -179,9 +196,6 @@ export function CreditTransactionsTable({
 }: CreditTransactionsTableProps) {
   const t = useTranslations('Dashboard.settings.credits.transactions');
   const tTable = useTranslations('Common.table');
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'createdAt', desc: true },
-  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
@@ -449,7 +463,6 @@ export function CreditTransactionsTable({
     },
     onSortingChange: (updater) => {
       const next = typeof updater === 'function' ? updater(sorting) : updater;
-      setSorting(next);
       onSortingChange?.(next);
     },
     onColumnFiltersChange: setColumnFilters,
@@ -538,7 +551,12 @@ export function CreditTransactionsTable({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              // Show skeleton rows while loading
+              Array.from({ length: pageSize }).map((_, index) => (
+                <TableRowSkeleton key={index} columns={columns.length} />
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -560,7 +578,7 @@ export function CreditTransactionsTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {loading ? tTable('loading') : tTable('noResults')}
+                  {tTable('noResults')}
                 </TableCell>
               </TableRow>
             )}
