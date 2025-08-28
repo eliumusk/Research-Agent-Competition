@@ -12,6 +12,7 @@ import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 import { type Locale, NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import { Providers } from './providers';
@@ -57,15 +58,17 @@ export default async function LocaleLayout({
           fontBricolageGrotesque.variable
         )}
       >
-        <NextIntlClientProvider>
-          <Providers locale={locale}>
-            {children}
+        <NuqsAdapter>
+          <NextIntlClientProvider>
+            <Providers locale={locale}>
+              {children}
 
-            <Toaster richColors position="top-right" offset={64} />
-            <TailwindIndicator />
-            <Analytics />
-          </Providers>
-        </NextIntlClientProvider>
+              <Toaster richColors position="top-right" offset={64} />
+              <TailwindIndicator />
+              <Analytics />
+            </Providers>
+          </NextIntlClientProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
