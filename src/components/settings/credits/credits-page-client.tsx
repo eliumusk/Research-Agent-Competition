@@ -5,7 +5,15 @@ import { CreditTransactions } from '@/components/settings/credits/credit-transac
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslations } from 'next-intl';
-import { parseAsStringLiteral, useQueryState } from 'nuqs';
+import {
+  parseAsIndex,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
+  useQueryStates,
+} from 'nuqs';
+import { useMemo } from 'react';
+import type { SortingState } from '@tanstack/react-table';
 
 /**
  * Credits page client, show credit balance and transactions
@@ -13,21 +21,46 @@ import { parseAsStringLiteral, useQueryState } from 'nuqs';
 export default function CreditsPageClient() {
   const t = useTranslations('Dashboard.settings.credits');
 
-  const [activeTab, setActiveTab] = useQueryState(
-    'tab',
-    parseAsStringLiteral(['balance', 'transactions']).withDefault('balance')
+  // Manage all URL states in the parent component
+  const [{ tab, page, pageSize, search, sortId, sortDesc }, setQueryStates] =
+    useQueryStates({
+      tab: parseAsStringLiteral(['balance', 'transactions']).withDefault('balance'),
+      // Transaction-specific parameters
+      page: parseAsIndex.withDefault(0),
+      pageSize: parseAsInteger.withDefault(10),
+      search: parseAsString.withDefault(''),
+      sortId: parseAsString.withDefault('createdAt'),
+      sortDesc: parseAsInteger.withDefault(1),
+    });
+
+  const sorting: SortingState = useMemo(
+    () => [{ id: sortId, desc: Boolean(sortDesc) }],
+    [sortId, sortDesc]
   );
 
   const handleTabChange = (value: string) => {
     if (value === 'balance' || value === 'transactions') {
-      setActiveTab(value);
+      if (value === 'balance') {
+        // When switching to balance tab, clear transaction parameters
+        setQueryStates({
+          tab: value,
+          page: null,
+          pageSize: null,
+          search: null,
+          sortId: null,
+          sortDesc: null,
+        });
+      } else {
+        // When switching to transactions tab, just set the tab
+        setQueryStates({ tab: value });
+      }
     }
   };
 
   return (
     <div className="flex flex-col gap-8">
       <Tabs
-        value={activeTab}
+        value={tab}
         onValueChange={handleTabChange}
         className="w-full"
       >
@@ -52,7 +85,25 @@ export default function CreditsPageClient() {
 
         <TabsContent value="transactions" className="mt-4">
           {/* Credit Transactions */}
-          <CreditTransactions />
+          <CreditTransactions
+            page={page}
+            pageSize={pageSize}
+            search={search}
+            sorting={sorting}
+            onPageChange={(newPageIndex) => setQueryStates({ page: newPageIndex })}
+            onPageSizeChange={(newPageSize) =>
+              setQueryStates({ pageSize: newPageSize, page: 0 })
+            }
+            onSearch={(newSearch) => setQueryStates({ search: newSearch, page: 0 })}
+            onSortingChange={(newSorting) => {
+              if (newSorting.length > 0) {
+                setQueryStates({
+                  sortId: newSorting[0].id,
+                  sortDesc: newSorting[0].desc ? 1 : 0,
+                });
+              }
+            }}
+          />
         </TabsContent>
       </Tabs>
     </div>
