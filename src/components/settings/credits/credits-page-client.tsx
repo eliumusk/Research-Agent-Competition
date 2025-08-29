@@ -4,6 +4,7 @@ import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
 import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import {
   parseAsIndex,
@@ -13,7 +14,6 @@ import {
   useQueryStates,
 } from 'nuqs';
 import { useMemo } from 'react';
-import type { SortingState } from '@tanstack/react-table';
 
 /**
  * Credits page client, show credit balance and transactions
@@ -24,7 +24,9 @@ export default function CreditsPageClient() {
   // Manage all URL states in the parent component
   const [{ tab, page, pageSize, search, sortId, sortDesc }, setQueryStates] =
     useQueryStates({
-      tab: parseAsStringLiteral(['balance', 'transactions']).withDefault('balance'),
+      tab: parseAsStringLiteral(['balance', 'transactions']).withDefault(
+        'balance'
+      ),
       // Transaction-specific parameters
       page: parseAsIndex.withDefault(0),
       pageSize: parseAsInteger.withDefault(10),
@@ -59,11 +61,7 @@ export default function CreditsPageClient() {
 
   return (
     <div className="flex flex-col gap-8">
-      <Tabs
-        value={tab}
-        onValueChange={handleTabChange}
-        className="w-full"
-      >
+      <Tabs value={tab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="">
           <TabsTrigger value="balance">{t('tabs.balance')}</TabsTrigger>
           <TabsTrigger value="transactions">
@@ -90,11 +88,15 @@ export default function CreditsPageClient() {
             pageSize={pageSize}
             search={search}
             sorting={sorting}
-            onPageChange={(newPageIndex) => setQueryStates({ page: newPageIndex })}
+            onPageChange={(newPageIndex) =>
+              setQueryStates({ page: newPageIndex })
+            }
             onPageSizeChange={(newPageSize) =>
               setQueryStates({ pageSize: newPageSize, page: 0 })
             }
-            onSearch={(newSearch) => setQueryStates({ search: newSearch, page: 0 })}
+            onSearch={(newSearch) =>
+              setQueryStates({ search: newSearch, page: 0 })
+            }
             onSortingChange={(newSorting) => {
               if (newSorting.length > 0) {
                 setQueryStates({
