@@ -1,3 +1,4 @@
+import { PremiumContent } from '@/components/blog/premium-content';
 import { ImageWrapper } from '@/components/docs/image-wrapper';
 import { Wrapper } from '@/components/docs/wrapper';
 import { YoutubeVideo } from '@/components/docs/youtube-video';
@@ -23,6 +24,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ...LucideIcons,
     // ...((await import('lucide-react')) as unknown as MDXComponents),
     YoutubeVideo,
+    PremiumContent,
     Tabs,
     Tab,
     TypeTable,
