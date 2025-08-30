@@ -94,6 +94,7 @@ export const blog = defineCollections({
     image: z.string(),
     date: z.string().date(),
     published: z.boolean().default(true),
+    premium: z.boolean().optional(),
     categories: z.array(z.string()),
     author: z.string(),
   }),
