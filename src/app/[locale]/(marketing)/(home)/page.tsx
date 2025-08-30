@@ -1,7 +1,6 @@
 import HomeBlogSection from '@/components/home/home-blog';
-import HomeDiscordSection from '@/components/home/home-discord';
 import HomeHeroSection from '@/components/home/home-hero';
-import HomeProjectsSection from '@/components/home/home-projects';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { constructMetadata } from '@/lib/metadata';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
@@ -40,13 +39,7 @@ export default async function HomePage(props: HomePageProps) {
       <div className="flex flex-col">
         <HomeHeroSection />
 
-        <HomeProjectsSection />
-
         <HomeBlogSection />
-
-        <HomeDiscordSection />
-
-        {/* <HomeNewsletterSection /> */}
 
         {/* <HeroSection /> */}
 
@@ -72,9 +65,7 @@ export default async function HomePage(props: HomePageProps) {
 
         {/* <TestimonialsSection /> */}
 
-        {/* <NewsletterCard /> */}
-
-        {/* <DiscordWidget /> */}
+        <NewsletterCard />
       </div>
     </>
   );

@@ -57,6 +57,11 @@ export function getNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
+      title: t('pricing.title'),
+      href: Routes.Pricing,
+      external: false,
+    },
+    {
       title: t('pages.items.about.title'),
       description: t('pages.items.about.description'),
       icon: <BuildingIcon className="size-4 shrink-0" />,
