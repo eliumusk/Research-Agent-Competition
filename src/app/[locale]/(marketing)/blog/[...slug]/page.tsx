@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import '@/styles/mdx.css';
+import { PremiumBadge } from '@/components/blog/premium-badge';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 
 /**
@@ -131,7 +132,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
               )}
             </div>
 
-            {/* blog post date */}
+            {/* blog post date and premium badge */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <CalendarIcon className="size-4 text-muted-foreground" />
@@ -139,6 +140,8 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
                   {publishDate}
                 </span>
               </div>
+
+              {premium && <PremiumBadge size="sm" />}
             </div>
 
             {/* blog post title */}
