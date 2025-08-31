@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { CrownIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface PremiumBadgeProps {
   className?: string;
@@ -15,6 +16,8 @@ export function PremiumBadge({
   variant = 'default',
   size = 'default',
 }: PremiumBadgeProps) {
+  const t = useTranslations('Common');
+
   const sizeClasses = {
     sm: 'text-xs h-5',
     default: 'text-xs h-6',
@@ -39,7 +42,7 @@ export function PremiumBadge({
       )}
     >
       <CrownIcon className={iconSizes[size]} />
-      Premium
+      {t('premium')}
     </Badge>
   );
 }

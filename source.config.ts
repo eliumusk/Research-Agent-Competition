@@ -85,7 +85,7 @@ export const category = defineCollections({
 /**
  * Blog posts
  *
- * dtitle is required, but description is optional in frontmatter
+ * title is required, but description is optional in frontmatter
  */
 export const blog = defineCollections({
   type: 'doc',
