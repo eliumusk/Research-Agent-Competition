@@ -1,11 +1,13 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
+import { PremiumGuard } from '@/components/blog/premium-guard';
 import { getMDXComponents } from '@/components/docs/mdx-components';
-import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';
 import { constructMetadata } from '@/lib/metadata';
+import { checkPremiumAccess } from '@/lib/premium-access';
+import { getSession } from '@/lib/server';
 import {
   type BlogType,
   authorSource,
@@ -83,13 +85,21 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
     notFound();
   }
 
-  const { date, title, description, image, author, categories } = post.data;
+  const { date, title, description, image, author, categories, premium } =
+    post.data;
   const publishDate = formatDate(new Date(date));
 
   const blogAuthor = authorSource.getPage([author], locale);
   const blogCategories = categorySource
     .getPages(locale)
     .filter((category) => categories.includes(category.slugs[0] ?? ''));
+
+  // Check premium access for premium posts
+  const session = await getSession();
+  const hasPremiumAccess =
+    premium && session?.user?.id
+      ? await checkPremiumAccess(session.user.id)
+      : !premium; // Non-premium posts are always accessible
 
   const MDX = post.data.body;
 
@@ -141,8 +151,14 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
           {/* blog post content */}
           {/* in order to make the mdx.css work, we need to add the className prose to the div */}
           {/* https://github.com/tailwindlabs/tailwindcss-typography */}
-          <div className="mt-8 max-w-none prose prose-neutral dark:prose-invert prose-img:rounded-lg">
-            <MDX components={getMDXComponents()} />
+          <div className="mt-8">
+            <PremiumGuard
+              isPremium={!!premium}
+              canAccess={hasPremiumAccess}
+              className="max-w-none"
+            >
+              <MDX components={getMDXComponents()} />
+            </PremiumGuard>
           </div>
 
           <div className="flex items-center justify-start my-16">
