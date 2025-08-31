@@ -3,7 +3,6 @@ import EmptyGrid from '@/components/shared/empty-grid';
 import { websiteConfig } from '@/config/website';
 import { blogSource } from '@/lib/source';
 import type { Locale } from 'next-intl';
-import { HeaderSection } from '../layout/header-section';
 
 interface HomeBlogSectionProps {
   locale: Locale;
@@ -40,15 +39,10 @@ export default async function HomeBlogSection({
   // console.log("BlogPage, totalCount", totalCount, ", totalPages", totalPages,);
 
   return (
-    <section id="blog" className="px-4 py-16">
+    <section id="blog" className="px-4 pb-16">
       <div className="mx-auto max-w-7xl">
-        <HeaderSection
-          title="Blog"
-          subtitle="What I've written and what I'm thinking"
-        />
-
         {/* dont know why px-4 is needed here, otherwise the blog section will be wider than the navbar on the homepage */}
-        <div className="mt-12 px-0 md:px-4">
+        <div className="px-0 md:px-4">
           {/* when no posts are found */}
           {paginatedPosts.length === 0 && <EmptyGrid />}
 

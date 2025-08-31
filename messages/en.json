@@ -769,7 +769,10 @@
       "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
       "introduction": "Introducing MkSaaS Boilerplate",
       "primary": "Get Started",
-      "secondary": "See Demo"
+      "secondary": "See Demo",
+      "follow": "Follow me on X",
+      "read": "Read my blog",
+      "intro": "I'm a full-stack developer and indie hacker. I'm building in public on social media, and sharing my journey and thoughts here."
     },
     "logocloud": {
       "title": "Your favorite companies are our partners"

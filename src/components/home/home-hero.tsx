@@ -1,8 +1,12 @@
+'use client';
+
 import { Ripple } from '@/components/magicui/ripple';
 import { AnimatedGroup } from '@/components/tailark/motion/animated-group';
 import { TextEffect } from '@/components/tailark/motion/text-effect';
 import { Button } from '@/components/ui/button';
+import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
+import { Routes } from '@/routes';
 import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -32,9 +36,8 @@ const transitionVariants = {
 
 export default function HomeHeroSection() {
   const t = useTranslations('HomePage.hero');
-  const linkIntroduction = 'https://x.com/mksaascom';
-  const linkPrimary = 'https://x.com/indie_maker_fox';
-  const linkSecondary = '/blog';
+  const linkPrimary = websiteConfig.metadata.social?.twitter || '';
+  const linkSecondary = Routes.Blog;
 
   return (
     <>
@@ -113,9 +116,7 @@ export default function HomeHeroSection() {
                   as="p"
                   className="mx-auto mt-8 max-w-4xl text-balance text-lg text-muted-foreground"
                 >
-                  I'm a full-stack developer and indie hacker. I'm building in
-                  public on social media, and sharing my journey and thoughts
-                  here.
+                  {t('intro')}
                 </TextEffect>
 
                 {/* action buttons */}
@@ -143,7 +144,7 @@ export default function HomeHeroSection() {
                       className="rounded-xl px-5 text-base"
                     >
                       <LocaleLink href={linkPrimary} target="_blank">
-                        <span className="text-nowrap">Follow me on X</span>
+                        <span className="text-nowrap">{t('follow')}</span>
                       </LocaleLink>
                     </Button>
                   </div>
@@ -155,7 +156,7 @@ export default function HomeHeroSection() {
                     className="h-10.5 rounded-xl px-5"
                   >
                     <LocaleLink href={linkSecondary}>
-                      <span className="text-nowrap">Read my blog</span>
+                      <span className="text-nowrap">{t('read')}</span>
                     </LocaleLink>
                   </Button>
                 </AnimatedGroup>
