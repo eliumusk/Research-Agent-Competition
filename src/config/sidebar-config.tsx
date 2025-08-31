@@ -63,12 +63,12 @@ export function getSidebarLinks(): NestedMenuItem[] {
           href: Routes.SettingsProfile,
           external: false,
         },
-        // {
-        //   title: t('settings.billing.title'),
-        //   icon: <CreditCardIcon className="size-4 shrink-0" />,
-        //   href: Routes.SettingsBilling,
-        //   external: false,
-        // },
+        {
+          title: t('settings.billing.title'),
+          icon: <CreditCardIcon className="size-4 shrink-0" />,
+          href: Routes.SettingsBilling,
+          external: false,
+        },
         // ...(websiteConfig.credits.enableCredits
         //   ? [
         //       {
