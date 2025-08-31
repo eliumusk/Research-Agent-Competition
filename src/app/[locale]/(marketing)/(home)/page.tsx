@@ -39,7 +39,7 @@ export default async function HomePage(props: HomePageProps) {
       <div className="flex flex-col">
         <HomeHeroSection />
 
-        <HomeBlogSection />
+        <HomeBlogSection locale={locale} />
 
         {/* <HeroSection /> */}
 

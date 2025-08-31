@@ -1,18 +1,23 @@
 import BlogGrid from '@/components/blog/blog-grid';
 import EmptyGrid from '@/components/shared/empty-grid';
 import { websiteConfig } from '@/config/website';
-import { DEFAULT_LOCALE } from '@/i18n/routing';
 import { blogSource } from '@/lib/source';
+import type { Locale } from 'next-intl';
 import { HeaderSection } from '../layout/header-section';
 
-export default async function HomeBlogSection() {
+interface HomeBlogSectionProps {
+  locale: Locale;
+}
+
+export default async function HomeBlogSection({
+  locale,
+}: HomeBlogSectionProps) {
   const paginationSize = websiteConfig.blog.paginationSize;
   const currentPage = 1;
   const startIndex = (currentPage - 1) * paginationSize;
   const endIndex = startIndex + paginationSize;
 
   // Filter posts by locale
-  const locale = DEFAULT_LOCALE;
   const localePosts = blogSource
     .getPages(locale)
     .filter((post) => post.data.published);
