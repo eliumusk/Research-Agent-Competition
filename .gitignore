@@ -41,6 +41,9 @@ certificates
 # claude code
 .claude
 
+# conductor
+.conductor
+
 # kiro
 .kiro
 
