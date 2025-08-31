@@ -1,7 +1,9 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
+import { PremiumBadge } from '@/components/blog/premium-badge';
 import { PremiumGuard } from '@/components/blog/premium-guard';
 import { getMDXComponents } from '@/components/docs/mdx-components';
+import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';
@@ -15,6 +17,7 @@ import {
   categorySource,
 } from '@/lib/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
+import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -23,8 +26,6 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import '@/styles/mdx.css';
-import { PremiumBadge } from '@/components/blog/premium-badge';
-import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 
 /**
  * get related posts, random pick from all posts with same locale, different slug,
