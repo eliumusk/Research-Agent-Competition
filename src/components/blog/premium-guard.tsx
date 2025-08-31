@@ -29,6 +29,14 @@ export function PremiumGuard({
   canAccess,
   className,
 }: PremiumGuardProps) {
+  // All hooks must be called unconditionally at the top
+  const t = useTranslations('BlogPage');
+  const pathname = useLocalePathname();
+  const currentUser = useCurrentUser();
+  const { data: paymentData, isLoading: isLoadingPayment } = useCurrentPlan(
+    currentUser?.id
+  );
+
   // For non-premium articles, show content immediately with no extra processing
   if (!isPremium) {
     return (
@@ -40,9 +48,11 @@ export function PremiumGuard({
     );
   }
 
-  const t = useTranslations('BlogPage');
-  const pathname = useLocalePathname();
-  
+  // Determine if user has premium access
+  const hasPremiumAccess =
+    paymentData?.currentPlan &&
+    (!paymentData.currentPlan.isFree || paymentData.currentPlan.isLifetime);
+
   // If server-side check has already determined access, use that
   if (canAccess !== undefined) {
     // Server has determined the user has access
@@ -55,9 +65,8 @@ export function PremiumGuard({
         </div>
       );
     }
-    
+
     // Server determined no access, show appropriate message
-    const currentUser = useCurrentUser();
     if (!currentUser) {
       return (
         <div className={className}>
@@ -65,7 +74,7 @@ export function PremiumGuard({
             {/* Show partial content before protection */}
             {children}
           </div>
-          
+
           {/* Enhanced login prompt for server-side blocked content */}
           <div className="mt-16">
             <div className="w-full p-12 rounded-lg bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 border border-primary/20">
@@ -96,17 +105,6 @@ export function PremiumGuard({
       );
     }
   }
-
-  // Fallback to client-side check when server-side check is not available
-  const currentUser = useCurrentUser();
-  const { data: paymentData, isLoading: isLoadingPayment } = useCurrentPlan(
-    currentUser?.id
-  );
-
-  // Determine if user has premium access
-  const hasPremiumAccess =
-    paymentData?.currentPlan &&
-    (!paymentData.currentPlan.isFree || paymentData.currentPlan.isLifetime);
 
   // If user is not logged in
   if (!currentUser) {
