@@ -69,16 +69,16 @@ export function getSidebarLinks(): NestedMenuItem[] {
           href: Routes.SettingsBilling,
           external: false,
         },
-        // ...(websiteConfig.credits.enableCredits
-        //   ? [
-        //       {
-        //         title: t('settings.credits.title'),
-        //         icon: <CoinsIcon className="size-4 shrink-0" />,
-        //         href: Routes.SettingsCredits,
-        //         external: false,
-        //       },
-        //     ]
-        //   : []),
+        ...(websiteConfig.credits.enableCredits
+          ? [
+              {
+                title: t('settings.credits.title'),
+                icon: <CoinsIcon className="size-4 shrink-0" />,
+                href: Routes.SettingsCredits,
+                external: false,
+              },
+            ]
+          : []),
         {
           title: t('settings.security.title'),
           icon: <LockKeyholeIcon className="size-4 shrink-0" />,

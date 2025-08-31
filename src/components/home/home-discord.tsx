@@ -11,7 +11,7 @@ export default function HomeDiscordSection() {
         <HeaderSection
           title="Community"
           subtitle="Join the Discord community"
-          description="1600+ excellent indie makers are cooking here"
+          description="1700+ excellent indie makers are cooking here"
           className="text-center"
         />
 
