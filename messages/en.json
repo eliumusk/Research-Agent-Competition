@@ -5,6 +5,7 @@
     "description": "MkSaaS is the best AI SaaS boilerplate. Make AI SaaS in days, simply and effortlessly"
   },
   "Common": {
+    "premium": "Premium",
     "login": "Log in",
     "logout": "Log out",
     "signUp": "Sign up",
@@ -281,7 +282,20 @@
     "all": "All",
     "noPostsFound": "No posts found",
     "allPosts": "All Posts",
-    "morePosts": "More Posts"
+    "morePosts": "More Posts",
+    "premiumContent": {
+      "title": "Unlock Premium Content",
+      "description": "Subscribe to our Pro plan to access all premium articles and exclusive content.",
+      "upgradeCta": "Upgrade Now",
+      "benefit1": "All premium articles",
+      "benefit2": "Exclusive content",
+      "benefit3": "Cancel anytime",
+      "signIn": "Sign In",
+      "loginRequired": "Sign in to continue reading",
+      "loginDescription": "This is a premium article. Sign in to your account to access the full content.",
+      "checkingAccess": "Checking access...",
+      "loadingContent": "Loading full content..."
+    }
   },
   "DocsPage": {
     "toc": "Table of Contents",

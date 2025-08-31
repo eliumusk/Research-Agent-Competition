@@ -85,7 +85,7 @@ export const category = defineCollections({
 /**
  * Blog posts
  *
- * dtitle is required, but description is optional in frontmatter
+ * title is required, but description is optional in frontmatter
  */
 export const blog = defineCollections({
   type: 'doc',
@@ -94,6 +94,7 @@ export const blog = defineCollections({
     image: z.string(),
     date: z.string().date(),
     published: z.boolean().default(true),
+    premium: z.boolean().optional(),
     categories: z.array(z.string()),
     author: z.string(),
   }),
