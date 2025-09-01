@@ -70,7 +70,7 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="mx-auto p-6 relative size-full h-screen rounded-lg bg-muted/50">
+    <div className="mx-auto p-6 relative size-full h-screen rounded-lg bg-muted">
       <div className="flex flex-col h-full">
         <Conversation className="h-full">
           <ConversationContent>
