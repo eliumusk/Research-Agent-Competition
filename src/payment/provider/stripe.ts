@@ -537,6 +537,9 @@ export class StripeProvider implements PaymentProvider {
       return;
     }
 
+    const periodStart = this.getPeriodStart(stripeSubscription);
+    const periodEnd = this.getPeriodEnd(stripeSubscription);
+
     // create fields
     const createFields: any = {
       id: randomUUID(),
@@ -549,12 +552,8 @@ export class StripeProvider implements PaymentProvider {
       status: this.mapSubscriptionStatusToPaymentStatus(
         stripeSubscription.status
       ),
-      periodStart: stripeSubscription.current_period_start
-        ? new Date(stripeSubscription.current_period_start * 1000)
-        : null,
-      periodEnd: stripeSubscription.current_period_end
-        ? new Date(stripeSubscription.current_period_end * 1000)
-        : null,
+      periodStart: periodStart,
+      periodEnd: periodEnd,
       cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
       trialStart: stripeSubscription.trial_start
         ? new Date(stripeSubscription.trial_start * 1000)
@@ -614,12 +613,8 @@ export class StripeProvider implements PaymentProvider {
       .limit(1);
 
     // get new period start and end
-    const newPeriodStart = stripeSubscription.current_period_start
-      ? new Date(stripeSubscription.current_period_start * 1000)
-      : undefined;
-    const newPeriodEnd = stripeSubscription.current_period_end
-      ? new Date(stripeSubscription.current_period_end * 1000)
-      : undefined;
+    const newPeriodStart = this.getPeriodStart(stripeSubscription);
+    const newPeriodEnd = this.getPeriodEnd(stripeSubscription);
 
     // Check if this is a renewal (period has changed and subscription is active)
     const isRenewal =
@@ -971,5 +966,25 @@ export class StripeProvider implements PaymentProvider {
 
     // Default to auto to let Stripe detect the language
     return 'auto';
+  }
+
+  private getPeriodStart(subscription: Stripe.Subscription): Date | undefined {
+    const s: any = subscription as any;
+    const startUnix =
+      s.current_period_start ??
+      s?.items?.data?.[0]?.current_period_start ??
+      undefined;
+    return typeof startUnix === 'number'
+      ? new Date(startUnix * 1000)
+      : undefined;
+  }
+
+  private getPeriodEnd(subscription: Stripe.Subscription): Date | undefined {
+    const s: any = subscription as any;
+    const endUnix =
+      s.current_period_end ??
+      s?.items?.data?.[0]?.current_period_end ??
+      undefined;
+    return typeof endUnix === 'number' ? new Date(endUnix * 1000) : undefined;
   }
 }
