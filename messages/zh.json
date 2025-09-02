@@ -592,7 +592,7 @@
         },
         "price": "价格：",
         "periodStartDate": "周期开始日期：",
-        "nextBillingDate": "下次账单日期：",
+        "periodEndDate": "周期结束日期：",
         "trialEnds": "试用结束日期：",
         "freePlanMessage": "您当前使用的是功能有限的免费方案",
         "lifetimeMessage": "您拥有所有高级功能的终身使用权限",
