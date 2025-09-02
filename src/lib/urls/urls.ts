@@ -35,7 +35,7 @@ export function getUrlWithLocale(url: string, locale?: Locale | null): string {
  * Input: http://localhost:3000/api/auth/reset-password/token?callbackURL=/auth/reset-password
  * Output: http://localhost:3000/api/auth/reset-password/token?callbackURL=/zh/auth/reset-password
  *
- * http://localhost:3000/api/auth/verify-email?token=eyJhbGciOiJIUzI1NiJ9&callbackURL=/dashboard
+ * Input: http://localhost:3000/api/auth/verify-email?token=eyJhbGciOiJIUzI1NiJ9&callbackURL=/dashboard
  * Output: http://localhost:3000/api/auth/verify-email?token=eyJhbGciOiJIUzI1NiJ9&callbackURL=/zh/dashboard
  *
  * @param url - The original URL with callbackURL parameter
