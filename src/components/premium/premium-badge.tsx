@@ -35,8 +35,7 @@ export function PremiumBadge({
       variant={variant}
       className={cn(
         'inline-flex items-center gap-1 font-medium',
-        'bg-gradient-to-r from-amber-500 to-orange-500',
-        'text-white border-0 hover:from-amber-600 hover:to-orange-600',
+        'bg-orange-400 text-white border-0',
         sizeClasses[size],
         className
       )}

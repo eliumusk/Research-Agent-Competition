@@ -1,5 +1,7 @@
 import * as Preview from '@/components/docs';
 import { getMDXComponents } from '@/components/docs/mdx-components';
+import { PremiumBadge } from '@/components/premium/premium-badge';
+import { PremiumGuard } from '@/components/premium/premium-guard';
 import {
   HoverCard,
   HoverCardContent,
@@ -7,6 +9,8 @@ import {
 } from '@/components/ui/hover-card';
 import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
+import { checkPremiumAccess } from '@/lib/premium-access';
+import { getSession } from '@/lib/server';
 import { source } from '@/lib/source';
 import { getUrlWithLocale } from '@/lib/urls/urls';
 import Link from 'fumadocs-core/link';
@@ -86,6 +90,14 @@ export default async function DocPage({ params }: DocPageProps) {
   }
 
   const preview = page.data.preview;
+  const { premium } = page.data;
+
+  // Check premium access for premium docs
+  const session = await getSession();
+  const hasPremiumAccess =
+    premium && session?.user?.id
+      ? await checkPremiumAccess(session.user.id)
+      : !premium; // Non-premium docs are always accessible
 
   const MDX = page.data.body;
 
@@ -98,44 +110,54 @@ export default async function DocPage({ params }: DocPageProps) {
       }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
+      {premium && <PremiumBadge size="sm" className="mt-2" />}
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
         {/* Preview Rendered Component */}
         {preview ? <PreviewRenderer preview={preview} /> : null}
 
         {/* MDX Content */}
-        <MDX
-          components={getMDXComponents({
-            a: ({ href, ...props }: { href?: string; [key: string]: any }) => {
-              const found = source.getPageByHref(href ?? '', {
-                dir: page.file.dirname,
-              });
+        <PremiumGuard
+          isPremium={!!premium}
+          canAccess={hasPremiumAccess}
+          className="max-w-none"
+        >
+          <MDX
+            components={getMDXComponents({
+              a: ({
+                href,
+                ...props
+              }: { href?: string; [key: string]: any }) => {
+                const found = source.getPageByHref(href ?? '', {
+                  dir: page.file.dirname,
+                });
 
-              if (!found) return <Link href={href} {...props} />;
+                if (!found) return <Link href={href} {...props} />;
 
-              return (
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Link
-                      href={
-                        found.hash
-                          ? `${found.page.url}#${found.hash}`
-                          : found.page.url
-                      }
-                      {...props}
-                    />
-                  </HoverCardTrigger>
-                  <HoverCardContent className="text-sm">
-                    <p className="font-medium">{found.page.data.title}</p>
-                    <p className="text-fd-muted-foreground">
-                      {found.page.data.description}
-                    </p>
-                  </HoverCardContent>
-                </HoverCard>
-              );
-            },
-          })}
-        />
+                return (
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Link
+                        href={
+                          found.hash
+                            ? `${found.page.url}#${found.hash}`
+                            : found.page.url
+                        }
+                        {...props}
+                      />
+                    </HoverCardTrigger>
+                    <HoverCardContent className="text-sm">
+                      <p className="font-medium">{found.page.data.title}</p>
+                      <p className="text-fd-muted-foreground">
+                        {found.page.data.description}
+                      </p>
+                    </HoverCardContent>
+                  </HoverCard>
+                );
+              },
+            })}
+          />
+        </PremiumGuard>
       </DocsBody>
     </DocsPage>
   );

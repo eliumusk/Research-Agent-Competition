@@ -30,7 +30,7 @@ export function PremiumGuard({
   className,
 }: PremiumGuardProps) {
   // All hooks must be called unconditionally at the top
-  const t = useTranslations('BlogPage');
+  const t = useTranslations('PremiumContent');
   const pathname = useLocalePathname();
   const currentUser = useCurrentUser();
   const { data: paymentData, isLoading: isLoadingPayment } = useCurrentPlan(
@@ -76,7 +76,7 @@ export function PremiumGuard({
           </div>
 
           {/* Enhanced login prompt for server-side blocked content */}
-          <div className="mt-16">
+          <div className="mt-8">
             <div className="w-full p-12 rounded-lg bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 border border-primary/20">
               <div className="flex flex-col items-center justify-center gap-6 text-center">
                 <div className="p-4 rounded-full bg-primary/10">
@@ -85,17 +85,17 @@ export function PremiumGuard({
 
                 <div className="space-y-2">
                   <h3 className="text-xl font-semibold">
-                    {t('premiumContent.loginRequired')}
+                    {t('loginRequired')}
                   </h3>
                   <p className="text-muted-foreground max-w-md">
-                    {t('premiumContent.loginDescription')}
+                    {t('loginDescription')}
                   </p>
                 </div>
 
                 <LoginWrapper mode="modal" asChild callbackUrl={pathname}>
                   <Button size="lg" className="min-w-[160px] cursor-pointer">
                     <LockIcon className="mr-2 size-4" />
-                    {t('premiumContent.signIn')}
+                    {t('signIn')}
                   </Button>
                 </LoginWrapper>
               </div>
@@ -115,7 +115,7 @@ export function PremiumGuard({
         </div>
 
         {/* Enhanced login prompt */}
-        <div className="mt-16">
+        <div className="mt-8">
           <div className="w-full p-12 rounded-lg bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 border border-primary/20">
             <div className="flex flex-col items-center justify-center gap-6 text-center">
               <div className="p-4 rounded-full bg-primary/10">
@@ -123,18 +123,16 @@ export function PremiumGuard({
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-semibold">
-                  {t('premiumContent.loginRequired')}
-                </h3>
+                <h3 className="text-xl font-semibold">{t('loginRequired')}</h3>
                 <p className="text-muted-foreground max-w-md">
-                  {t('premiumContent.loginDescription')}
+                  {t('loginDescription')}
                 </p>
               </div>
 
               <LoginWrapper mode="modal" asChild callbackUrl={pathname}>
                 <Button size="lg" className="min-w-[160px] cursor-pointer">
                   <LockIcon className="mr-2 size-4" />
-                  {t('premiumContent.signIn')}
+                  {t('signIn')}
                 </Button>
               </LoginWrapper>
             </div>
@@ -154,7 +152,7 @@ export function PremiumGuard({
         {isLoadingPayment && (
           <div className="mt-8 flex items-center justify-center text-primary font-semibold">
             <Loader2Icon className="size-5 animate-spin mr-2" />
-            <span>{t('premiumContent.checkingAccess')}</span>
+            <span>{t('checkingAccess')}</span>
           </div>
         )}
       </div>
@@ -170,7 +168,7 @@ export function PremiumGuard({
         </div>
 
         {/* Inline subscription banner for logged-in non-members */}
-        <div className="mt-16">
+        <div className="mt-8">
           <Card className="bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 border border-primary/20">
             <CardContent className="p-12 text-center">
               <div className="flex justify-center mb-6">
@@ -179,18 +177,19 @@ export function PremiumGuard({
                 </div>
               </div>
 
-              <h3 className="text-xl font-semibold mb-2">
-                {t('premiumContent.title')}
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">{t('title')}</h3>
 
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                {t('premiumContent.description')}
+                {t('description')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
                 <Button asChild size="lg" className="min-w-[160px]">
-                  <LocaleLink href="/pricing">
-                    {t('premiumContent.upgradeCta')}
+                  <LocaleLink
+                    href="/pricing"
+                    className="text-white no-underline hover:text-white/90"
+                  >
+                    {t('upgradeCta')}
                     <ArrowRightIcon className="ml-2 size-4" />
                   </LocaleLink>
                 </Button>
@@ -199,15 +198,15 @@ export function PremiumGuard({
               <div className="mt-8 flex items-center justify-center gap-4 text-sm text-muted-foreground">
                 <span className="flex items-center gap-2">
                   <CheckCircleIcon className="size-4 text-primary" />
-                  {t('premiumContent.benefit1')}
+                  {t('benefit1')}
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircleIcon className="size-4 text-primary" />
-                  {t('premiumContent.benefit2')}
+                  {t('benefit2')}
                 </span>
                 <span className="flex items-center gap-2">
                   <CheckCircleIcon className="size-4 text-primary" />
-                  {t('premiumContent.benefit3')}
+                  {t('benefit3')}
                 </span>
               </div>
             </CardContent>
