@@ -1,7 +1,7 @@
-import { PremiumBadge } from '@/components/blog/premium-badge';
-import { PremiumGuard } from '@/components/blog/premium-guard';
 import * as Preview from '@/components/docs';
 import { getMDXComponents } from '@/components/docs/mdx-components';
+import { PremiumBadge } from '@/components/premium/premium-badge';
+import { PremiumGuard } from '@/components/premium/premium-guard';
 import {
   HoverCard,
   HoverCardContent,

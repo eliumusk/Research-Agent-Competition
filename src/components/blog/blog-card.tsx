@@ -3,8 +3,8 @@ import { LocaleLink } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';
 import { type BlogType, authorSource, categorySource } from '@/lib/source';
 import Image from 'next/image';
+import { PremiumBadge } from '../premium/premium-badge';
 import BlogImage from './blog-image';
-import { PremiumBadge } from './premium-badge';
 
 interface BlogCardProps {
   locale: string;

@@ -1,9 +1,9 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
-import { PremiumBadge } from '@/components/blog/premium-badge';
-import { PremiumGuard } from '@/components/blog/premium-guard';
 import { getMDXComponents } from '@/components/docs/mdx-components';
 import { NewsletterCard } from '@/components/newsletter/newsletter-card';
+import { PremiumBadge } from '@/components/premium/premium-badge';
+import { PremiumGuard } from '@/components/premium/premium-guard';
 import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';

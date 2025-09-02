@@ -1,7 +1,7 @@
-import { PremiumContent } from '@/components/blog/premium-content';
 import { ImageWrapper } from '@/components/docs/image-wrapper';
 import { Wrapper } from '@/components/docs/wrapper';
 import { YoutubeVideo } from '@/components/docs/youtube-video';
+import { PremiumContent } from '@/components/premium/premium-content';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Callout } from 'fumadocs-ui/components/callout';
 import { File, Files, Folder } from 'fumadocs-ui/components/files';
