@@ -60,21 +60,19 @@ export default function BillingCard() {
   const isFreePlan = currentPlanWithTranslations?.isFree || false;
   const isLifetimeMember = currentPlanWithTranslations?.isLifetime || false;
 
-  // Get subscription price details
-  const currentPrice =
-    subscription &&
-    currentPlanWithTranslations?.prices.find(
-      (price) => price.priceId === subscription?.priceId
-    );
-
   // Get current period start date
   const currentPeriodStart = subscription?.currentPeriodStart
     ? formatDate(subscription.currentPeriodStart)
     : null;
 
-  // Format next billing date if subscription is active
-  const nextBillingDate = subscription?.currentPeriodEnd
+  // Get current period end date
+  const currentPeriodEnd = subscription?.currentPeriodEnd
     ? formatDate(subscription.currentPeriodEnd)
+    : null;
+
+  // Get current trial end date
+  const trialEndDate = subscription?.trialEndDate
+    ? formatDate(subscription.trialEndDate)
     : null;
 
   // Retry payment data fetching
@@ -229,36 +227,25 @@ export default function BillingCard() {
         )}
 
         {/* Subscription plan message */}
-        {subscription && currentPrice && (
+        {subscription && (
           <div className="text-sm text-muted-foreground space-y-2">
-            {/* <div>
-              {t('price')}{' '}
-              {formatPrice(currentPrice.amount, currentPrice.currency)} /{' '}
-              {currentPrice.interval === PlanIntervals.MONTH
-                ? t('interval.month')
-                : currentPrice.interval === PlanIntervals.YEAR
-                  ? t('interval.year')
-                  : t('interval.oneTime')}
-            </div> */}
-
             {currentPeriodStart && (
               <div className="text-muted-foreground">
                 {t('periodStartDate')} {currentPeriodStart}
               </div>
             )}
 
-            {nextBillingDate && (
+            {currentPeriodEnd && (
               <div className="text-muted-foreground">
-                {t('nextBillingDate')} {nextBillingDate}
+                {t('periodEndDate')} {currentPeriodEnd}
               </div>
             )}
 
-            {subscription.status === 'trialing' &&
-              subscription.currentPeriodEnd && (
-                <div className="text-amber-600">
-                  {t('trialEnds')} {formatDate(subscription.currentPeriodEnd)}
-                </div>
-              )}
+            {subscription.status === 'trialing' && trialEndDate && (
+              <div className="text-amber-600">
+                {t('trialEnds')} {trialEndDate}
+              </div>
+            )}
           </div>
         )}
       </CardContent>
