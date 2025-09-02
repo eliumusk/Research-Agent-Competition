@@ -282,20 +282,7 @@
     "all": "全部",
     "noPostsFound": "没有找到文章",
     "allPosts": "全部文章",
-    "morePosts": "更多文章",
-    "premiumContent": {
-      "title": "解锁付费内容",
-      "description": "订阅我们的付费计划，访问所有付费文章和独家内容。",
-      "upgradeCta": "立即升级",
-      "benefit1": "所有文章",
-      "benefit2": "独家内容",
-      "benefit3": "随时取消",
-      "signIn": "登录",
-      "loginRequired": "登录以继续阅读",
-      "loginDescription": "这是一篇付费文章，请登录您的账户以访问完整内容。",
-      "checkingAccess": "检查阅读权限...",
-      "loadingContent": "加载完整内容..."
-    }
+    "morePosts": "更多文章"
   },
   "DocsPage": {
     "toc": "目录",
@@ -306,8 +293,20 @@
     "nextPage": "下一页",
     "chooseLanguage": "选择语言",
     "title": "MkSaaS文档",
-    "homepage": "首页",
-    "blog": "博客"
+    "homepage": "首页"
+  },
+  "PremiumContent": {
+    "title": "解锁付费内容",
+    "description": "订阅我们的付费计划，访问所有付费内容和独家内容。",
+    "upgradeCta": "立即升级",
+    "benefit1": "所有内容",
+    "benefit2": "独家内容",
+    "benefit3": "随时取消",
+    "signIn": "登录",
+    "loginRequired": "登录以继续阅读",
+    "loginDescription": "这是一篇付费内容，请登录您的账户以访问完整内容。",
+    "checkingAccess": "检查阅读权限...",
+    "loadingContent": "加载完整内容..."
   },
   "Marketing": {
     "navbar": {
