@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getCreditPackages } from '@/config/credits-config';
+import { useCreditPackages } from '@/config/credits-config';
 import { websiteConfig } from '@/config/website';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { useCurrentPlan } from '@/hooks/use-payment';
@@ -38,7 +38,7 @@ export function CreditPackages() {
 
   // Get credit packages with translations - must be called here to maintain hook order
   // This function contains useTranslations hook, so it must be called before any conditional returns
-  const creditPackages = Object.values(getCreditPackages()).filter(
+  const creditPackages = Object.values(useCreditPackages()).filter(
     (pkg) => !pkg.disabled && pkg.price.priceId
   );
 
