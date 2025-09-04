@@ -37,12 +37,18 @@ export function CreditPackages() {
   const currentPlan = paymentData?.currentPlan;
 
   // Get credit packages with translations - must be called here to maintain hook order
+  // This function contains useTranslations hook, so it must be called before any conditional returns
   const creditPackages = Object.values(getCreditPackages()).filter(
     (pkg) => !pkg.disabled && pkg.price.priceId
   );
 
   // Don't render anything while loading to prevent flash
   if (isLoadingPayment) {
+    return null;
+  }
+
+  // Don't render anything if we don't have payment data yet
+  if (!paymentData) {
     return null;
   }
 
