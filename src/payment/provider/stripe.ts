@@ -84,10 +84,13 @@ export class StripeProvider implements PaymentProvider {
 
         // Find user id by customer id
         const userId = await this.findUserIdByCustomerId(customerId);
-        // user does not exist, update user with customer id
-        // in case you deleted user in database, but forgot to delete customer in Stripe
+        // If no userId found, it means the user record exists (by email) but lacks customerId
+        // This can happen when user was created before Stripe integration or data got out of sync
+        // Fix the data inconsistency by updating the user's customerId field
         if (!userId) {
-          console.log('User does not exist, update with customer id (hidden)');
+          console.log(
+            'User exists but missing customerId, fixing data inconsistency'
+          );
           await this.updateUserWithCustomerId(customerId, email);
         }
         return customerId;
