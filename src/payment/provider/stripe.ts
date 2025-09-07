@@ -521,6 +521,17 @@ export class StripeProvider implements PaymentProvider {
   /**
    * Handle successful invoice payment - NEW ARCHITECTURE
    * Only create payment records here after payment is confirmed
+   *
+   * For one-time payments, the order of events may be:
+   * checkout.session.completed
+   * invoice.payment_succeeded
+   *
+   * For subscription payments, the order of events may be:
+   * checkout.session.completed
+   * customer.subscription.created
+   * customer.subscription.updated
+   * invoice.payment_succeeded
+   *
    * @param invoice Stripe invoice
    */
   private async onInvoicePaymentSucceeded(
@@ -671,6 +682,11 @@ export class StripeProvider implements PaymentProvider {
 
   /**
    * Create one-time payment record and process benefits - NEW ARCHITECTURE
+   *
+   * The order of events may be:
+   * checkout.session.completed
+   * invoice.payment_succeeded
+   *
    * @param invoice Stripe invoice
    */
   private async createOneTimePayment(invoice: Stripe.Invoice): Promise<void> {
@@ -893,6 +909,13 @@ export class StripeProvider implements PaymentProvider {
 
   /**
    * Update payment record
+   *
+   * When subscription is renewed, the order of events may be:
+   * customer.subscription.updated
+   * invoice.payment_succeeded
+   *
+   * In this case, we need to update the payment record.
+   *
    * @param stripeSubscription Stripe subscription
    */
   private async onUpdateSubscription(
