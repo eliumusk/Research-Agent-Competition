@@ -600,7 +600,8 @@
         "upgradePlan": "Upgrade Plan",
         "retry": "Retry",
         "errorMessage": "Failed to get data",
-        "paymentSuccess": "Payment successful"
+        "paymentSuccess": "Payment successful",
+        "processingPayment": "Processing payment results..."
       },
       "credits": {
         "title": "Credits",

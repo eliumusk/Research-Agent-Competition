@@ -13,24 +13,21 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePricePlans } from '@/config/price-config';
+import { useCheckoutCompletion } from '@/hooks/use-checkout-completion';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
-import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
+import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { CheckCircleIcon, ClockIcon, RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { toast } from 'sonner';
 
 export default function BillingCard() {
   const t = useTranslations('Dashboard.settings.billing');
-  const searchParams = useSearchParams();
-  const localeRouter = useLocaleRouter();
-  const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
   // Get user session for customer ID
@@ -45,6 +42,15 @@ export default function BillingCard() {
     error: loadPaymentError,
     refetch: refetchPayment,
   } = useCurrentPlan(currentUser?.id);
+
+  // Handle checkout completion and webhook timing
+  const { isWaitingForWebhook } = useCheckoutCompletion({
+    userId: currentUser?.id,
+    onPaymentProcessed: () => {
+      // Show success toast when payment is processed
+      toast.success(t('paymentSuccess'));
+    },
+  });
 
   const currentPlan = paymentData?.currentPlan;
   const subscription = paymentData?.subscription;
@@ -81,24 +87,11 @@ export default function BillingCard() {
     refetchPayment();
   }, [refetchPayment]);
 
-  // Check for payment success and show success message
-  useEffect(() => {
-    const sessionId = searchParams.get('session_id');
-    if (sessionId && !hasHandledSession.current) {
-      hasHandledSession.current = true;
-      setTimeout(() => {
-        toast.success(t('paymentSuccess'));
-      }, 0);
-
-      const url = new URL(window.location.href);
-      url.searchParams.delete('session_id');
-      localeRouter.replace(Routes.SettingsBilling + url.search);
-    }
-  }, [searchParams, localeRouter]);
-
   // Render loading skeleton if not mounted or in a loading state
   const isPageLoading = isLoadingPayment || isLoadingSession;
-  if (!mounted || isPageLoading || !paymentData) {
+  console.log('billing card, isPageLoading', isPageLoading);
+  console.log('billing card, isWaitingForWebhook', isWaitingForWebhook);
+  if (!mounted || isPageLoading || isWaitingForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -108,9 +101,15 @@ export default function BillingCard() {
           <CardDescription>{t('currentPlan.description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
-          <div className="flex items-center justify-start space-x-4">
-            <Skeleton className="h-8 w-1/5" />
-          </div>
+          {isWaitingForWebhook ? (
+            <div className="text-sm text-muted-foreground">
+              {t('processingPayment')}
+            </div>
+          ) : (
+            <div className="flex items-center justify-start space-x-4">
+              <Skeleton className="h-8 w-1/5" />
+            </div>
+          )}
           <div className="text-sm text-muted-foreground space-y-2">
             <Skeleton className="h-6 w-3/5" />
           </div>
