@@ -600,8 +600,7 @@
         "upgradePlan": "升级方案",
         "retry": "重试",
         "errorMessage": "获取数据失败",
-        "paymentSuccess": "支付成功",
-        "processingPayment": "正在处理支付结果..."
+        "paymentSuccess": "支付成功"
       },
       "credits": {
         "title": "积分",

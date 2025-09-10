@@ -89,8 +89,12 @@ export default function BillingCard() {
 
   // Render loading skeleton if not mounted or in a loading state
   const isPageLoading = isLoadingPayment || isLoadingSession;
-  console.log('billing card, isPageLoading', isPageLoading);
-  console.log('billing card, isWaitingForWebhook', isWaitingForWebhook);
+  console.log(
+    'billing card, isPageLoading',
+    isPageLoading,
+    'isWaitingForWebhook',
+    isWaitingForWebhook
+  );
   if (!mounted || isPageLoading || isWaitingForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
@@ -101,15 +105,9 @@ export default function BillingCard() {
           <CardDescription>{t('currentPlan.description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 flex-1">
-          {isWaitingForWebhook ? (
-            <div className="text-sm text-muted-foreground">
-              {t('processingPayment')}
-            </div>
-          ) : (
-            <div className="flex items-center justify-start space-x-4">
-              <Skeleton className="h-8 w-1/5" />
-            </div>
-          )}
+          <div className="flex items-center justify-start space-x-4">
+            <Skeleton className="h-8 w-1/5" />
+          </div>
           <div className="text-sm text-muted-foreground space-y-2">
             <Skeleton className="h-6 w-3/5" />
           </div>
