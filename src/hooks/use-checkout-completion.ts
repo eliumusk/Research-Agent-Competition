@@ -1,5 +1,7 @@
 'use client';
 
+import { getActiveSubscriptionAction } from '@/actions/get-active-subscription';
+import { getLifetimeStatusAction } from '@/actions/get-lifetime-status';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -58,10 +60,6 @@ export function useCheckoutCompletion({
           const subscriptionResult = await queryClient.fetchQuery({
             queryKey: paymentKeys.subscription(userId),
             queryFn: async () => {
-              // Import the action dynamically to avoid circular deps
-              const { getActiveSubscriptionAction } = await import(
-                '@/actions/get-active-subscription'
-              );
               const result = await getActiveSubscriptionAction({ userId });
               if (!result?.data?.success) {
                 throw new Error(
@@ -76,10 +74,6 @@ export function useCheckoutCompletion({
           const lifetimeResult = await queryClient.fetchQuery({
             queryKey: paymentKeys.lifetime(userId),
             queryFn: async () => {
-              // Import the action dynamically to avoid circular deps
-              const { getLifetimeStatusAction } = await import(
-                '@/actions/get-lifetime-status'
-              );
               const result = await getLifetimeStatusAction({ userId });
               if (!result?.data?.success) {
                 throw new Error(
