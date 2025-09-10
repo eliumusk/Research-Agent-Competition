@@ -13,9 +13,8 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePricePlans } from '@/config/price-config';
-import { useCheckoutCompletion } from '@/hooks/use-checkout-completion';
 import { useMounted } from '@/hooks/use-mounted';
-import { useCurrentPlan } from '@/hooks/use-payment';
+import { useCurrentPlan, usePaymentCompletion } from '@/hooks/use-payment';
 import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
@@ -44,7 +43,7 @@ export default function BillingCard() {
   } = useCurrentPlan(currentUser?.id);
 
   // Handle checkout completion and webhook timing
-  const { isWaitingForWebhook } = useCheckoutCompletion({
+  const { isWaitingForWebhook } = usePaymentCompletion({
     userId: currentUser?.id,
     onPaymentProcessed: () => {
       // Show success toast when payment is processed
