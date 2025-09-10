@@ -14,7 +14,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
-import { useCurrentPlan, usePaymentCompletion } from '@/hooks/use-payment';
+import { useCurrentPlan } from '@/hooks/use-payment';
+import { usePaymentCompletion } from '@/hooks/use-payment-completion';
 import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
@@ -44,7 +45,6 @@ export default function BillingCard() {
 
   // Handle checkout completion and webhook timing
   const { isWaitingForWebhook } = usePaymentCompletion({
-    userId: currentUser?.id,
     onPaymentProcessed: () => {
       // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {

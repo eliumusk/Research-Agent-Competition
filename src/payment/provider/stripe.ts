@@ -519,6 +519,58 @@ export class StripeProvider implements PaymentProvider {
   }
 
   /**
+   * Find checkout session ID from payment intent
+   * @param paymentIntentId Payment intent ID
+   * @returns Session ID or undefined
+   */
+  private async findSessionIdFromPaymentIntent(
+    paymentIntentId: string
+  ): Promise<string | undefined> {
+    try {
+      // Search for checkout sessions that contain this payment intent
+      const sessions = await this.stripe.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+        limit: 1,
+      });
+
+      if (sessions.data && sessions.data.length > 0) {
+        return sessions.data[0].id;
+      }
+
+      return undefined;
+    } catch (error) {
+      console.error('Find session by payment intent error:', error);
+      return undefined;
+    }
+  }
+
+  /**
+   * Find checkout session ID from subscription
+   * @param subscriptionId Subscription ID
+   * @returns Session ID or undefined
+   */
+  private async findSessionIdFromSubscription(
+    subscriptionId: string
+  ): Promise<string | undefined> {
+    try {
+      // Search for checkout sessions that created this subscription
+      const sessions = await this.stripe.checkout.sessions.list({
+        subscription: subscriptionId,
+        limit: 1,
+      });
+
+      if (sessions.data && sessions.data.length > 0) {
+        return sessions.data[0].id;
+      }
+
+      return undefined;
+    } catch (error) {
+      console.error('Find session by subscription error:', error);
+      return undefined;
+    }
+  }
+
+  /**
    * Handle successful invoice payment - NEW ARCHITECTURE
    * Only create payment records here after payment is confirmed
    *
@@ -626,6 +678,10 @@ export class StripeProvider implements PaymentProvider {
         : null;
       const currentDate = new Date();
 
+      // Find session ID from subscription
+      const sessionId =
+        await this.findSessionIdFromSubscription(subscriptionId);
+
       // Create payment record with subscription status
       const db = await getDb();
       const paymentResult = await db
@@ -637,6 +693,7 @@ export class StripeProvider implements PaymentProvider {
           userId,
           customerId,
           subscriptionId,
+          sessionId,
           invoiceId: invoice.id,
           interval: this.mapStripeIntervalToPlanInterval(subscription),
           status: this.mapSubscriptionStatusToPaymentStatus(
@@ -771,6 +828,12 @@ export class StripeProvider implements PaymentProvider {
         return;
       }
 
+      // Find session ID from payment intent
+      const paymentIntentId = invoice.payment_intent as string;
+      const sessionId = paymentIntentId
+        ? await this.findSessionIdFromPaymentIntent(paymentIntentId)
+        : undefined;
+
       // Create payment record
       const db = await getDb();
       const currentDate = new Date();
@@ -782,6 +845,7 @@ export class StripeProvider implements PaymentProvider {
           type: PaymentTypes.ONE_TIME,
           userId,
           customerId,
+          sessionId,
           invoiceId: invoice.id,
           status: 'completed',
           periodStart: currentDate,
@@ -845,6 +909,12 @@ export class StripeProvider implements PaymentProvider {
         return;
       }
 
+      // Find session ID from payment intent
+      const paymentIntentId = invoice.payment_intent as string;
+      const sessionId = paymentIntentId
+        ? await this.findSessionIdFromPaymentIntent(paymentIntentId)
+        : undefined;
+
       // Create payment record
       const db = await getDb();
       const currentDate = new Date();
@@ -856,6 +926,7 @@ export class StripeProvider implements PaymentProvider {
           type: PaymentTypes.ONE_TIME,
           userId,
           customerId,
+          sessionId,
           invoiceId: invoice.id,
           status: 'completed',
           periodStart: currentDate,

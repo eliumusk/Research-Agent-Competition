@@ -2,6 +2,7 @@ import { consumeCreditsAction } from '@/actions/consume-credits';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { getCreditStatsAction } from '@/actions/get-credit-stats';
 import { getCreditTransactionsAction } from '@/actions/get-credit-transactions';
+import { PAYMENT_POLL_INTERVAL } from '@/lib/constants';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { SortingState } from '@tanstack/react-table';
 
@@ -20,7 +21,7 @@ export const creditsKeys = {
 };
 
 // Hook to fetch credit balance
-export function useCreditBalance() {
+export function useCreditBalance(enablePolling = false) {
   return useQuery({
     queryKey: creditsKeys.balance(),
     queryFn: async () => {
@@ -34,11 +35,13 @@ export function useCreditBalance() {
       console.log('Credit balance fetched:', result.data.credits);
       return result.data.credits || 0;
     },
+    refetchInterval: enablePolling ? PAYMENT_POLL_INTERVAL : false,
+    refetchIntervalInBackground: false,
   });
 }
 
 // Hook to fetch credit statistics
-export function useCreditStats() {
+export function useCreditStats(enablePolling = false) {
   return useQuery({
     queryKey: creditsKeys.stats(),
     queryFn: async () => {
@@ -50,6 +53,8 @@ export function useCreditStats() {
       console.log('Credit stats fetched:', result.data.data);
       return result.data.data;
     },
+    refetchInterval: enablePolling ? PAYMENT_POLL_INTERVAL : false,
+    refetchIntervalInBackground: false,
   });
 }
 

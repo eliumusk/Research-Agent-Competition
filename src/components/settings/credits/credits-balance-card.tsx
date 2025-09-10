@@ -13,14 +13,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { useLocaleRouter } from '@/i18n/navigation';
+import { usePaymentCompletion } from '@/hooks/use-payment-completion';
 import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { Routes } from '@/routes';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import { toast } from 'sonner';
 
 /**
@@ -33,10 +31,17 @@ export default function CreditsBalanceCard() {
   }
 
   const t = useTranslations('Dashboard.settings.credits.balance');
-  const searchParams = useSearchParams();
-  const localeRouter = useLocaleRouter();
-  const hasHandledSession = useRef(false);
   const mounted = useMounted();
+
+  // Handle credits purchase completion and webhook timing
+  const { isWaitingForWebhook } = usePaymentCompletion({
+    onPaymentProcessed: () => {
+      // Use setTimeout to avoid React rendering conflicts
+      setTimeout(() => {
+        toast.success(t('creditsAdded'));
+      }, 0);
+    },
+  });
 
   // Use TanStack Query hooks for credits
   const {
@@ -54,37 +59,6 @@ export default function CreditsBalanceCard() {
     refetch: refetchStats,
   } = useCreditStats();
 
-  // Handle payment success after credits purchase
-  const handlePaymentSuccess = useCallback(async () => {
-    // Use setTimeout to avoid React rendering conflicts
-    setTimeout(() => {
-      toast.success(t('creditsAdded'));
-    }, 0);
-
-    // Wait for webhook to process (simplified approach)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Force refresh data
-    refetchBalance();
-    refetchStats();
-  }, [t, refetchBalance, refetchStats]);
-
-  // Check for payment success and show success message
-  useEffect(() => {
-    const sessionId = searchParams.get('credits_session_id');
-    if (sessionId && !hasHandledSession.current) {
-      hasHandledSession.current = true;
-
-      // Clean up URL parameters first
-      const url = new URL(window.location.href);
-      url.searchParams.delete('credits_session_id');
-      localeRouter.replace(Routes.SettingsCredits + url.search);
-
-      // Handle payment success
-      handlePaymentSuccess();
-    }
-  }, [searchParams, localeRouter, handlePaymentSuccess]);
-
   // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {
     // Use refetch methods for immediate data refresh
@@ -92,8 +66,8 @@ export default function CreditsBalanceCard() {
     refetchStats();
   }, [refetchBalance, refetchStats]);
 
-  // Render loading skeleton
-  if (!mounted || isLoadingBalance || isLoadingStats) {
+  // Render loading skeleton (include webhook waiting state)
+  if (!mounted || isLoadingBalance || isLoadingStats || isWaitingForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
