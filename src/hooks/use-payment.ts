@@ -19,7 +19,7 @@ export const paymentKeys = {
 };
 
 // Hook to fetch active subscription
-export function useActiveSubscription(userId: string | undefined) {
+export function useActiveSubscription(userId: string | undefined, enablePolling = false) {
   return useQuery({
     queryKey: paymentKeys.subscription(userId || ''),
     queryFn: async (): Promise<Subscription | null> => {
@@ -35,11 +35,13 @@ export function useActiveSubscription(userId: string | undefined) {
       return result.data.data || null;
     },
     enabled: !!userId,
+    refetchInterval: enablePolling ? PAYMENT_POLL_INTERVAL : false,
+    refetchIntervalInBackground: false,
   });
 }
 
 // Hook to fetch lifetime status
-export function useLifetimeStatus(userId: string | undefined) {
+export function useLifetimeStatus(userId: string | undefined, enablePolling = false) {
   return useQuery({
     queryKey: paymentKeys.lifetime(userId || ''),
     queryFn: async (): Promise<boolean> => {
@@ -57,6 +59,8 @@ export function useLifetimeStatus(userId: string | undefined) {
       return result.data.isLifetimeMember || false;
     },
     enabled: !!userId,
+    refetchInterval: enablePolling ? PAYMENT_POLL_INTERVAL : false,
+    refetchIntervalInBackground: false,
   });
 }
 
@@ -143,45 +147,9 @@ export function usePaymentCompletion({
     onPaymentProcessed?.();
   }, [onPaymentProcessed]);
 
-  // Poll subscription data when waiting for webhook
-  const { data: subscription, isLoading: isLoadingSubscription } = useQuery({
-    queryKey: paymentKeys.subscription(userId || ''),
-    queryFn: async (): Promise<Subscription | null> => {
-      if (!userId) {
-        throw new Error('User ID is required');
-      }
-      console.log('Polling: subscription check, userId', userId);
-      const result = await getActiveSubscriptionAction({ userId });
-      if (!result?.data?.success) {
-        throw new Error(result?.data?.error || 'Failed to fetch subscription');
-      }
-      return result.data.data || null;
-    },
-    enabled: !!userId,
-    refetchInterval: shouldPoll ? PAYMENT_POLL_INTERVAL : false,
-    refetchIntervalInBackground: false,
-  });
-
-  // Poll lifetime status when waiting for webhook
-  const { data: isLifetimeMember, isLoading: isLoadingLifetime } = useQuery({
-    queryKey: paymentKeys.lifetime(userId || ''),
-    queryFn: async (): Promise<boolean> => {
-      if (!userId) {
-        throw new Error('User ID is required');
-      }
-      console.log('Polling: lifetime check, userId', userId);
-      const result = await getLifetimeStatusAction({ userId });
-      if (!result?.data?.success) {
-        throw new Error(
-          result?.data?.error || 'Failed to fetch lifetime status'
-        );
-      }
-      return result.data.isLifetimeMember || false;
-    },
-    enabled: !!userId,
-    refetchInterval: shouldPoll ? PAYMENT_POLL_INTERVAL : false,
-    refetchIntervalInBackground: false,
-  });
+  // Use existing hooks but enable polling when needed
+  const { data: subscription } = useActiveSubscription(userId, shouldPoll);
+  const { data: isLifetimeMember } = useLifetimeStatus(userId, shouldPoll);
 
   // Handle session_id detection
   useEffect(() => {
@@ -199,7 +167,7 @@ export function usePaymentCompletion({
       setIsWaitingForWebhook(false);
       stableOnPaymentProcessed();
     }
-  }, [isWaitingForWebhook, subscription, isLifetimeMember]);
+  }, [isWaitingForWebhook, subscription, isLifetimeMember, stableOnPaymentProcessed]);
 
   return {
     isWaitingForWebhook:

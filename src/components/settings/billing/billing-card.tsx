@@ -47,7 +47,10 @@ export default function BillingCard() {
     userId: currentUser?.id,
     onPaymentProcessed: () => {
       // Show success toast when payment is processed
-      toast.success(t('paymentSuccess'));
+      // Use setTimeout to avoid flushSync error during React rendering
+      setTimeout(() => {
+        toast.success(t('paymentSuccess'));
+      }, 0);
     },
   });
 
