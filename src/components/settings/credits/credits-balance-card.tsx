@@ -56,10 +56,10 @@ export default function CreditsBalanceCard() {
 
   // Handle payment success after credits purchase
   const handlePaymentSuccess = useCallback(async () => {
-    // Use queueMicrotask to avoid React rendering conflicts
-    queueMicrotask(() => {
+    // Use setTimeout to avoid React rendering conflicts
+    setTimeout(() => {
       toast.success(t('creditsAdded'));
-    });
+    }, 0);
 
     // Wait for webhook to process (simplified approach)
     await new Promise((resolve) => setTimeout(resolve, 1000));

@@ -46,8 +46,7 @@ export default function BillingCard() {
   const { isWaitingForWebhook } = usePaymentCompletion({
     userId: currentUser?.id,
     onPaymentProcessed: () => {
-      // Show success toast when payment is processed
-      // Use setTimeout to avoid flushSync error during React rendering
+      // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {
         toast.success(t('paymentSuccess'));
       }, 0);
@@ -90,14 +89,15 @@ export default function BillingCard() {
   }, [refetchPayment]);
 
   // Render loading skeleton if not mounted or in a loading state
-  const isPageLoading = isLoadingPayment || isLoadingSession;
   console.log(
-    'billing card, isPageLoading',
-    isPageLoading,
-    'isWaitingForWebhook',
+    'billing card, payment:',
+    isLoadingPayment,
+    'session:',
+    isLoadingSession,
+    'webhook:',
     isWaitingForWebhook
   );
-  if (!mounted || isPageLoading || isWaitingForWebhook) {
+  if (!mounted || isLoadingPayment || isLoadingSession || isWaitingForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
