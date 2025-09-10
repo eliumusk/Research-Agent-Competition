@@ -2,6 +2,7 @@
 
 import { getActiveSubscriptionAction } from '@/actions/get-active-subscription';
 import { getLifetimeStatusAction } from '@/actions/get-lifetime-status';
+import { MAX_POLL_COUNT, POLL_INTERVAL } from '@/lib/constants';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -11,10 +12,6 @@ interface UseCheckoutCompletionProps {
   userId: string | undefined;
   onPaymentProcessed?: () => void;
 }
-
-// Maximum polling attempts (60 seconds with 2-second intervals)
-const MAX_POLL_COUNT = 30;
-const POLL_INTERVAL = 2000;
 
 /**
  * Hook to handle checkout completion and wait for webhook processing
