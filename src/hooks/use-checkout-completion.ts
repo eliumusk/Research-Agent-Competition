@@ -1,7 +1,5 @@
 'use client';
 
-import { getActiveSubscriptionAction } from '@/actions/get-active-subscription';
-import { getLifetimeStatusAction } from '@/actions/get-lifetime-status';
 import { MAX_POLL_COUNT, POLL_INTERVAL } from '@/lib/constants';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
@@ -53,39 +51,31 @@ export function useCheckoutCompletion({
         try {
           console.log('Polling for payment data, count:', pollCountRef.current);
 
-          // Force refetch subscription data
-          const subscriptionResult = await queryClient.fetchQuery({
-            queryKey: paymentKeys.subscription(userId),
-            queryFn: async () => {
-              const result = await getActiveSubscriptionAction({ userId });
-              if (!result?.data?.success) {
-                throw new Error(
-                  result?.data?.error || 'Failed to fetch subscription'
-                );
-              }
-              return result.data.data || null;
-            },
-          });
+          // Invalidate queries to trigger fresh data fetch
+          await Promise.all([
+            queryClient.invalidateQueries({
+              queryKey: paymentKeys.subscription(userId),
+            }),
+            queryClient.invalidateQueries({
+              queryKey: paymentKeys.lifetime(userId),
+            }),
+            queryClient.invalidateQueries({
+              queryKey: paymentKeys.currentPlan(userId),
+            }),
+          ]);
 
-          // Force refetch lifetime status
-          const lifetimeResult = await queryClient.fetchQuery({
-            queryKey: paymentKeys.lifetime(userId),
-            queryFn: async () => {
-              const result = await getLifetimeStatusAction({ userId });
-              if (!result?.data?.success) {
-                throw new Error(
-                  result?.data?.error || 'Failed to fetch lifetime status'
-                );
-              }
-              return result.data.isLifetimeMember || false;
-            },
-          });
+          // Wait a moment for queries to refetch
+          await new Promise(resolve => setTimeout(resolve, 200));
 
-          console.log('Fresh subscription data:', subscriptionResult);
-          console.log('Fresh lifetime status:', lifetimeResult);
+          // Get data from cache after invalidation triggered refetch
+          const subscriptionData = queryClient.getQueryData(paymentKeys.subscription(userId));
+          const lifetimeData = queryClient.getQueryData(paymentKeys.lifetime(userId));
+
+          console.log('Fresh subscription data:', subscriptionData);
+          console.log('Fresh lifetime status:', lifetimeData);
 
           // Check if we have valid payment data (subscription or lifetime membership)
-          if (subscriptionResult || lifetimeResult) {
+          if (subscriptionData || lifetimeData) {
             console.log('Payment data detected, webhook processing completed');
             setIsWaitingForWebhook(false);
             stableOnPaymentProcessed();
