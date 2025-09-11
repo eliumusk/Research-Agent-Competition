@@ -24,6 +24,10 @@ export const checkPaymentBySessionAction = userActionClient
         .where(eq(payment.sessionId, sessionId))
         .limit(1);
 
+      console.log(
+        'Check payment by session success, hasPayment:',
+        paymentRecord.length > 0
+      );
       return {
         success: true,
         hasPayment: paymentRecord.length > 0,

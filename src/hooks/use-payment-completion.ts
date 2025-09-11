@@ -22,14 +22,18 @@ export function usePaymentBySession(
       if (!sessionId) {
         return { hasPayment: false, payment: null };
       }
-      console.log('Checking payment by session');
+      console.log('>>> Check payment by session');
       const result = await checkPaymentBySessionAction({ sessionId });
       if (!result?.data?.success) {
+        console.log('<<< Check payment failed');
         throw new Error(
           result?.data?.error || 'Failed to check payment by session'
         );
       }
-      console.log('Payment check success');
+      console.log(
+        '<<< Check payment success, hasPayment:',
+        result.data.hasPayment
+      );
       return {
         hasPayment: result.data.hasPayment,
         payment: result.data.payment,
@@ -62,9 +66,23 @@ export function usePaymentCompletion({
   // Detect if we're waiting for webhook (have session_id)
   const sessionId = searchParams.get('session_id');
 
+  // Initialize waiting state immediately if session_id exists
+  useEffect(() => {
+    if (sessionId && !hasHandledSession.current) {
+      console.log('Payment completed, starting to poll for webhook data...');
+      pollStartTime.current = Date.now();
+      setIsWaitingForWebhook(true);
+      hasHandledSession.current = true;
+    }
+  }, [sessionId]);
+
   // Control polling: only poll if waiting for webhook and within timeout
   const shouldPoll = useMemo(() => {
-    if (!sessionId || hasHandledSession.current || !isWaitingForWebhook) {
+    if (
+      !sessionId ||
+      hasHandledSession.current === false ||
+      !isWaitingForWebhook
+    ) {
       return false;
     }
 
@@ -97,16 +115,6 @@ export function usePaymentCompletion({
 
   // Check if payment record exists for this session (indicates webhook processed)
   const { data: paymentCheck } = usePaymentBySession(sessionId, shouldPoll);
-
-  // Handle session_id detection
-  useEffect(() => {
-    if (sessionId && !hasHandledSession.current) {
-      console.log('Payment completed, starting to poll for webhook data...');
-      pollStartTime.current = Date.now();
-      setIsWaitingForWebhook(true);
-      hasHandledSession.current = true;
-    }
-  }, [sessionId]);
 
   // Check if payment record exists or timeout
   useEffect(() => {
