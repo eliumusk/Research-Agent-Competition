@@ -62,6 +62,7 @@ export function usePaymentCompletion({
   const [isWaitingForWebhook, setIsWaitingForWebhook] = useState(false);
   const hasHandledSession = useRef(false);
   const pollStartTime = useRef<number | undefined>(undefined);
+  const isMountedRef = useRef(true);
 
   // Detect if we're waiting for webhook (have session_id)
   const sessionId = searchParams.get('session_id');
@@ -76,12 +77,22 @@ export function usePaymentCompletion({
     }
   }, [sessionId]);
 
+  // Cleanup on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      pollStartTime.current = undefined;
+      hasHandledSession.current = false;
+    };
+  }, []);
+
   // Control polling: only poll if waiting for webhook and within timeout
   const shouldPoll = useMemo(() => {
     if (
       !sessionId ||
       hasHandledSession.current === false ||
-      !isWaitingForWebhook
+      !isWaitingForWebhook ||
+      !isMountedRef.current
     ) {
       return false;
     }
@@ -118,7 +129,7 @@ export function usePaymentCompletion({
 
   // Check if payment record exists or timeout
   useEffect(() => {
-    if (isWaitingForWebhook && sessionId) {
+    if (isWaitingForWebhook && sessionId && isMountedRef.current) {
       const currentTime = Date.now();
       const pollDuration = currentTime - (pollStartTime.current || 0);
       const maxPollTime = PAYMENT_MAX_POLL_TIME;
@@ -126,27 +137,31 @@ export function usePaymentCompletion({
       // If payment record exists, webhook processed
       if (paymentCheck?.hasPayment) {
         console.log('Payment record found, webhook processing completed');
-        setIsWaitingForWebhook(false);
-        stableOnPaymentProcessed();
+        if (isMountedRef.current) {
+          setIsWaitingForWebhook(false);
+          stableOnPaymentProcessed();
 
-        // Clean up URL parameters to prevent duplicate processing
-        cleanupUrl();
+          // Clean up URL parameters to prevent duplicate processing
+          cleanupUrl();
 
-        // Reset tracking variables
-        pollStartTime.current = undefined;
+          // Reset tracking variables
+          pollStartTime.current = undefined;
+        }
       }
       // Check timeout
       else if (pollDuration > maxPollTime) {
         console.log(
           `Payment polling timeout after ${pollDuration}ms, stopping webhook wait`
         );
-        setIsWaitingForWebhook(false);
+        if (isMountedRef.current) {
+          setIsWaitingForWebhook(false);
 
-        // Clean up URL parameters even on timeout
-        cleanupUrl();
+          // Clean up URL parameters even on timeout
+          cleanupUrl();
 
-        // Reset tracking variables
-        pollStartTime.current = undefined;
+          // Reset tracking variables
+          pollStartTime.current = undefined;
+        }
       }
     }
   }, [
