@@ -26,6 +26,9 @@ import { useTranslations } from 'next-intl';
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 
+/**
+ * Billing card, show current plan and subscription status
+ */
 export default function BillingCard() {
   const t = useTranslations('Dashboard.settings.billing');
   const mounted = useMounted();
@@ -34,14 +37,6 @@ export default function BillingCard() {
   const { data: session, isPending: isLoadingSession } =
     authClient.useSession();
   const currentUser = session?.user;
-
-  // TanStack Query hook for current plan and subscription
-  const {
-    data: paymentData,
-    isLoading: isLoadingPayment,
-    error: loadPaymentError,
-    refetch: refetchPayment,
-  } = useCurrentPlan(currentUser?.id);
 
   // Handle checkout completion and webhook timing
   const { isWaitingForWebhook } = usePaymentCompletion({
@@ -52,6 +47,14 @@ export default function BillingCard() {
       }, 0);
     },
   });
+
+  // TanStack Query hook for current plan and subscription
+  const {
+    data: paymentData,
+    isLoading: isLoadingPayment,
+    error: loadPaymentError,
+    refetch: refetchPayment,
+  } = useCurrentPlan(currentUser?.id);
 
   const currentPlan = paymentData?.currentPlan;
   const subscription = paymentData?.subscription;

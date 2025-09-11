@@ -22,7 +22,7 @@ import { useCallback } from 'react';
 import { toast } from 'sonner';
 
 /**
- * Credits card, show credits balance and status
+ * Credits card, show credits balance and statistics
  */
 export default function CreditsCard() {
   // Don't render if credits are disabled - move this check before any hooks
@@ -67,6 +67,14 @@ export default function CreditsCard() {
   }, [refetchBalance, refetchStats]);
 
   // Render loading skeleton (include webhook waiting state)
+  console.log(
+    'credits card, balance:',
+    isLoadingBalance,
+    'stats:',
+    isLoadingStats,
+    'webhook:',
+    isWaitingForWebhook
+  );
   if (!mounted || isLoadingBalance || isLoadingStats || isWaitingForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
