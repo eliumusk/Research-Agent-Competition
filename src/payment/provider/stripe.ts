@@ -491,9 +491,9 @@ export class StripeProvider implements PaymentProvider {
       } else if (eventType.startsWith('invoice.')) {
         // Handle invoice events
         switch (eventType) {
-          case 'invoice.payment_succeeded': {
+          case 'invoice.paid': {
             const invoice = event.data.object as Stripe.Invoice;
-            await this.onInvoicePaymentSucceeded(invoice);
+            await this.onInvoicePaid(invoice);
             break;
           }
         }
@@ -576,20 +576,18 @@ export class StripeProvider implements PaymentProvider {
    *
    * For one-time payments, the order of events may be:
    * checkout.session.completed
-   * invoice.payment_succeeded
+   * invoice.paid
    *
    * For subscription payments, the order of events may be:
    * checkout.session.completed
    * customer.subscription.created
    * customer.subscription.updated
-   * invoice.payment_succeeded
+   * invoice.paid
    *
    * @param invoice Stripe invoice
    */
-  private async onInvoicePaymentSucceeded(
-    invoice: Stripe.Invoice
-  ): Promise<void> {
-    console.log('>> Handle invoice payment succeeded');
+  private async onInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
+    console.log('>> Handle invoice paid');
 
     try {
       const subscriptionId = invoice.subscription as string | null;
@@ -602,9 +600,9 @@ export class StripeProvider implements PaymentProvider {
         await this.createOneTimePayment(invoice);
       }
 
-      console.log('<< Successfully processed invoice payment');
+      console.log('<< Successfully processed invoice paid');
     } catch (error) {
-      console.error('<< Handle invoice payment succeeded error:', error);
+      console.error('<< Handle invoice paid error:', error);
 
       // Check if it's a duplicate invoice error (database constraint violation)
       if (
@@ -627,7 +625,7 @@ export class StripeProvider implements PaymentProvider {
    * checkout.session.completed
    * customer.subscription.created
    * customer.subscription.updated
-   * invoice.payment_succeeded
+   * invoice.paid
    *
    * @param invoice Stripe invoice
    * @param subscriptionId Subscription ID
@@ -742,7 +740,7 @@ export class StripeProvider implements PaymentProvider {
    *
    * The order of events may be:
    * checkout.session.completed
-   * invoice.payment_succeeded
+   * invoice.paid
    *
    * @param invoice Stripe invoice
    */
@@ -969,7 +967,7 @@ export class StripeProvider implements PaymentProvider {
 
   /**
    * Handle subscription creation - NEW ARCHITECTURE
-   * Only log the event, payment records created in invoice.payment_succeeded
+   * Only log the event, payment records created in invoice.paid
    * @param stripeSubscription Stripe subscription
    */
   private async onCreateSubscription(
@@ -983,7 +981,7 @@ export class StripeProvider implements PaymentProvider {
    *
    * When subscription is renewed, the order of events may be:
    * customer.subscription.updated
-   * invoice.payment_succeeded
+   * invoice.paid
    *
    * In this case, we need to update the payment record.
    *
@@ -1070,7 +1068,7 @@ export class StripeProvider implements PaymentProvider {
 
   /**
    * Handle checkout session completion - NEW ARCHITECTURE
-   * Only log the event, payment records created in invoice.payment_succeeded
+   * Only log the event, payment records created in invoice.paid
    * @param session Stripe checkout session
    */
   private async onOnetimePayment(
@@ -1081,7 +1079,7 @@ export class StripeProvider implements PaymentProvider {
 
   /**
    * Handle credit purchase checkout completion - NEW ARCHITECTURE
-   * Only log the event, payment records created in invoice.payment_succeeded
+   * Only log the event, payment records created in invoice.paid
    * @param session Stripe checkout session
    */
   private async onCreditPurchase(
