@@ -24,13 +24,11 @@ export const checkPaymentBySessionAction = userActionClient
         .where(eq(payment.sessionId, sessionId))
         .limit(1);
 
-      console.log(
-        'Check payment by session success, hasPayment:',
-        paymentRecord.length > 0
-      );
+      const hasPayment = paymentRecord.length > 0;
+      console.log('Check payment by session success, hasPayment:', hasPayment);
       return {
         success: true,
-        hasPayment: paymentRecord.length > 0,
+        hasPayment, // TEST: return false to test polling behavior
         payment: paymentRecord[0] || null,
       };
     } catch (error) {

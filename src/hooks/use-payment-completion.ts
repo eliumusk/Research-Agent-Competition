@@ -30,12 +30,10 @@ export function usePaymentBySession(
           result?.data?.error || 'Failed to check payment by session'
         );
       }
-      console.log(
-        '<<< Check payment success, hasPayment:',
-        result.data.hasPayment
-      );
+      const hasPayment = result.data.hasPayment;
+      console.log('<<< Check payment success, hasPayment:', hasPayment);
       return {
-        hasPayment: result.data.hasPayment,
+        hasPayment,
         payment: result.data.payment,
       };
     },
