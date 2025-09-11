@@ -70,7 +70,7 @@ export function usePaymentCompletion({
   // Initialize waiting state immediately if session_id exists
   useEffect(() => {
     if (sessionId && !hasHandledSession.current) {
-      console.log('Payment completed, starting to poll for webhook data...');
+      console.log('Payment completed, start polling for webhook data...');
       pollStartTime.current = Date.now();
       setIsWaitingForWebhook(true);
       hasHandledSession.current = true;
@@ -94,6 +94,7 @@ export function usePaymentCompletion({
       !isWaitingForWebhook ||
       !isMountedRef.current
     ) {
+      console.log('Should poll, false');
       return false;
     }
 
@@ -102,13 +103,12 @@ export function usePaymentCompletion({
       const pollDuration = Date.now() - pollStartTime.current;
       const maxPollTime = PAYMENT_MAX_POLL_TIME;
       if (pollDuration > maxPollTime) {
-        console.log(
-          `Payment polling timeout after ${pollDuration}ms, stopping poll`
-        );
+        console.log(`Stop polling after ${pollDuration}ms`);
         return false;
       }
     }
 
+    console.log('Should poll, true');
     return true;
   }, [sessionId, isWaitingForWebhook]);
 
@@ -150,9 +150,7 @@ export function usePaymentCompletion({
       }
       // Check timeout
       else if (pollDuration > maxPollTime) {
-        console.log(
-          `Payment polling timeout after ${pollDuration}ms, stopping webhook wait`
-        );
+        console.log(`Stop waiting for webhook timeout after ${pollDuration}ms`);
         if (isMountedRef.current) {
           setIsWaitingForWebhook(false);
 
