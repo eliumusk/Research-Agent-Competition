@@ -22,14 +22,14 @@ export function usePaymentBySession(
       if (!sessionId) {
         return { hasPayment: false, payment: null };
       }
-      console.log('Checking payment by session:', sessionId);
+      console.log('Checking payment by session');
       const result = await checkPaymentBySessionAction({ sessionId });
       if (!result?.data?.success) {
         throw new Error(
           result?.data?.error || 'Failed to check payment by session'
         );
       }
-      console.log('Payment check result:', result.data);
+      console.log('Payment check success');
       return {
         hasPayment: result.data.hasPayment,
         payment: result.data.payment,
@@ -88,6 +88,13 @@ export function usePaymentCompletion({
     onPaymentProcessed?.();
   }, [onPaymentProcessed]);
 
+  // Clean up session_id from URL after payment processing
+  const cleanupUrl = useCallback(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('session_id');
+    window.history.replaceState({}, '', url.toString());
+  }, []);
+
   // Check if payment record exists for this session (indicates webhook processed)
   const { data: paymentCheck } = usePaymentBySession(sessionId, shouldPoll);
 
@@ -114,6 +121,9 @@ export function usePaymentCompletion({
         setIsWaitingForWebhook(false);
         stableOnPaymentProcessed();
 
+        // Clean up URL parameters to prevent duplicate processing
+        cleanupUrl();
+
         // Reset tracking variables
         pollStartTime.current = undefined;
       }
@@ -124,11 +134,20 @@ export function usePaymentCompletion({
         );
         setIsWaitingForWebhook(false);
 
+        // Clean up URL parameters even on timeout
+        cleanupUrl();
+
         // Reset tracking variables
         pollStartTime.current = undefined;
       }
     }
-  }, [isWaitingForWebhook, sessionId, paymentCheck, stableOnPaymentProcessed]);
+  }, [
+    isWaitingForWebhook,
+    sessionId,
+    paymentCheck,
+    stableOnPaymentProcessed,
+    cleanupUrl,
+  ]);
 
   return {
     isWaitingForWebhook: isWaitingForWebhook && !paymentCheck?.hasPayment,

@@ -23,12 +23,12 @@ export function useActiveSubscription(userId: string | undefined) {
       if (!userId) {
         throw new Error('User ID is required');
       }
-      console.log('useActiveSubscription, userId', userId);
+      console.log('useActiveSubscription start');
       const result = await getActiveSubscriptionAction({ userId });
       if (!result?.data?.success) {
         throw new Error(result?.data?.error || 'Failed to fetch subscription');
       }
-      console.log('useActiveSubscription, result', result);
+      console.log('useActiveSubscription success');
       return result.data.data || null;
     },
     enabled: !!userId,
@@ -43,14 +43,14 @@ export function useLifetimeStatus(userId: string | undefined) {
       if (!userId) {
         throw new Error('User ID is required');
       }
-      console.log('useLifetimeStatus, userId', userId);
+      console.log('useLifetimeStatus start');
       const result = await getLifetimeStatusAction({ userId });
       if (!result?.data?.success) {
         throw new Error(
           result?.data?.error || 'Failed to fetch lifetime status'
         );
       }
-      console.log('useLifetimeStatus, result', result);
+      console.log('useLifetimeStatus success');
       return result.data.isLifetimeMember || false;
     },
     enabled: !!userId,
