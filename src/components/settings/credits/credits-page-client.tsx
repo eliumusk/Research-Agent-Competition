@@ -2,7 +2,7 @@
 
 import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
-import CreditsBalanceCard from '@/components/settings/credits/credits-balance-card';
+import CreditsCard from '@/components/settings/credits/credits-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
@@ -72,7 +72,7 @@ export default function CreditsPageClient() {
         <TabsContent value="balance" className="mt-4 flex flex-col gap-8">
           {/* Credits Balance Card */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <CreditsBalanceCard />
+            <CreditsCard />
           </div>
 
           {/* Credit Packages */}

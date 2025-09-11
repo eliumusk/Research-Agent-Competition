@@ -22,9 +22,9 @@ import { useCallback } from 'react';
 import { toast } from 'sonner';
 
 /**
- * Credits balance card, show credit balance
+ * Credits card, show credits balance and status
  */
-export default function CreditsBalanceCard() {
+export default function CreditsCard() {
   // Don't render if credits are disabled - move this check before any hooks
   if (!websiteConfig.credits.enableCredits) {
     return null;
