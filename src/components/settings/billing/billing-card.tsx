@@ -55,7 +55,7 @@ export default function BillingCard() {
   const sessionId = searchParams.get('session_id');
   const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
 
-  // Step 2: Get current plan data (only when not waiting for webhook)
+  // Step 2: Get current plan data
   const {
     data: paymentData,
     isLoading: isLoadingPayment,

@@ -50,7 +50,7 @@ export default function CreditsCard() {
   const sessionId = searchParams.get('session_id');
   const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
 
-  // Use TanStack Query hooks for credits (only when not waiting for webhook)
+  // Use TanStack Query hooks for credits (disabled while waiting for webhook)
   const {
     data: balance = 0,
     isLoading: isLoadingBalance,
@@ -58,7 +58,7 @@ export default function CreditsCard() {
     refetch: refetchBalance,
   } = useCreditBalance(!shouldWaitForWebhook);
 
-  // TanStack Query hook for credit statistics
+  // TanStack Query hook for credit statistics  
   const {
     data: creditStats,
     isLoading: isLoadingStats,
