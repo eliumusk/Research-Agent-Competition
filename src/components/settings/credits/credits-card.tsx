@@ -18,6 +18,7 @@ import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -32,13 +33,11 @@ export default function CreditsCard() {
 
   const t = useTranslations('Dashboard.settings.credits.balance');
   const mounted = useMounted();
+  const searchParams = useSearchParams();
 
   // Handle credits purchase completion and webhook timing
   const { isWaitingForWebhook } = usePaymentCompletion({
     onPaymentProcessed: () => {
-      // Refetch credits data to ensure latest state
-      refetchBalance();
-      refetchStats();
       // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {
         console.log('credits have been added to your account');
@@ -47,13 +46,17 @@ export default function CreditsCard() {
     },
   });
 
-  // Use TanStack Query hooks for credits
+  // Check for session_id to determine if we should wait for webhook
+  const sessionId = searchParams.get('session_id');
+  const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
+
+  // Use TanStack Query hooks for credits (only when not waiting for webhook)
   const {
     data: balance = 0,
     isLoading: isLoadingBalance,
     error: balanceError,
     refetch: refetchBalance,
-  } = useCreditBalance();
+  } = useCreditBalance(!shouldWaitForWebhook);
 
   // TanStack Query hook for credit statistics
   const {
@@ -61,7 +64,7 @@ export default function CreditsCard() {
     isLoading: isLoadingStats,
     error: statsError,
     refetch: refetchStats,
-  } = useCreditStats();
+  } = useCreditStats(!shouldWaitForWebhook);
 
   // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {
@@ -72,14 +75,14 @@ export default function CreditsCard() {
 
   // Render loading skeleton (include webhook waiting state)
   console.log(
-    'credits card, balance:',
+    'credits card, loading balance:',
     isLoadingBalance,
-    'stats:',
+    'loading stats:',
     isLoadingStats,
-    'webhook:',
-    isWaitingForWebhook
+    'waiting for webhook:',
+    shouldWaitForWebhook
   );
-  if (!mounted || isLoadingBalance || isLoadingStats || isWaitingForWebhook) {
+  if (!mounted || isLoadingBalance || isLoadingStats || shouldWaitForWebhook) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>

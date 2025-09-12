@@ -58,7 +58,7 @@ export function useLifetimeStatus(userId: string | undefined) {
 }
 
 // Hook to get current plan based on subscription and lifetime status
-export function useCurrentPlan(userId: string | undefined) {
+export function useCurrentPlan(userId: string | undefined, enableWhenReady = true) {
   const {
     data: subscription,
     isLoading: isLoadingSubscription,
@@ -109,6 +109,6 @@ export function useCurrentPlan(userId: string | undefined) {
         subscription: null,
       };
     },
-    enabled: !!userId && !isLoadingSubscription && !isLoadingLifetime,
+    enabled: !!userId && !isLoadingSubscription && !isLoadingLifetime && enableWhenReady,
   });
 }

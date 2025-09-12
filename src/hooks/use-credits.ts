@@ -20,7 +20,7 @@ export const creditsKeys = {
 };
 
 // Hook to fetch credit balance
-export function useCreditBalance() {
+export function useCreditBalance(enableWhenReady = true) {
   return useQuery({
     queryKey: creditsKeys.balance(),
     queryFn: async () => {
@@ -34,11 +34,12 @@ export function useCreditBalance() {
       console.log('Credit balance fetched:', result.data.credits);
       return result.data.credits || 0;
     },
+    enabled: enableWhenReady,
   });
 }
 
 // Hook to fetch credit statistics
-export function useCreditStats() {
+export function useCreditStats(enableWhenReady = true) {
   return useQuery({
     queryKey: creditsKeys.stats(),
     queryFn: async () => {
@@ -50,6 +51,7 @@ export function useCreditStats() {
       console.log('Credit stats fetched:', result.data.data);
       return result.data.data;
     },
+    enabled: enableWhenReady,
   });
 }
 

@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { CheckCircleIcon, ClockIcon, RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -32,17 +33,16 @@ import { toast } from 'sonner';
 export default function BillingCard() {
   const t = useTranslations('Dashboard.settings.billing');
   const mounted = useMounted();
+  const searchParams = useSearchParams();
 
   // Get user session for customer ID
   const { data: session, isPending: isLoadingSession } =
     authClient.useSession();
   const currentUser = session?.user;
 
-  // Handle checkout completion and webhook timing
+  // Step 1: Handle payment completion checking (if there's a sessionId)
   const { isWaitingForWebhook } = usePaymentCompletion({
     onPaymentProcessed: () => {
-      // Refetch payment data to ensure latest state
-      refetchPayment();
       // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {
         console.log('payment success');
@@ -51,13 +51,17 @@ export default function BillingCard() {
     },
   });
 
-  // TanStack Query hook for current plan and subscription
+  // Check for session_id to determine if we should wait for webhook
+  const sessionId = searchParams.get('session_id');
+  const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
+
+  // Step 2: Get current plan data (only when not waiting for webhook)
   const {
     data: paymentData,
     isLoading: isLoadingPayment,
     error: loadPaymentError,
     refetch: refetchPayment,
-  } = useCurrentPlan(currentUser?.id);
+  } = useCurrentPlan(currentUser?.id, !shouldWaitForWebhook);
 
   const currentPlan = paymentData?.currentPlan;
   const subscription = paymentData?.subscription;
@@ -96,14 +100,19 @@ export default function BillingCard() {
 
   // Render loading skeleton if not mounted or in a loading state
   console.log(
-    'billing card, payment:',
+    'billing card, loading payment:',
     isLoadingPayment,
-    'session:',
+    'loading session:',
     isLoadingSession,
-    'webhook:',
-    isWaitingForWebhook
+    'waiting for webhook:',
+    shouldWaitForWebhook
   );
-  if (!mounted || isLoadingPayment || isLoadingSession || isWaitingForWebhook) {
+  if (
+    !mounted ||
+    isLoadingPayment ||
+    isLoadingSession ||
+    shouldWaitForWebhook
+  ) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
