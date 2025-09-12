@@ -40,10 +40,6 @@ export enum Routes {
   // payment processing
   Payment = '/payment',
 
-  // aliases for easier access
-  Billing = '/settings/billing',
-  Credits = '/settings/credits',
-
   // AI routes
   AIText = '/ai/text',
   AIImage = '/ai/image',

@@ -65,10 +65,10 @@ export const createCreditCheckoutSession = userActionClient
 
       // Create checkout session with payment processing URLs
       const successUrl = getUrlWithLocale(
-        `${Routes.Payment}?session_id={CHECKOUT_SESSION_ID}&callback=${Routes.Credits}`,
+        `${Routes.Payment}?session_id={CHECKOUT_SESSION_ID}&callback=${Routes.SettingsCredits}`,
         locale
       );
-      const cancelUrl = getUrlWithLocale(Routes.Credits, locale);
+      const cancelUrl = getUrlWithLocale(Routes.SettingsCredits, locale);
 
       const params: CreateCreditCheckoutParams = {
         packageId,

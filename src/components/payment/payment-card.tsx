@@ -86,13 +86,13 @@ export function PaymentCard() {
   useEffect(() => {
     if (status === 'success' && callback) {
       // Invalidate relevant cache based on callback destination
-      if (callback === Routes.Credits) {
+      if (callback === Routes.SettingsCredits) {
         // Invalidate credits related queries
         queryClient.invalidateQueries({
           queryKey: ['credits'],
         });
         console.log('Invalidated credits cache for credits page');
-      } else if (callback === Routes.Billing) {
+      } else if (callback === Routes.SettingsBilling) {
         // Invalidate payment/subscription related queries
         queryClient.invalidateQueries({
           queryKey: ['payment'],
