@@ -37,6 +37,9 @@ export enum Routes {
   SettingsSecurity = '/settings/security',
   SettingsNotifications = '/settings/notifications',
 
+  // payment processing
+  Payment = '/payment',
+
   // AI routes
   AIText = '/ai/text',
   AIImage = '/ai/image',
@@ -81,6 +84,7 @@ export const protectedRoutes = [
   Routes.SettingsCredits,
   Routes.SettingsSecurity,
   Routes.SettingsNotifications,
+  Routes.Payment,
 ];
 
 /**

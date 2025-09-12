@@ -149,7 +149,7 @@ export const LoginForm = ({
           // router.push(callbackUrl || "/dashboard");
         },
         onError: (ctx) => {
-          console.error('login, error:', ctx.error);
+          // console.error('login, error:', ctx.error);
           setError(`${ctx.error.status}: ${ctx.error.message}`);
           // Reset captcha on login error
           if (captchaConfigured) {

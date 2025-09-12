@@ -602,6 +602,25 @@
         "errorMessage": "获取数据失败",
         "paymentSuccess": "支付成功"
       },
+      "payment": {
+        "processing": {
+          "title": "正在处理支付",
+          "description": "请稍候，我们正在确认您的支付..."
+        },
+        "success": {
+          "title": "支付成功",
+          "description": "页面自动跳转中..."
+        },
+        "failed": {
+          "title": "支付失败",
+          "description": "您的支付出现了问题"
+        },
+        "timeout": {
+          "title": "处理超时",
+          "description": "支付处理超时，请你稍后重试"
+        },
+        "retry": "重试"
+      },
       "credits": {
         "title": "积分",
         "description": "管理您的积分交易",
