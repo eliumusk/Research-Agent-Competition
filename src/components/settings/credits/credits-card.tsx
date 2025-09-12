@@ -36,8 +36,12 @@ export default function CreditsCard() {
   // Handle credits purchase completion and webhook timing
   const { isWaitingForWebhook } = usePaymentCompletion({
     onPaymentProcessed: () => {
+      // Refetch credits data to ensure latest state
+      refetchBalance();
+      refetchStats();
       // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {
+        console.log('credits have been added to your account');
         toast.success(t('creditsAdded'));
       }, 0);
     },

@@ -41,8 +41,11 @@ export default function BillingCard() {
   // Handle checkout completion and webhook timing
   const { isWaitingForWebhook } = usePaymentCompletion({
     onPaymentProcessed: () => {
+      // Refetch payment data to ensure latest state
+      refetchPayment();
       // Use setTimeout to avoid React rendering conflicts
       setTimeout(() => {
+        console.log('payment success');
         toast.success(t('paymentSuccess'));
       }, 0);
     },
