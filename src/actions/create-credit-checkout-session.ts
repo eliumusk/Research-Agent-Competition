@@ -63,12 +63,12 @@ export const createCreditCheckoutSession = userActionClient
           cookieStore.get('datafast_session_id')?.value ?? '';
       }
 
-      // Create checkout session with credit-specific URLs
+      // Create checkout session with payment processing URLs
       const successUrl = getUrlWithLocale(
-        `${Routes.SettingsCredits}?session_id={CHECKOUT_SESSION_ID}`,
+        `${Routes.Payment}?session_id={CHECKOUT_SESSION_ID}&callback=${Routes.Credits}`,
         locale
       );
-      const cancelUrl = getUrlWithLocale(Routes.SettingsCredits, locale);
+      const cancelUrl = getUrlWithLocale(Routes.Credits, locale);
 
       const params: CreateCreditCheckoutParams = {
         packageId,

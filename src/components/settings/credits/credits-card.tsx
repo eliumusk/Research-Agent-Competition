@@ -13,14 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { usePaymentCompletion } from '@/hooks/use-payment-completion';
 import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
-import { toast } from 'sonner';
 
 /**
  * Credits card, show credits balance and statistics
@@ -33,38 +30,22 @@ export default function CreditsCard() {
 
   const t = useTranslations('Dashboard.settings.credits.balance');
   const mounted = useMounted();
-  const searchParams = useSearchParams();
 
-  // Handle credits purchase completion and webhook timing
-  const { isWaitingForWebhook } = usePaymentCompletion({
-    onPaymentProcessed: () => {
-      // Use setTimeout to avoid React rendering conflicts
-      setTimeout(() => {
-        console.log('credits have been added to your account');
-        toast.success(t('creditsAdded'));
-      }, 0);
-    },
-  });
-
-  // Check for session_id to determine if we should wait for webhook
-  const sessionId = searchParams.get('session_id');
-  const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
-
-  // Use TanStack Query hooks for credits (disabled while waiting for webhook)
+  // Use TanStack Query hooks for credits
   const {
     data: balance = 0,
     isLoading: isLoadingBalance,
     error: balanceError,
     refetch: refetchBalance,
-  } = useCreditBalance(!shouldWaitForWebhook);
+  } = useCreditBalance();
 
-  // TanStack Query hook for credit statistics  
+  // TanStack Query hook for credit statistics
   const {
     data: creditStats,
     isLoading: isLoadingStats,
     error: statsError,
     refetch: refetchStats,
-  } = useCreditStats(!shouldWaitForWebhook);
+  } = useCreditStats();
 
   // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {
@@ -73,16 +54,8 @@ export default function CreditsCard() {
     refetchStats();
   }, [refetchBalance, refetchStats]);
 
-  // Render loading skeleton (include webhook waiting state)
-  console.log(
-    'credits card, loading balance:',
-    isLoadingBalance,
-    'loading stats:',
-    isLoadingStats,
-    'waiting for webhook:',
-    shouldWaitForWebhook
-  );
-  if (!mounted || isLoadingBalance || isLoadingStats || shouldWaitForWebhook) {
+  // Render loading skeleton
+  if (!mounted || isLoadingBalance || isLoadingStats) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>

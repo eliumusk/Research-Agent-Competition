@@ -1,8 +1,6 @@
-import { checkPaymentBySessionAction } from '@/actions/check-payment-by-session';
-import { PAYMENT_MAX_POLL_TIME, PAYMENT_POLL_INTERVAL } from '@/lib/constants';
+import { checkPaymentCompletionAction } from '@/actions/check-payment-completion';
+import { PAYMENT_POLL_INTERVAL } from '@/lib/constants';
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Query keys for payment completion
 export const paymentCompletionKeys = {
@@ -11,8 +9,8 @@ export const paymentCompletionKeys = {
     [...paymentCompletionKeys.all, 'session', sessionId] as const,
 };
 
-// Hook to check if payment exists by session ID
-export function usePaymentBySession(
+// Hook to check if payment completion exists by session ID
+export function usePaymentCompletion(
   sessionId: string | null,
   enablePolling = false
 ) {
@@ -22,16 +20,19 @@ export function usePaymentBySession(
       if (!sessionId) {
         return { hasPayment: false, payment: null };
       }
-      console.log('>>> Check payment by session');
-      const result = await checkPaymentBySessionAction({ sessionId });
+      console.log('>>> Check payment completion');
+      const result = await checkPaymentCompletionAction({ sessionId });
       if (!result?.data?.success) {
         console.log('<<< Check payment failed');
         throw new Error(
-          result?.data?.error || 'Failed to check payment by session'
+          result?.data?.error || 'Failed to check payment completion'
         );
       }
       const hasPayment = result.data.hasPayment;
-      console.log('<<< Check payment success, hasPayment:', hasPayment);
+      console.log(
+        '<<< Check payment completion success, hasPayment:',
+        hasPayment
+      );
       return {
         hasPayment,
         payment: result.data.payment,
@@ -39,136 +40,8 @@ export function usePaymentBySession(
     },
     enabled: !!sessionId,
     refetchInterval: enablePolling ? PAYMENT_POLL_INTERVAL : false,
-    refetchIntervalInBackground: false,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
-}
-
-interface UsePaymentCompletionProps {
-  onPaymentProcessed?: () => void;
-}
-
-/**
- * Unified hook to handle payment completion and wait for webhook processing
- *
- * Works for both subscriptions and one-time payments (credits, lifetime)
- * Uses session_id parameter to detect completion and poll for payment records
- */
-export function usePaymentCompletion({
-  onPaymentProcessed,
-}: UsePaymentCompletionProps = {}) {
-  const searchParams = useSearchParams();
-  const [isWaitingForWebhook, setIsWaitingForWebhook] = useState(false);
-  const hasHandledSession = useRef(false);
-  const pollStartTime = useRef<number | undefined>(undefined);
-  const isMountedRef = useRef(true);
-
-  // Detect if we're waiting for webhook (have session_id)
-  const sessionId = searchParams.get('session_id');
-
-  // Initialize waiting state immediately if session_id exists
-  useEffect(() => {
-    if (sessionId && !hasHandledSession.current) {
-      console.log('Payment completed, start polling for webhook data...');
-      pollStartTime.current = Date.now();
-      setIsWaitingForWebhook(true);
-      hasHandledSession.current = true;
-    }
-  }, [sessionId]);
-
-  // Cleanup on unmount to prevent memory leaks
-  useEffect(() => {
-    return () => {
-      isMountedRef.current = false;
-      pollStartTime.current = undefined;
-      hasHandledSession.current = false;
-    };
-  }, []);
-
-  // Control polling: only poll if waiting for webhook and within timeout
-  const shouldPoll = useMemo(() => {
-    if (
-      !sessionId ||
-      hasHandledSession.current === false ||
-      !isWaitingForWebhook ||
-      !isMountedRef.current
-    ) {
-      console.log('Should poll, false');
-      return false;
-    }
-
-    // Check timeout
-    if (pollStartTime.current) {
-      const pollDuration = Date.now() - pollStartTime.current;
-      const maxPollTime = PAYMENT_MAX_POLL_TIME;
-      if (pollDuration > maxPollTime) {
-        console.log(`Stop polling after ${pollDuration}ms`);
-        return false;
-      }
-    }
-
-    console.log('Should poll, true');
-    return true;
-  }, [sessionId, isWaitingForWebhook]);
-
-  // Stable callback reference
-  const stableOnPaymentProcessed = useCallback(() => {
-    onPaymentProcessed?.();
-  }, [onPaymentProcessed]);
-
-  // Clean up session_id from URL after payment processing
-  const cleanupUrl = useCallback(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.delete('session_id');
-    window.history.replaceState({}, '', url.toString());
-  }, []);
-
-  // Check if payment record exists for this session (indicates webhook processed)
-  const { data: paymentCheck } = usePaymentBySession(sessionId, shouldPoll);
-
-  // Check if payment record exists or timeout
-  useEffect(() => {
-    if (isWaitingForWebhook && sessionId && isMountedRef.current) {
-      const currentTime = Date.now();
-      const pollDuration = currentTime - (pollStartTime.current || 0);
-      const maxPollTime = PAYMENT_MAX_POLL_TIME;
-
-      // If payment record exists, webhook processed
-      if (paymentCheck?.hasPayment) {
-        console.log('Payment record found, webhook processing completed');
-        if (isMountedRef.current) {
-          setIsWaitingForWebhook(false);
-          stableOnPaymentProcessed();
-
-          // Clean up URL parameters to prevent duplicate processing
-          cleanupUrl();
-
-          // Reset tracking variables
-          pollStartTime.current = undefined;
-        }
-      }
-      // Check timeout
-      else if (pollDuration > maxPollTime) {
-        console.log(`Stop waiting for webhook timeout after ${pollDuration}ms`);
-        if (isMountedRef.current) {
-          setIsWaitingForWebhook(false);
-
-          // Clean up URL parameters even on timeout
-          cleanupUrl();
-
-          // Reset tracking variables
-          pollStartTime.current = undefined;
-        }
-      }
-    }
-  }, [
-    isWaitingForWebhook,
-    sessionId,
-    paymentCheck,
-    stableOnPaymentProcessed,
-    cleanupUrl,
-  ]);
-
-  return {
-    isWaitingForWebhook: isWaitingForWebhook && !paymentCheck?.hasPayment,
-  };
 }

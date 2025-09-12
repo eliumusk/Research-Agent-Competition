@@ -15,7 +15,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { usePricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
-import { usePaymentCompletion } from '@/hooks/use-payment-completion';
 import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
@@ -23,9 +22,7 @@ import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { CheckCircleIcon, ClockIcon, RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
-import { toast } from 'sonner';
 
 /**
  * Billing card, show current plan and subscription status
@@ -33,35 +30,19 @@ import { toast } from 'sonner';
 export default function BillingCard() {
   const t = useTranslations('Dashboard.settings.billing');
   const mounted = useMounted();
-  const searchParams = useSearchParams();
 
   // Get user session for customer ID
   const { data: session, isPending: isLoadingSession } =
     authClient.useSession();
   const currentUser = session?.user;
 
-  // Step 1: Handle payment completion checking (if there's a sessionId)
-  const { isWaitingForWebhook } = usePaymentCompletion({
-    onPaymentProcessed: () => {
-      // Use setTimeout to avoid React rendering conflicts
-      setTimeout(() => {
-        console.log('payment success');
-        toast.success(t('paymentSuccess'));
-      }, 0);
-    },
-  });
-
-  // Check for session_id to determine if we should wait for webhook
-  const sessionId = searchParams.get('session_id');
-  const shouldWaitForWebhook = !!sessionId || isWaitingForWebhook;
-
-  // Step 2: Get current plan data
+  // Get current plan data
   const {
     data: paymentData,
     isLoading: isLoadingPayment,
     error: loadPaymentError,
     refetch: refetchPayment,
-  } = useCurrentPlan(currentUser?.id, !shouldWaitForWebhook);
+  } = useCurrentPlan(currentUser?.id);
 
   const currentPlan = paymentData?.currentPlan;
   const subscription = paymentData?.subscription;
@@ -94,25 +75,11 @@ export default function BillingCard() {
 
   // Retry payment data fetching
   const handleRetry = useCallback(() => {
-    // console.log('handleRetry, refetch payment info');
     refetchPayment();
   }, [refetchPayment]);
 
-  // Render loading skeleton if not mounted or in a loading state
-  console.log(
-    'billing card, loading payment:',
-    isLoadingPayment,
-    'loading session:',
-    isLoadingSession,
-    'waiting for webhook:',
-    shouldWaitForWebhook
-  );
-  if (
-    !mounted ||
-    isLoadingPayment ||
-    isLoadingSession ||
-    shouldWaitForWebhook
-  ) {
+  // Render loading skeleton
+  if (!mounted || isLoadingPayment || isLoadingSession) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -188,10 +155,6 @@ export default function BillingCard() {
       </Card>
     );
   }
-
-  // console.log('billing card, currentPlan', currentPlan);
-  // console.log('billing card, subscription', subscription);
-  // console.log('billing card, currentUser', currentUser);
 
   return (
     <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>

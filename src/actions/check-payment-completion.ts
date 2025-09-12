@@ -6,15 +6,15 @@ import { userActionClient } from '@/lib/safe-action';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 
-const checkPaymentBySessionSchema = z.object({
+const checkPaymentCompletionSchema = z.object({
   sessionId: z.string(),
 });
 
 /**
- * Check if a payment record exists for the given session ID
+ * Check if a payment completion record exists for the given session ID
  */
-export const checkPaymentBySessionAction = userActionClient
-  .schema(checkPaymentBySessionSchema)
+export const checkPaymentCompletionAction = userActionClient
+  .schema(checkPaymentCompletionSchema)
   .action(async ({ parsedInput: { sessionId } }) => {
     try {
       const db = await getDb();
@@ -25,17 +25,17 @@ export const checkPaymentBySessionAction = userActionClient
         .limit(1);
 
       const hasPayment = paymentRecord.length > 0;
-      console.log('Check payment by session success, hasPayment:', hasPayment);
+      console.log('Check payment completion success, hasPayment:', hasPayment);
       return {
         success: true,
         hasPayment, // TEST: return false to test polling behavior
         payment: paymentRecord[0] || null,
       };
     } catch (error) {
-      console.error('Check payment by session error:', error);
+      console.error('Check payment completion error:', error);
       return {
         success: false,
-        error: 'Failed to check payment record',
+        error: 'Failed to check payment completion',
       };
     }
   });

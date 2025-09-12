@@ -9,6 +9,6 @@ export const CREDITS_EXPIRATION_DAYS = 30;
 export const PAYMENT_POLL_INTERVAL = 2000;
 
 /**
- * Max polling time (60 seconds)
+ * Max polling time (1 minute)
  */
 export const PAYMENT_MAX_POLL_TIME = 60000;
