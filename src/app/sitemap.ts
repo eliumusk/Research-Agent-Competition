@@ -115,7 +115,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       posts.forEach((post) => {
         sitemapList.push({
           url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
-          lastModified: new Date(),
+          lastModified: new Date(post.data.date) ?? new Date(),
           priority: 0.8,
           changeFrequency: 'weekly' as const,
         });
