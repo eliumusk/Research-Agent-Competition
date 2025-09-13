@@ -50,18 +50,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // add blog related routes if enabled
   if (websiteConfig.blog.enable) {
-    // add categories
-    sitemapList.push(
-      ...categorySource.getPages().flatMap((category) =>
-        routing.locales.map((locale) => ({
-          url: getUrl(`/blog/category/${category.slugs[0]}`, locale),
-          lastModified: new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
-        }))
-      )
-    );
-
     // add paginated blog list pages
     routing.locales.forEach((locale) => {
       const posts = blogSource
