@@ -522,13 +522,13 @@ export class StripeProvider implements PaymentProvider {
   }
 
   /**
-   * Find checkout session ID from payment intent
+   * Find checkout session from payment intent
    * @param paymentIntentId Payment intent ID
-   * @returns Session ID or undefined
+   * @returns Checkout session or undefined
    */
-  private async findSessionIdFromPaymentIntent(
+  private async findSessionFromPaymentIntent(
     paymentIntentId: string
-  ): Promise<string | undefined> {
+  ): Promise<Stripe.Checkout.Session | undefined> {
     try {
       // Search for checkout sessions that contain this payment intent
       const sessions = await this.stripe.checkout.sessions.list({
@@ -537,7 +537,7 @@ export class StripeProvider implements PaymentProvider {
       });
 
       if (sessions.data && sessions.data.length > 0) {
-        return sessions.data[0].id;
+        return sessions.data[0];
       }
 
       return undefined;
@@ -548,13 +548,13 @@ export class StripeProvider implements PaymentProvider {
   }
 
   /**
-   * Find checkout session ID from subscription
+   * Find checkout session from subscription
    * @param subscriptionId Subscription ID
-   * @returns Session ID or undefined
+   * @returns Checkout session or undefined
    */
-  private async findSessionIdFromSubscription(
+  private async findSessionFromSubscription(
     subscriptionId: string
-  ): Promise<string | undefined> {
+  ): Promise<Stripe.Checkout.Session | undefined> {
     try {
       // Search for checkout sessions that created this subscription
       const sessions = await this.stripe.checkout.sessions.list({
@@ -563,7 +563,7 @@ export class StripeProvider implements PaymentProvider {
       });
 
       if (sessions.data && sessions.data.length > 0) {
-        return sessions.data[0].id;
+        return sessions.data[0];
       }
 
       return undefined;
@@ -679,9 +679,10 @@ export class StripeProvider implements PaymentProvider {
         : null;
       const currentDate = new Date();
 
-      // Find session ID from subscription
-      const sessionId =
-        await this.findSessionIdFromSubscription(subscriptionId);
+      // Find checkout session from subscription
+      const checkoutSession =
+        await this.findSessionFromSubscription(subscriptionId);
+      const sessionId = checkoutSession?.id;
 
       // Create payment record with subscription status
       const db = await getDb();
@@ -829,11 +830,12 @@ export class StripeProvider implements PaymentProvider {
         return;
       }
 
-      // Find session ID from payment intent
+      // Find checkout session from payment intent
       const paymentIntentId = invoice.payment_intent as string;
-      const sessionId = paymentIntentId
-        ? await this.findSessionIdFromPaymentIntent(paymentIntentId)
+      const checkoutSession = paymentIntentId
+        ? await this.findSessionFromPaymentIntent(paymentIntentId)
         : undefined;
+      const sessionId = checkoutSession?.id;
 
       // Create payment record
       const db = await getDb();
@@ -910,11 +912,12 @@ export class StripeProvider implements PaymentProvider {
         return;
       }
 
-      // Find session ID from payment intent
+      // Find checkout session from payment intent
       const paymentIntentId = invoice.payment_intent as string;
-      const sessionId = paymentIntentId
-        ? await this.findSessionIdFromPaymentIntent(paymentIntentId)
+      const checkoutSession = paymentIntentId
+        ? await this.findSessionFromPaymentIntent(paymentIntentId)
         : undefined;
+      const sessionId = checkoutSession?.id;
 
       // Create payment record
       const db = await getDb();
