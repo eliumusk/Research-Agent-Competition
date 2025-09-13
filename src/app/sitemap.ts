@@ -120,18 +120,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // add posts (single post pages)
-    sitemapList.push(
-      ...blogSource.getPages().flatMap((post) =>
-        routing.locales
-          .filter((locale) => post.locale === locale)
-          .map((locale) => ({
-            url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
-            lastModified: new Date(),
-            priority: 0.8,
-            changeFrequency: 'weekly' as const,
-          }))
-      )
-    );
+    routing.locales.forEach((locale) => {
+      const posts = blogSource
+        .getPages(locale)
+        .filter((post) => post.data.published);
+      posts.forEach((post) => {
+        sitemapList.push({
+          url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
+          lastModified: new Date(),
+          priority: 0.8,
+          changeFrequency: 'weekly' as const,
+        });
+      });
+    });
   }
 
   // add docs related routes if enabled
