@@ -13,29 +13,22 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { websiteConfig } from '@/config/website';
 import { useCreditBalance, useCreditStats } from '@/hooks/use-credits';
 import { useMounted } from '@/hooks/use-mounted';
-import { useLocaleRouter } from '@/i18n/navigation';
 import { CREDITS_EXPIRATION_DAYS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { Routes } from '@/routes';
 import { RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
-import { toast } from 'sonner';
+import { useCallback } from 'react';
 
 /**
- * Credits balance card, show credit balance
+ * Credits card, show credits balance and statistics
  */
-export default function CreditsBalanceCard() {
+export default function CreditsCard() {
   // Don't render if credits are disabled - move this check before any hooks
   if (!websiteConfig.credits.enableCredits) {
     return null;
   }
 
   const t = useTranslations('Dashboard.settings.credits.balance');
-  const searchParams = useSearchParams();
-  const localeRouter = useLocaleRouter();
-  const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
   // Use TanStack Query hooks for credits
@@ -53,37 +46,6 @@ export default function CreditsBalanceCard() {
     error: statsError,
     refetch: refetchStats,
   } = useCreditStats();
-
-  // Handle payment success after credits purchase
-  const handlePaymentSuccess = useCallback(async () => {
-    // Use queueMicrotask to avoid React rendering conflicts
-    queueMicrotask(() => {
-      toast.success(t('creditsAdded'));
-    });
-
-    // Wait for webhook to process (simplified approach)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Force refresh data
-    refetchBalance();
-    refetchStats();
-  }, [t, refetchBalance, refetchStats]);
-
-  // Check for payment success and show success message
-  useEffect(() => {
-    const sessionId = searchParams.get('credits_session_id');
-    if (sessionId && !hasHandledSession.current) {
-      hasHandledSession.current = true;
-
-      // Clean up URL parameters first
-      const url = new URL(window.location.href);
-      url.searchParams.delete('credits_session_id');
-      localeRouter.replace(Routes.SettingsCredits + url.search);
-
-      // Handle payment success
-      handlePaymentSuccess();
-    }
-  }, [searchParams, localeRouter, handlePaymentSuccess]);
 
   // Retry all data fetching using refetch methods
   const handleRetry = useCallback(() => {

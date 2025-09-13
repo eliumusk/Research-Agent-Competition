@@ -50,18 +50,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // add blog related routes if enabled
   if (websiteConfig.blog.enable) {
-    // add categories
-    sitemapList.push(
-      ...categorySource.getPages().flatMap((category) =>
-        routing.locales.map((locale) => ({
-          url: getUrl(`/blog/category/${category.slugs[0]}`, locale),
-          lastModified: new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
-        }))
-      )
-    );
-
     // add paginated blog list pages
     routing.locales.forEach((locale) => {
       const posts = blogSource
@@ -120,18 +108,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // add posts (single post pages)
-    sitemapList.push(
-      ...blogSource.getPages().flatMap((post) =>
-        routing.locales
-          .filter((locale) => post.locale === locale)
-          .map((locale) => ({
-            url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
-            lastModified: new Date(),
-            priority: 0.8,
-            changeFrequency: 'weekly' as const,
-          }))
-      )
-    );
+    routing.locales.forEach((locale) => {
+      const posts = blogSource
+        .getPages(locale)
+        .filter((post) => post.data.published);
+      posts.forEach((post) => {
+        sitemapList.push({
+          url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
+          lastModified: new Date(post.data.date) ?? new Date(),
+          priority: 0.8,
+          changeFrequency: 'weekly' as const,
+        });
+      });
+    });
   }
 
   // add docs related routes if enabled

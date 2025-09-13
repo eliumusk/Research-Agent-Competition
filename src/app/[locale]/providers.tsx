@@ -1,5 +1,6 @@
 'use client';
 
+import { PostHogProvider } from '@/analytics/posthog-analytics';
 import { ActiveThemeProvider } from '@/components/layout/active-theme-provider';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -20,12 +21,12 @@ interface ProvidersProps {
  *
  * This component is used to wrap the app in the providers.
  *
+ * - PostHogProvider: Provides the PostHog analytics to the app.
+ * - QueryProvider: Provides the query client to the app.
  * - ThemeProvider: Provides the theme to the app.
  * - ActiveThemeProvider: Provides the active theme to the app.
  * - RootProvider: Provides the root provider for Fumadocs UI.
  * - TooltipProvider: Provides the tooltip to the app.
- * - PaymentProvider: Provides the payment state to the app.
- * - CreditsProvider: Provides the credits state to the app.
  */
 export function Providers({ children, locale }: ProvidersProps) {
   const theme = useTheme();
@@ -53,19 +54,24 @@ export function Providers({ children, locale }: ProvidersProps) {
   };
 
   return (
-    <QueryProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme={defaultMode}
-        enableSystem={true}
-        disableTransitionOnChange
-      >
-        <ActiveThemeProvider>
-          <RootProvider theme={theme} i18n={{ locale, locales, translations }}>
-            <TooltipProvider>{children}</TooltipProvider>
-          </RootProvider>
-        </ActiveThemeProvider>
-      </ThemeProvider>
-    </QueryProvider>
+    <PostHogProvider>
+      <QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme={defaultMode}
+          enableSystem={true}
+          disableTransitionOnChange
+        >
+          <ActiveThemeProvider>
+            <RootProvider
+              theme={theme}
+              i18n={{ locale, locales, translations }}
+            >
+              <TooltipProvider>{children}</TooltipProvider>
+            </RootProvider>
+          </ActiveThemeProvider>
+        </ThemeProvider>
+      </QueryProvider>
+    </PostHogProvider>
   );
 }

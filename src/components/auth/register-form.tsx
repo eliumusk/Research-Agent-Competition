@@ -158,7 +158,7 @@ export const RegisterForm = ({
         },
         onError: (ctx) => {
           // sign up fail, display the error message
-          console.error('register, error:', ctx.error);
+          // console.error('register, error:', ctx.error);
           setError(`${ctx.error.status}: ${ctx.error.message}`);
           // Reset captcha on registration error
           if (captchaConfigured) {

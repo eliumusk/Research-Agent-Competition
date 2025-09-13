@@ -72,6 +72,7 @@ export const payment = pgTable("payment", {
 	customerId: text('customer_id').notNull(),
 	subscriptionId: text('subscription_id'),
 	sessionId: text('session_id'),
+	invoiceId: text('invoice_id').unique(), // unique constraint for avoiding duplicate processing
 	status: text('status').notNull(),
 	periodStart: timestamp('period_start'),
 	periodEnd: timestamp('period_end'),
@@ -88,6 +89,7 @@ export const payment = pgTable("payment", {
 	paymentStatusIdx: index("payment_status_idx").on(table.status),
 	paymentSubscriptionIdIdx: index("payment_subscription_id_idx").on(table.subscriptionId),
 	paymentSessionIdIdx: index("payment_session_id_idx").on(table.sessionId),
+	paymentInvoiceIdIdx: index("payment_invoice_id_idx").on(table.invoiceId),
 }));
 
 export const userCredit = pgTable("user_credit", {
@@ -108,7 +110,7 @@ export const creditTransaction = pgTable("credit_transaction", {
 	description: text("description"),
 	amount: integer("amount").notNull(),
 	remainingAmount: integer("remaining_amount"),
-	paymentId: text("payment_id"),
+	paymentId: text("payment_id"), // field name is paymentId, but actually it's invoiceId
 	expirationDate: timestamp("expiration_date"),
 	expirationDateProcessedAt: timestamp("expiration_date_processed_at"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),

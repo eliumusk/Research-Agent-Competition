@@ -15,22 +15,20 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { usePricePlans } from '@/config/price-config';
 import { useMounted } from '@/hooks/use-mounted';
 import { useCurrentPlan } from '@/hooks/use-payment';
-import { LocaleLink, useLocaleRouter } from '@/i18n/navigation';
+import { LocaleLink } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import { formatDate } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { Routes } from '@/routes';
 import { CheckCircleIcon, ClockIcon, RefreshCwIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
-import { toast } from 'sonner';
+import { useCallback } from 'react';
 
+/**
+ * Billing card, show current plan and subscription status
+ */
 export default function BillingCard() {
   const t = useTranslations('Dashboard.settings.billing');
-  const searchParams = useSearchParams();
-  const localeRouter = useLocaleRouter();
-  const hasHandledSession = useRef(false);
   const mounted = useMounted();
 
   // Get user session for customer ID
@@ -38,7 +36,7 @@ export default function BillingCard() {
     authClient.useSession();
   const currentUser = session?.user;
 
-  // TanStack Query hook for current plan and subscription
+  // Get current plan data
   const {
     data: paymentData,
     isLoading: isLoadingPayment,
@@ -77,28 +75,11 @@ export default function BillingCard() {
 
   // Retry payment data fetching
   const handleRetry = useCallback(() => {
-    // console.log('handleRetry, refetch payment info');
     refetchPayment();
   }, [refetchPayment]);
 
-  // Check for payment success and show success message
-  useEffect(() => {
-    const sessionId = searchParams.get('session_id');
-    if (sessionId && !hasHandledSession.current) {
-      hasHandledSession.current = true;
-      setTimeout(() => {
-        toast.success(t('paymentSuccess'));
-      }, 0);
-
-      const url = new URL(window.location.href);
-      url.searchParams.delete('session_id');
-      localeRouter.replace(Routes.SettingsBilling + url.search);
-    }
-  }, [searchParams, localeRouter]);
-
-  // Render loading skeleton if not mounted or in a loading state
-  const isPageLoading = isLoadingPayment || isLoadingSession;
-  if (!mounted || isPageLoading || !paymentData) {
+  // Render loading skeleton
+  if (!mounted || isLoadingPayment || isLoadingSession || !currentPlanWithTranslations) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
@@ -150,34 +131,6 @@ export default function BillingCard() {
       </Card>
     );
   }
-
-  // currentPlan maybe null, so we need to check if it is null
-  if (!currentPlanWithTranslations) {
-    return (
-      <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            {t('currentPlan.title')}
-          </CardTitle>
-          <CardDescription>{t('currentPlan.description')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-sm text-muted-foreground">
-            {t('currentPlan.noPlan')}
-          </div>
-        </CardContent>
-        <CardFooter className="mt-2 px-6 py-4 flex justify-end items-center bg-muted rounded-none">
-          <Button variant="default" className="cursor-pointer" asChild>
-            <LocaleLink href={Routes.Pricing}>{t('upgradePlan')}</LocaleLink>
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-  }
-
-  // console.log('billing card, currentPlan', currentPlan);
-  // console.log('billing card, subscription', subscription);
-  // console.log('billing card, currentUser', currentUser);
 
   return (
     <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>

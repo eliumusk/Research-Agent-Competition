@@ -23,10 +23,12 @@ export function useActiveSubscription(userId: string | undefined) {
       if (!userId) {
         throw new Error('User ID is required');
       }
+      console.log('useActiveSubscription start');
       const result = await getActiveSubscriptionAction({ userId });
       if (!result?.data?.success) {
         throw new Error(result?.data?.error || 'Failed to fetch subscription');
       }
+      console.log('useActiveSubscription success');
       return result.data.data || null;
     },
     enabled: !!userId,
@@ -41,12 +43,14 @@ export function useLifetimeStatus(userId: string | undefined) {
       if (!userId) {
         throw new Error('User ID is required');
       }
+      console.log('useLifetimeStatus start');
       const result = await getLifetimeStatusAction({ userId });
       if (!result?.data?.success) {
         throw new Error(
           result?.data?.error || 'Failed to fetch lifetime status'
         );
       }
+      console.log('useLifetimeStatus success');
       return result.data.isLifetimeMember || false;
     },
     enabled: !!userId,
@@ -78,6 +82,7 @@ export function useCurrentPlan(userId: string | undefined) {
 
       // If lifetime member, return lifetime plan
       if (isLifetimeMember) {
+        console.log('useCurrentPlan, lifetimePlan');
         return {
           currentPlan: lifetimePlan || null,
           subscription: null,
@@ -86,6 +91,7 @@ export function useCurrentPlan(userId: string | undefined) {
 
       // If has active subscription, find the corresponding plan
       if (subscription) {
+        console.log('useCurrentPlan, subscription');
         const plan =
           plans.find((p) =>
             p.prices.find((price) => price.priceId === subscription.priceId)
@@ -97,6 +103,7 @@ export function useCurrentPlan(userId: string | undefined) {
       }
 
       // Default to free plan
+      console.log('useCurrentPlan, freePlan');
       return {
         currentPlan: freePlan || null,
         subscription: null,
