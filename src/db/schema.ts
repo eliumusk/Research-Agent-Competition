@@ -74,6 +74,7 @@ export const payment = pgTable("payment", {
 	sessionId: text('session_id'),
 	invoiceId: text('invoice_id').unique(), // unique constraint for avoiding duplicate processing
 	status: text('status').notNull(),
+	paid: boolean('paid').notNull().default(false), // indicates whether payment is completed (set in invoice.paid event)
 	periodStart: timestamp('period_start'),
 	periodEnd: timestamp('period_end'),
 	cancelAtPeriodEnd: boolean('cancel_at_period_end'),
@@ -87,6 +88,7 @@ export const payment = pgTable("payment", {
 	paymentUserIdIdx: index("payment_user_id_idx").on(table.userId),
 	paymentCustomerIdIdx: index("payment_customer_id_idx").on(table.customerId),
 	paymentStatusIdx: index("payment_status_idx").on(table.status),
+	paymentPaidIdx: index("payment_paid_idx").on(table.paid),
 	paymentSubscriptionIdIdx: index("payment_subscription_id_idx").on(table.subscriptionId),
 	paymentSessionIdIdx: index("payment_session_id_idx").on(table.sessionId),
 	paymentInvoiceIdIdx: index("payment_invoice_id_idx").on(table.invoiceId),
