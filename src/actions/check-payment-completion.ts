@@ -11,7 +11,7 @@ const checkPaymentCompletionSchema = z.object({
 });
 
 /**
- * Check if a payment completion record exists for the given session ID
+ * Check if a payment is completed for the given session ID
  */
 export const checkPaymentCompletionAction = userActionClient
   .schema(checkPaymentCompletionSchema)
@@ -24,12 +24,13 @@ export const checkPaymentCompletionAction = userActionClient
         .where(eq(payment.sessionId, sessionId))
         .limit(1);
 
-      const hasPayment = paymentRecord.length > 0;
-      console.log('Check payment completion success, hasPayment:', hasPayment);
+      const paymentData = paymentRecord[0] || null;
+      const isPaid = paymentData ? paymentData.paid : false;
+      console.log('Check payment completion:', isPaid);
+
       return {
         success: true,
-        hasPayment, // TEST: return false to test polling behavior
-        payment: paymentRecord[0] || null,
+        isPaid,
       };
     } catch (error) {
       console.error('Check payment completion error:', error);

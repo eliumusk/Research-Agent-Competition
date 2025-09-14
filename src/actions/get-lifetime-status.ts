@@ -56,7 +56,8 @@ export const getLifetimeStatusAction = userActionClient
           and(
             eq(payment.userId, userId),
             eq(payment.type, PaymentTypes.ONE_TIME),
-            eq(payment.status, 'completed')
+            eq(payment.status, 'completed'),
+            eq(payment.paid, true)
           )
         );
 
