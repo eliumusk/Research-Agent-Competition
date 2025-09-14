@@ -79,7 +79,12 @@ export default function BillingCard() {
   }, [refetchPayment]);
 
   // Render loading skeleton
-  if (!mounted || isLoadingPayment || isLoadingSession || !currentPlanWithTranslations) {
+  if (
+    !mounted ||
+    isLoadingPayment ||
+    isLoadingSession ||
+    !currentPlanWithTranslations
+  ) {
     return (
       <Card className={cn('w-full overflow-hidden pt-6 pb-0 flex flex-col')}>
         <CardHeader>
