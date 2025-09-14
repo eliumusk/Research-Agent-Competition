@@ -199,9 +199,6 @@ export function CreditTransactionsTable({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  // show fake data in demo website
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_WEBSITE === 'true';
-
   // Map column IDs to translation keys
   const columnIdToTranslationKey = {
     type: 'columns.type' as const,

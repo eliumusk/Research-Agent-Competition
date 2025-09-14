@@ -9,7 +9,7 @@ export const paymentCompletionKeys = {
     [...paymentCompletionKeys.all, 'session', sessionId] as const,
 };
 
-// Hook to check if payment completion exists by session ID
+// Hook to check if payment is completed by session ID
 export function usePaymentCompletion(
   sessionId: string | null,
   enablePolling = false
@@ -18,7 +18,9 @@ export function usePaymentCompletion(
     queryKey: paymentCompletionKeys.session(sessionId || ''),
     queryFn: async () => {
       if (!sessionId) {
-        return { hasPayment: false, payment: null };
+        return {
+          isPaid: false,
+        };
       }
       console.log('>>> Check payment completion');
       const result = await checkPaymentCompletionAction({ sessionId });
@@ -28,14 +30,12 @@ export function usePaymentCompletion(
           result?.data?.error || 'Failed to check payment completion'
         );
       }
-      const hasPayment = result.data.hasPayment;
-      console.log(
-        '<<< Check payment completion success, hasPayment:',
-        hasPayment
-      );
+
+      const { isPaid } = result.data;
+      console.log('<<< Check payment completion success:', isPaid);
+
       return {
-        hasPayment,
-        payment: result.data.payment,
+        isPaid,
       };
     },
     enabled: !!sessionId,

@@ -27,7 +27,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { User } from '@/lib/auth-types';
-import { isDemoWebsite } from '@/lib/demo';
 import { formatDate } from '@/lib/formatter';
 import { getStripeDashboardCustomerUrl } from '@/lib/urls/urls';
 import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
@@ -165,9 +164,6 @@ export function UsersTable({
   const tTable = useTranslations('Common.table');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-
-  // show fake data in demo website
-  const isDemo = isDemoWebsite();
 
   // Map column IDs to translation keys
   const columnIdToTranslationKey = {
@@ -398,9 +394,6 @@ export function UsersTable({
             }}
             className="max-w-sm"
           />
-          {isDemo && (
-            <span className="text-sm text-primary">{t('fakeData')}</span>
-          )}
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

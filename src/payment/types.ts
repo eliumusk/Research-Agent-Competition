@@ -202,11 +202,6 @@ export interface PaymentProvider {
   createCustomerPortal(params: CreatePortalParams): Promise<PortalResult>;
 
   /**
-   * Get customer subscriptions
-   */
-  getSubscriptions(params: getSubscriptionsParams): Promise<Subscription[]>;
-
-  /**
    * Handle webhook events
    */
   handleWebhookEvent(payload: string, signature: string): Promise<void>;

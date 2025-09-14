@@ -4,22 +4,47 @@ This module provides a flexible payment integration with Stripe, supporting both
 
 ## Structure
 
+### Core Payment Module
 - `/payment/types.ts` - Type definitions for the payment module
 - `/payment/index.ts` - Main payment interface and global provider instance
 - `/payment/provider/stripe.ts` - Stripe payment provider implementation
+
+### Server Actions
 - `/actions/create-checkout-session.ts` - Server action for creating checkout sessions
 - `/actions/create-customer-portal-session.ts` - Server action for creating customer portal sessions
-- `/actions/get-lifetime-statue.ts` - Server action for checking user lifetime membership status 
+- `/actions/get-lifetime-status.ts` - Server action for checking user lifetime membership status
 - `/actions/get-active-subscription.ts` - Server action for getting active subscription data
+- `/actions/check-payment-completion.ts` - Server action for checking payment completion status
+- `/actions/create-credit-checkout-session.ts` - Server action for creating credit package checkout sessions
+- `/actions/consume-credits.ts` - Server action for consuming user credits
+- `/actions/get-credit-balance.ts` - Server action for getting user credit balance
+- `/actions/get-credit-stats.ts` - Server action for getting credit statistics
+- `/actions/get-credit-transactions.ts` - Server action for getting credit transaction history
+
+### API Routes
 - `/app/api/webhooks/stripe/route.ts` - API route for Stripe webhook events
-- `/app/[locale]/(marketing)/payment/success/page.tsx` - Success page for completed checkout
-- `/app/[locale]/(marketing)/payment/cancel/page.tsx` - Cancel page for abandoned checkout
-- `/components/payment/checkout-button.tsx` - Button component to initiate checkout
-- `/components/payment/customer-portal-button.tsx` - Button component to access Stripe customer portal
-- `/components/payment/pricing-card.tsx` - Component to display a single pricing plan
-- `/components/payment/pricing-table.tsx` - Component to display all pricing plans
+
+### Pages
+- `/app/[locale]/(protected)/payment/page.tsx` - Payment processing page with status display
+- `/app/[locale]/(protected)/settings/billing/page.tsx` - Account billing page to manage subscriptions
+- `/app/[locale]/(protected)/settings/credits/page.tsx` - Credits management page
 - `/app/[locale]/(marketing)/pricing/page.tsx` - Pricing page using the pricing table component
-- `/app/[locale]/(dashboard)/settings/billing/page.tsx` - Account billing page to manage subscriptions
+
+### Components
+- `/components/payment/payment-card.tsx` - Payment status display component with polling
+- `/components/pricing/pricing-card.tsx` - Component to display a single pricing plan
+- `/components/pricing/pricing-table.tsx` - Component to display all pricing plans
+- `/components/settings/billing/billing-card.tsx` - Billing management card component
+- `/components/pricing/create-checkout-button.tsx` - Button component to initiate checkout
+- `/components/pricing/customer-portal-button.tsx` - Button component to access Stripe customer portal
+- `/components/settings/credits/credit-packages.tsx` - Credit packages display component
+- `/components/settings/credits/credit-checkout-button.tsx` - Credit package checkout button
+- `/components/settings/credits/credits-page-client.tsx` - Credits page client component
+
+### Hooks
+- `/hooks/use-payment-completion.ts` - Hook for checking payment completion with polling
+- `/hooks/use-payment.ts` - Hooks for payment-related data fetching (subscriptions, lifetime status)
+- `/hooks/use-credits.ts` - Hooks for credit-related operations
 
 ## Environment Variables
 
@@ -99,34 +124,123 @@ export const websiteConfig = {
 
 The payment module uses server actions for payment operations:
 
-### In `/actions/payment.ts`:
+### Checkout Operations
 
+#### `/actions/create-checkout-session.ts`
 ```typescript
-// Create a checkout session
-export const createCheckoutAction = actionClient
+// Create a checkout session for subscription plans
+export const createCheckoutAction = userActionClient
   .schema(checkoutSchema)
-  .action(async ({ parsedInput }) => {
-    // Implementation details
+  .action(async ({ parsedInput, ctx }) => {
+    // Creates Stripe checkout session with localized URLs
     // Returns { success: true, data: { url, id } } or { success: false, error }
   });
+```
 
+#### `/actions/create-credit-checkout-session.ts`
+```typescript
+// Create a checkout session for credit packages
+export const createCreditCheckoutAction = userActionClient
+  .schema(creditCheckoutSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    // Creates Stripe checkout session for credit purchases
+    // Returns { success: true, data: { url, id } } or { success: false, error }
+  });
+```
+
+### Customer Portal
+
+#### `/actions/create-customer-portal-session.ts`
+```typescript
 // Create a customer portal session
-export const createPortalAction = actionClient
+export const createPortalAction = userActionClient
   .schema(portalSchema)
-  .action(async ({ parsedInput }) => {
-    // Implementation details
+  .action(async ({ parsedInput, ctx }) => {
+    // Creates Stripe customer portal session
     // Returns { success: true, data: { url } } or { success: false, error }
+  });
+```
+
+### Payment Status & Subscription Management
+
+#### `/actions/check-payment-completion.ts`
+```typescript
+// Check if a payment is completed for the given session ID
+export const checkPaymentCompletionAction = userActionClient
+  .schema(checkPaymentCompletionSchema)
+  .action(async ({ parsedInput: { sessionId } }) => {
+    // Checks payment status in database
+    // Returns { success: true, isPaid: boolean } or { success: false, error }
+  });
+```
+
+#### `/actions/get-active-subscription.ts`
+```typescript
+// Get active subscription data for a user
+export const getActiveSubscriptionAction = userActionClient
+  .schema(schema)
+  .action(async ({ ctx }) => {
+    // Returns the most recent active or trialing subscription
+    // Returns { success: true, data: Subscription | null } or { success: false, error }
+  });
+```
+
+#### `/actions/get-lifetime-status.ts`
+```typescript
+// Get user lifetime membership status
+export const getLifetimeStatusAction = userActionClient
+  .schema(schema)
+  .action(async ({ ctx }) => {
+    // Checks if user has lifetime access
+    // Returns { success: true, isLifetimeMember: boolean } or { success: false, error }
+  });
+```
+
+### Credit System
+
+#### `/actions/consume-credits.ts`
+```typescript
+// Consume user credits
+export const consumeCreditsAction = userActionClient
+  .schema(consumeSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    // Deducts credits from user account
+    // Returns { success: true } or { success: false, error }
+  });
+```
+
+#### `/actions/get-credit-balance.ts`
+```typescript
+// Get user credit balance
+export const getCreditBalanceAction = userActionClient
+  .schema(schema)
+  .action(async ({ ctx }) => {
+    // Returns current credit balance
+    // Returns { success: true, data: { balance: number } } or { success: false, error }
   });
 ```
 
 ## Core Components
 
-### CheckoutButton
+### Payment Processing
 
+#### PaymentCard
+Displays payment status with automatic polling and redirect:
+
+```tsx
+<PaymentCard />
+// Automatically handles payment completion checking and redirects
+// Used in /app/[locale]/(protected)/payment/page.tsx
+```
+
+### Checkout Components
+
+#### CheckoutButton
 Creates a Stripe checkout session and redirects the user:
 
 ```tsx
 <CheckoutButton
+  userId="user_123"
   planId="pro"
   priceId={process.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY!}
   metadata={{ userId: "user_123" }}
@@ -137,14 +251,31 @@ Creates a Stripe checkout session and redirects the user:
 </CheckoutButton>
 ```
 
-### CustomerPortalButton
+#### CreditCheckoutButton
+Creates a Stripe checkout session for credit packages:
 
+```tsx
+<CreditCheckoutButton
+  userId="user_123"
+  packageId="credits_100"
+  priceId={process.env.NEXT_PUBLIC_STRIPE_PRICE_CREDITS_100!}
+  metadata={{ userId: "user_123" }}
+  variant="default"
+  size="default"
+>
+  Buy Credits
+</CreditCheckoutButton>
+```
+
+### Customer Portal
+
+#### CustomerPortalButton
 Redirects the user to the Stripe customer portal:
 
 ```tsx
-<CustomerPortalButton 
-  customerId="cus_123"
-  returnUrl="/account/billing"
+<CustomerPortalButton
+  userId="user_123"
+  returnUrl="/settings/billing"
   variant="outline"
   size="default"
 >
@@ -152,21 +283,19 @@ Redirects the user to the Stripe customer portal:
 </CustomerPortalButton>
 ```
 
-### PricingTable
+### Pricing Components
 
+#### PricingTable
 Displays all pricing plans with interval selection:
 
 ```tsx
 <PricingTable
-  plans={plans}
-  email="user@example.com"
   metadata={{ userId: "user_123" }}
-  currentPlanId="pro"
+  currentPlan="pro"
 />
 ```
 
-### PricingCard
-
+#### PricingCard
 Displays a single pricing plan with checkout button:
 
 ```tsx
@@ -174,10 +303,37 @@ Displays a single pricing plan with checkout button:
   plan={plan}
   interval="month"
   paymentType="SUBSCRIPTION"
-  email="user@example.com"
   metadata={{ userId: "user_123" }}
   isCurrentPlan={false}
 />
+```
+
+### Billing Management
+
+#### BillingCard
+Displays current subscription and billing information:
+
+```tsx
+<BillingCard />
+// Shows current plan, next billing date, and management options
+```
+
+### Credit System
+
+#### CreditPackages
+Displays available credit packages for purchase:
+
+```tsx
+<CreditPackages />
+// Shows credit packages with purchase buttons
+```
+
+#### CreditsPageClient
+Complete credits management interface:
+
+```tsx
+<CreditsPageClient />
+// Shows balance, transactions, and purchase options
 ```
 
 ## Webhooks
@@ -190,8 +346,7 @@ The webhook handler processes events like:
 - `customer.subscription.created`
 - `customer.subscription.updated`
 - `customer.subscription.deleted`
-- `payment_intent.succeeded`
-- `payment_intent.payment_failed`
+- `invoice.paid`
 
 The webhook functionality is implemented in the `handleWebhookEvent` method of the payment module.
 
@@ -223,6 +378,84 @@ For testing, use Stripe's test mode and test credit cards:
 - 4000 0000 0000 3220 - 3D Secure authentication required
 - 4000 0000 0000 9995 - Insufficient funds failure
 
+## Hooks
+
+### Payment Hooks
+
+#### usePaymentCompletion
+Hook for checking payment completion with automatic polling:
+
+```typescript
+const { data: paymentCheck, isLoading, error } = usePaymentCompletion(
+  sessionId,
+  enablePolling // true for automatic polling
+);
+// Returns { isPaid: boolean }
+```
+
+#### useActiveSubscription
+Hook for fetching active subscription data:
+
+```typescript
+const { data: subscription, isLoading, error } = useActiveSubscription(userId);
+// Returns Subscription | null
+```
+
+#### useLifetimeStatus
+Hook for checking lifetime membership status:
+
+```typescript
+const { data: isLifetime, isLoading, error } = useLifetimeStatus(userId);
+// Returns boolean
+```
+
+#### useCurrentPlan
+Hook for getting current plan based on subscription and lifetime status:
+
+```typescript
+const { data: currentPlan, isLoading, error } = useCurrentPlan(userId);
+// Returns PricePlan | null
+```
+
+### Credit Hooks
+
+#### useCreditBalance
+Hook for fetching user credit balance:
+
+```typescript
+const { data: balance, isLoading, error } = useCreditBalance();
+// Returns { balance: number }
+```
+
+#### useCreditStats
+Hook for fetching credit statistics:
+
+```typescript
+const { data: stats, isLoading, error } = useCreditStats();
+// Returns credit usage statistics
+```
+
+#### useConsumeCredits
+Hook for consuming credits:
+
+```typescript
+const { mutate: consumeCredits, isPending } = useConsumeCredits();
+// Usage: consumeCredits({ amount: 10, description: "AI generation" })
+```
+
+#### useCreditTransactions
+Hook for fetching credit transaction history:
+
+```typescript
+const { data: transactions, isLoading, error } = useCreditTransactions(
+  pageIndex,
+  pageSize,
+  search,
+  sorting
+);
+// Returns paginated transaction data
+```
+
 ## Global Functions
 
 The main payment interface in `/payment/index.ts` provides these global functions:
@@ -234,21 +467,39 @@ createCheckout(params: CreateCheckoutParams): Promise<CheckoutResult>;
 // Create a customer portal session
 createCustomerPortal(params: CreatePortalParams): Promise<PortalResult>;
 
+// Create a credit checkout session
+createCreditCheckout(params: CreateCreditCheckoutParams): Promise<CheckoutResult>;
+
 // Get a customer by ID
 getCustomer(params: GetCustomerParams): Promise<Customer | null>;
 
-// Get a subscription by ID
-getSubscription(params: GetSubscriptionParams): Promise<Subscription | null>;
-
 // Handle a webhook event
 handleWebhookEvent(payload: string, signature: string): Promise<void>;
+```
 
-// Get plan by ID
-getPlanById(planId: string): PricePlan | undefined;
+## Payment Flow
 
-// Get all available plans
-getAllPlans(): PricePlan[];
+### Subscription Payment Flow
+1. User clicks `CheckoutButton` with plan details
+2. `createCheckoutAction` creates Stripe checkout session
+3. User is redirected to Stripe checkout
+4. After payment, user is redirected to `/payment` page
+5. `PaymentCard` component polls `checkPaymentCompletionAction`
+6. Once payment is confirmed, user is redirected to billing page
+7. Webhook updates database with subscription details
 
-// Find price in a plan by ID
-findPriceInPlan(planId: string, priceId: string): Price | undefined;
-``` 
+### Credit Purchase Flow
+1. User clicks `CreditCheckoutButton` with package details
+2. `createCreditCheckoutAction` creates Stripe checkout session
+3. User is redirected to Stripe checkout
+4. After payment, user is redirected to `/payment` page
+5. `PaymentCard` component polls `checkPaymentCompletionAction`
+6. Once payment is confirmed, user is redirected to credits page
+7. Webhook updates database with credit purchase details
+
+### Payment Status Polling
+The `PaymentCard` component uses `usePaymentCompletion` hook to:
+- Poll `checkPaymentCompletionAction` every 2 seconds
+- Display loading, success, failed, or timeout states
+- Automatically redirect to callback URL on success
+- Invalidate relevant React Query cache

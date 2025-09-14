@@ -75,9 +75,9 @@ export function PaymentCard() {
     };
   }, [sessionId, status]);
 
-  // Handle payment completion, if payment completion exists, change status to success
+  // Handle payment completion, if payment is paid, change status to success
   useEffect(() => {
-    if (paymentCheck?.hasPayment && status === 'processing') {
+    if (paymentCheck?.isPaid && status === 'processing') {
       setStatus('success');
     }
   }, [paymentCheck, status]);
