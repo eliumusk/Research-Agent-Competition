@@ -1,8 +1,15 @@
 'use server';
 
+import { getDb } from '@/db';
+import { payment } from '@/db/schema';
 import type { User } from '@/lib/auth-types';
 import { userActionClient } from '@/lib/safe-action';
-import { getSubscriptions } from '@/payment';
+import {
+  type PaymentStatus,
+  PaymentTypes,
+  type PlanInterval,
+} from '@/payment/types';
+import { and, desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 // Input schema
@@ -20,51 +27,55 @@ export const getActiveSubscriptionAction = userActionClient
   .schema(schema)
   .action(async ({ ctx }) => {
     const currentUser = (ctx as { user: User }).user;
-
-    // Check if Stripe environment variables are configured
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-    const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-    if (!stripeSecretKey || !stripeWebhookSecret) {
-      console.log('Stripe environment variables not configured, return');
-      return {
-        success: true,
-        data: null, // No subscription = free plan
-      };
-    }
+    const userId = currentUser.id;
 
     try {
-      // Find the user's most recent active subscription
-      const subscriptions = await getSubscriptions({
-        userId: currentUser.id,
-      });
-      // console.log('get user subscriptions:', subscriptions);
+      // Query the database for subscription payments
+      const db = await getDb();
+      const subscriptionPayments = await db
+        .select()
+        .from(payment)
+        .where(
+          and(
+            eq(payment.userId, userId),
+            eq(payment.type, PaymentTypes.SUBSCRIPTION),
+            eq(payment.paid, true)
+          )
+        )
+        .orderBy(desc(payment.createdAt));
 
-      let subscriptionData = null;
-      // Find the most recent active subscription (if any)
-      if (subscriptions && subscriptions.length > 0) {
-        // First try to find an active subscription
-        const activeSubscription = subscriptions.find(
-          (sub) => sub.status === 'active' || sub.status === 'trialing'
-        );
+      // Find the most recent active or trialing subscription
+      const activeSubscription = subscriptionPayments.find(
+        (sub) => sub.status === 'active' || sub.status === 'trialing'
+      );
 
-        // If found, use it
-        if (activeSubscription) {
-          console.log('find active subscription for userId:', currentUser.id);
-          subscriptionData = activeSubscription;
-        } else {
-          console.log(
-            'no active subscription found for userId:',
-            currentUser.id
-          );
-        }
-      } else {
-        console.log('no subscriptions found for userId:', currentUser.id);
+      if (activeSubscription) {
+        console.log('find active subscription for userId:', userId);
+        // Map to Subscription interface format
+        const subscriptionData = {
+          id: activeSubscription.id!,
+          priceId: activeSubscription.priceId,
+          customerId: activeSubscription.customerId,
+          status: activeSubscription.status as PaymentStatus,
+          type: activeSubscription.type as PaymentTypes,
+          interval: activeSubscription.interval as PlanInterval,
+          currentPeriodStart: activeSubscription.periodStart || undefined,
+          currentPeriodEnd: activeSubscription.periodEnd || undefined,
+          cancelAtPeriodEnd: activeSubscription.cancelAtPeriodEnd || false,
+          trialStartDate: activeSubscription.trialStart || undefined,
+          trialEndDate: activeSubscription.trialEnd || undefined,
+          createdAt: activeSubscription.createdAt,
+        };
+
+        return {
+          success: true,
+          data: subscriptionData,
+        };
       }
-
+      console.log('no active subscription found for userId:', userId);
       return {
         success: true,
-        data: subscriptionData,
+        data: null,
       };
     } catch (error) {
       console.error('get user subscription data error:', error);

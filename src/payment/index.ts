@@ -7,8 +7,6 @@ import type {
   CreatePortalParams,
   PaymentProvider,
   PortalResult,
-  Subscription,
-  getSubscriptionsParams,
 } from './types';
 
 /**
@@ -92,16 +90,4 @@ export const handleWebhookEvent = async (
 ): Promise<void> => {
   const provider = getPaymentProvider();
   await provider.handleWebhookEvent(payload, signature);
-};
-
-/**
- * List customer subscriptions
- * @param params Parameters for listing customer subscriptions
- * @returns Array of subscriptions
- */
-export const getSubscriptions = async (
-  params: getSubscriptionsParams
-): Promise<Subscription[]> => {
-  const provider = getPaymentProvider();
-  return provider.getSubscriptions(params);
 };
