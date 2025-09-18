@@ -11,7 +11,7 @@ import { createI18nSearchAPI } from 'fumadocs-core/search/server';
  *
  * 2. For special languages like Chinese, configure custom tokenizers:
  * https://fumadocs.dev/docs/headless/search/orama#special-languages
- * https://docs.orama.com/open-source/supported-languages/using-chinese-with-orama
+ * https://docs.orama.com/docs/orama-js/supported-languages/using-chinese-with-orama
  */
 const searchAPI = createI18nSearchAPI('advanced', {
   // Pass the i18n config for proper language detection
