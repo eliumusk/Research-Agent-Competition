@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card';
 import { websiteConfig } from '@/config/website';
 import { authClient } from '@/lib/auth-client';
+import { MAX_FILE_SIZE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { uploadFileFromBrowser } from '@/storage/client';
 import { User2Icon } from 'lucide-react';
@@ -73,6 +74,11 @@ export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
     setError('');
 
     try {
+      // Pre-check file size on client side
+      if (file.size > MAX_FILE_SIZE) {
+        throw new Error('File size exceeds the server limit');
+      }
+
       // Create a temporary URL for preview and store the original URL
       const tempUrl = URL.createObjectURL(file);
       setTempAvatarUrl(tempUrl);
@@ -118,12 +124,14 @@ export function UpdateAvatarCard({ className }: UpdateAvatarCardProps) {
       );
     } catch (error) {
       console.error('update avatar error:', error);
-      setError(error instanceof Error ? error.message : t('avatar.fail'));
+      const errorMessage =
+        error instanceof Error ? error.message : t('avatar.fail');
+      setError(errorMessage);
       // Restore the previous avatar if there was an error
       if (session?.user?.image) {
         setAvatarUrl(session.user.image);
       }
-      toast.error(t('avatar.fail'));
+      toast.error(errorMessage);
     } finally {
       setIsUploading(false);
       // Clean up temporary URL

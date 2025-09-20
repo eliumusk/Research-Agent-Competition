@@ -29,9 +29,23 @@ export const uploadFileFromBrowser = async (
       body: formData,
     });
 
+    console.log('uploadFileFromBrowser, response', response);
+
     if (!response.ok) {
-      const error = (await response.json()) as { message: string };
-      throw new Error(error.message || 'Failed to upload file');
+      // Handle 413 error specifically (Request Entity Too Large)
+      if (response.status === 413) {
+        throw new Error('File size exceeds the server limit');
+      }
+
+      // Try to parse JSON error response, fallback to status text if parsing fails
+      let errorMessage = 'Failed to upload file';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorData.message || errorMessage;
+      } catch {
+        errorMessage = 'Failed to upload file';
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();
