@@ -977,6 +977,7 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<void> {
     console.log('>> Handle checkout session completion:', session.id);
 
+    // I have simulated with 10-second delay to test behavior when invoice paid event arrives first
     try {
       if (session.mode === 'subscription') {
         await this.createSubscriptionPaymentRecord(session);

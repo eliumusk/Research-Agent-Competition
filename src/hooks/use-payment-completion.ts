@@ -32,7 +32,7 @@ export function usePaymentCompletion(
       }
 
       const { isPaid } = result.data;
-      console.log('<<< Check payment completion success:', isPaid);
+      console.log('<<< Check payment completion, paid:', isPaid);
 
       return {
         isPaid,
