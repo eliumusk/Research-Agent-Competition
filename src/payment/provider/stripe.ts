@@ -10,6 +10,10 @@ import { CREDIT_TRANSACTION_TYPE } from '@/credits/types';
 import { getDb } from '@/db';
 import { payment, user } from '@/db/schema';
 import type { Payment } from '@/db/types';
+import {
+  PAYMENT_RECORD_RETRY_ATTEMPTS,
+  PAYMENT_RECORD_RETRY_DELAY,
+} from '@/lib/constants';
 import { findPlanByPlanId, findPriceInPlan } from '@/lib/price-plan';
 import { sendNotification } from '@/notification/notification';
 import { desc, eq } from 'drizzle-orm';
@@ -294,7 +298,6 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<CheckoutResult> {
     const {
       packageId,
-      priceId,
       customerEmail,
       successUrl,
       cancelUrl,
@@ -514,14 +517,44 @@ export class StripeProvider implements PaymentProvider {
         }
       }
 
-      // More strategies? One-time payments?
-
       console.warn('No payment record found for invoice:', invoice.id);
       return null;
     } catch (error) {
       console.error('Find payment record error:', error);
       return null;
     }
+  }
+
+  /**
+   * Find payment record with retry mechanism to handle race conditions
+   * @param invoice Stripe invoice
+   * @returns Payment record or null if not found after all retries
+   */
+  private async findPaymentRecordWithRetry(
+    invoice: Stripe.Invoice
+  ): Promise<Payment | null> {
+    console.log(`>> Find payment record for invoice: ${invoice.id}`);
+
+    for (let attempt = 1; attempt <= PAYMENT_RECORD_RETRY_ATTEMPTS; attempt++) {
+      const paymentRecord = await this.findPaymentRecord(invoice);
+
+      if (paymentRecord) {
+        console.log(`<< Found payment record on attempt ${attempt}`);
+        return paymentRecord;
+      }
+
+      if (attempt < PAYMENT_RECORD_RETRY_ATTEMPTS) {
+        console.log(
+          `Payment record not found, retry in ${PAYMENT_RECORD_RETRY_DELAY}ms`
+        );
+        await new Promise((resolve) =>
+          setTimeout(resolve, PAYMENT_RECORD_RETRY_DELAY)
+        );
+      }
+    }
+
+    console.error('<< Payment record not found after all attempts');
+    return null;
   }
 
   /**
@@ -540,11 +573,11 @@ export class StripeProvider implements PaymentProvider {
    *
    * For subscription renewals, the order of events may be:
    * customer.subscription.updated
-   * invoice.paid
+   * invoice.paid  (a new invoice, but same payment record is used)
    *
    * User can update the subscription in customer portal,
    * For subscription upgrades, the order of events may be:
-   * invoice.paid  (a new invoice is created)
+   * invoice.paid  (a new invoice, but same payment record is used)
    *
    * @param invoice Stripe invoice
    */
@@ -552,11 +585,11 @@ export class StripeProvider implements PaymentProvider {
     console.log('>> Handle invoice paid, invoiceId:', invoice.id);
 
     try {
-      // Find existing payment record using multiple strategies
-      const paymentRecord = await this.findPaymentRecord(invoice);
+      // Find existing payment record with retry mechanism
+      const paymentRecord = await this.findPaymentRecordWithRetry(invoice);
       if (!paymentRecord) {
-        console.error('<< No payment record found for invoice:', invoice.id);
-        return;
+        console.error('<< Payment record not found for invoice:', invoice.id);
+        throw new Error(`Payment record not found for invoice: ${invoice.id}`);
       }
 
       const subscriptionId = invoice.subscription as string | null;
@@ -944,6 +977,7 @@ export class StripeProvider implements PaymentProvider {
   ): Promise<void> {
     console.log('>> Handle checkout session completion:', session.id);
 
+    // I have simulated with 10-second delay to test behavior when invoice paid event arrives first
     try {
       if (session.mode === 'subscription') {
         await this.createSubscriptionPaymentRecord(session);
@@ -1005,28 +1039,43 @@ export class StripeProvider implements PaymentProvider {
 
     // Create subscription payment record with proper status and paid=false
     const db = await getDb();
-    await db.insert(payment).values({
-      id: randomUUID(),
-      priceId,
-      type: PaymentTypes.SUBSCRIPTION,
-      userId,
-      customerId,
-      subscriptionId,
-      sessionId: session.id,
-      invoiceId, // may be null initially
-      paid: false, // will be set to true when invoice.paid event occurs
-      interval: this.mapStripeIntervalToPlanInterval(subscription),
-      status: this.mapSubscriptionStatusToPaymentStatus(subscription.status),
-      periodStart,
-      periodEnd,
-      cancelAtPeriodEnd: subscription.cancel_at_period_end,
-      trialStart,
-      trialEnd,
-      createdAt: currentDate,
-      updatedAt: currentDate,
-    });
 
-    console.log('<< Created subscription payment record success');
+    try {
+      await db.insert(payment).values({
+        id: randomUUID(),
+        priceId,
+        type: PaymentTypes.SUBSCRIPTION,
+        userId,
+        customerId,
+        subscriptionId,
+        sessionId: session.id,
+        invoiceId, // may be null initially
+        paid: false, // will be set to true when invoice.paid event occurs
+        interval: this.mapStripeIntervalToPlanInterval(subscription),
+        status: this.mapSubscriptionStatusToPaymentStatus(subscription.status),
+        periodStart,
+        periodEnd,
+        cancelAtPeriodEnd: subscription.cancel_at_period_end,
+        trialStart,
+        trialEnd,
+        createdAt: currentDate,
+        updatedAt: currentDate,
+      });
+
+      console.log('<< Created subscription payment record success');
+    } catch (error) {
+      // Handle duplicate key constraint violation
+      if (
+        error instanceof Error &&
+        error.message.includes('unique constraint')
+      ) {
+        console.log('<< Payment record already exists, skipping creation');
+        return; // Don't throw, this is expected for duplicate processing
+      }
+
+      // Re-throw other errors
+      throw error;
+    }
   }
 
   /**
@@ -1054,21 +1103,36 @@ export class StripeProvider implements PaymentProvider {
 
     // Create one-time payment record with proper status and paid=false
     const db = await getDb();
-    await db.insert(payment).values({
-      id: randomUUID(),
-      priceId,
-      type: PaymentTypes.ONE_TIME,
-      userId,
-      customerId,
-      sessionId: session.id,
-      invoiceId, // may be null initially
-      paid: false, // will be set to true when invoice.paid event occurs
-      status: 'completed', // one-time payments are completed once checkout is done
-      createdAt: currentDate,
-      updatedAt: currentDate,
-    });
 
-    console.log('<< Created one-time payment record success');
+    try {
+      await db.insert(payment).values({
+        id: randomUUID(),
+        priceId,
+        type: PaymentTypes.ONE_TIME,
+        userId,
+        customerId,
+        sessionId: session.id,
+        invoiceId, // may be null initially
+        paid: false, // will be set to true when invoice.paid event occurs
+        status: 'completed', // one-time payments are completed once checkout is done
+        createdAt: currentDate,
+        updatedAt: currentDate,
+      });
+
+      console.log('<< Created one-time payment record success');
+    } catch (error) {
+      // Handle duplicate key constraint violation
+      if (
+        error instanceof Error &&
+        error.message.includes('unique constraint')
+      ) {
+        console.log('<< Payment record already exists, skipping creation');
+        return; // Don't throw, this is expected for duplicate processing
+      }
+
+      // Re-throw other errors
+      throw error;
+    }
   }
 
   /**
