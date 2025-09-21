@@ -32,6 +32,9 @@ export function useActiveSubscription(userId: string | undefined) {
       return result.data.data || null;
     },
     enabled: !!userId,
+    refetchOnWindowFocus: true,
+    retry: 3,
+    retryDelay: 1000,
   });
 }
 
@@ -54,6 +57,9 @@ export function useLifetimeStatus(userId: string | undefined) {
       return result.data.isLifetimeMember || false;
     },
     enabled: !!userId,
+    refetchOnWindowFocus: true,
+    retry: 3,
+    retryDelay: 1000,
   });
 }
 
@@ -110,5 +116,8 @@ export function useCurrentPlan(userId: string | undefined) {
       };
     },
     enabled: !!userId && !isLoadingSubscription && !isLoadingLifetime,
+    refetchOnWindowFocus: true,
+    retry: 3,
+    retryDelay: 1000,
   });
 }
