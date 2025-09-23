@@ -2,7 +2,12 @@ import { consumeCreditsAction } from '@/actions/consume-credits';
 import { getCreditBalanceAction } from '@/actions/get-credit-balance';
 import { getCreditStatsAction } from '@/actions/get-credit-stats';
 import { getCreditTransactionsAction } from '@/actions/get-credit-transactions';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import type { SortingState } from '@tanstack/react-table';
 
 // Query keys
@@ -119,5 +124,6 @@ export function useCreditTransactions(
         total: result.data.data?.total || 0,
       };
     },
+    placeholderData: keepPreviousData,
   });
 }

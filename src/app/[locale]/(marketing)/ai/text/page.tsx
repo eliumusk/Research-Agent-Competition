@@ -1,6 +1,5 @@
 import { WebContentAnalyzer } from '@/ai/text/components/web-content-analyzer';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { BotIcon, FileTextIcon, GlobeIcon, ZapIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -18,7 +17,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/ai/text', locale),
+    locale,
+    pathname: '/ai/text',
   });
 }
 

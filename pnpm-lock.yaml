@@ -56,6 +56,9 @@ importers:
       '@mendable/firecrawl-js':
         specifier: ^1.29.1
         version: 1.29.1
+      '@next/env':
+        specifier: ^15.5.3
+        version: 15.5.3
       '@next/third-parties':
         specifier: ^15.3.0
         version: 15.3.0(next@15.2.1(@babel/core@7.24.5)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
@@ -1687,6 +1690,9 @@ packages:
 
   '@next/env@15.2.1':
     resolution: {integrity: sha512-JmY0qvnPuS2NCWOz2bbby3Pe0VzdAQ7XpEB6uLIHmtXNfAsAO0KLQLkuAoc42Bxbo3/jMC3dcn9cdf+piCcG2Q==}
+
+  '@next/env@15.5.3':
+    resolution: {integrity: sha512-RSEDTRqyihYXygx/OJXwvVupfr9m04+0vH8vyy0HfZ7keRto6VX9BbEk0J2PUk0VGy6YhklJUSrgForov5F9pw==}
 
   '@next/swc-darwin-arm64@15.1.2':
     resolution: {integrity: sha512-b9TN7q+j5/7+rGLhFAVZiKJGIASuo8tWvInGfAd8wsULjB1uNGRCj1z1WZwwPWzVQbIKWFYqc+9L7W09qwt52w==}
@@ -7446,6 +7452,8 @@ snapshots:
   '@next/env@15.1.2': {}
 
   '@next/env@15.2.1': {}
+
+  '@next/env@15.5.3': {}
 
   '@next/swc-darwin-arm64@15.1.2':
     optional: true

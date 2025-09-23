@@ -1,3 +1,4 @@
+import { MAX_FILE_SIZE } from '@/lib/constants';
 import { uploadFile } from '@/storage';
 import { StorageError } from '@/storage/types';
 import { type NextRequest, NextResponse } from 'next/server';
@@ -13,9 +14,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > MAX_FILE_SIZE) {
+      console.log('uploadFile, file size exceeds the server limit', file.size);
       return NextResponse.json(
-        { error: 'File size exceeds the 10MB limit' },
+        { error: 'File size exceeds the server limit' },
         { status: 400 }
       );
     }
@@ -23,6 +25,7 @@ export async function POST(request: NextRequest) {
     // Validate file type (optional, based on your requirements)
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
+      console.log('uploadFile, file type not supported', file.type);
       return NextResponse.json(
         { error: 'File type not supported' },
         { status: 400 }
@@ -63,4 +66,6 @@ export const config = {
       sizeLimit: '10mb',
     },
   },
+  // For Next.js 13+ App Router, use maxDuration instead
+  maxDuration: 30, // 30 seconds timeout
 };

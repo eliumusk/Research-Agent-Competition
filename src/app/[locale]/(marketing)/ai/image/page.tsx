@@ -1,7 +1,6 @@
 import { ImagePlayground } from '@/ai/image/components/ImagePlayground';
 import { getRandomSuggestions } from '@/ai/image/lib/suggestions';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { ImageIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -19,7 +18,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/ai/image', locale),
+    locale,
+    pathname: '/ai/image',
   });
 }
 

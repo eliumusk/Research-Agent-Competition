@@ -1,6 +1,5 @@
 import { ResetPasswordForm } from '@/components/auth/reset-password-form';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
@@ -20,7 +19,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: t('description'),
-    canonicalUrl: getUrlWithLocale('/auth/reset-password', locale),
+    locale,
+    pathname: '/auth/reset-password',
   });
 }
 

@@ -1,7 +1,6 @@
 import { CustomPage } from '@/components/page/custom-page';
 import { constructMetadata } from '@/lib/metadata';
 import { pagesSource } from '@/lib/source';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -28,7 +27,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: page.data.title + ' | ' + t('title'),
     description: page.data.description,
-    canonicalUrl: getUrlWithLocale('/privacy', locale),
+    locale,
+    pathname: '/privacy',
   });
 }
 

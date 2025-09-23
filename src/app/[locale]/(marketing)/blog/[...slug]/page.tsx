@@ -15,7 +15,6 @@ import {
   blogSource,
   categorySource,
 } from '@/lib/source';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -67,7 +66,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: `${post.data.title} | ${t('title')}`,
     description: post.data.description,
-    canonicalUrl: getUrlWithLocale(`/blog/${slug}`, locale),
+    locale,
+    pathname: `/blog/${slug}`,
     image: post.data.image,
   });
 }

@@ -118,14 +118,48 @@ function DataTableColumnHeader<TData, TValue>({
 
 function TableRowSkeleton({ columns }: { columns: number }) {
   return (
-    <TableRow>
-      {Array.from({ length: columns }).map((_, index) => (
-        <TableCell key={index} className="py-4">
-          <div className="flex items-center gap-2 pl-3">
-            <Skeleton className="h-6 w-full max-w-32" />
-          </div>
-        </TableCell>
-      ))}
+    <TableRow className="h-14">
+      {Array.from({ length: columns }).map((_, index) => {
+        if (index === 0) {
+          // First column: Name column with avatar + text structure
+          return (
+            <TableCell key={index} className="py-3">
+              <div className="flex items-center gap-2 pl-3">
+                <Skeleton className="size-8 rounded-full shrink-0 bg-muted" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            </TableCell>
+          );
+        }
+        if (index === 1) {
+          // Second column: Email column with icon + badge structure
+          return (
+            <TableCell key={index} className="py-3">
+              <div className="flex items-center gap-2 pl-3">
+                <Skeleton className="h-6 w-32" />
+              </div>
+            </TableCell>
+          );
+        }
+        if (index === 2 || index === 5) {
+          // Role and Status columns: Badge structure
+          return (
+            <TableCell key={index} className="py-3">
+              <div className="flex items-center gap-2 pl-3">
+                <Skeleton className="h-6 w-16" />
+              </div>
+            </TableCell>
+          );
+        }
+        // Other columns: Regular text content
+        return (
+          <TableCell key={index} className="py-3">
+            <div className="flex items-center gap-2 pl-3">
+              <Skeleton className="h-4 w-24" />
+            </div>
+          </TableCell>
+        );
+      })}
     </TableRow>
   );
 }
@@ -460,9 +494,10 @@ export function UsersTable({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
+                    className="h-14"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="py-4">
+                      <TableCell key={cell.id} className="py-3">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

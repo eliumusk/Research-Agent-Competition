@@ -1,6 +1,5 @@
 import ChatBot from '@/ai/chat/components/ChatBot';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { ZapIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -18,7 +17,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/ai/chat', locale),
+    locale,
+    pathname: '/ai/chat',
   });
 }
 

@@ -1,7 +1,6 @@
 import { LoginForm } from '@/components/auth/login-form';
 import { LocaleLink } from '@/i18n/navigation';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { Routes } from '@/routes';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -19,7 +18,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: t('description'),
-    canonicalUrl: getUrlWithLocale('/auth/login', locale),
+    locale,
+    pathname: '/auth/login',
   });
 }
 

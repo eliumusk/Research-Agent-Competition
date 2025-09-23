@@ -1,6 +1,7 @@
 import { websiteConfig } from '@/config/website';
 import { getLocalePathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
+import { generateHreflangUrls } from '@/lib/hreflang';
 import { blogSource, categorySource, source } from '@/lib/source';
 import type { MetadataRoute } from 'next';
 import type { Locale } from 'next-intl';
@@ -28,10 +29,11 @@ const staticRoutes = [
 ];
 
 /**
- * Generate a sitemap for the website
+ * Generate a sitemap for the website with hreflang support
  *
  * https://nextjs.org/docs/app/api-reference/functions/generate-sitemaps
  * https://github.com/javayhu/cnblocks/blob/main/app/sitemap.ts
+ * https://ahrefs.com/blog/hreflang-tags/
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapList: MetadataRoute.Sitemap = []; // final result
@@ -44,6 +46,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         priority: 1,
         changeFrequency: 'weekly' as const,
+        alternates: {
+          languages: generateHreflangUrls(route),
+        },
       }));
     })
   );
@@ -66,6 +71,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(),
           priority: 0.8,
           changeFrequency: 'weekly' as const,
+          alternates: {
+            languages: generateHreflangUrls(`/blog/page/${page}`),
+          },
         });
       }
     });
@@ -91,6 +99,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(),
           priority: 0.8,
           changeFrequency: 'weekly' as const,
+          alternates: {
+            languages: generateHreflangUrls(
+              `/blog/category/${category.slugs[0]}`
+            ),
+          },
         });
         // /blog/category/[slug]/page/[page] (from 2)
         for (let page = 2; page <= totalPages; page++) {
@@ -102,6 +115,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             lastModified: new Date(),
             priority: 0.8,
             changeFrequency: 'weekly' as const,
+            alternates: {
+              languages: generateHreflangUrls(
+                `/blog/category/${category.slugs[0]}/page/${page}`
+              ),
+            },
           });
         }
       });
@@ -118,6 +136,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(post.data.date) ?? new Date(),
           priority: 0.8,
           changeFrequency: 'weekly' as const,
+          alternates: {
+            languages: generateHreflangUrls(`/blog/${post.slugs.join('/')}`),
+          },
         });
       });
     });
@@ -133,6 +154,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           lastModified: new Date(),
           priority: 0.8,
           changeFrequency: 'weekly' as const,
+          alternates: {
+            languages: generateHreflangUrls(`/docs/${param.slug.join('/')}`),
+          },
         }))
       )
     );
@@ -144,19 +168,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 function getUrl(href: Href, locale: Locale) {
   const pathname = getLocalePathname({ locale, href });
   return getBaseUrl() + pathname;
-}
-
-/**
- * https://next-intl.dev/docs/environments/actions-metadata-route-handlers#sitemap
- * https://github.com/amannn/next-intl/blob/main/examples/example-app-router/src/app/sitemap.ts
- */
-function getEntries(href: Href) {
-  return routing.locales.map((locale) => ({
-    url: getUrl(href, locale),
-    alternates: {
-      languages: Object.fromEntries(
-        routing.locales.map((cur) => [cur, getUrl(href, cur)])
-      ),
-    },
-  }));
 }
