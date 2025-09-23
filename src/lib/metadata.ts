@@ -1,7 +1,10 @@
 import { websiteConfig } from '@/config/website';
 import { defaultMessages } from '@/i18n/messages';
+import { routing } from '@/i18n/routing';
 import type { Metadata } from 'next';
-import { getBaseUrl, getImageUrl } from './urls/urls';
+import type { Locale } from 'next-intl';
+import { generateAlternates, getCurrentHreflang } from './hreflang';
+import { getBaseUrl, getImageUrl, getUrlWithLocale } from './urls/urls';
 
 /**
  * Construct the metadata object for the current page (in docs/guides)
@@ -9,31 +12,42 @@ import { getBaseUrl, getImageUrl } from './urls/urls';
 export function constructMetadata({
   title,
   description,
-  canonicalUrl,
   image,
   noIndex = false,
+  locale,
+  pathname,
 }: {
   title?: string;
   description?: string;
-  canonicalUrl?: string;
   image?: string;
   noIndex?: boolean;
+  locale?: Locale;
+  pathname?: string;
 } = {}): Metadata {
   title = title || defaultMessages.Metadata.title;
   description = description || defaultMessages.Metadata.description;
   image = image || websiteConfig.metadata.images?.ogImage;
   const ogImageUrl = getImageUrl(image || '');
+
+  // Generate canonical URL from pathname and locale
+  const canonicalUrl =
+    pathname && locale ? getUrlWithLocale(pathname, locale) : undefined;
+
+  // Generate hreflang alternates if pathname is provided and we have multiple locales
+  const alternates =
+    pathname && routing.locales.length > 1
+      ? generateAlternates(pathname)
+      : canonicalUrl
+        ? { canonical: canonicalUrl }
+        : undefined;
+
   return {
     title,
     description,
-    alternates: canonicalUrl
-      ? {
-          canonical: canonicalUrl,
-        }
-      : undefined,
+    alternates,
     openGraph: {
       type: 'website',
-      locale: 'en_US',
+      locale: locale ? getCurrentHreflang(locale).replace('-', '_') : 'en_US',
       url: canonicalUrl,
       title,
       description,
