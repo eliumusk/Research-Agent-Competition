@@ -1,3 +1,4 @@
+import { websiteConfig } from '@/config/website';
 import { getLocalePathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import type { Locale } from 'next-intl';
@@ -6,25 +7,12 @@ import { getBaseUrl } from './urls/urls';
 type Href = Parameters<typeof getLocalePathname>[0]['href'];
 
 /**
- * Language code mapping to proper hreflang format
- * Following ISO 639-1 for language codes and ISO 3166-1 Alpha 2 for region codes
- *
- * For Chinese:
- * - Use 'zh-CN' if targeting China specifically (geographic targeting)
- * - Use 'zh-Hans' if targeting simplified Chinese readers globally (script-based targeting)
- *
- * Current choice: zh-CN for better geographic targeting to mainland China
- */
-const HREFLANG_MAPPING: Record<string, string> = {
-  en: 'en', // English (global)
-  zh: 'zh-CN', // Chinese (China) - better for geographic targeting
-};
-
-/**
  * Get the proper hreflang value for a locale
+ * Reads from website config, falls back to locale code if not configured
  */
 export function getHreflangValue(locale: Locale): string {
-  return HREFLANG_MAPPING[locale] || locale;
+  const localeConfig = websiteConfig.i18n.locales[locale];
+  return localeConfig?.hreflang || locale;
 }
 
 /**

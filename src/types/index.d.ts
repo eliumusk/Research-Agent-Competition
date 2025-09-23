@@ -111,7 +111,11 @@ export interface AuthConfig {
  */
 export interface I18nConfig {
   defaultLocale: string;              // The default locale of the website
-  locales: Record<string, { flag?: string; name: string }>; // The locales of the website
+  locales: Record<string, {
+    flag?: string;
+    name: string;
+    hreflang?: string; // Hreflang value for SEO (e.g., 'en', 'zh-CN')
+  }>;
 }
 
 /**

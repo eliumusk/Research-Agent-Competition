@@ -61,10 +61,12 @@ export const websiteConfig: WebsiteConfig = {
       en: {
         flag: '🇺🇸',
         name: 'English',
+        hreflang: 'en',
       },
       zh: {
         flag: '🇨🇳',
         name: '中文',
+        hreflang: 'zh-CN',
       },
     },
   },
