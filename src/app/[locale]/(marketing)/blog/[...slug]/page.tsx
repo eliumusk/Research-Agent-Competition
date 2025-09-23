@@ -68,7 +68,7 @@ export async function generateMetadata({
     title: `${post.data.title} | ${t('title')}`,
     description: post.data.description,
     locale,
-    pathname: '/blog/${slug}',
+    pathname: `/blog/${slug}`,
     image: post.data.image,
   });
 }
