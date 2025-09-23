@@ -12,7 +12,6 @@ import { constructMetadata } from '@/lib/metadata';
 import { checkPremiumAccess } from '@/lib/premium-access';
 import { getSession } from '@/lib/server';
 import { source } from '@/lib/source';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import Link from 'fumadocs-core/link';
 import {
   DocsBody,
@@ -51,7 +50,8 @@ export async function generateMetadata({ params }: DocPageProps) {
   return constructMetadata({
     title: `${page.data.title} | ${t('title')}`,
     description: page.data.description,
-    canonicalUrl: getUrlWithLocale(`/docs/${page.slugs.join('/')}`, locale),
+    locale,
+    pathname: `/docs/${page.slugs.join('/')}`,
   });
 }
 

@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { websiteConfig } from '@/config/website';
 import { constructMetadata } from '@/lib/metadata';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import { cn } from '@/lib/utils';
 import { MailIcon, TwitterIcon } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -22,7 +21,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/about', locale),
+    locale,
+    pathname: '/about',
   });
 }
 

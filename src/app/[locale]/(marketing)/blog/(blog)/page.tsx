@@ -3,7 +3,6 @@ import { websiteConfig } from '@/config/website';
 import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
 import { blogSource } from '@/lib/source';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
@@ -19,7 +18,8 @@ export async function generateMetadata({ params }: BlogPageProps) {
   return constructMetadata({
     title: `${pt('title')} | ${t('title')}`,
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/blog', locale),
+    locale,
+    pathname: '/blog',
   });
 }
 

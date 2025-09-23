@@ -2,7 +2,6 @@ import { ReleaseCard } from '@/components/changelog/release-card';
 import Container from '@/components/layout/container';
 import { constructMetadata } from '@/lib/metadata';
 import { changelogSource } from '@/lib/source';
-import { getUrlWithLocale } from '@/lib/urls/urls';
 import type { NextPageProps } from '@/types/next-page-props';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -23,7 +22,8 @@ export async function generateMetadata({
   return constructMetadata({
     title: pt('title') + ' | ' + t('title'),
     description: pt('description'),
-    canonicalUrl: getUrlWithLocale('/changelog', locale),
+    locale,
+    pathname: '/changelog',
   });
 }
 
