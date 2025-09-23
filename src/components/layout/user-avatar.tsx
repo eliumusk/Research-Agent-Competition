@@ -16,7 +16,12 @@ interface UserAvatarProps extends Omit<AvatarProps, 'children'> {
  * @param props - The props of the avatar
  * @returns The user avatar component
  */
-export function UserAvatar({ name, image, className, ...props }: UserAvatarProps) {
+export function UserAvatar({
+  name,
+  image,
+  className,
+  ...props
+}: UserAvatarProps) {
   return (
     <div
       className={cn(
@@ -30,7 +35,7 @@ export function UserAvatar({ name, image, className, ...props }: UserAvatarProps
         <span className="sr-only">{name}</span>
         <User2Icon className="size-4" />
       </div>
-      
+
       {/* Image overlay */}
       {image && (
         <img
@@ -41,14 +46,16 @@ export function UserAvatar({ name, image, className, ...props }: UserAvatarProps
           loading="lazy"
           onLoad={(e) => {
             // Hide fallback when image loads
-            const fallback = e.currentTarget.previousElementSibling as HTMLElement;
+            const fallback = e.currentTarget
+              .previousElementSibling as HTMLElement;
             if (fallback) {
               fallback.style.opacity = '0';
             }
           }}
           onError={(e) => {
             // Show fallback if image fails
-            const fallback = e.currentTarget.previousElementSibling as HTMLElement;
+            const fallback = e.currentTarget
+              .previousElementSibling as HTMLElement;
             if (fallback) {
               fallback.style.opacity = '1';
             }
