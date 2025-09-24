@@ -36,7 +36,10 @@ export function constructMetadata({
   // Generate hreflang alternates if pathname is provided and we have multiple locales
   const alternates =
     pathname && routing.locales.length > 1
-      ? generateAlternates(pathname)
+      ? {
+          canonical: canonicalUrl,
+          ...generateAlternates(pathname),
+        }
       : canonicalUrl
         ? { canonical: canonicalUrl }
         : undefined;
