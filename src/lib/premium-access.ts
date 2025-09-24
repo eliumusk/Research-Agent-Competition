@@ -40,10 +40,10 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
               eq(payment.type, PaymentTypes.ONE_TIME),
               eq(payment.status, 'completed')
             ),
-            // Check for active subscriptions that haven't expired
+            // Check for active or trialing subscriptions that haven't expired
             and(
               eq(payment.type, PaymentTypes.SUBSCRIPTION),
-              eq(payment.status, 'active'),
+              or(eq(payment.status, 'active'), eq(payment.status, 'trialing')),
               or(
                 // Either period hasn't ended yet
                 gt(payment.periodEnd, new Date()),
@@ -67,8 +67,11 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
         return plan && lifetimePlanIds.includes(plan.id);
       }
 
-      // For subscriptions, check if they're active and not expired
-      if (p.type === PaymentTypes.SUBSCRIPTION && p.status === 'active') {
+      // For subscriptions, check if they're active or trialing and not expired
+      if (
+        p.type === PaymentTypes.SUBSCRIPTION &&
+        (p.status === 'active' || p.status === 'trialing')
+      ) {
         // If periodEnd is null, it's an ongoing subscription
         if (!p.periodEnd) {
           return true;
