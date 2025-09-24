@@ -26,6 +26,7 @@ export function useActiveSubscription(userId: string | undefined) {
       console.log('useActiveSubscription start');
       const result = await getActiveSubscriptionAction({ userId });
       if (!result?.data?.success) {
+        console.log('useActiveSubscription failed');
         throw new Error(result?.data?.error || 'Failed to fetch subscription');
       }
       console.log('useActiveSubscription success');
@@ -49,6 +50,7 @@ export function useLifetimeStatus(userId: string | undefined) {
       console.log('useLifetimeStatus start');
       const result = await getLifetimeStatusAction({ userId });
       if (!result?.data?.success) {
+        console.log('useLifetimeStatus failed');
         throw new Error(
           result?.data?.error || 'Failed to fetch lifetime status'
         );
@@ -76,12 +78,26 @@ export function useCurrentPlan(userId: string | undefined) {
     error: lifetimeError,
   } = useLifetimeStatus(userId);
 
+  console.log('useCurrentPlan enabled check:', {
+    userId: !!userId,
+    isLoadingSubscription,
+    isLoadingLifetime,
+    enabled: !!userId && !isLoadingSubscription && !isLoadingLifetime,
+  });
+
   return useQuery({
     queryKey: paymentKeys.currentPlan(userId || ''),
     queryFn: async (): Promise<{
       currentPlan: PricePlan | null;
       subscription: Subscription | null;
     }> => {
+      console.log('useCurrentPlan queryFn inputs:', {
+        isLifetimeMember,
+        subscription: subscription ? 'exists' : 'null',
+        subscriptionId: subscription?.id,
+        subscriptionPriceId: subscription?.priceId,
+      });
+
       const plans: PricePlan[] = getAllPricePlans();
       const freePlan = plans.find((plan) => plan.isFree);
       const lifetimePlan = plans.find((plan) => plan.isLifetime);
