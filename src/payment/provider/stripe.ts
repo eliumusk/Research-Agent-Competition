@@ -593,13 +593,10 @@ export class StripeProvider implements PaymentProvider {
         throw new Error(`Payment record not found for invoice: ${invoice.id}`);
       }
 
-      const subscriptionId = invoice.subscription as string | null;
-
-      // Determine payment type based on both invoice and existing payment record
-      // Priority: 1. existing payment record type, 2. invoice subscription field
+      // Determine payment type based on existing payment record type
+      // This is more reliable than checking invoice.subscription field
       const isSubscriptionPayment =
-        paymentRecord.type === PaymentTypes.SUBSCRIPTION ||
-        (subscriptionId && paymentRecord.type !== PaymentTypes.ONE_TIME);
+        paymentRecord.type === PaymentTypes.SUBSCRIPTION;
 
       if (isSubscriptionPayment) {
         // This is a subscription payment
@@ -646,9 +643,16 @@ export class StripeProvider implements PaymentProvider {
     console.log('>> Update subscription payment record');
 
     try {
-      const subscriptionId = invoice.subscription as string | null;
+      let subscriptionId = invoice.subscription as string | null;
+
+      // If invoice.subscription is null, try to use paymentRecord.subscriptionId
+      if (!subscriptionId && paymentRecord.subscriptionId) {
+        subscriptionId = paymentRecord.subscriptionId;
+        console.log('subscriptionId from paymentRecord:', subscriptionId);
+      }
+
       if (!subscriptionId) {
-        console.warn('<< No subscriptionId found for invoice');
+        console.warn('<< No subscriptionId found in invoice or paymentRecord');
         return;
       }
 
