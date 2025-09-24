@@ -43,9 +43,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticRoutes.flatMap((route) => {
       return routing.locales.map((locale) => ({
         url: getUrl(route, locale),
-        lastModified: new Date(),
-        priority: 1,
-        changeFrequency: 'weekly' as const,
         alternates: {
           languages: generateHreflangUrls(route),
         },
@@ -68,9 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (let page = 2; page <= totalPages; page++) {
         sitemapList.push({
           url: getUrl(`/blog/page/${page}`, locale),
-          lastModified: new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
           alternates: {
             languages: generateHreflangUrls(`/blog/page/${page}`),
           },
@@ -96,9 +90,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // /blog/category/[slug] (first page)
         sitemapList.push({
           url: getUrl(`/blog/category/${category.slugs[0]}`, locale),
-          lastModified: new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
           alternates: {
             languages: generateHreflangUrls(
               `/blog/category/${category.slugs[0]}`
@@ -112,9 +103,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               `/blog/category/${category.slugs[0]}/page/${page}`,
               locale
             ),
-            lastModified: new Date(),
-            priority: 0.8,
-            changeFrequency: 'weekly' as const,
             alternates: {
               languages: generateHreflangUrls(
                 `/blog/category/${category.slugs[0]}/page/${page}`
@@ -133,9 +121,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       posts.forEach((post) => {
         sitemapList.push({
           url: getUrl(`/blog/${post.slugs.join('/')}`, locale),
-          lastModified: new Date(post.data.date) ?? new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
           alternates: {
             languages: generateHreflangUrls(`/blog/${post.slugs.join('/')}`),
           },
@@ -151,9 +136,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...docsParams.flatMap((param) =>
         routing.locales.map((locale) => ({
           url: getUrl(`/docs/${param.slug.join('/')}`, locale),
-          lastModified: new Date(),
-          priority: 0.8,
-          changeFrequency: 'weekly' as const,
           alternates: {
             languages: generateHreflangUrls(`/docs/${param.slug.join('/')}`),
           },
