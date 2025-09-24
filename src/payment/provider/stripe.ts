@@ -595,7 +595,13 @@ export class StripeProvider implements PaymentProvider {
 
       const subscriptionId = invoice.subscription as string | null;
 
-      if (subscriptionId) {
+      // Determine payment type based on both invoice and existing payment record
+      // Priority: 1. existing payment record type, 2. invoice subscription field
+      const isSubscriptionPayment =
+        paymentRecord.type === PaymentTypes.SUBSCRIPTION ||
+        (subscriptionId && paymentRecord.type !== PaymentTypes.ONE_TIME);
+
+      if (isSubscriptionPayment) {
         // This is a subscription payment
         await this.updateSubscriptionPayment(invoice, paymentRecord);
       } else {
