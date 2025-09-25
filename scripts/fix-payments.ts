@@ -34,6 +34,8 @@ export default async function fixPayments() {
           .where(eq(payment.id, record.id));
       }
     }
+
+    console.log('Fix payments completed');
   } catch (error) {
     console.error('Fix payments error:', error);
   }
