@@ -1,24 +1,15 @@
 import { getDb } from '@/db';
 import { payment } from '@/db/schema';
 import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
-import { PaymentTypes } from '@/payment/types';
-import { and, eq, gt, isNull, or } from 'drizzle-orm';
+import { PaymentScenes, PaymentTypes } from '@/payment/types';
+import { and, eq, or } from 'drizzle-orm';
 
 /**
  * Check premium access for a specific user ID
- *
- * This function combines the logic from getLifetimeStatusAction and getActiveSubscriptionAction
- * but optimizes it for a single database query to check premium access.
  */
 export async function checkPremiumAccess(userId: string): Promise<boolean> {
   try {
     const db = await getDb();
-
-    // Get lifetime plan IDs for efficient checking
-    const plans = getAllPricePlans();
-    const lifetimePlanIds = plans
-      .filter((plan) => plan.isLifetime)
-      .map((plan) => plan.id);
 
     // Single optimized query to check both lifetime and active subscriptions
     const result = await db
@@ -33,60 +24,61 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
       .from(payment)
       .where(
         and(
+          eq(payment.paid, true),
           eq(payment.userId, userId),
           or(
             // Check for completed lifetime payments
             and(
               eq(payment.type, PaymentTypes.ONE_TIME),
+              eq(payment.scene, PaymentScenes.LIFETIME),
               eq(payment.status, 'completed')
             ),
-            // Check for active or trialing subscriptions that haven't expired
+            // Check for active or trialing subscriptions
             and(
               eq(payment.type, PaymentTypes.SUBSCRIPTION),
-              or(eq(payment.status, 'active'), eq(payment.status, 'trialing')),
-              or(
-                // Either period hasn't ended yet
-                gt(payment.periodEnd, new Date()),
-                // Or period end is null (ongoing subscription)
-                isNull(payment.periodEnd)
-              )
+              eq(payment.scene, PaymentScenes.SUBSCRIPTION),
+              or(eq(payment.status, 'active'), eq(payment.status, 'trialing'))
             )
           )
         )
       );
 
     if (!result || result.length === 0) {
+      console.log('Check premium access, not found for user:', userId);
       return false;
     }
+
+    // Get lifetime plan IDs for efficient checking
+    const plans = getAllPricePlans();
+    const lifetimePlanIds = plans
+      .filter((plan) => plan.isLifetime)
+      .map((plan) => plan.id);
 
     // Check if any payment grants premium access
     return result.some((p) => {
       // For one-time payments, check if it's a lifetime plan
       if (p.type === PaymentTypes.ONE_TIME && p.status === 'completed') {
         const plan = findPlanByPriceId(p.priceId);
-        return plan && lifetimePlanIds.includes(plan.id);
+        const isLifetimePlan = plan && lifetimePlanIds.includes(plan.id);
+        console.log('Check premium access, isLifetimePlan:', isLifetimePlan);
+        return isLifetimePlan;
       }
 
-      // For subscriptions, check if they're active or trialing and not expired
+      // For subscriptions, they're still active/trialing
       if (
         p.type === PaymentTypes.SUBSCRIPTION &&
         (p.status === 'active' || p.status === 'trialing')
       ) {
-        // If periodEnd is null, it's an ongoing subscription
-        if (!p.periodEnd) {
-          return true;
-        }
-
-        // Check if the subscription period hasn't ended yet
-        const now = new Date();
-        const periodEnd = new Date(p.periodEnd);
-        return periodEnd > now;
+        console.log('Check premium access, subscription is active/trialing');
+        return true;
       }
 
+      // For other cases, return false (free plan)
+      console.log('Check premium access, free plan');
       return false;
     });
   } catch (error) {
-    console.error('Error checking premium access for user:', error);
+    console.error('Check premium access error:', error);
     return false;
   }
 }
