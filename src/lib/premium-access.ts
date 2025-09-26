@@ -2,7 +2,7 @@ import { getDb } from '@/db';
 import { payment } from '@/db/schema';
 import { findPlanByPriceId, getAllPricePlans } from '@/lib/price-plan';
 import { PaymentScenes, PaymentTypes } from '@/payment/types';
-import { and, eq, or } from 'drizzle-orm';
+import { and, desc, eq, or } from 'drizzle-orm';
 
 /**
  * Check premium access for a specific user ID
@@ -18,8 +18,6 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
         priceId: payment.priceId,
         type: payment.type,
         status: payment.status,
-        periodEnd: payment.periodEnd,
-        cancelAtPeriodEnd: payment.cancelAtPeriodEnd,
       })
       .from(payment)
       .where(
@@ -41,10 +39,11 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
             )
           )
         )
-      );
+      )
+      .orderBy(desc(payment.createdAt));
 
     if (!result || result.length === 0) {
-      console.log('Check premium access, not found for user:', userId);
+      console.log('Check premium access, not payments for user:', userId);
       return false;
     }
 
