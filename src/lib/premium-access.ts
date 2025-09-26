@@ -36,7 +36,7 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
             // Check for active or trialing subscriptions
             and(
               eq(payment.type, PaymentTypes.SUBSCRIPTION),
-              eq(payment.scene, PaymentScenes.SUBSCRIPTION),
+              // eq(payment.scene, PaymentScenes.SUBSCRIPTION),
               or(eq(payment.status, 'active'), eq(payment.status, 'trialing'))
             )
           )
@@ -55,10 +55,13 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
       .map((plan) => plan.id);
 
     // Check if any payment grants premium access
-    return result.some((p) => {
+    return result.some((paymentRecord) => {
       // For one-time payments, check if it's a lifetime plan
-      if (p.type === PaymentTypes.ONE_TIME && p.status === 'completed') {
-        const plan = findPlanByPriceId(p.priceId);
+      if (
+        paymentRecord.type === PaymentTypes.ONE_TIME &&
+        paymentRecord.status === 'completed'
+      ) {
+        const plan = findPlanByPriceId(paymentRecord.priceId);
         const isLifetimePlan = plan && lifetimePlanIds.includes(plan.id);
         console.log('Check premium access, isLifetimePlan:', isLifetimePlan);
         return isLifetimePlan;
@@ -66,8 +69,9 @@ export async function checkPremiumAccess(userId: string): Promise<boolean> {
 
       // For subscriptions, they're still active/trialing
       if (
-        p.type === PaymentTypes.SUBSCRIPTION &&
-        (p.status === 'active' || p.status === 'trialing')
+        paymentRecord.type === PaymentTypes.SUBSCRIPTION &&
+        (paymentRecord.status === 'active' ||
+          paymentRecord.status === 'trialing')
       ) {
         console.log('Check premium access, subscription is active/trialing');
         return true;
