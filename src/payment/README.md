@@ -12,14 +12,13 @@ This module provides a flexible payment integration with Stripe, supporting both
 ### Server Actions
 - `/actions/create-checkout-session.ts` - Server action for creating checkout sessions
 - `/actions/create-customer-portal-session.ts` - Server action for creating customer portal sessions
-- `/actions/get-lifetime-status.ts` - Server action for checking user lifetime membership status
-- `/actions/get-active-subscription.ts` - Server action for getting active subscription data
 - `/actions/check-payment-completion.ts` - Server action for checking payment completion status
 - `/actions/create-credit-checkout-session.ts` - Server action for creating credit package checkout sessions
 - `/actions/consume-credits.ts` - Server action for consuming user credits
 - `/actions/get-credit-balance.ts` - Server action for getting user credit balance
 - `/actions/get-credit-stats.ts` - Server action for getting credit statistics
 - `/actions/get-credit-transactions.ts` - Server action for getting credit transaction history
+- `/actions/get-current-plan.ts` - Server action for getting current user plan and subscription data
 
 ### API Routes
 - `/app/api/webhooks/stripe/route.ts` - API route for Stripe webhook events
@@ -31,20 +30,30 @@ This module provides a flexible payment integration with Stripe, supporting both
 - `/app/[locale]/(marketing)/pricing/page.tsx` - Pricing page using the pricing table component
 
 ### Components
+
+#### Payment Components
 - `/components/payment/payment-card.tsx` - Payment status display component with polling
+
+#### Pricing Components
 - `/components/pricing/pricing-card.tsx` - Component to display a single pricing plan
 - `/components/pricing/pricing-table.tsx` - Component to display all pricing plans
-- `/components/settings/billing/billing-card.tsx` - Billing management card component
 - `/components/pricing/create-checkout-button.tsx` - Button component to initiate checkout
 - `/components/pricing/customer-portal-button.tsx` - Button component to access Stripe customer portal
+
+#### Settings Components
+- `/components/settings/billing/billing-card.tsx` - Billing management card component
 - `/components/settings/credits/credit-packages.tsx` - Credit packages display component
 - `/components/settings/credits/credit-checkout-button.tsx` - Credit package checkout button
+- `/components/settings/credits/credit-detail-viewer.tsx` - Credit detail viewer component
+- `/components/settings/credits/credit-transactions-table.tsx` - Credit transactions table component
+- `/components/settings/credits/credit-transactions.tsx` - Credit transactions component
+- `/components/settings/credits/credits-card.tsx` - Credits card component
 - `/components/settings/credits/credits-page-client.tsx` - Credits page client component
 
 ### Hooks
 - `/hooks/use-payment-completion.ts` - Hook for checking payment completion with polling
-- `/hooks/use-payment.ts` - Hooks for payment-related data fetching (subscriptions, lifetime status)
-- `/hooks/use-credits.ts` - Hooks for credit-related operations
+- `/hooks/use-payment.ts` - Hooks for payment-related data fetching (current plan, subscription status)
+- `/hooks/use-credits.ts` - Hooks for credit-related operations (balance, stats, transactions, consumption)
 
 ## Environment Variables
 
@@ -174,25 +183,14 @@ export const checkPaymentCompletionAction = userActionClient
   });
 ```
 
-#### `/actions/get-active-subscription.ts`
+#### `/actions/get-current-plan.ts`
 ```typescript
-// Get active subscription data for a user
-export const getActiveSubscriptionAction = userActionClient
+// Get current user plan and subscription data
+export const getCurrentPlanAction = userActionClient
   .schema(schema)
-  .action(async ({ ctx }) => {
-    // Returns the most recent active or trialing subscription
-    // Returns { success: true, data: Subscription | null } or { success: false, error }
-  });
-```
-
-#### `/actions/get-lifetime-status.ts`
-```typescript
-// Get user lifetime membership status
-export const getLifetimeStatusAction = userActionClient
-  .schema(schema)
-  .action(async ({ ctx }) => {
-    // Checks if user has lifetime access
-    // Returns { success: true, isLifetimeMember: boolean } or { success: false, error }
+  .action(async ({ parsedInput, ctx }) => {
+    // Returns current plan, subscription data, and lifetime status
+    // Returns { success: true, data: { currentPlan, subscription } } or { success: false, error }
   });
 ```
 
@@ -393,28 +391,12 @@ const { data: paymentCheck, isLoading, error } = usePaymentCompletion(
 // Returns { isPaid: boolean }
 ```
 
-#### useActiveSubscription
-Hook for fetching active subscription data:
-
-```typescript
-const { data: subscription, isLoading, error } = useActiveSubscription(userId);
-// Returns Subscription | null
-```
-
-#### useLifetimeStatus
-Hook for checking lifetime membership status:
-
-```typescript
-const { data: isLifetime, isLoading, error } = useLifetimeStatus(userId);
-// Returns boolean
-```
-
 #### useCurrentPlan
 Hook for getting current plan based on subscription and lifetime status:
 
 ```typescript
 const { data: currentPlan, isLoading, error } = useCurrentPlan(userId);
-// Returns PricePlan | null
+// Returns { currentPlan: PricePlan | null, subscription: Subscription | null }
 ```
 
 ### Credit Hooks
