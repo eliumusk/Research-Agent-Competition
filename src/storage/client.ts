@@ -40,7 +40,10 @@ export const uploadFileFromBrowser = async (
       // Try to parse JSON error response, fallback to status text if parsing fails
       let errorMessage = 'Failed to upload file';
       try {
-        const errorData = await response.json();
+        const errorData = (await response.json()) as {
+          error?: string;
+          message?: string;
+        };
         errorMessage = errorData.error || errorData.message || errorMessage;
       } catch {
         errorMessage = 'Failed to upload file';
