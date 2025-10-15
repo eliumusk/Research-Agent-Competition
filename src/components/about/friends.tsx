@@ -25,10 +25,10 @@ const friends = [
     image: '/images/friends/liruifengv.jpg',
   },
   {
-    title: 'Weijun',
-    description: 'Indie Hacker & Founder of nextjscn.org',
-    link: 'https://weijun.com/',
-    image: '/images/friends/weijun.jpg',
+    title: 'Hyhor',
+    description: 'Indie Hacker & Founder of toolfame.com',
+    link: 'https://hyhor.com/',
+    image: '/images/friends/hyhor.jpg',
   },
   {
     title: 'Justin',
