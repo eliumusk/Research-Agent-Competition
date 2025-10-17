@@ -55,15 +55,15 @@ author: fox
 
 下表是常见的算法时间复杂度值及其相应的算法问题举例，例如平方阶时间复杂度是一些基于比较的排序算法的时间复杂度，例如选择排序、冒泡排序等。nlgn阶时间复杂度是随机数字序列的最优排序算法的时间复杂度，例如快速排序等。
 
-![image](https://cdn.mksaas.me/images/23c955b61f65047c5d7973eb7abe246a.png)
+<img src="https://cdn.mksaas.me/images/23c955b61f65047c5d7973eb7abe246a.png" alt="image" />
 
 下表是常见的递推公式对应的算法时间复杂度和算法问题举例，例如合并排序是nlgn阶，握手问题是平方阶，汉诺塔问题是指数阶等。这个建议结合具体的例子记忆一下，以便快速反应。
 
-![image-1](https://cdn.mksaas.me/images/1d45f6a9bb1b253c923fcdee037907b1.png)
+<img src="https://cdn.mksaas.me/images/1d45f6a9bb1b253c923fcdee037907b1.png" alt="image-1" />
 
 下表是主定理法在三种情况下的求值公式。主定理通常可以解决类似 **T(n) = a T(n/b) + f(n)** 这种递归形式的问题，即将规模为n的问题划分为a个子问题，每个子问题的规模是n/b，这里a和b是正常数，划分原问题和合并结果的代价用函数f(n)描述。
 
-![image-2](https://cdn.mksaas.me/images/832aa27ff9178c59ba47c3ba45b63adf.png)
+<img src="https://cdn.mksaas.me/images/832aa27ff9178c59ba47c3ba45b63adf.png" alt="image-2" />
 
 #### 1.3 常见的算法思想
 
@@ -92,7 +92,7 @@ author: fox
 
 怎么样？我们学过的排序算法经过这么reduce基本上都很清晰了，不是吗？
 
-![image-3](https://cdn.mksaas.me/images/dbeeb82f9d641970b3cd2e244df6c6b6.png)
+<img src="https://cdn.mksaas.me/images/dbeeb82f9d641970b3cd2e244df6c6b6.png" alt="image-3" />
 
 > **为了能够对问题使用Induction或者说Recursion，Reduction一般是将一个问题变成另一个或者几个只是规模减小了的相同问题。那么，这样做就万事大吉了吗？**
 > 其实并不是的，有些时候我们可能还需要考虑Reduction或者说分治策略的 **子问题平衡性** 。对于同一个问题，分治时采用 **T(n)=T(n-1)+T(1)+n**  和  **T(n)=2T(n/2)+n** 两种解决方案的时间复杂度是不同的，这里就不展开说了。
@@ -109,7 +109,7 @@ author: fox
 
 但是， **整数背包问题就不能用贪心策略了** 。整数背包问题还可以分成两种：一种是每类物品数量都是有限的(bounded)，比如只有3个茶杯和2个台灯；还有一种是数量无限的(unbounded)，也就是你想要多少有多少，这两种都不能使用贪心策略。0-1背包问题是典型的第一种整数背包问题，看下算法导论上的这个例子就明白了，在(b)中，虽然物品1单位重量的价值最大，但是任何包含物品1的选择都没有超过选择物品2和物品3得到的最优解220；而(c)中能达到最大的价值是240。
 
-![image-4](https://cdn.mksaas.me/images/721b45d6c589a6a1865f57a9b8decd2a.png)
+<img src="https://cdn.mksaas.me/images/721b45d6c589a6a1865f57a9b8decd2a.png" alt="image-4" />
 
 > 贪心算法其实还是比较好想到的，它真正难的是如何证明这个贪心策略是正确的，还有贪心算法的内在原理“ **拟阵** ”，我已忘得一干二净了。建议刷下LeetCode上的贪心题，虽然实际算法面试中很少出贪心题。
 
@@ -127,7 +127,7 @@ author: fox
 下面我们以 **有向无环图的单源最短路径问题** 来对比动规的两中实现方式：
 假设有如下图所示的图，当然，我们看到的是这个有向无环图是经过了拓扑排序之后的结果，从a到f的最短路径用灰色标明了。
 
-![image-5](https://cdn.mksaas.me/images/43019a38cd02dff37974bb58a814ae63.png)
+<img src="https://cdn.mksaas.me/images/43019a38cd02dff37974bb58a814ae63.png" alt="image-5" />
 
 我们有两种思考方式：
 
@@ -135,13 +135,13 @@ author: fox
 
 用图来表示计算过程就是下面所示：
 
-![image-6](https://cdn.mksaas.me/images/32941fe7f6338ad0410b3b664d9e0aa1.png)
+<img src="https://cdn.mksaas.me/images/32941fe7f6338ad0410b3b664d9e0aa1.png" alt="image-6" />
 
 **2."从哪里来?"：我们逆向思维，目标是要到f，那从a点经过哪个点到f点会近些呢?只能是求解从a点出发能够到达的那些点哪个距离f点更近，这里a点能够到达b点和f点，f点到f点距离是0，但是a到f点的距离是9，可能不是最近的路，所以还要看b点到f点有多近，看b点到f点有多近就是求解从b点出发能够到达的那些点哪个距离f点更近，所以又绕回来了，也就是递归下去，直到我们能够回答从a点经过哪个点到f点会更近。这种思维方式的代码实现就是递归版本。**
 
 用图来表示计算过程就如下图所示：
 
-![image-7](https://cdn.mksaas.me/images/cfced0e25448e6090257a18444f28665.png)
+<img src="https://cdn.mksaas.me/images/cfced0e25448e6090257a18444f28665.png" alt="image-7" />
 
 > 动规算法在紧张的算法面试时并不容易想出来，个人感觉就是要多练习，然后学会列出动规的递推公式，处理好边界情况，最后选择合适的实现方式去实现。实际算法面试中如果遇到水平较高的面试官是有可能出动规题的，其中最常见的就是 **最长公共子序列和最长递增子序列** 等类型的题目。
 
