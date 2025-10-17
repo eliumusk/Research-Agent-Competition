@@ -2,8 +2,7 @@ import { Card } from '@/components/ui/card';
 import { HeaderSection } from '../layout/header-section';
 
 /**
- * TODO:
- * https://x.com/AwesomeYang_com
+ * Friends list
  */
 const friends = [
   {
