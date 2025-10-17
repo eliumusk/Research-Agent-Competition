@@ -73,10 +73,28 @@ const friends = [
     image: '/images/friends/justinlee.jpg',
   },
   {
+    title: 'Baoyu',
+    description: 'AI Enthusiast & Founder of baoyu.io',
+    link: 'https://baoyu.io/',
+    image: '/images/friends/baoyu.jpeg',
+  },
+  {
     title: 'Awesome Yang',
     description: 'Indie Hacker & Founder of aiwith.me',
     link: 'https://awesomeyang.com/',
     image: '/images/friends/yang.jpg',
+  },
+  {
+    title: 'Felix',
+    description: 'Entrepreneur & Founder of metalinksoft.com',
+    link: 'https://htryit.com/',
+    image: '/images/friends/felix.jpg',
+  },
+  {
+    title: 'Weijun',
+    description: 'Indie Hacker & Founder of nextjscn.org',
+    link: 'https://weijun.com/',
+    image: '/images/friends/weijun.jpg',
   },
 ];
 
