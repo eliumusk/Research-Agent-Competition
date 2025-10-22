@@ -1,6 +1,7 @@
 import { ImageWrapper } from '@/components/docs/image-wrapper';
 import { Wrapper } from '@/components/docs/wrapper';
 import { YoutubeVideo } from '@/components/docs/youtube-video';
+import { VideoPlayer } from '@/components/docs/video-player';
 import { PremiumContent } from '@/components/premium/premium-content';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -26,6 +27,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     // ...((await import('lucide-react')) as unknown as MDXComponents),
     XEmbedClient,
     YoutubeVideo,
+    VideoPlayer,
     PremiumContent,
     Tabs,
     Tab,

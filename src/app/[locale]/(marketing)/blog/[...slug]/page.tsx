@@ -1,5 +1,8 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
 import BlogGrid from '@/components/blog/blog-grid';
+import { AppLinkCard } from '@/components/blog/app-link-card';
+import { TeamLeaderCard } from '@/components/blog/team-leader-card';
+import { TechReportCard } from '@/components/blog/tech-report-card';
 import { getMDXComponents } from '@/components/docs/mdx-components';
 import { PremiumBadge } from '@/components/premium/premium-badge';
 import { PremiumGuard } from '@/components/premium/premium-guard';
@@ -86,8 +89,20 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
     notFound();
   }
 
-  const { date, title, description, image, author, categories, premium } =
-    post.data;
+  const {
+    date,
+    title,
+    description,
+    image,
+    author,
+    categories,
+    premium,
+    appLink,
+    videoUrl,
+    techReportUrl,
+    teamLeader,
+    teamOrganization,
+  } = post.data;
   const publishDate = formatDate(new Date(date));
 
   const blogAuthor = authorSource.getPage([author], locale);
@@ -172,6 +187,20 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
         {/* right column (sidebar) */}
         <div>
           <div className="space-y-4 lg:sticky lg:top-24">
+            {/* App Link - 一键使用 */}
+            {appLink && <AppLinkCard appLink={appLink} />}
+
+            {/* Team Leader - 项目负责人 */}
+            {teamLeader && (
+              <TeamLeaderCard
+                teamLeader={teamLeader}
+                teamOrganization={teamOrganization}
+              />
+            )}
+
+            {/* Tech Report - 技术报告 */}
+            {techReportUrl && <TechReportCard techReportUrl={techReportUrl} />}
+
             {/* author info */}
             {blogAuthor && (
               <div className="bg-muted/50 rounded-lg p-6">

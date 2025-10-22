@@ -98,5 +98,11 @@ export const blog = defineCollections({
     premium: z.boolean().optional(),
     categories: z.array(z.string()),
     author: z.string(),
+    // 新增参赛作品相关字段
+    appLink: z.string().url().optional(), // Bohrium App 链接
+    videoUrl: z.string().url().optional(), // 视频文件 URL
+    techReportUrl: z.string().url().optional(), // 技术报告 PDF URL
+    teamLeader: z.string().optional(), // 项目负责人姓名
+    teamOrganization: z.string().optional(), // 负责人单位
   }),
 });

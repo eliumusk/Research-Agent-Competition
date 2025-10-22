@@ -287,7 +287,10 @@
     "all": "All",
     "noPostsFound": "No posts found",
     "allPosts": "All Posts",
-    "morePosts": "More Posts"
+    "morePosts": "More Posts",
+    "tryApp": "Try App",
+    "teamLeader": "Team Leader",
+    "techReport": "Tech Report"
   },
   "DocsPage": {
     "toc": "Table of Contents",
