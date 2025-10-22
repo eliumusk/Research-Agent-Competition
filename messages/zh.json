@@ -1,8 +1,8 @@
 {
   "Metadata": {
-    "name": "玻尔 + SciMaster 科研智能体开发大赛 ",
-    "title": "Indie Maker Fox is Building in Public",
-    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and build amazing products people need."
+    "name": "玻尔 + SciMaster 科研智能体开发大赛",
+    "title": "玻尔 + SciMaster 科研智能体开发大赛 - 优秀作品展示",
+    "description": "展示优秀参赛作品，探索科研智能体的无限可能。本次大赛旨在推动科研智能体技术的发展，鼓励创新应用。"
   },
   "Common": {
     "premium": "付费文章",
@@ -277,7 +277,7 @@
     }
   },
   "BlogPage": {
-    "title": "博客",
+    "title": "参赛作品",
     "description": "来自我们的团队最新新闻和更新",
     "subtitle": "来自我们的团队最新新闻和更新",
     "author": "作者",
@@ -325,10 +325,13 @@
         "title": "价格"
       },
       "blog": {
-        "title": "博客"
+        "title": "参赛作品"
       },
       "docs": {
         "title": "文档"
+      },
+      "register": {
+        "title": "立刻参赛"
       },
       "ai": {
         "title": "AI 工具",
@@ -453,7 +456,7 @@
       }
     },
     "footer": {
-      "tagline": "Indie Maker Fox is Building in Public",
+      "tagline": "让创造可持续",
       "product": {
         "title": "产品",
         "items": {
@@ -465,7 +468,7 @@
       "resources": {
         "title": "资源",
         "items": {
-          "blog": "博客",
+          "blog": "参赛作品",
           "docs": "文档",
           "changelog": "更新日志",
           "roadmap": "路线图"
@@ -788,17 +791,17 @@
     }
   },
   "HomePage": {
-    "title": "MkSaaS",
-    "description": "使用 MkSaaS 在几天内轻松构建您的 AI SaaS 产品",
+    "title": "玻尔 + SciMaster 科研智能体开发大赛",
+    "description": "展示优秀参赛作品，探索科研智能体的无限可能",
     "hero": {
-      "title": "使用 MkSaaS 轻松构建您的 AI SaaS 产品",
-      "description": "MkSaaS 是构建 AI SaaS 的最佳模板，内置 AI、身份验证、全球支付、博客、文档、邮件订阅、SEO、多彩主题、丰富组件等。",
-      "introduction": "介绍 MkSaaS 模板",
-      "primary": "开始使用",
-      "secondary": "查看演示",
-      "follow": "关注我的推特",
-      "read": "阅读我的文章",
-      "intro": "我是一名独立开发者，我在社交媒体上公开构建我的产品，并在这里分享我的经历和想法。"
+      "title": "玻尔 + SciMaster 科研智能体开发大赛",
+      "description": "探索科研智能体的无限可能，展示创新成果，推动科研技术发展",
+      "introduction": "大赛介绍",
+      "primary": "立刻参赛",
+      "secondary": "查看作品",
+      "follow": "关注大赛动态",
+      "read": "了解更多",
+      "intro": "本次大赛旨在推动科研智能体技术的发展，鼓励创新应用，展示优秀作品。欢迎所有对科研智能体开发感兴趣的个人和团队参与！"
     },
     "logocloud": {
       "title": "您最爱公司都是我们的合作伙伴"

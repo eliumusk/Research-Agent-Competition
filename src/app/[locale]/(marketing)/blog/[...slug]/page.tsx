@@ -12,12 +12,7 @@ import { formatDate } from '@/lib/formatter';
 import { constructMetadata } from '@/lib/metadata';
 import { checkPremiumAccess } from '@/lib/premium-access';
 import { getSession } from '@/lib/server';
-import {
-  type BlogType,
-  authorSource,
-  blogSource,
-  categorySource,
-} from '@/lib/source';
+import { type BlogType, blogSource, categorySource } from '@/lib/source';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -94,7 +89,6 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
     title,
     description,
     image,
-    author,
     categories,
     premium,
     appLink,
@@ -105,7 +99,6 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
   } = post.data;
   const publishDate = formatDate(new Date(date));
 
-  const blogAuthor = authorSource.getPage([author], locale);
   const blogCategories = categorySource
     .getPages(locale)
     .filter((category) => categories.includes(category.slugs[0] ?? ''));
@@ -200,26 +193,6 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
 
             {/* Tech Report - 技术报告 */}
             {techReportUrl && <TechReportCard techReportUrl={techReportUrl} />}
-
-            {/* author info */}
-            {blogAuthor && (
-              <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">{t('author')}</h2>
-                <div className="flex items-center gap-4">
-                  <div className="relative h-8 w-8 shrink-0">
-                    {blogAuthor.data.avatar && (
-                      <Image
-                        src={blogAuthor.data.avatar}
-                        alt={`avatar for ${blogAuthor.data.name}`}
-                        className="rounded-full object-cover border"
-                        fill
-                      />
-                    )}
-                  </div>
-                  <span className="line-clamp-1">{blogAuthor.data.name}</span>
-                </div>
-              </div>
-            )}
 
             {/* categories */}
             <div className="bg-muted/50 rounded-lg p-6">

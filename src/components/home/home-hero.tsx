@@ -36,7 +36,8 @@ const transitionVariants = {
 
 export default function HomeHeroSection() {
   const t = useTranslations('HomePage.hero');
-  const linkPrimary = websiteConfig.metadata.social?.twitter || '';
+  const linkPrimary =
+    'https://www.bohrium.com/competitions/8831838064?tab=introduce';
   const linkSecondary = Routes.Blog;
 
   return (
@@ -87,24 +88,9 @@ export default function HomeHeroSection() {
                   preset="fade-in-blur"
                   speedSegment={0.3}
                   as="h1"
-                  className="mt-8 text-balance font-bricolage-grotesque lg:mt-16 text-5xl xl:text-[5rem]"
+                  className="mt-8 text-balance font-bricolage-grotesque lg:mt-16 text-4xl xl:text-6xl"
                 >
-                  {[
-                    '👋',
-                    'Hi,',
-                    'I',
-                    'am',
-                    <CustomHighlightText
-                      key="fox"
-                      text="Indie Maker Fox"
-                      className="mx-1 py-0.5"
-                    />,
-                  ].map((word, i) => (
-                    <React.Fragment key={i}>
-                      {i > 0 && ' '}
-                      {word}
-                    </React.Fragment>
-                  ))}
+                  {t('title')}
                 </CustomTextEffect>
 
                 {/* description */}

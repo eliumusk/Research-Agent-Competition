@@ -79,8 +79,8 @@ export const websiteConfig: WebsiteConfig = {
   },
   mail: {
     provider: 'resend',
-    fromEmail: 'Indie Maker Fox <blog@mksaas.me>',
-    supportEmail: 'Indie Maker Fox <blog@mksaas.me>',
+    fromEmail: '大赛组委会 <competition@bohrium.com>',
+    supportEmail: '大赛组委会 <support@bohrium.com>',
   },
   newsletter: {
     enable: true,

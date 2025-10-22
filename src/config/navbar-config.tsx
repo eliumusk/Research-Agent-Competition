@@ -57,16 +57,16 @@ export function useNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
-      title: t('pricing.title'),
-      href: Routes.Pricing,
-      external: false,
-    },
-    {
       title: t('pages.items.about.title'),
       description: t('pages.items.about.description'),
       icon: <BuildingIcon className="size-4 shrink-0" />,
       href: Routes.About,
       external: false,
+    },
+    {
+      title: t('register.title'),
+      href: 'https://www.bohrium.com/competitions/8831838064?tab=introduce',
+      external: true,
     },
     // {
     //   title: t('features.title'),
