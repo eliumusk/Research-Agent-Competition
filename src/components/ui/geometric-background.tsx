@@ -1,15 +1,21 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 interface GeometricBackgroundProps {
   className?: string;
 }
 
+type Shape =
+  | { type: 'circle'; size: number; x: string; y: string; color: string; delay: number }
+  | { type: 'square'; size: number; x: string; y: string; color: string; delay: number }
+  | { type: 'triangle'; size: number; x: string; y: string; color: string; delay: number }
+  | { type: 'line'; width: number; height: number; x: string; y: string; color: string; delay: number };
+
 export function GeometricBackground({ className }: GeometricBackgroundProps) {
   // Memphis-style geometric shapes with random positions
-  const shapes = [
+  const shapes: Shape[] = [
     // Circles
     { type: 'circle', size: 120, x: '10%', y: '15%', color: 'bg-blue-500/10', delay: 0 },
     { type: 'circle', size: 80, x: '85%', y: '25%', color: 'bg-purple-500/10', delay: 0.2 },

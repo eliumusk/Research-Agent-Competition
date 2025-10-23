@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { DotPattern } from '@/components/magicui/dot-pattern';
 import { GridPattern } from '@/components/magicui/grid-pattern';
 
