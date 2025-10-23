@@ -12,6 +12,7 @@ export enum Routes {
   Pricing = '/pricing', // change to /#pricing if you want to use the pricing section in homepage
   Blog = '/blog',
   Docs = '/docs',
+  Courses = '/courses',
   About = '/about',
   Contact = '/contact',
   Waitlist = '/waitlist',

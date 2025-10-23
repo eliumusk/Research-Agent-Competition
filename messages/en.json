@@ -342,6 +342,9 @@
       "register": {
         "title": "Register Now"
       },
+      "courses": {
+        "title": "Training & Courses"
+      },
       "ai": {
         "title": "AI Tools",
         "items": {
@@ -1276,5 +1279,80 @@
   "AIAudioPage": {
     "title": "AI Audio",
     "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+  },
+  "Courses": {
+    "metadata": {
+      "title": "Training & Courses",
+      "description": "Learn Agent development, product thinking, and AI4Science trends through our comprehensive training courses"
+    },
+    "hero": {
+      "title": "Training & Courses",
+      "subtitle": "Master Agent development skills, product thinking, and AI4Science trends to create outstanding competition projects",
+      "stats": {
+        "courses": "Courses",
+        "students": "Students",
+        "hours": "Hours of Content"
+      }
+    },
+    "courses": {
+      "title": "Official Training Courses",
+      "subtitle": "Professional courses organized by the competition organizers to help you master core skills"
+    },
+    "card": {
+      "status": {
+        "live": "Live Now",
+        "upcoming": "Upcoming",
+        "ended": "Ended"
+      },
+      "location": {
+        "online": "Online",
+        "offline": "Offline"
+      },
+      "actions": {
+        "register": "Register Now",
+        "watchRecording": "Watch Recording"
+      }
+    },
+    "docs": {
+      "title": "Developer Documentation",
+      "subtitle": "Comprehensive development tutorials and API references to help you get started quickly",
+      "categories": {
+        "tutorial": "Tutorial",
+        "reference": "Reference",
+        "guide": "Guide"
+      },
+      "items": {
+        "gettingStarted": {
+          "title": "Getting Started Guide",
+          "description": "Learn the basics of Agent development from scratch, including environment setup and first project"
+        },
+        "apiReference": {
+          "title": "API Reference",
+          "description": "Complete API documentation covering all interfaces and usage examples"
+        },
+        "bestPractices": {
+          "title": "Best Practices",
+          "description": "Learn design patterns and optimization techniques for scientific research Agents"
+        }
+      },
+      "readMore": "Read More"
+    },
+    "partners": {
+      "title": "Partner Courses",
+      "subtitle": "High-quality courses recommended by our partners",
+      "bohrium": {
+        "title": "DeepModeling Online Courses",
+        "description": "DeepModeling provides comprehensive Agent development courses covering fundamentals to advanced topics, helping you quickly master AI4Science application development.",
+        "cta": "Visit Course Platform",
+        "features": {
+          "comprehensive": "Comprehensive Content",
+          "comprehensiveDesc": "From basics to advanced, systematic learning path",
+          "practical": "Hands-on Practice",
+          "practicalDesc": "Rich case studies and practical projects",
+          "free": "Free Access",
+          "freeDesc": "All courses are free for competition participants"
+        }
+      }
+    }
   }
 }

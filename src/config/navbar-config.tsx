@@ -67,6 +67,11 @@ export function useNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
+      title: t('courses.title'),
+      href: Routes.Courses,
+      external: false,
+    },
+    {
       title: t('register.title'),
       href: 'https://www.bohrium.com/competitions/8831838064?tab=introduce',
       external: true,

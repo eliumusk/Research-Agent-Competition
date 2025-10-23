@@ -342,6 +342,9 @@
       "register": {
         "title": "立即参赛"
       },
+      "courses": {
+        "title": "比赛培训讲座"
+      },
       "ai": {
         "title": "AI 工具",
         "items": {
@@ -1276,5 +1279,80 @@
   "AIAudioPage": {
     "title": "AI 音频",
     "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+  },
+  "Courses": {
+    "metadata": {
+      "title": "比赛培训讲座",
+      "description": "通过我们的培训课程学习 Agent 开发技术、产品开发方法和 AI4Science 领域趋势"
+    },
+    "hero": {
+      "title": "比赛培训讲座",
+      "subtitle": "掌握 Agent 开发技能、产品思维和 AI4Science 前沿趋势，打造优秀的参赛作品",
+      "stats": {
+        "courses": "门课程",
+        "students": "名学员",
+        "hours": "小时内容"
+      }
+    },
+    "courses": {
+      "title": "主办方培训课程",
+      "subtitle": "由比赛主办方精心组织的专业课程，帮助您掌握核心技能"
+    },
+    "card": {
+      "status": {
+        "live": "正在直播",
+        "upcoming": "即将开始",
+        "ended": "已结束"
+      },
+      "location": {
+        "online": "线上直播",
+        "offline": "线下活动"
+      },
+      "actions": {
+        "register": "立即报名",
+        "watchRecording": "观看回放"
+      }
+    },
+    "docs": {
+      "title": "开发者文档",
+      "subtitle": "完整的开发教程和 API 参考，帮助您快速上手",
+      "categories": {
+        "tutorial": "教程",
+        "reference": "参考",
+        "guide": "指南"
+      },
+      "items": {
+        "gettingStarted": {
+          "title": "入门指南",
+          "description": "从零开始学习 Agent 开发基础，包括环境搭建和第一个项目"
+        },
+        "apiReference": {
+          "title": "API 参考文档",
+          "description": "完整的 API 文档，涵盖所有接口和使用示例"
+        },
+        "bestPractices": {
+          "title": "最佳实践",
+          "description": "学习科研 Agent 的设计模式和优化技巧"
+        }
+      },
+      "readMore": "查看详情"
+    },
+    "partners": {
+      "title": "合作伙伴课程",
+      "subtitle": "由我们的合作伙伴提供的优质课程推荐",
+      "bohrium": {
+        "title": "深势科技线上课程",
+        "description": "深势科技提供全面的 Agent 开发课程，涵盖从基础到进阶的完整内容，帮助您快速掌握 AI4Science 应用开发。",
+        "cta": "访问课程平台",
+        "features": {
+          "comprehensive": "内容全面",
+          "comprehensiveDesc": "从基础到进阶，系统化学习路径",
+          "practical": "实战导向",
+          "practicalDesc": "丰富的案例和实践项目",
+          "free": "免费学习",
+          "freeDesc": "所有课程对参赛者完全免费"
+        }
+      }
+    }
   }
 }
