@@ -285,7 +285,7 @@
     "tableOfContents": "目录",
     "readTime": "{minutes} 分钟阅读",
     "all": "全部",
-    "noPostsFound": "没有找到文章",
+    "noPostsFound": "没有找到作品",
     "allPosts": "全部文章",
     "morePosts": "更多文章",
     "tryApp": "一键使用",
@@ -1290,12 +1290,12 @@
       "subtitle": "掌握 Agent 开发技能、产品思维和 AI4Science 前沿趋势，打造优秀的参赛作品",
       "stats": {
         "courses": "门课程",
-        "students": "名学员",
+        "students": "名参赛者",
         "hours": "小时内容"
       }
     },
     "courses": {
-      "title": "主办方培训课程",
+      "title": "赛事培训及讲座分享",
       "subtitle": "由比赛主办方精心组织的专业课程，帮助您掌握核心技能"
     },
     "card": {

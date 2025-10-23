@@ -22,7 +22,7 @@ export default function DocsSection() {
       title: t('docs.items.gettingStarted.title'),
       description: t('docs.items.gettingStarted.description'),
       icon: <BookOpen className="h-8 w-8" />,
-      url: 'https://example.com/docs/getting-started',
+      url: 'https://www.bohrium.com/courses/9912468816?tab=courses',
       category: t('docs.categories.tutorial'),
     },
     {
@@ -30,7 +30,7 @@ export default function DocsSection() {
       title: t('docs.items.apiReference.title'),
       description: t('docs.items.apiReference.description'),
       icon: <Code className="h-8 w-8" />,
-      url: 'https://example.com/docs/api',
+      url: 'https://dptechnology.feishu.cn/wiki/VUArwS8crizjlGk0nsPctKg2ngf',
       category: t('docs.categories.reference'),
     },
     {
@@ -38,7 +38,7 @@ export default function DocsSection() {
       title: t('docs.items.bestPractices.title'),
       description: t('docs.items.bestPractices.description'),
       icon: <Lightbulb className="h-8 w-8" />,
-      url: 'https://example.com/docs/best-practices',
+      url: 'https://www.bohrium.com/courses/5920545182?tab=courses',
       category: t('docs.categories.guide'),
     },
   ];
