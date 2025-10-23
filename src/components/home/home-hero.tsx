@@ -1,17 +1,18 @@
 'use client';
 
-import { Ripple } from '@/components/magicui/ripple';
+import { MagicCard } from '@/components/magicui/magic-card';
+import { Particles } from '@/components/magicui/particles';
+import { PulsatingButton } from '@/components/magicui/pulsating-button';
 import { AnimatedGroup } from '@/components/tailark/motion/animated-group';
 import { TextEffect } from '@/components/tailark/motion/text-effect';
+import { AnimatedNumber } from '@/components/ui/animated-number';
 import { Button } from '@/components/ui/button';
-import { websiteConfig } from '@/config/website';
+import { EnhancedBackground } from '@/components/ui/enhanced-background';
 import { LocaleLink } from '@/i18n/navigation';
 import { Routes } from '@/routes';
-import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
+import { useTheme } from 'next-themes';
 import React from 'react';
-import { CustomHighlightText } from '../custom/highlight';
 import { CustomTextEffect } from '../custom/text-effect';
 
 const transitionVariants = {
@@ -36,28 +37,29 @@ const transitionVariants = {
 
 export default function HomeHeroSection() {
   const t = useTranslations('HomePage.hero');
+  const { theme } = useTheme();
   const linkPrimary =
     'https://www.bohrium.com/competitions/8831838064?tab=introduce';
   const linkSecondary = Routes.Blog;
 
   return (
     <>
-      <main id="hero" className="overflow-hidden pb-16">
-        {/* background, light shadows on top of the hero section */}
-        <div
-          aria-hidden
-          className="absolute inset-0 isolate hidden opacity-65 contain-strict lg:block"
-        >
-          <div className="w-140 h-320 -translate-y-87.5 absolute left-0 top-0 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)]" />
-          <div className="h-320 absolute left-0 top-0 w-60 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
-          <div className="h-320 -translate-y-87.5 absolute left-0 top-0 w-60 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)]" />
-        </div>
+      <main id="hero" className="relative overflow-hidden pb-16">
+        {/* Enhanced Background with all effects */}
+        <EnhancedBackground variant="hero" />
+
+        {/* Particles Effect */}
+        <Particles
+          className="absolute inset-0 -z-10"
+          quantity={80}
+          ease={80}
+          color={theme === 'dark' ? '#ffffff' : '#000000'}
+          refresh={false}
+        />
 
         <section>
           <div className="relative pt-12">
             <div className="mx-auto max-w-7xl px-6">
-              {/* <Ripple /> */}
-
               <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
                 {/* introduction */}
                 {/* <AnimatedGroup variants={transitionVariants}>
@@ -132,20 +134,15 @@ export default function HomeHeroSection() {
                   }}
                   className="mt-12 flex flex-row items-center justify-center gap-4"
                 >
-                  <div
-                    key={1}
-                    className="bg-foreground/10 rounded-[calc(var(--radius-xl)+0.125rem)] border p-0.5"
-                  >
-                    <Button
-                      asChild
-                      size="lg"
-                      className="rounded-xl px-6 text-base"
+                  <LocaleLink href={linkPrimary} target="_blank" key={1}>
+                    <PulsatingButton
+                      className="rounded-xl px-8 text-base"
+                      pulseColor={theme === 'dark' ? '#ffffff40' : '#00000040'}
+                      duration="2s"
                     >
-                      <LocaleLink href={linkPrimary} target="_blank">
-                        <span className="text-nowrap">{t('primary')}</span>
-                      </LocaleLink>
-                    </Button>
-                  </div>
+                      <span className="text-nowrap">{t('primary')}</span>
+                    </PulsatingButton>
+                  </LocaleLink>
                   <Button
                     key={2}
                     asChild
@@ -174,28 +171,40 @@ export default function HomeHeroSection() {
                   }}
                   className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3"
                 >
-                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
+                  <MagicCard
+                    className="group rounded-xl p-6 text-center shadow-sm transition-all"
+                    gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
+                  >
                     <div className="mb-1 font-mono text-3xl font-bold">
-                      ¥1,000,000
+                      ¥<AnimatedNumber value={1000000} duration={2.5} />
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat1')}
                     </div>
-                  </div>
-                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
+                  </MagicCard>
+                  <MagicCard
+                    className="group rounded-xl p-6 text-center shadow-sm transition-all"
+                    gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
+                  >
                     <div className="mb-1 font-mono text-3xl font-bold">
-                      12.10
+                      <AnimatedNumber value={12} decimals={0} />
+                      .10
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat2')}
                     </div>
-                  </div>
-                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
-                    <div className="mb-1 font-mono text-3xl font-bold">30</div>
+                  </MagicCard>
+                  <MagicCard
+                    className="group rounded-xl p-6 text-center shadow-sm transition-all"
+                    gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
+                  >
+                    <div className="mb-1 font-mono text-3xl font-bold">
+                      <AnimatedNumber value={30} duration={1.5} />
+                    </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat3')}
                     </div>
-                  </div>
+                  </MagicCard>
                 </AnimatedGroup>
               </div>
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { EnhancedBackground } from '@/components/ui/enhanced-background';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
@@ -42,7 +43,10 @@ export default function TimelineSection() {
   ];
 
   return (
-    <section id="timeline" className="px-4 py-16">
+    <section id="timeline" className="relative px-4 py-16">
+      {/* Background */}
+      <EnhancedBackground variant="section" />
+
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -148,4 +152,3 @@ export default function TimelineSection() {
     </section>
   );
 }
-

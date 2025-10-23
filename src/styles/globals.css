@@ -87,6 +87,7 @@
   --animate-pulse: pulse var(--duration) ease-out infinite;
   --animate-meteor: meteor 5s linear infinite;
   --animate-gradient: gradient 8s linear infinite;
+  --animate-shine: shine var(--duration) infinite linear;
 
   @keyframes shiny-text {
     0%,
@@ -182,6 +183,18 @@
   @keyframes gradient {
     to {
       background-position: var(--bg-size, 300%) 0;
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
     }
   }
 }

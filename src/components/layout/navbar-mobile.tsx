@@ -155,37 +155,7 @@ function MainMobileMenu({ userLoggedIn, onLinkClicked }: MainMobileMenuProps) {
       bg-background backdrop-blur-md animate-in fade-in-0"
     >
       <div className="size-full flex flex-col items-start space-y-4">
-        {/* action buttons */}
-        {userLoggedIn ? null : (
-          <div className="w-full flex flex-col gap-4 px-4">
-            <LocaleLink
-              href={Routes.Login}
-              onClick={onLinkClicked}
-              className={cn(
-                buttonVariants({
-                  variant: 'default',
-                  size: 'lg',
-                }),
-                'w-full'
-              )}
-            >
-              {t('Common.login')}
-            </LocaleLink>
-            {/* <LocaleLink
-              href={Routes.Register}
-              className={cn(
-                buttonVariants({
-                  variant: 'default',
-                  size: 'lg',
-                }),
-                'w-full'
-              )}
-              onClick={onLinkClicked}
-            >
-              {t('Common.signUp')}
-            </LocaleLink> */}
-          </div>
-        )}
+        {/* action buttons - hidden for this competition website */}
 
         {/* main menu */}
         <ul className="w-full px-4">
@@ -326,12 +296,18 @@ function MainMobileMenu({ userLoggedIn, onLinkClicked }: MainMobileMenuProps) {
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
                     className={cn(
-                      buttonVariants({ variant: 'ghost' }),
-                      'w-full !pl-2 justify-start cursor-pointer group',
-                      'bg-transparent text-muted-foreground',
-                      'hover:bg-transparent hover:text-foreground',
-                      'focus:bg-transparent focus:text-foreground',
-                      isActive && 'font-semibold bg-transparent text-foreground'
+                      // Special styling for "Register Now" link
+                      item.title === t('Marketing.navbar.register.title')
+                        ? 'w-full rounded-lg bg-primary px-4 py-3 text-base font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md text-center'
+                        : cn(
+                            buttonVariants({ variant: 'ghost' }),
+                            'w-full !pl-2 justify-start cursor-pointer group',
+                            'bg-transparent text-muted-foreground',
+                            'hover:bg-transparent hover:text-foreground',
+                            'focus:bg-transparent focus:text-foreground',
+                            isActive &&
+                              'font-semibold bg-transparent text-foreground'
+                          )
                     )}
                     onClick={onLinkClicked}
                   >

@@ -187,27 +187,41 @@ export function Navbar({ scroll }: NavBarProps) {
                     </NavigationMenuItem>
                   ) : (
                     <NavigationMenuItem key={index}>
-                      <NavigationMenuLink
-                        asChild
-                        active={
-                          item.href
-                            ? item.href === '/'
-                              ? localePathname === '/'
-                              : localePathname.startsWith(item.href)
-                            : false
-                        }
-                        className={customNavigationMenuTriggerStyle}
-                      >
+                      {/* Special styling for "Register Now" link */}
+                      {item.title === t('Marketing.navbar.register.title') ? (
                         <LocaleLink
                           href={item.href || '#'}
                           target={item.external ? '_blank' : undefined}
                           rel={
                             item.external ? 'noopener noreferrer' : undefined
                           }
+                          className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
                         >
                           {item.title}
                         </LocaleLink>
-                      </NavigationMenuLink>
+                      ) : (
+                        <NavigationMenuLink
+                          asChild
+                          active={
+                            item.href
+                              ? item.href === '/'
+                                ? localePathname === '/'
+                                : localePathname.startsWith(item.href)
+                              : false
+                          }
+                          className={customNavigationMenuTriggerStyle}
+                        >
+                          <LocaleLink
+                            href={item.href || '#'}
+                            target={item.external ? '_blank' : undefined}
+                            rel={
+                              item.external ? 'noopener noreferrer' : undefined
+                            }
+                          >
+                            {item.title}
+                          </LocaleLink>
+                        </NavigationMenuLink>
+                      )}
                     </NavigationMenuItem>
                   )
                 )}
@@ -224,31 +238,7 @@ export function Navbar({ scroll }: NavBarProps) {
                 {/* <CreditsBalanceButton /> */}
                 <UserButton user={currentUser} />
               </>
-            ) : (
-              <div className="flex items-center gap-x-4">
-                <LoginWrapper mode="modal" asChild>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="cursor-pointer"
-                  >
-                    {t('Common.login')}
-                  </Button>
-                </LoginWrapper>
-
-                {/* <LocaleLink
-                  href={Routes.Register}
-                  className={cn(
-                    buttonVariants({
-                      variant: 'default',
-                      size: 'sm',
-                    })
-                  )}
-                >
-                  {t('Common.signUp')}
-                </LocaleLink> */}
-              </div>
-            )}
+            ) : null}
 
             <ModeSwitcher />
             <LocaleSwitcher />

@@ -1,18 +1,20 @@
 'use client';
 
+import { PulsatingButton } from '@/components/magicui/pulsating-button';
 import { Button } from '@/components/ui/button';
 import { LocaleLink } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowRight } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export default function VisionSection() {
   const t = useTranslations('Competition.vision');
+  const { theme } = useTheme();
 
   return (
     <section id="vision" className="relative overflow-hidden px-4 py-24">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
-      
+
       {/* Decorative elements */}
       <div className="absolute left-0 top-0 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
       <div className="absolute bottom-0 right-0 size-64 translate-x-1/2 translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
@@ -55,23 +57,28 @@ export default function VisionSection() {
 
         {/* CTA */}
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Button asChild size="lg" className="group rounded-xl px-8">
-            <LocaleLink
-              href="https://www.bohrium.com/competitions/8831838064?tab=introduce"
-              target="_blank"
+          <LocaleLink
+            href="https://www.bohrium.com/competitions/8831838064?tab=introduce"
+            target="_blank"
+          >
+            <PulsatingButton
+              className="rounded-xl px-8"
+              pulseColor={theme === 'dark' ? '#ffffff40' : '#00000040'}
+              duration="2s"
             >
               {t('cta')}
-              <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-            </LocaleLink>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="rounded-xl px-8">
-            <LocaleLink href="#prizes">
-              {t('learnMore')}
-            </LocaleLink>
+            </PulsatingButton>
+          </LocaleLink>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="rounded-xl px-8"
+          >
+            <LocaleLink href="#prizes">{t('learnMore')}</LocaleLink>
           </Button>
         </div>
       </div>
     </section>
   );
 }
-

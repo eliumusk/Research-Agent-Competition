@@ -1,8 +1,8 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { useTranslations } from 'next-intl';
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function RulesSection() {
   const t = useTranslations('Competition.rules');
@@ -68,6 +68,15 @@ export default function RulesSection() {
             <CardContent className="p-6 text-center">
               <p className="text-sm text-muted-foreground">
                 {t('note')}
+                <a
+                  href="https://dptechnology.feishu.cn/wiki/LYQLwyHWniSCUkk0afHcJd0wnOf?fromScene=spaceOverview"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mx-1 font-medium text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:text-primary/80 hover:decoration-primary/50"
+                >
+                  {t('noteLink')}
+                </a>
+                {t('noteSuffix')}
               </p>
             </CardContent>
           </Card>
@@ -76,4 +85,3 @@ export default function RulesSection() {
     </section>
   );
 }
-

@@ -2,8 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
 import { Award, BarChart3, Sparkles, TrendingUp, Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function EvaluationSection() {
   const t = useTranslations('Competition.evaluation');
@@ -172,4 +172,3 @@ export default function EvaluationSection() {
     </section>
   );
 }
-

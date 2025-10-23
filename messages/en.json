@@ -919,11 +919,13 @@
         "title": "Content Standards",
         "description": "Submissions must comply with relevant laws and regulations, and must not contain any illegal, inappropriate content (such as violence, pornography, discrimination, etc.)"
       },
-      "note": "Please refer to the official competition documentation for detailed rules. Contact the organizing committee if you have any questions"
+      "note": "Please refer to the",
+      "noteLink": "official competition documentation",
+      "noteSuffix": " for detailed rules. Contact the organizing committee if you have any questions"
     },
     "prizes": {
       "badge": "Prize Pool",
-      "title": "Total Prize Pool ¥600,000",
+      "title": "Total Prize Pool ¥1,000,000",
       "description": "Two independent tracks with generous prizes and continuous support for outstanding projects",
       "totalPool": "Total Prize Pool",
       "deepTrack": "Deep Research Track",
