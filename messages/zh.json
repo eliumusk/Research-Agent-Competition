@@ -469,6 +469,7 @@
     },
     "footer": {
       "tagline": "让创造可持续",
+      "copyright": "© {year} 玻尔 + SciMaster 科研智能体开发大赛. 赛事组委会保留所有权利。",
       "product": {
         "title": "产品",
         "items": {
@@ -497,9 +498,9 @@
       "legal": {
         "title": "法律",
         "items": {
-          "cookiePolicy": "Cookie政策",
+          "cookiePolicy": "Cookie 政策",
           "privacyPolicy": "隐私政策",
-          "termsOfService": "服务条款"
+          "termsOfService": "使用条款"
         }
       }
     },

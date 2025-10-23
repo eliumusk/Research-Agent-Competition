@@ -334,7 +334,7 @@
         "title": "Award-Winning Works"
       },
       "rules": {
-        "title": "Competition Rules"
+        "title": "Rules"
       },
       "prizes": {
         "title": "Prize Details"
@@ -343,7 +343,7 @@
         "title": "Register Now"
       },
       "courses": {
-        "title": "Training & Courses"
+        "title": "Courses"
       },
       "ai": {
         "title": "AI Tools",
@@ -469,6 +469,7 @@
     },
     "footer": {
       "tagline": "Building in Public, Coding for Future",
+      "copyright": "© {year} Bohrium + SciMaster AI Agent Competition. All rights reserved by the Competition Committee.",
       "product": {
         "title": "Product",
         "items": {
