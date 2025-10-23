@@ -1,8 +1,8 @@
 {
   "Metadata": {
-    "name": "Indie Maker Fox",
-    "title": "Indie Maker Fox",
-    "description": "Hi, I'm Fox, an indie maker who builds in public. I share thoughts and ideas about indie hacking here, and I build amazing products people need."
+    "name": "Bohrium + SciMaster AI Agent Competition",
+    "title": "Bohrium + SciMaster AI Agent Competition - Showcase",
+    "description": "Showcase excellent competition entries and explore the infinite possibilities of research AI agents. This competition aims to promote the development of research AI agent technology and encourage innovative applications."
   },
   "Common": {
     "premium": "Premium",
@@ -329,6 +329,9 @@
       },
       "docs": {
         "title": "Docs"
+      },
+      "register": {
+        "title": "Register Now"
       },
       "ai": {
         "title": "AI Tools",
@@ -788,17 +791,17 @@
     }
   },
   "HomePage": {
-    "title": "MkSaaS",
-    "description": "Make AI SaaS in days, simply and effortlessly",
+    "title": "Bohrium + SciMaster AI Agent Competition",
+    "description": "Showcase excellent competition entries and explore the infinite possibilities of research AI agents",
     "hero": {
-      "title": "Make AI SaaS in days, simply and effortlessly",
-      "description": "The is a demo website built with MkSaaS, a Next.js SaaS boilerplate to help you build your AI SaaS faster and better.",
-      "introduction": "Introducing MkSaaS Boilerplate",
-      "primary": "Get Started",
-      "secondary": "See Demo",
-      "follow": "Follow me on X",
-      "read": "Read my blog",
-      "intro": "I'm a full-stack developer and indie hacker. I'm building in public on social media, and sharing my journey and thoughts here."
+      "title": "Bohrium + SciMaster AI Agent Competition",
+      "description": "Explore the infinite possibilities of research AI agents, showcase innovative achievements, and promote the development of scientific research technology",
+      "introduction": "Competition Introduction",
+      "primary": "Register Now",
+      "secondary": "View Projects",
+      "follow": "Follow Competition Updates",
+      "read": "Learn More",
+      "intro": "This competition aims to promote the development of research AI agent technology, encourage innovative applications, and showcase excellent works. Welcome all individuals and teams interested in research AI agent development to participate!"
     },
     "logocloud": {
       "title": "Your favorite companies are our partners"
