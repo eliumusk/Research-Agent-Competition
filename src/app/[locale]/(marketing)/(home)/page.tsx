@@ -1,6 +1,12 @@
+import BackgroundSection from '@/components/competition/background-section';
+import EvaluationSection from '@/components/competition/evaluation-section';
+import PrizeSection from '@/components/competition/prize-section';
+import RulesSection from '@/components/competition/rules-section';
+import TimelineSection from '@/components/competition/timeline-section';
+import TracksSection from '@/components/competition/tracks-section';
+import VisionSection from '@/components/competition/vision-section';
 import HomeBlogSection from '@/components/home/home-blog';
 import HomeHeroSection from '@/components/home/home-hero';
-import { NewsletterCard } from '@/components/newsletter/newsletter-card';
 import { constructMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
@@ -39,33 +45,21 @@ export default async function HomePage(props: HomePageProps) {
       <div className="flex flex-col">
         <HomeHeroSection />
 
+        <BackgroundSection />
+
+        <TracksSection />
+
+        <PrizeSection />
+
+        <EvaluationSection />
+
+        <RulesSection />
+
+        <TimelineSection />
+
+        <VisionSection />
+
         <HomeBlogSection locale={locale} />
-
-        {/* <HeroSection /> */}
-
-        {/* <LogoCloud /> */}
-
-        {/* <StatsSection /> */}
-
-        {/* <IntegrationSection /> */}
-
-        {/* <FeaturesSection /> */}
-
-        {/* <Features2Section /> */}
-
-        {/* <Features3Section /> */}
-
-        {/* <Integration2Section /> */}
-
-        {/* <PricingSection /> */}
-
-        {/* <FaqSection /> */}
-
-        {/* <CallToActionSection /> */}
-
-        {/* <TestimonialsSection /> */}
-
-        <NewsletterCard />
       </div>
     </>
   );

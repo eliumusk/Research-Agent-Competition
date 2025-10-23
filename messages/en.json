@@ -330,6 +330,15 @@
       "docs": {
         "title": "Docs"
       },
+      "works": {
+        "title": "Award-Winning Works"
+      },
+      "rules": {
+        "title": "Competition Rules"
+      },
+      "prizes": {
+        "title": "Prize Details"
+      },
       "register": {
         "title": "Register Now"
       },
@@ -790,18 +799,182 @@
       "subject": "Contact Message from Website"
     }
   },
+  "Competition": {
+    "background": {
+      "badge": "Background",
+      "title": "AI Agents Are Reshaping Research Paradigms",
+      "paragraph1": "Society supports scientific research because exploration expands the boundaries of human knowledge, bringing technological innovation that benefits humanity. AI Agents are becoming the transformative engine of intelligent research.",
+      "paragraph2": "Unlike traditional tools that provide point-based assistance, research AI agents can drive and integrate literature reading, model computation, experiments, and other workflows, truly achieving the transition from 'can do' to 'know how to do'. Scientists will have cross-domain, cross-system AI research partners to help integrate knowledge and solve problems; repetitive work will be completely freed, and innovative ideas will be proposed, verified, and iterated faster.",
+      "paragraph3": "Research AI agents may introduce new evaluation and incentive models for intellectual achievements. The basic unit of work output gradually transforms from static papers to dynamic, executable agents. These agents form a real-time flowing value network through high-frequency mutual invocation.",
+      "feature1": {
+        "title": "Cross-domain Collaboration",
+        "description": "AI research partners help integrate knowledge and solve interdisciplinary challenges"
+      },
+      "feature2": {
+        "title": "Efficiency Boost",
+        "description": "Repetitive work is freed, innovative ideas are verified and iterated faster"
+      },
+      "feature3": {
+        "title": "Value Network",
+        "description": "Agents invoke each other, forming a real-time flowing value network"
+      },
+      "feature4": {
+        "title": "New Evaluation",
+        "description": "From static papers to dynamic agents, evaluation becomes more real-time and objective"
+      }
+    },
+    "tracks": {
+      "badge": "Competition Tracks",
+      "title": "Two Tracks, Independent Evaluation",
+      "description": "Choose the most suitable track based on your expertise and application scenarios",
+      "examplesLabel": "Application Examples",
+      "note": "Each team selects a track during registration. Both tracks are evaluated and awarded independently",
+      "deep": {
+        "title": "Deep Research Track",
+        "subtitle": "Domain-specific Applications",
+        "description": "Focus on specific disciplines such as materials, chemistry, biology, and simulation to solve professional research problems",
+        "example1": "Material property prediction and optimization",
+        "example2": "Chemical reaction pathway planning",
+        "example3": "Biological sequence analysis and design",
+        "example4": "Multi-scale simulation modeling"
+      },
+      "general": {
+        "title": "General Research Track",
+        "subtitle": "Cross-disciplinary Scenarios",
+        "description": "Address general research scenarios across disciplines, including literature reading, data analysis, and experiment management",
+        "example1": "Intelligent literature retrieval and analysis",
+        "example2": "Research data visualization",
+        "example3": "Experiment design and optimization",
+        "example4": "Automated code generation and debugging"
+      }
+    },
+    "evaluation": {
+      "badge": "Evaluation Criteria",
+      "title": "Data-Driven + Expert Review",
+      "description": "Unique dual evaluation system: real user feedback meets professional expert judgment",
+      "objective": {
+        "label": "Objective Data",
+        "title": "Platform Revenue Performance",
+        "description": "Your work must not only tell a good story but also win users over. We evaluate the actual value of works through real platform data.",
+        "metric1": "Usage volume and user engagement",
+        "metric2": "User payment conversion and revenue"
+      },
+      "expert": {
+        "label": "Expert Review",
+        "title": "Professional Evaluation",
+        "description": "A panel of experts from research and technology fields conducts professional evaluation from multiple dimensions.",
+        "metric1": "Innovation: What has been done that others haven't",
+        "metric2": "Completion: The degree of product maturity",
+        "metric3": "Practical Value: Usability in real research scenarios"
+      },
+      "criteria1": {
+        "title": "Innovation",
+        "description": "The degree of innovation in technical approach, application scenarios, or solutions"
+      },
+      "criteria2": {
+        "title": "Completion",
+        "description": "Product maturity, stability, and user experience"
+      },
+      "criteria3": {
+        "title": "Practical Value",
+        "description": "Practicality and promotion potential in real research scenarios"
+      },
+      "highlight": {
+        "title": "Why This Evaluation Method?",
+        "description": "We believe good research tools must not only be innovative but also truly help researchers solve problems. 50% objective data ensures works withstand market validation, while 50% expert review ensures technical depth and innovative value are recognized."
+      }
+    },
+    "vision": {
+      "badge": "Our Vision",
+      "quote": "Making Creation Sustainable",
+      "description": "Competitions may have winners and losers, but good ideas should not be abandoned due to time constraints. Through this competition, we hope to incubate, grow, and sustain more excellent research AI agent projects.",
+      "point1": {
+        "label": "From Papers to Agents",
+        "description": "Promote the transformation of research evaluation systems, making the value of intellectual achievements more real-time, objective, and accurate"
+      },
+      "point2": {
+        "label": "Continuous Support",
+        "description": "200,000 yuan iteration program fund pool, giving excellent projects a second chance and supporting long-term development"
+      },
+      "cta": "Join Us",
+      "learnMore": "View Prizes"
+    },
+    "rules": {
+      "badge": "Competition Rules",
+      "title": "Open, Fair, Innovative",
+      "description": "We welcome all individuals and teams interested in research agent development",
+      "rule1": {
+        "title": "Eligibility",
+        "description": "Open to researchers and developers worldwide, with no restrictions on location or professional background"
+      },
+      "rule2": {
+        "title": "Originality",
+        "description": "Submissions must be original work by participants, without plagiarism or infringement of intellectual property rights"
+      },
+      "rule3": {
+        "title": "Content Standards",
+        "description": "Submissions must comply with relevant laws and regulations, and must not contain any illegal, inappropriate content (such as violence, pornography, discrimination, etc.)"
+      },
+      "note": "Please refer to the official competition documentation for detailed rules. Contact the organizing committee if you have any questions"
+    },
+    "prizes": {
+      "badge": "Prize Pool",
+      "title": "Total Prize Pool ¥600,000",
+      "description": "Two independent tracks with generous prizes and continuous support for outstanding projects",
+      "totalPool": "Total Prize Pool",
+      "deepTrack": "Deep Research Track",
+      "generalTrack": "General Research Track",
+      "gold": "Gold Prize × 1",
+      "silver": "Silver Prize × 2",
+      "bronze": "Bronze Prize × 4",
+      "excellence": "Excellence Award",
+      "excellenceDesc": "10 awards across both tracks",
+      "iteration": "Iteration Program",
+      "iterationDesc": "Continuous support for excellent projects"
+    },
+    "timeline": {
+      "badge": "Schedule",
+      "title": "Competition Timeline",
+      "description": "From ideation to implementation, supporting teams throughout the journey",
+      "currentStage": "Current Stage",
+      "event1": {
+        "date": "2025.09.11",
+        "title": "Launch",
+        "description": "Phase 1: Creative design, development attempts, and online submission. Demonstrate the core value of research AI agents."
+      },
+      "event2": {
+        "date": "2025.11.15",
+        "title": "Qualifier",
+        "description": "Prototype validation in Hackathon format. Select 24 teams from 100+ entries to advance to finals."
+      },
+      "event3": {
+        "date": "2025.12.06",
+        "title": "Finals",
+        "description": "Top 30 teams compete. Two tracks evaluated independently on innovation, completion, and practical value."
+      },
+      "event4": {
+        "date": "2025.12.10",
+        "title": "Award Ceremony",
+        "description": "Final rankings announced and prizes awarded. Outstanding teams can apply for the Iteration Program for continued support."
+      }
+    }
+  },
   "HomePage": {
     "title": "Bohrium + SciMaster AI Agent Competition",
     "description": "Showcase excellent competition entries and explore the infinite possibilities of research AI agents",
     "hero": {
       "title": "Bohrium + SciMaster AI Agent Competition",
+      "tagline": "Making Creation Sustainable",
       "description": "Explore the infinite possibilities of research AI agents, showcase innovative achievements, and promote the development of scientific research technology",
       "introduction": "Competition Introduction",
       "primary": "Register Now",
       "secondary": "View Projects",
       "follow": "Follow Competition Updates",
       "read": "Learn More",
-      "intro": "This competition aims to promote the development of research AI agent technology, encourage innovative applications, and showcase excellent works. Welcome all individuals and teams interested in research AI agent development to participate!"
+      "intro": "This competition aims to promote the development of research AI agent technology, encourage innovative applications, and showcase excellent works. Welcome all individuals and teams interested in research AI agent development to participate!",
+      "stat1": "Total Prize Pool",
+      "stat2": "Finals Deadline",
+      "stat3": "Finalist Spots"
     },
     "logocloud": {
       "title": "Your favorite companies are our partners"

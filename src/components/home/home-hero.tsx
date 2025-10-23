@@ -93,14 +93,26 @@ export default function HomeHeroSection() {
                   {t('title')}
                 </CustomTextEffect>
 
+                {/* tagline */}
+                <TextEffect
+                  per="word"
+                  preset="fade-in-blur"
+                  speedSegment={0.3}
+                  delay={0.5}
+                  as="p"
+                  className="mx-auto mt-6 text-balance text-2xl font-medium text-primary lg:text-3xl"
+                >
+                  {t('tagline')}
+                </TextEffect>
+
                 {/* description */}
                 <TextEffect
                   per="line"
                   preset="fade-in-blur"
                   speedSegment={0.3}
-                  delay={0.5}
+                  delay={0.8}
                   as="p"
-                  className="mx-auto mt-8 max-w-4xl text-balance text-lg text-muted-foreground"
+                  className="mx-auto mt-6 max-w-3xl text-balance text-lg text-muted-foreground"
                 >
                   {t('intro')}
                 </TextEffect>
@@ -112,7 +124,7 @@ export default function HomeHeroSection() {
                       visible: {
                         transition: {
                           staggerChildren: 0.05,
-                          delayChildren: 0.75,
+                          delayChildren: 1.1,
                         },
                       },
                     },
@@ -127,10 +139,10 @@ export default function HomeHeroSection() {
                     <Button
                       asChild
                       size="lg"
-                      className="rounded-xl px-5 text-base"
+                      className="rounded-xl px-6 text-base"
                     >
                       <LocaleLink href={linkPrimary} target="_blank">
-                        <span className="text-nowrap">{t('follow')}</span>
+                        <span className="text-nowrap">{t('primary')}</span>
                       </LocaleLink>
                     </Button>
                   </div>
@@ -139,12 +151,51 @@ export default function HomeHeroSection() {
                     asChild
                     size="lg"
                     variant="outline"
-                    className="h-10.5 rounded-xl px-5"
+                    className="h-10.5 rounded-xl px-6"
                   >
                     <LocaleLink href={linkSecondary}>
-                      <span className="text-nowrap">{t('read')}</span>
+                      <span className="text-nowrap">{t('secondary')}</span>
                     </LocaleLink>
                   </Button>
+                </AnimatedGroup>
+
+                {/* key stats */}
+                <AnimatedGroup
+                  variants={{
+                    container: {
+                      visible: {
+                        transition: {
+                          staggerChildren: 0.1,
+                          delayChildren: 1.3,
+                        },
+                      },
+                    },
+                    ...transitionVariants,
+                  }}
+                  className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3"
+                >
+                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
+                    <div className="mb-1 font-mono text-3xl font-bold">
+                      ¥1,000,000
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {t('stat1')}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
+                    <div className="mb-1 font-mono text-3xl font-bold">
+                      12.10
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {t('stat2')}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border bg-card p-6 text-center shadow-sm">
+                    <div className="mb-1 font-mono text-3xl font-bold">30</div>
+                    <div className="text-sm text-muted-foreground">
+                      {t('stat3')}
+                    </div>
+                  </div>
                 </AnimatedGroup>
               </div>
             </div>

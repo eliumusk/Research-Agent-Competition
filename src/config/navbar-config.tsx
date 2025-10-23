@@ -52,15 +52,18 @@ export function useNavbarLinks(): NestedMenuItem[] {
 
   return [
     {
-      title: t('blog.title'),
+      title: t('works.title'),
       href: Routes.Blog,
       external: false,
     },
     {
-      title: t('pages.items.about.title'),
-      description: t('pages.items.about.description'),
-      icon: <BuildingIcon className="size-4 shrink-0" />,
-      href: Routes.About,
+      title: t('rules.title'),
+      href: '/#rules',
+      external: false,
+    },
+    {
+      title: t('prizes.title'),
+      href: '/#prizes',
       external: false,
     },
     {
