@@ -898,7 +898,7 @@
       },
       "point2": {
         "label": "Continuous Support",
-        "description": "200,000 yuan iteration program fund pool, giving excellent projects a second chance and supporting long-term development"
+        "description": "200,000 yuan Incentive program fund pool, giving excellent projects a second chance and supporting long-term development"
       },
       "cta": "Join Us",
       "learnMore": "View Prizes"
@@ -932,10 +932,10 @@
       "generalTrack": "General Research Track",
       "gold": "Gold Prize × 1",
       "silver": "Silver Prize × 2",
-      "bronze": "Bronze Prize × 4",
+      "bronze": "Bronze Prize × 3",
       "excellence": "Excellence Award",
-      "excellenceDesc": "10 awards across both tracks",
-      "iteration": "Iteration Program",
+      "excellenceDesc": "8 awards across both tracks",
+      "iteration": "Incentive Program",
       "iterationDesc": "Continuous support for excellent projects"
     },
     "timeline": {
@@ -949,19 +949,19 @@
         "description": "Phase 1: Creative design, development attempts, and online submission. Demonstrate the core value of research AI agents."
       },
       "event2": {
-        "date": "2025.11.15",
-        "title": "Qualifier",
-        "description": "Prototype validation in Hackathon format. Select 24 teams from 100+ entries to advance to finals."
+        "date": "2025.11.25",
+        "title": "Trials",
+        "description": "Conducted as an online defense. Select 25 teams from 100+ entries to advance to finals."
       },
       "event3": {
-        "date": "2025.12.06",
+        "date": "2025.12.09",
         "title": "Finals",
-        "description": "Top 30 teams compete. Two tracks evaluated independently on innovation, completion, and practical value."
+        "description": "Top 30 teams compete. Two tracks evaluated independently across multiple dimensions, including innovation, completion, and practical value."
       },
       "event4": {
         "date": "2025.12.10",
         "title": "Award Ceremony",
-        "description": "Final rankings announced and prizes awarded. Outstanding teams can apply for the Iteration Program for continued support."
+        "description": "Final rankings will be announced and prizes awarded at the Beijing Science Intelligence Summit."
       }
     }
   },

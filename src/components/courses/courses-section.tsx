@@ -11,13 +11,13 @@ const mockCourses: Course[] = [
     description:
       '面向无编程经验的参赛者，学习 AI Agent 的基本概念和开发流程，掌握使用低代码工具快速构建 Agent 的方法。',
     instructor: {
-      name: '张教授',
+      name: '武老师',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhang',
       title: 'AI 研究员',
     },
     coverImage:
       'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop',
-    date: '2025-11-15 14:00',
+    date: '待定',
     location: 'online',
     status: 'upcoming',
     registrationUrl: '#',
@@ -28,15 +28,15 @@ const mockCourses: Course[] = [
     description:
       '学习如何从用户角度思考问题，掌握需求调研方法，了解如何将科研成果转化为实用产品。',
     instructor: {
-      name: '李经理',
+      name: '李老师',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=li',
       title: '产品总监',
     },
     coverImage:
       'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop',
-    date: '2025-11-20 19:00',
+    date: '待定',
     location: 'online',
-    status: 'live',
+    status: 'upcoming',
     registrationUrl: '#',
   },
   {
@@ -45,47 +45,47 @@ const mockCourses: Course[] = [
     description:
       '深入了解 AI 在科学研究中的应用，包括分子动力学模拟、药物发现、材料设计等领域的最新进展。',
     instructor: {
-      name: '王博士',
+      name: '姚老师',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=wang',
       title: '深势科技研究员',
     },
     coverImage:
       'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=450&fit=crop',
-    date: '2025-10-28 15:00',
+    date: '待定',
     location: 'offline',
-    status: 'ended',
+    status: 'upcoming',
     recordingUrl: '#',
   },
   {
     id: '4',
-    title: 'LangChain 实战：构建智能对话系统',
+    title: 'SciMaster 讲解：构建科研智能体',
     description:
-      '学习使用 LangChain 框架构建复杂的 AI Agent，掌握 RAG、Function Calling 等核心技术。',
+      '如何工程化 Agent 上线，带你了解真实的部署过程',
     instructor: {
-      name: '陈工程师',
+      name: '陈老师',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=chen',
       title: '全栈开发工程师',
     },
     coverImage:
       'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=450&fit=crop',
-    date: '2025-11-25 14:00',
+    date: '待定',
     location: 'online',
     status: 'upcoming',
     registrationUrl: '#',
   },
   {
     id: '5',
-    title: '科研 Agent 设计模式与最佳实践',
+    title: 'X-Masters 设计模式与最佳实践',
     description:
       '分享科研领域 Agent 的设计模式，包括实验设计、数据分析、文献检索等场景的实战案例。',
     instructor: {
-      name: '刘研究员',
+      name: '刘老师',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=liu',
-      title: '计算化学专家',
+      title: '上海交大同学',
     },
     coverImage:
       'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&h=450&fit=crop',
-    date: '2025-11-30 16:00',
+    date: '待定',
     location: 'online',
     status: 'upcoming',
     registrationUrl: '#',
@@ -96,15 +96,15 @@ const mockCourses: Course[] = [
     description:
       '往届获奖选手分享参赛经验，解答常见问题，提供项目开发建议和技巧。',
     instructor: {
-      name: '赵同学',
+      name: '乔同学',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhao',
-      title: '2024 年一等奖获得者',
+      title: '第一赛段优秀作品获得者',
     },
     coverImage:
       'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=450&fit=crop',
-    date: '2025-10-20 20:00',
+    date: '待定',
     location: 'online',
-    status: 'ended',
+    status: 'upcoming',
     recordingUrl: '#',
   },
 ];

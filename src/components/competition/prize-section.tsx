@@ -60,14 +60,14 @@ export default function PrizeSection() {
 
   const deepTrackPrizes = [
     { rank: '🥇', amount: '¥100,000', count: t('gold') },
-    { rank: '🥈', amount: '¥30,000', count: t('silver') },
-    { rank: '🥉', amount: '¥5,000', count: t('bronze') },
+    { rank: '🥈', amount: '¥50,000', count: t('silver') },
+    { rank: '🥉', amount: '¥20,000', count: t('bronze') },
   ];
 
   const generalTrackPrizes = [
     { rank: '🥇', amount: '¥100,000', count: t('gold') },
-    { rank: '🥈', amount: '¥30,000', count: t('silver') },
-    { rank: '🥉', amount: '¥5,000', count: t('bronze') },
+    { rank: '🥈', amount: '¥50,000', count: t('silver') },
+    { rank: '🥉', amount: '¥20,000', count: t('bronze') },
   ];
 
   return (
@@ -145,7 +145,7 @@ export default function PrizeSection() {
                     {t('excellenceDesc')}
                   </div>
                 </div>
-                <div className="font-mono text-2xl font-semibold">¥40,000</div>
+                <div className="font-mono text-2xl font-semibold">¥80,000</div>
               </div>
             </MagicCard>
           </StaggerItem>

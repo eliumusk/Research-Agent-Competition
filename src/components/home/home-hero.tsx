@@ -40,7 +40,7 @@ export default function HomeHeroSection() {
   const { theme } = useTheme();
   const linkPrimary =
     'https://www.bohrium.com/competitions/8831838064?tab=introduce';
-  const linkSecondary = Routes.Blog;
+  const linkSecondary = 'https://dptechnology.feishu.cn/wiki/LYQLwyHWniSCUkk0afHcJd0wnOf';
 
   return (
     <>
@@ -188,7 +188,7 @@ export default function HomeHeroSection() {
                   >
                     <div className="mb-1 font-mono text-3xl font-bold">
                       <AnimatedNumber value={12} decimals={0} />
-                      .10
+                      .09
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat2')}
