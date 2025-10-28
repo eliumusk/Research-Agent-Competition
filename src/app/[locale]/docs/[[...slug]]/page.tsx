@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: DocPageProps) {
     title: `${page.data.title} | ${t('title')}`,
     description: page.data.description,
     locale,
-    pathname: `/docs/${page.slugs.join('/')}`,
+    pathname: page.slugs.length > 0 ? `/docs/${page.slugs.join('/')}` : '/docs',
   });
 }
 
