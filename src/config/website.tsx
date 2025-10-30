@@ -46,8 +46,8 @@ export const websiteConfig: WebsiteConfig = {
     defaultLoginRedirect: '/settings/profile',
   },
   analytics: {
-    enableVercelAnalytics: false,
-    enableSpeedInsights: false,
+    enableVercelAnalytics: true,
+    enableSpeedInsights: true,
   },
   auth: {
     enableGoogleLogin: true,
