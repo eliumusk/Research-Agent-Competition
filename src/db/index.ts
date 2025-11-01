@@ -2,8 +2,9 @@
  * Connect to PostgreSQL Database (Supabase/Neon/Local PostgreSQL)
  * https://orm.drizzle.team/docs/tutorials/drizzle-with-supabase
  */
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+// import { drizzle } from 'drizzle-orm/postgres-js';
+// import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
 let db: ReturnType<typeof drizzle> | null = null;
@@ -11,8 +12,9 @@ let db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (db) return db;
   const connectionString = process.env.DATABASE_URL!;
-  const client = postgres(connectionString, { prepare: false });
-  db = drizzle(client, { schema });
+  // const client = postgres(connectionString, { prepare: false });
+  // db = drizzle(client, { schema });
+  db = drizzle(connectionString, { schema });
   return db;
 }
 
