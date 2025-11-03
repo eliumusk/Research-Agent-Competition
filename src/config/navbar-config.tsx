@@ -62,13 +62,13 @@ export function useNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
-      title: t('prizes.title'),
-      href: '/#prizes',
+      title: t('courses.title'),
+      href: Routes.Courses,
       external: false,
     },
     {
-      title: t('courses.title'),
-      href: Routes.Courses,
+      title: t('analytics.title'),
+      href: '/#analytics',
       external: false,
     },
     {

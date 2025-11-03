@@ -345,6 +345,9 @@
       "courses": {
         "title": "Courses"
       },
+      "analytics": {
+        "title": "Daily Leaderboard"
+      },
       "ai": {
         "title": "AI Tools",
         "items": {
@@ -963,6 +966,17 @@
         "title": "Award Ceremony",
         "description": "Final rankings will be announced and prizes awarded at the Beijing Science Intelligence Summit."
       }
+    },
+    "analytics": {
+      "badge": "Daily Leaderboard",
+      "title": "Competition Daily Leaderboard",
+      "description": "Real-time tracking of competition rankings, participant statistics, and project performance",
+      "subtitle": "Real-time Leaderboard Data",
+      "loading": "Loading leaderboard...",
+      "fullscreen": "Fullscreen",
+      "exitFullscreen": "Exit Fullscreen",
+      "openExternal": "Open in New Tab",
+      "footer": "Leaderboard updates daily"
     }
   },
   "HomePage": {

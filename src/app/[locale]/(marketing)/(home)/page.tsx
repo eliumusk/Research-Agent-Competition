@@ -1,3 +1,4 @@
+import AnalyticsSection from '@/components/competition/analytics-section';
 import BackgroundSection from '@/components/competition/background-section';
 import EvaluationSection from '@/components/competition/evaluation-section';
 import PrizeSection from '@/components/competition/prize-section';
@@ -60,6 +61,8 @@ export default async function HomePage(props: HomePageProps) {
         <VisionSection />
 
         <HomeBlogSection locale={locale} />
+
+        <AnalyticsSection />
       </div>
     </>
   );
