@@ -977,6 +977,23 @@
       "exitFullscreen": "Exit Fullscreen",
       "openExternal": "Open in New Tab",
       "footer": "Leaderboard updates daily"
+    },
+    "leaderboard": {
+      "badge": "Weekly Rankings",
+      "title": "This Week's Top Performers",
+      "subscriptionGrowth": {
+        "title": "New Subscription Growth",
+        "placeholder": "Will calculate from next week"
+      },
+      "photon": {
+        "title": "Photon Consumption"
+      }
+    },
+    "milestones": {
+      "title": "Milestone Hall of Fame",
+      "subscription500": "Subscriptions ≥ 500 (¥1,000 Reward)",
+      "photon10000": "Photon Consumption ≥ 10,000 (¥1,000 Reward)",
+      "empty": "No achievements yet"
     }
   },
   "HomePage": {

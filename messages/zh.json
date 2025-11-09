@@ -459,6 +459,23 @@
       "exitFullscreen": "退出全屏",
       "openExternal": "新标签页打开",
       "footer": "榜单每日更新"
+    },
+    "leaderboard": {
+      "badge": "周榜",
+      "title": "本周榜单",
+      "subscriptionGrowth": {
+        "title": "新增订阅榜",
+        "placeholder": "从下周开始计算"
+      },
+      "photon": {
+        "title": "光子消耗榜"
+      }
+    },
+    "milestones": {
+      "title": "里程碑殿堂",
+      "subscription500": "订阅破 500（奖励 ¥1,000）",
+      "photon10000": "光子破 10,000（奖励 ¥1,000）",
+      "empty": "暂无达成"
     }
   },
   "HomePage": {

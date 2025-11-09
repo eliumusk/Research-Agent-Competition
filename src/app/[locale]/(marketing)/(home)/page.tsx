@@ -1,11 +1,13 @@
 import AnalyticsSection from '@/components/competition/analytics-section';
 import BackgroundSection from '@/components/competition/background-section';
 import EvaluationSection from '@/components/competition/evaluation-section';
+import LeaderboardSection from '@/components/competition/leaderboard-section';
 import PrizeSection from '@/components/competition/prize-section';
 import RulesSection from '@/components/competition/rules-section';
 import TimelineSection from '@/components/competition/timeline-section';
 import TracksSection from '@/components/competition/tracks-section';
 import VisionSection from '@/components/competition/vision-section';
+
 import HomeBlogSection from '@/components/home/home-blog';
 import HomeHeroSection from '@/components/home/home-hero';
 import { constructMetadata } from '@/lib/metadata';
@@ -61,6 +63,7 @@ export default async function HomePage(props: HomePageProps) {
         <VisionSection />
 
         <HomeBlogSection locale={locale} />
+        <LeaderboardSection />
 
         <AnalyticsSection />
       </div>
