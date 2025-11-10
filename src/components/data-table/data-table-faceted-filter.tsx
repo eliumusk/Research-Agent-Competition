@@ -83,14 +83,20 @@ export function DataTableFacetedFilter<TData, TValue>({
           className="border-dashed font-normal"
         >
           {selectedValues?.size > 0 ? (
-            <button
-              type="button"
+            <div
+              // biome-ignore lint/a11y/useSemanticElements: <explanation>
+              role="button"
+              tabIndex={0}
               aria-label={`Clear ${title} filter`}
               className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              onClick={onReset}
+              onMouseDown={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onReset();
+              }}
             >
               <XCircle />
-            </button>
+            </div>
           ) : (
             <PlusCircle />
           )}
