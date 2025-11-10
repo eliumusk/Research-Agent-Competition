@@ -42,7 +42,9 @@
       "nextPage": "Next Page",
       "previousPage": "Previous Page",
       "ascending": "Asc",
-      "descending": "Desc"
+      "descending": "Desc",
+      "resetSorting": "Reset",
+      "hideColumn": "Hide"
     }
   },
   "PricingPage": {

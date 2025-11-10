@@ -42,7 +42,9 @@
       "nextPage": "下一页",
       "previousPage": "上一页",
       "ascending": "升序",
-      "descending": "降序"
+      "descending": "降序",
+      "resetSorting": "重置",
+      "hideColumn": "隐藏"
     }
   },
   "PricingPage": {
