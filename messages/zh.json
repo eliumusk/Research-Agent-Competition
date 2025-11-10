@@ -44,7 +44,11 @@
       "ascending": "升序",
       "descending": "降序",
       "resetSorting": "重置",
-      "hideColumn": "隐藏"
+      "hideColumn": "隐藏",
+      "viewOptions": "视图",
+      "toggleColumns": "切换列显示",
+      "searchColumns": "搜索列...",
+      "noColumns": "未找到列"
     }
   },
   "PricingPage": {

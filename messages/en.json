@@ -44,7 +44,11 @@
       "ascending": "Asc",
       "descending": "Desc",
       "resetSorting": "Reset",
-      "hideColumn": "Hide"
+      "hideColumn": "Hide",
+      "viewOptions": "View",
+      "toggleColumns": "Toggle columns",
+      "searchColumns": "Search columns...",
+      "noColumns": "No columns found."
     }
   },
   "PricingPage": {
