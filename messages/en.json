@@ -529,6 +529,9 @@
         "emailCopied": "Email copied to clipboard",
         "banned": "Banned",
         "active": "Active",
+        "inactive": "Inactive",
+        "clearFilters": "Clear filters",
+        "clearSearch": "Clear search",
         "joined": "Joined at",
         "updated": "Updated at",
         "ban": {

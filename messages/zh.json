@@ -529,6 +529,9 @@
         "emailCopied": "邮箱已复制到剪贴板",
         "banned": "账号被封禁",
         "active": "账号正常",
+        "inactive": "账号封禁",
+        "clearFilters": "清除筛选",
+        "clearSearch": "清除搜索",
         "joined": "加入时间",
         "updated": "更新时间",
         "ban": {

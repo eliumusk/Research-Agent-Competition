@@ -1,11 +1,7 @@
-"use client";
+'use client';
 
-import type { Column } from "@tanstack/react-table";
-import { Check, PlusCircle, XCircle } from "lucide-react";
-import * as React from "react";
-
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -14,15 +10,19 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import type { Option } from "@/types/data-table";
+} from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
+import type { Option } from '@/types/data-table';
+import type { Column } from '@tanstack/react-table';
+import { Check, PlusCircle, XCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import * as React from 'react';
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -37,11 +37,12 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
   multiple,
 }: DataTableFacetedFilterProps<TData, TValue>) {
+  const t = useTranslations('Dashboard.admin.users');
   const [open, setOpen] = React.useState(false);
 
   const columnFilterValue = column?.getFilterValue();
   const selectedValues = new Set(
-    Array.isArray(columnFilterValue) ? columnFilterValue : [],
+    Array.isArray(columnFilterValue) ? columnFilterValue : []
   );
 
   const onItemSelect = React.useCallback(
@@ -62,7 +63,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         setOpen(false);
       }
     },
-    [column, multiple, selectedValues],
+    [column, multiple, selectedValues]
   );
 
   const onReset = React.useCallback(
@@ -70,7 +71,7 @@ export function DataTableFacetedFilter<TData, TValue>({
       event?.stopPropagation();
       column?.setFilterValue(undefined);
     },
-    [column],
+    [column]
   );
 
   return (
@@ -82,15 +83,14 @@ export function DataTableFacetedFilter<TData, TValue>({
           className="border-dashed font-normal"
         >
           {selectedValues?.size > 0 ? (
-            <div
-              role="button"
+            <button
+              type="button"
               aria-label={`Clear ${title} filter`}
-              tabIndex={0}
               className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
               onClick={onReset}
             >
               <XCircle />
-            </div>
+            </button>
           ) : (
             <PlusCircle />
           )}
@@ -149,10 +149,10 @@ export function DataTableFacetedFilter<TData, TValue>({
                   >
                     <div
                       className={cn(
-                        "flex size-4 items-center justify-center rounded-sm border border-primary",
+                        'flex size-4 items-center justify-center rounded-sm border border-primary',
                         isSelected
-                          ? "bg-primary"
-                          : "opacity-50 [&_svg]:invisible",
+                          ? 'bg-primary'
+                          : 'opacity-50 [&_svg]:invisible'
                       )}
                     >
                       <Check />
@@ -176,7 +176,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     onSelect={() => onReset()}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    {t('clearFilters')}
                   </CommandItem>
                 </CommandGroup>
               </>
