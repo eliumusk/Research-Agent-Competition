@@ -509,6 +509,7 @@
         "fakeData": "Note: Faked data for demonstration, some features are disabled",
         "error": "Failed to get users",
         "search": "Search users...",
+        "noResults": "No users found",
         "columns": {
           "columns": "Columns",
           "name": "Name",

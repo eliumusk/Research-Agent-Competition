@@ -119,7 +119,7 @@ export function UserDetailViewer({ user }: UserDetailViewerProps) {
           variant="link"
           className="cursor-pointer text-foreground w-fit px-0 text-left"
         >
-          <div className="flex items-center gap-2 pl-3">
+          <div className="flex items-center gap-2">
             <UserAvatar
               name={user.name}
               image={user.image}

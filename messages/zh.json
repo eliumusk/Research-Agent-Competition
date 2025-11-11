@@ -509,6 +509,7 @@
         "fakeData": "注：只为演示功能，数据为假数据，封禁功能不可用",
         "error": "获取用户失败",
         "search": "搜索用户...",
+        "noResults": "没有找到用户",
         "columns": {
           "columns": "显示列",
           "name": "姓名",

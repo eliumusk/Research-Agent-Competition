@@ -4,19 +4,29 @@ import { getDb } from '@/db';
 import { user } from '@/db/schema';
 import { isDemoWebsite } from '@/lib/demo';
 import { adminActionClient } from '@/lib/safe-action';
-import { asc, desc, ilike, or, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 
-// Define the schema for getUsers parameters
 const getUsersSchema = z.object({
   pageIndex: z.number().min(0).default(0),
   pageSize: z.number().min(1).max(100).default(10),
   search: z.string().optional().default(''),
+  // Simple sorting: { id: 'createdAt', desc: true }
   sorting: z
     .array(
       z.object({
         id: z.string(),
         desc: z.boolean(),
+      })
+    )
+    .optional()
+    .default([]),
+  // Simple filters: { id: 'role', value: 'admin' } or { id: 'banned', value: 'true' }
+  filters: z
+    .array(
+      z.object({
+        id: z.string(),
+        value: z.string(),
       })
     )
     .optional()
@@ -40,18 +50,44 @@ export const getUsersAction = adminActionClient
   .schema(getUsersSchema)
   .action(async ({ parsedInput }) => {
     try {
-      const { pageIndex, pageSize, search, sorting } = parsedInput;
+      const { pageIndex, pageSize, search, sorting, filters } = parsedInput;
+      const offset = pageIndex * pageSize;
 
-      // search by name, email, and customerId
-      const where = search
-        ? or(
+      // Build where conditions
+      const conditions = [];
+
+      // Search condition: search by name, email, and customerId
+      if (search) {
+        conditions.push(
+          or(
             ilike(user.name, `%${search}%`),
             ilike(user.email, `%${search}%`),
             ilike(user.customerId, `%${search}%`)
           )
-        : undefined;
+        );
+      }
 
-      const offset = pageIndex * pageSize;
+      // Filter conditions
+      for (const filter of filters) {
+        switch (filter.id) {
+          case 'role':
+            if (filter.value) {
+              conditions.push(eq(user.role, filter.value));
+            }
+            break;
+          case 'status':
+            if (filter.value === 'active') {
+              // active: banned is false or null (normal users)
+              conditions.push(or(eq(user.banned, false), isNull(user.banned)));
+            } else if (filter.value === 'inactive') {
+              // inactive: banned is true (banned users)
+              conditions.push(eq(user.banned, true));
+            }
+            break;
+        }
+      }
+
+      const where = conditions.length > 0 ? and(...conditions) : undefined;
 
       // Get the sort configuration
       const sortConfig = sorting[0];
