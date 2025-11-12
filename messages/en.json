@@ -674,7 +674,9 @@
           "title": "Credit Transactions",
           "error": "Failed to get credit transactions",
           "search": "Search credit transactions...",
+          "clearSearch": "Clear search",
           "paymentIdCopied": "Payment ID copied to clipboard",
+          "noResults": "No results found",
           "columns": {
             "columns": "Columns",
             "id": "ID",

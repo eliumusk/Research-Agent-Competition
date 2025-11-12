@@ -4,7 +4,16 @@ import { getDb } from '@/db';
 import { user } from '@/db/schema';
 import { isDemoWebsite } from '@/lib/demo';
 import { adminActionClient } from '@/lib/safe-action';
-import { and, asc, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
+import {
+  and,
+  asc,
+  count as countFn,
+  desc,
+  eq,
+  ilike,
+  isNull,
+  or,
+} from 'drizzle-orm';
 import { z } from 'zod';
 
 const getUsersSchema = z.object({
@@ -105,7 +114,7 @@ export const getUsersAction = adminActionClient
           .orderBy(sortDirection(sortField))
           .limit(pageSize)
           .offset(offset),
-        db.select({ count: sql`count(*)` }).from(user).where(where),
+        db.select({ count: countFn() }).from(user).where(where),
       ]);
 
       // hide user data in demo website
