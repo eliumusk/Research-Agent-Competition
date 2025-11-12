@@ -1,4 +1,4 @@
-import { UsersPageClient } from '@/components/admin/users-page';
+import { UsersPageClient } from '@/components/admin/users-page-client';
 
 /**
  * Users page
