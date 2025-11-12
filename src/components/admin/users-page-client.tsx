@@ -1,10 +1,10 @@
 'use client';
 
 import { UsersTable } from '@/components/admin/users-table';
+import { getSortingStateParser } from '@/components/data-table/lib/parsers';
 import type { ExtendedColumnSort } from '@/components/data-table/types/data-table';
 import { useUsers } from '@/hooks/use-users';
 import type { User } from '@/lib/auth-types';
-import { getSortingStateParser } from '@/lib/parsers';
 import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import {

@@ -37,10 +37,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDebouncedCallback } from "@/components/data-table/hooks/use-debounced-callback";
-import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
-import { formatDate } from "@/lib/format";
-import { generateId } from "@/lib/id";
-import { getFiltersStateParser } from "@/lib/parsers";
+import { getDefaultFilterOperator, getFilterOperators } from "@/components/data-table/lib/data-table";
+import { formatDate } from "@/components/data-table/lib/format";
+import { generateId } from "@/components/data-table/lib/id";
+import { getFiltersStateParser } from "@/components/data-table/lib/parsers";
 import { cn } from "@/lib/utils";
 import type { ExtendedColumnFilter, FilterOperator } from "@/components/data-table/types/data-table";
 
