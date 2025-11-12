@@ -38,7 +38,7 @@ import {
   SortableItemHandle,
   SortableOverlay,
 } from "@/components/ui/sortable";
-import { dataTableConfig } from "@/config/data-table";
+import { dataTableConfig } from "@/components/data-table/data-table-config";
 import { cn } from "@/lib/utils";
 
 const SORT_SHORTCUT_KEY = "s";

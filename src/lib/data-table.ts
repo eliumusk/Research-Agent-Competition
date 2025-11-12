@@ -1,5 +1,5 @@
 import type { Column } from "@tanstack/react-table";
-import { dataTableConfig } from "@/config/data-table";
+import { dataTableConfig } from "@/components/data-table/data-table-config";
 import type {
   ExtendedColumnFilter,
   FilterOperator,
