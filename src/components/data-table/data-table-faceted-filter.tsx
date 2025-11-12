@@ -37,7 +37,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
   multiple,
 }: DataTableFacetedFilterProps<TData, TValue>) {
-  const t = useTranslations('Dashboard.admin.users');
+  const t = useTranslations('Common.table');
   const [open, setOpen] = React.useState(false);
 
   const columnFilterValue = column?.getFilterValue();

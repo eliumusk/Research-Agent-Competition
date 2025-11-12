@@ -48,7 +48,8 @@
       "viewOptions": "视图",
       "toggleColumns": "切换列显示",
       "searchColumns": "搜索列...",
-      "noColumns": "未找到列"
+      "noColumns": "未找到列",
+      "clearFilters": "清除筛选"
     }
   },
   "PricingPage": {
@@ -531,7 +532,6 @@
         "banned": "账号被封禁",
         "active": "账号正常",
         "inactive": "账号封禁",
-        "clearFilters": "清除筛选",
         "clearSearch": "清除搜索",
         "joined": "加入时间",
         "updated": "更新时间",
