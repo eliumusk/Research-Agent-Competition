@@ -676,7 +676,7 @@
           "search": "搜索积分交易记录...",
           "clearSearch": "清除搜索",
           "paymentIdCopied": "支付ID已复制到剪贴板",
-          "noResults": "未找到结果",
+          "noResults": "没有找到结果",
           "columns": {
             "columns": "列",
             "id": "ID",
