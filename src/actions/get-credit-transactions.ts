@@ -4,7 +4,7 @@ import { getDb } from '@/db';
 import { creditTransaction } from '@/db/schema';
 import type { User } from '@/lib/auth-types';
 import { userActionClient } from '@/lib/safe-action';
-import { and, asc, desc, eq, ilike, or, sql } from 'drizzle-orm';
+import { and, asc, count as countFn, desc, eq, ilike, or } from 'drizzle-orm';
 import { z } from 'zod';
 
 // Define the schema for getCreditTransactions parameters
@@ -17,6 +17,15 @@ const getCreditTransactionsSchema = z.object({
       z.object({
         id: z.string(),
         desc: z.boolean(),
+      })
+    )
+    .optional()
+    .default([]),
+  filters: z
+    .array(
+      z.object({
+        id: z.string(),
+        value: z.string(),
       })
     )
     .optional()
@@ -41,12 +50,15 @@ export const getCreditTransactionsAction = userActionClient
   .schema(getCreditTransactionsSchema)
   .action(async ({ parsedInput, ctx }) => {
     try {
-      const { pageIndex, pageSize, search, sorting } = parsedInput;
+      const { pageIndex, pageSize, search, sorting, filters } = parsedInput;
       const currentUser = (ctx as { user: User }).user;
 
+      // Build where conditions
+      const whereConditions = [eq(creditTransaction.userId, currentUser.id)];
+
       // Search logic: text fields use ilike, and if search is a number, also search amount fields
-      const searchConditions = [];
       if (search) {
+        const searchConditions = [];
         // Always search text fields
         searchConditions.push(
           ilike(creditTransaction.type, `%${search}%`),
@@ -62,14 +74,26 @@ export const getCreditTransactionsAction = userActionClient
             eq(creditTransaction.remainingAmount, numericSearch)
           );
         }
+
+        // Only add search conditions if there are multiple conditions
+        if (searchConditions.length > 1) {
+          const orCondition = or(...searchConditions);
+          if (orCondition) {
+            whereConditions.push(orCondition);
+          }
+        } else if (searchConditions.length === 1) {
+          whereConditions.push(searchConditions[0]);
+        }
       }
 
-      const where = search
-        ? and(
-            eq(creditTransaction.userId, currentUser.id),
-            or(...searchConditions)
-          )
-        : eq(creditTransaction.userId, currentUser.id);
+      // Apply filters (independent of search)
+      for (const filter of filters) {
+        if (filter.id === 'type' && filter.value) {
+          whereConditions.push(eq(creditTransaction.type, filter.value));
+        }
+      }
+
+      const where = and(...whereConditions);
 
       const offset = pageIndex * pageSize;
 
@@ -102,10 +126,7 @@ export const getCreditTransactionsAction = userActionClient
           .orderBy(sortDirection(sortField))
           .limit(pageSize)
           .offset(offset),
-        db
-          .select({ count: sql`count(*)` })
-          .from(creditTransaction)
-          .where(where),
+        db.select({ count: countFn() }).from(creditTransaction).where(where),
       ]);
 
       return {

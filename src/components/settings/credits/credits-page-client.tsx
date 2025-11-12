@@ -1,10 +1,14 @@
 'use client';
 
+import { getSortingStateParser } from '@/components/data-table/lib/parsers';
+import type { ExtendedColumnSort } from '@/components/data-table/types/data-table';
 import { CreditPackages } from '@/components/settings/credits/credit-packages';
-import { CreditTransactions } from '@/components/settings/credits/credit-transactions';
+import { CreditTransactionsTable } from '@/components/settings/credits/credit-transactions-table';
 import CreditsCard from '@/components/settings/credits/credits-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { SortingState } from '@tanstack/react-table';
+import type { CreditTransaction } from '@/credits/types';
+import { useCreditTransactions } from '@/hooks/use-credits';
+import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import {
   parseAsIndex,
@@ -13,7 +17,7 @@ import {
   parseAsStringLiteral,
   useQueryStates,
 } from 'nuqs';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 /**
  * Credits page client, show credit balance and transactions
@@ -21,24 +25,98 @@ import { useMemo } from 'react';
 export default function CreditsPageClient() {
   const t = useTranslations('Dashboard.settings.credits');
 
+  const sortableColumnIds = useMemo<
+    Array<Extract<keyof CreditTransaction, string>>
+  >(
+    () => [
+      'type',
+      'amount',
+      'remainingAmount',
+      'description',
+      'paymentId',
+      'expirationDate',
+      'expirationDateProcessedAt',
+      'createdAt',
+      'updatedAt',
+    ],
+    []
+  );
+
+  const sortableColumnSet = useMemo(
+    () => new Set<Extract<keyof CreditTransaction, string>>(sortableColumnIds),
+    [sortableColumnIds]
+  );
+
+  const defaultSorting = useMemo<ExtendedColumnSort<CreditTransaction>[]>(
+    () => [{ id: 'createdAt', desc: true }],
+    []
+  );
+
   // Manage all URL states in the parent component
-  const [{ tab, page, pageSize, search, sortId, sortDesc }, setQueryStates] =
+  const [{ tab, page, size, search, sort, type }, setQueryStates] =
     useQueryStates({
       tab: parseAsStringLiteral(['balance', 'transactions']).withDefault(
         'balance'
       ),
       // Transaction-specific parameters
-      page: parseAsIndex.withDefault(0),
-      pageSize: parseAsInteger.withDefault(10),
+      page: parseAsIndex.withDefault(0), // parseAsIndex adds +1 to URL, so 0-based internally, 1-based in URL
+      size: parseAsInteger.withDefault(10),
       search: parseAsString.withDefault(''),
-      sortId: parseAsString.withDefault('createdAt'),
-      sortDesc: parseAsInteger.withDefault(1),
+      sort: getSortingStateParser<CreditTransaction>(
+        sortableColumnIds
+      ).withDefault(defaultSorting),
+      type: parseAsString.withDefault(''),
     });
 
-  const sorting: SortingState = useMemo(
-    () => [{ id: sortId, desc: Boolean(sortDesc) }],
-    [sortId, sortDesc]
-  );
+  // normalize sorting to ensure it only contains valid column ids
+  const normalizeSorting = (
+    value: SortingState
+  ): ExtendedColumnSort<CreditTransaction>[] => {
+    const filtered = value
+      .filter((item) =>
+        sortableColumnSet.has(
+          item.id as Extract<keyof CreditTransaction, string>
+        )
+      )
+      .map((item) => ({
+        ...item,
+        id: item.id as Extract<keyof CreditTransaction, string>,
+      })) as ExtendedColumnSort<CreditTransaction>[];
+
+    return filtered.length > 0 ? filtered : defaultSorting;
+  };
+
+  const safeSorting = normalizeSorting(sort);
+
+  // Build filters for both client UI and server API
+  const filters = useMemo(() => {
+    const clientFilters: ColumnFiltersState = [];
+    const serverFilters: Array<{ id: string; value: string }> = [];
+
+    if (type) {
+      clientFilters.push({ id: 'type', value: [type] });
+      serverFilters.push({ id: 'type', value: type });
+    }
+
+    return { clientFilters, serverFilters };
+  }, [type]);
+
+  const filtersSignature = useMemo(() => JSON.stringify({ type }), [type]);
+
+  const previousFiltersSignatureRef = useRef(filtersSignature);
+
+  // reset page to 0 when filters change
+  useEffect(() => {
+    if (previousFiltersSignatureRef.current === filtersSignature) return;
+    previousFiltersSignatureRef.current = filtersSignature;
+    void setQueryStates(
+      { page: 0 },
+      {
+        history: 'replace',
+        shallow: true,
+      }
+    );
+  }, [filtersSignature, setQueryStates]);
 
   const handleTabChange = (value: string) => {
     if (value === 'balance' || value === 'transactions') {
@@ -47,10 +125,10 @@ export default function CreditsPageClient() {
         setQueryStates({
           tab: value,
           page: null,
-          pageSize: null,
+          size: null,
           search: null,
-          sortId: null,
-          sortDesc: null,
+          sort: null,
+          type: null,
         });
       } else {
         // When switching to transactions tab, just set the tab
@@ -58,6 +136,15 @@ export default function CreditsPageClient() {
       }
     }
   };
+
+  // Fetch credit transactions data
+  const { data, isLoading } = useCreditTransactions(
+    page,
+    size,
+    search,
+    safeSorting,
+    filters.serverFilters
+  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -83,27 +170,40 @@ export default function CreditsPageClient() {
 
         <TabsContent value="transactions" className="mt-4">
           {/* Credit Transactions */}
-          <CreditTransactions
-            page={page}
-            pageSize={pageSize}
+          <CreditTransactionsTable
+            data={data?.items || []}
+            total={data?.total || 0}
+            pageIndex={page}
+            pageSize={size}
             search={search}
-            sorting={sorting}
+            sorting={safeSorting}
+            filters={filters.clientFilters}
+            loading={isLoading}
+            onSearch={(newSearch) =>
+              setQueryStates({ search: newSearch, page: 0 })
+            }
             onPageChange={(newPageIndex) =>
               setQueryStates({ page: newPageIndex })
             }
             onPageSizeChange={(newPageSize) =>
-              setQueryStates({ pageSize: newPageSize, page: 0 })
-            }
-            onSearch={(newSearch) =>
-              setQueryStates({ search: newSearch, page: 0 })
+              setQueryStates({ size: newPageSize, page: 0 })
             }
             onSortingChange={(newSorting) => {
-              if (newSorting.length > 0) {
-                setQueryStates({
-                  sortId: newSorting[0].id,
-                  sortDesc: newSorting[0].desc ? 1 : 0,
-                });
-              }
+              const nextSorting = normalizeSorting(newSorting);
+              setQueryStates({ sort: nextSorting, page: 0 });
+            }}
+            onFiltersChange={(nextFilters) => {
+              const typeFilter = nextFilters.find(
+                (filter) => filter.id === 'type'
+              );
+              const nextType =
+                typeFilter && Array.isArray(typeFilter.value)
+                  ? ((typeFilter.value[0] as string) ?? '')
+                  : '';
+              setQueryStates(
+                { type: nextType, page: 0 },
+                { history: 'replace', shallow: true }
+              );
             }}
           />
         </TabsContent>

@@ -42,7 +42,14 @@
       "nextPage": "下一页",
       "previousPage": "上一页",
       "ascending": "升序",
-      "descending": "降序"
+      "descending": "降序",
+      "resetSorting": "重置",
+      "hideColumn": "隐藏",
+      "viewOptions": "视图",
+      "toggleColumns": "切换列显示",
+      "searchColumns": "搜索列...",
+      "noColumns": "未找到列",
+      "clearFilters": "清除筛选"
     }
   },
   "PricingPage": {
@@ -503,6 +510,7 @@
         "fakeData": "注：只为演示功能，数据为假数据，封禁功能不可用",
         "error": "获取用户失败",
         "search": "搜索用户...",
+        "noResults": "没有找到用户",
         "columns": {
           "columns": "显示列",
           "name": "姓名",
@@ -523,6 +531,8 @@
         "emailCopied": "邮箱已复制到剪贴板",
         "banned": "账号被封禁",
         "active": "账号正常",
+        "inactive": "账号封禁",
+        "clearSearch": "清除搜索",
         "joined": "加入时间",
         "updated": "更新时间",
         "ban": {
@@ -664,7 +674,9 @@
           "title": "积分记录",
           "error": "获取积分交易记录失败",
           "search": "搜索积分交易记录...",
+          "clearSearch": "清除搜索",
           "paymentIdCopied": "支付ID已复制到剪贴板",
+          "noResults": "没有找到结果",
           "columns": {
             "columns": "列",
             "id": "ID",

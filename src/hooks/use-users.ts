@@ -8,16 +8,23 @@ import {
 } from '@tanstack/react-query';
 import type { SortingState } from '@tanstack/react-table';
 
+// Simple filter interface
+interface SimpleFilter {
+  id: string;
+  value: string;
+}
+
 // Query keys
 export const usersKeys = {
   all: ['users'] as const,
   lists: () => [...usersKeys.all, 'lists'] as const,
-  list: (filters: {
+  list: (params: {
     pageIndex: number;
     pageSize: number;
     search: string;
     sorting: SortingState;
-  }) => [...usersKeys.lists(), filters] as const,
+    filters: SimpleFilter[];
+  }) => [...usersKeys.lists(), params] as const,
 };
 
 // Hook to fetch users with pagination, search, and sorting
@@ -25,16 +32,24 @@ export function useUsers(
   pageIndex: number,
   pageSize: number,
   search: string,
-  sorting: SortingState
+  sorting: SortingState,
+  filters: SimpleFilter[]
 ) {
   return useQuery({
-    queryKey: usersKeys.list({ pageIndex, pageSize, search, sorting }),
+    queryKey: usersKeys.list({
+      pageIndex,
+      pageSize,
+      search,
+      sorting,
+      filters,
+    }),
     queryFn: async () => {
       const result = await getUsersAction({
         pageIndex,
         pageSize,
         search,
         sorting,
+        filters,
       });
 
       if (!result?.data?.success) {

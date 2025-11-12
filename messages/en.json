@@ -42,7 +42,14 @@
       "nextPage": "Next Page",
       "previousPage": "Previous Page",
       "ascending": "Asc",
-      "descending": "Desc"
+      "descending": "Desc",
+      "resetSorting": "Reset",
+      "hideColumn": "Hide",
+      "viewOptions": "View",
+      "toggleColumns": "Toggle columns",
+      "searchColumns": "Search columns...",
+      "noColumns": "No columns found.",
+      "clearFilters": "Clear filters"
     }
   },
   "PricingPage": {
@@ -503,6 +510,7 @@
         "fakeData": "Note: Faked data for demonstration, some features are disabled",
         "error": "Failed to get users",
         "search": "Search users...",
+        "noResults": "No users found",
         "columns": {
           "columns": "Columns",
           "name": "Name",
@@ -523,6 +531,8 @@
         "emailCopied": "Email copied to clipboard",
         "banned": "Banned",
         "active": "Active",
+        "inactive": "Inactive",
+        "clearSearch": "Clear search",
         "joined": "Joined at",
         "updated": "Updated at",
         "ban": {
@@ -664,7 +674,9 @@
           "title": "Credit Transactions",
           "error": "Failed to get credit transactions",
           "search": "Search credit transactions...",
+          "clearSearch": "Clear search",
           "paymentIdCopied": "Payment ID copied to clipboard",
+          "noResults": "No results found",
           "columns": {
             "columns": "Columns",
             "id": "ID",
@@ -674,7 +686,7 @@
             "remainingAmount": "Remaining Amount",
             "paymentId": "Payment ID",
             "expirationDate": "Expiration Date",
-            "expirationDateProcessedAt": "Expiration Date Processed At",
+            "expirationDateProcessedAt": "Expiration Processed At",
             "createdAt": "Created At",
             "updatedAt": "Updated At"
           },
