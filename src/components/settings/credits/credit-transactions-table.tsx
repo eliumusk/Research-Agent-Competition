@@ -230,6 +230,9 @@ export function CreditTransactionsTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.type'),
+        },
         minSize: 140,
         size: 160,
       },
@@ -242,6 +245,9 @@ export function CreditTransactionsTable({
         cell: ({ row }) => {
           const transaction = row.original;
           return <CreditDetailViewer transaction={transaction} />;
+        },
+        meta: {
+          label: t('columns.amount'),
         },
         minSize: 100,
         size: 120,
@@ -268,6 +274,9 @@ export function CreditTransactionsTable({
               )}
             </div>
           );
+        },
+        meta: {
+          label: t('columns.remainingAmount'),
         },
         minSize: 120,
         size: 140,
@@ -306,6 +315,9 @@ export function CreditTransactionsTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.description'),
+        },
         minSize: 140,
         size: 160,
       },
@@ -339,6 +351,9 @@ export function CreditTransactionsTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.paymentId'),
+        },
         minSize: 120,
         size: 140,
       },
@@ -364,6 +379,9 @@ export function CreditTransactionsTable({
               )}
             </div>
           );
+        },
+        meta: {
+          label: t('columns.expirationDate'),
         },
         minSize: 140,
         size: 160,
@@ -391,6 +409,9 @@ export function CreditTransactionsTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.expirationDateProcessedAt'),
+        },
         minSize: 160,
         size: 180,
       },
@@ -413,6 +434,9 @@ export function CreditTransactionsTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.createdAt'),
+        },
         minSize: 140,
         size: 160,
       },
@@ -434,6 +458,9 @@ export function CreditTransactionsTable({
               </span>
             </div>
           );
+        },
+        meta: {
+          label: t('columns.updatedAt'),
         },
         minSize: 140,
         size: 160,

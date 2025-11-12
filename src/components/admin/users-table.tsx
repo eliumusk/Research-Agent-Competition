@@ -156,6 +156,9 @@ export function UsersTable({
           const user = row.original;
           return <UserDetailViewer user={user} />;
         },
+        meta: {
+          label: t('columns.name'),
+        },
         minSize: 120,
         size: 140,
       },
@@ -187,6 +190,9 @@ export function UsersTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.email'),
+        },
         minSize: 180,
         size: 200,
       },
@@ -210,6 +216,9 @@ export function UsersTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.role'),
+        },
         minSize: 100,
         size: 120,
       },
@@ -229,6 +238,9 @@ export function UsersTable({
               {formatDate(user.createdAt)}
             </div>
           );
+        },
+        meta: {
+          label: t('columns.createdAt'),
         },
         minSize: 140,
         size: 160,
@@ -261,6 +273,9 @@ export function UsersTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.customerId'),
+        },
         minSize: 120,
         size: 140,
       },
@@ -285,6 +300,9 @@ export function UsersTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.status'),
+        },
         minSize: 100,
         size: 120,
       },
@@ -305,6 +323,9 @@ export function UsersTable({
             </div>
           );
         },
+        meta: {
+          label: t('columns.banReason'),
+        },
         minSize: 120,
         size: 140,
       },
@@ -324,6 +345,9 @@ export function UsersTable({
               {user.banExpires ? formatDate(user.banExpires) : '-'}
             </div>
           );
+        },
+        meta: {
+          label: t('columns.banExpires'),
         },
         minSize: 140,
         size: 160,

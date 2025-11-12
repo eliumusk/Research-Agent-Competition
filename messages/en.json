@@ -686,7 +686,7 @@
             "remainingAmount": "Remaining Amount",
             "paymentId": "Payment ID",
             "expirationDate": "Expiration Date",
-            "expirationDateProcessedAt": "Expiration Date Processed At",
+            "expirationDateProcessedAt": "Expiration Processed At",
             "createdAt": "Created At",
             "updatedAt": "Updated At"
           },
