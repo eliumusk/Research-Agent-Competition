@@ -29,7 +29,7 @@ import {
 } from "nuqs";
 import * as React from "react";
 
-import { useDebouncedCallback } from "@/components/data-table/hooks/use-debounced-callback";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getSortingStateParser } from "@/components/data-table/lib/parsers";
 import type { ExtendedColumnSort, QueryKeys } from "@/components/data-table/types/data-table";
 

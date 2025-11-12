@@ -36,7 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useDebouncedCallback } from "@/components/data-table/hooks/use-debounced-callback";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getDefaultFilterOperator, getFilterOperators } from "@/components/data-table/lib/data-table";
 import { formatDate } from "@/components/data-table/lib/format";
 import { generateId } from "@/components/data-table/lib/id";
