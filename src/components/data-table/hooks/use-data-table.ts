@@ -22,7 +22,7 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsString,
-  type SingleParser,
+  type Parser,
   type UseQueryStateOptions,
   useQueryState,
   useQueryStates,
@@ -185,7 +185,7 @@ export function useDataTable<TData>(props: UseDataTableProps<TData>) {
     if (enableAdvancedFilter) return {};
 
     return filterableColumns.reduce<
-      Record<string, SingleParser<string> | SingleParser<string[]>>
+      Record<string, Parser<string> | Parser<string[]>>
     >((acc, column) => {
       if (column.meta?.options) {
         acc[column.id ?? ""] = parseAsArrayOf(
