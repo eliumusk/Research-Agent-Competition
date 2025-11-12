@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import type { Option } from '@/types/data-table';
+import type { Option } from '@/components/data-table/types/data-table';
 import type { Column } from '@tanstack/react-table';
 import { Check, PlusCircle, XCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';

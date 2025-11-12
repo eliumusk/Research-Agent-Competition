@@ -66,7 +66,7 @@ import type {
   ExtendedColumnFilter,
   FilterOperator,
   JoinOperator,
-} from "@/types/data-table";
+} from "@/components/data-table/types/data-table";
 
 const DEBOUNCE_MS = 300;
 const THROTTLE_MS = 50;

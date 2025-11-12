@@ -1,5 +1,6 @@
 'use client';
 
+import type { ExtendedColumnSort } from '@/components/data-table/types/data-table';
 import { CreditPackages } from '@/components/settings/credits/credit-packages';
 import { CreditTransactionsTable } from '@/components/settings/credits/credit-transactions-table';
 import CreditsCard from '@/components/settings/credits/credits-card';
@@ -7,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { CreditTransaction } from '@/credits/types';
 import { useCreditTransactions } from '@/hooks/use-credits';
 import { getSortingStateParser } from '@/lib/parsers';
-import type { ExtendedColumnSort } from '@/types/data-table';
 import type { ColumnFiltersState, SortingState } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import {
