@@ -9,23 +9,27 @@ import { Resend } from 'resend';
 /**
  * Implementation of the NewsletterProvider interface using Resend
  *
+ * According to Resend's latest concept model:
+ * - Contacts are directly bound to email addresses (no audienceId needed)
+ * - Topics can be used for fine-grained subscription management
+ * - Global unsubscribed status is still supported
+ *
  * docs:
+ * https://resend.com/docs/dashboard/audiences/introduction
+ * https://resend.com/docs/dashboard/audiences/contacts
+ * https://resend.com/docs/dashboard/topics/introduction
+ * https://resend.com/docs/dashboard/segments/migrating-from-audiences-to-segments
  * https://mksaas.com/docs/newsletter
  */
 export class ResendNewsletterProvider implements NewsletterProvider {
   private resend: Resend;
-  private audienceId: string;
 
   constructor() {
     if (!process.env.RESEND_API_KEY) {
       throw new Error('RESEND_API_KEY environment variable is not set.');
     }
-    if (!process.env.RESEND_AUDIENCE_ID) {
-      throw new Error('RESEND_AUDIENCE_ID environment variable is not set.');
-    }
 
     this.resend = new Resend(process.env.RESEND_API_KEY);
-    this.audienceId = process.env.RESEND_AUDIENCE_ID;
   }
 
   /**
@@ -38,23 +42,21 @@ export class ResendNewsletterProvider implements NewsletterProvider {
 
   /**
    * Subscribe a user to the newsletter
+   * In Resend's new model, contacts are directly bound to email addresses
    * @param email The email address to subscribe
    * @returns True if the subscription was successful, false otherwise
    */
   async subscribe({ email }: SubscribeNewsletterParams): Promise<boolean> {
     try {
       // Check if the contact exists
-      const getResult = await this.resend.contacts.get({
-        email,
-        audienceId: this.audienceId,
-      });
+      // In the new model, contacts are directly bound to email, no audienceId needed
+      const getResult = await this.resend.contacts.get({ email });
 
       // If contact doesn't exist, create a new one
       if (getResult.error) {
         console.log('Creating new contact', email);
         const createResult = await this.resend.contacts.create({
           email,
-          audienceId: this.audienceId,
           unsubscribed: false,
         });
 
@@ -66,10 +68,9 @@ export class ResendNewsletterProvider implements NewsletterProvider {
         return true;
       }
 
-      // If the contact exists, update it
+      // If the contact exists, update it to subscribed
       const updateResult = await this.resend.contacts.update({
         email,
-        audienceId: this.audienceId,
         unsubscribed: false,
       });
 
@@ -88,19 +89,17 @@ export class ResendNewsletterProvider implements NewsletterProvider {
 
   /**
    * Unsubscribe a user from the newsletter
+   * Updates the contact's global unsubscribed status
    * @param email The email address to unsubscribe
    * @returns True if the unsubscription was successful, false otherwise
    */
   async unsubscribe({ email }: UnsubscribeNewsletterParams): Promise<boolean> {
     try {
-      // console.log('Unsubscribing newsletter', email);
       const result = await this.resend.contacts.update({
         email,
-        audienceId: this.audienceId,
         unsubscribed: true,
       });
 
-      // console.log('Unsubscribe result:', result);
       if (result.error) {
         console.error('Error unsubscribing newsletter', result.error);
         return false;
@@ -116,6 +115,7 @@ export class ResendNewsletterProvider implements NewsletterProvider {
 
   /**
    * Check if a user is subscribed to the newsletter
+   * In Resend's new model, checks the contact's global unsubscribed status
    * @param email The email address to check
    * @returns True if the user is subscribed, false otherwise
    */
@@ -123,16 +123,15 @@ export class ResendNewsletterProvider implements NewsletterProvider {
     email,
   }: CheckSubscribeStatusParams): Promise<boolean> {
     try {
-      const result = await this.resend.contacts.get({
-        email,
-        audienceId: this.audienceId,
-      });
+      const result = await this.resend.contacts.get({ email });
 
       if (result.error) {
-        console.error('Error getting contact:', result.error);
+        // If contact doesn't exist, they are not subscribed
+        console.log('Contact not found:', email);
         return false;
       }
 
+      // Contact is subscribed if unsubscribed is false or undefined
       const status = !result.data?.unsubscribed;
       console.log('Check subscribe status:', { email, status });
       return status;
