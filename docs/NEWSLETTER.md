@@ -53,7 +53,6 @@ export const websiteConfig = {
 ```
 # Required for Resend provider
 RESEND_API_KEY=your-resend-api-key
-RESEND_AUDIENCE_ID=your-audience-id
 ```
 
 ## Basic Usage
@@ -82,7 +81,7 @@ import { sendEmail } from '@/mail';
 export async function subscribeWithConfirmation(email: string) {
   // Subscribe the user
   const success = await subscribe(email);
-  
+
   if (success) {
     // Send a confirmation email
     await sendEmail({
@@ -94,7 +93,7 @@ export async function subscribeWithConfirmation(email: string) {
       },
     });
   }
-  
+
   return success;
 }
 ```
@@ -105,11 +104,11 @@ export async function subscribeWithConfirmation(email: string) {
 You can create and use your own newsletter provider implementation:
 
 ```typescript
-import { 
-  NewsletterProvider, 
+import {
+  NewsletterProvider,
   SubscribeNewsletterParams,
   UnsubscribeNewsletterParams,
-  CheckSubscribeStatusParams 
+  CheckSubscribeStatusParams
 } from '@/newsletter/types';
 
 export class CustomNewsletterProvider implements NewsletterProvider {

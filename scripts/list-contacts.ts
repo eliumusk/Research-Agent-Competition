@@ -5,9 +5,7 @@ dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function listContacts() {
-  const contacts = await resend.contacts.list({
-    audienceId: process.env.RESEND_AUDIENCE_ID!,
-  });
+  const contacts = await resend.contacts.list({});
 
   // print all emails
   const emails: string[] = [];
