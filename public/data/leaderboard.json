@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2025-11-16T09:16:36.812196Z",
+  "sourceFile": "研智能体大赛技术_不涉及隐私问题_20251116_1713.xlsx",
+  "weekRange": "2025/11/10～2025/11/16",
+  "subscriptionGrowthAvailable": true,
+  "subscriptionGrowthTop3": [
+    {
+      "appKey": "aithena1",
+      "teamName": "AITHENA",
+      "growth": 234,
+      "rank": 1,
+      "reward": 500
+    },
+    {
+      "appKey": "fastpaperread",
+      "teamName": "智能科研论文和代码翻译辅助系统 ",
+      "growth": 20,
+      "rank": 2,
+      "reward": 300
+    },
+    {
+      "appKey": "xyzen",
+      "teamName": "ScienceOL",
+      "growth": 13,
+      "rank": 3,
+      "reward": 200
+    }
+  ],
+  "photonTop3": [
+    {
+      "appKey": "xyzen",
+      "teamName": "ScienceOL",
+      "photons": 17515,
+      "rank": 1,
+      "reward": 500
+    },
+    {
+      "appKey": "aithena1",
+      "teamName": "AITHENA",
+      "photons": 11125,
+      "rank": 2,
+      "reward": 300
+    },
+    {
+      "appKey": "fastpaperread",
+      "teamName": "智能科研论文和代码翻译辅助系统 ",
+      "photons": 900,
+      "rank": 3,
+      "reward": 200
+    }
+  ],
+  "milestones": {
+    "subscription500": [
+      {
+        "appKey": "aithena1",
+        "teamName": "AITHENA",
+        "subscriptions": 750,
+        "reward": 1000
+      }
+    ],
+    "photon10000": [
+      {
+        "appKey": "xyzen",
+        "teamName": "ScienceOL",
+        "photons": 23758,
+        "reward": 1000
+      },
+      {
+        "appKey": "aithena1",
+        "teamName": "AITHENA",
+        "photons": 13149,
+        "reward": 1000
+      }
+    ]
+  }
+}
