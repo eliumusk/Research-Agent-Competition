@@ -16,14 +16,6 @@
       "dark": "深色模式",
       "system": "跟随系统"
     },
-    "theme": {
-      "label": "切换主题",
-      "default": "默认",
-      "blue": "蓝色",
-      "green": "绿色",
-      "amber": "橙色",
-      "neutral": "中性"
-    },
     "copy": "复制",
     "save": "保存",
     "saving": "保存中...",

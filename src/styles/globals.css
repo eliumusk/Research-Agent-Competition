@@ -329,58 +329,6 @@ body {
   background-clip: text;
 }
 
-/*
- * 1. all the themes are copied from the shadcn-ui dashboard example
- * https://github.com/shadcn-ui/ui/blob/main/apps/v4/app/(examples)/dashboard/theme.css
- * https://github.com/TheOrcDev/orcish-dashboard/blob/main/app/globals.css
- *
- * 2. we suggest always using the default theme for better user experience,
- * and then override the .theme-default to customize the theme
- */
-.theme-default {
-  /* default theme */
-}
-
-.theme-neutral {
-  --primary: var(--color-neutral-600);
-  --primary-foreground: var(--color-neutral-50);
-
-  @variant dark {
-    --primary: var(--color-neutral-500);
-    --primary-foreground: var(--color-neutral-50);
-  }
-}
-
-.theme-blue {
-  --primary: var(--color-blue-600);
-  --primary-foreground: var(--color-blue-50);
-
-  @variant dark {
-    --primary: var(--color-blue-500);
-    --primary-foreground: var(--color-blue-50);
-  }
-}
-
-.theme-green {
-  --primary: var(--color-lime-600);
-  --primary-foreground: var(--color-lime-50);
-
-  @variant dark {
-    --primary: var(--color-lime-600);
-    --primary-foreground: var(--color-lime-50);
-  }
-}
-
-.theme-amber {
-  --primary: var(--color-amber-600);
-  --primary-foreground: var(--color-amber-50);
-
-  @variant dark {
-    --primary: var(--color-amber-500);
-    --primary-foreground: var(--color-amber-50);
-  }
-}
-
 /* https://github.com/shadcn-ui/ui/issues/4227#issuecomment-2438290165 */
 html body[data-scroll-locked] {
   overflow: visible !important;

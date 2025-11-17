@@ -16,14 +16,6 @@
       "dark": "Dark",
       "system": "System"
     },
-    "theme": {
-      "label": "Toggle theme",
-      "default": "Default",
-      "blue": "Blue",
-      "green": "Green",
-      "amber": "Amber",
-      "neutral": "Neutral"
-    },
     "copy": "Copy",
     "saving": "Saving...",
     "save": "Save",
