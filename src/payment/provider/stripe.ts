@@ -476,66 +476,6 @@ export class StripeProvider implements PaymentProvider {
     }
   }
 
-  /**
-   * Find existing payment record by Invoice
-   * @param invoice Stripe invoice
-   * @returns Payment record or null if not found
-   */
-  private extractSubscriptionId(invoice: Stripe.Invoice): string | null {
-    const invoiceSubscription = invoice.subscription;
-    if (typeof invoiceSubscription === 'string') {
-      console.log(`invoice.subscription is string: ${invoiceSubscription}`);
-      return invoiceSubscription;
-    }
-    if (
-      invoiceSubscription &&
-      typeof invoiceSubscription === 'object' &&
-      'id' in invoiceSubscription
-    ) {
-      console.log(`invoice.subscription is object: ${invoiceSubscription.id}`);
-      return invoiceSubscription.id;
-    }
-
-    const lineItems = invoice.lines?.data ?? [];
-    for (const lineItem of lineItems) {
-      if (typeof lineItem.subscription === 'string') {
-        console.log(
-          `invoice.lineItem.subscription is string: ${lineItem.subscription}`
-        );
-        return lineItem.subscription;
-      }
-      if (
-        lineItem.subscription &&
-        typeof lineItem.subscription === 'object' &&
-        'id' in lineItem.subscription
-      ) {
-        console.log(
-          `invoice.lineItem.subscription is object: ${lineItem.subscription.id}`
-        );
-        return lineItem.subscription.id;
-      }
-
-      if (typeof lineItem.subscription_item === 'string') {
-        console.log(
-          `invoice.lineItem.subscription_item is string: ${lineItem.subscription_item}`
-        );
-        return lineItem.subscription_item;
-      }
-      if (
-        lineItem.subscription_item &&
-        typeof lineItem.subscription_item === 'object' &&
-        'id' in lineItem.subscription_item
-      ) {
-        console.log(
-          `invoice.lineItem.subscription_item is object: ${lineItem.subscription_item.id}`
-        );
-        return lineItem.subscription_item.id;
-      }
-    }
-
-    return null;
-  }
-
   private async findPaymentRecord(
     invoice: Stripe.Invoice
   ): Promise<Payment | null> {
@@ -1309,6 +1249,66 @@ export class StripeProvider implements PaymentProvider {
 
     // Default to auto to let Stripe detect the language
     return 'auto';
+  }
+
+  /**
+   * Find existing payment record by Invoice
+   * @param invoice Stripe invoice
+   * @returns Payment record or null if not found
+   */
+  private extractSubscriptionId(invoice: Stripe.Invoice): string | null {
+    const invoiceSubscription = invoice.subscription;
+    if (typeof invoiceSubscription === 'string') {
+      console.log(`invoice.subscription is string: ${invoiceSubscription}`);
+      return invoiceSubscription;
+    }
+    if (
+      invoiceSubscription &&
+      typeof invoiceSubscription === 'object' &&
+      'id' in invoiceSubscription
+    ) {
+      console.log(`invoice.subscription is object: ${invoiceSubscription.id}`);
+      return invoiceSubscription.id;
+    }
+
+    const lineItems = invoice.lines?.data ?? [];
+    for (const lineItem of lineItems) {
+      if (typeof lineItem.subscription === 'string') {
+        console.log(
+          `invoice.lineItem.subscription is string: ${lineItem.subscription}`
+        );
+        return lineItem.subscription;
+      }
+      if (
+        lineItem.subscription &&
+        typeof lineItem.subscription === 'object' &&
+        'id' in lineItem.subscription
+      ) {
+        console.log(
+          `invoice.lineItem.subscription is object: ${lineItem.subscription.id}`
+        );
+        return lineItem.subscription.id;
+      }
+
+      if (typeof lineItem.subscription_item === 'string') {
+        console.log(
+          `invoice.lineItem.subscription_item is string: ${lineItem.subscription_item}`
+        );
+        return lineItem.subscription_item;
+      }
+      if (
+        lineItem.subscription_item &&
+        typeof lineItem.subscription_item === 'object' &&
+        'id' in lineItem.subscription_item
+      ) {
+        console.log(
+          `invoice.lineItem.subscription_item is object: ${lineItem.subscription_item.id}`
+        );
+        return lineItem.subscription_item.id;
+      }
+    }
+
+    return null;
   }
 
   private getPeriodStart(subscription: Stripe.Subscription): Date | undefined {
