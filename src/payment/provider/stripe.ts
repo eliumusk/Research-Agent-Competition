@@ -1271,6 +1271,16 @@ export class StripeProvider implements PaymentProvider {
       return invoiceSubscription.id;
     }
 
+    const invoiceAny = invoice as any;
+    if (invoiceAny.parent?.subscription_details?.subscription) {
+      const subscriptionId =
+        invoiceAny.parent.subscription_details.subscription;
+      console.log(
+        `invoice.parent.subscription_details.subscription is string: ${subscriptionId}`
+      );
+      return subscriptionId;
+    }
+
     const lineItems = invoice.lines?.data ?? [];
     for (const lineItem of lineItems) {
       if (typeof lineItem.subscription === 'string') {
@@ -1288,6 +1298,16 @@ export class StripeProvider implements PaymentProvider {
           `invoice.lineItem.subscription is object: ${lineItem.subscription.id}`
         );
         return lineItem.subscription.id;
+      }
+
+      const lineItemAny = lineItem as any;
+      if (lineItemAny.parent?.subscription_item_details?.subscription) {
+        const subscriptionId =
+          lineItemAny.parent.subscription_item_details.subscription;
+        console.log(
+          `invoice.lineItem.parent.subscription_item_details.subscription is string: ${subscriptionId}`
+        );
+        return subscriptionId;
       }
 
       if (typeof lineItem.subscription_item === 'string') {
