@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 
 const BI_REPORT_URL =
-  'https://bi.aliyuncs.com/token3rd/dashboard/view/pc.htm?pageId=f253d1fe-2dc8-4016-b98b-aff79f0e11cc&accessTicket=947c45a7-e4e8-4427-aaa5-7958a5066c6f&dd_orientation=auto';
+  'https://bi.aliyuncs.com/token3rd/dashboard/view/pc.htm?pageId=f253d1fe-2dc8-4016-b98b-aff79f0e11cc&accessTicket=b7c1023f-c296-4b48-8aef-8b90866b4703&dd_orientation=auto';
 
 export default function AnalyticsSection() {
   const t = useTranslations('Competition.analytics');
@@ -76,7 +76,9 @@ export default function AnalyticsSection() {
                     <div className="flex items-center justify-between mb-4 gap-2">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <BarChart3Icon className="size-4" />
-                        <span className="hidden sm:inline">{t('subtitle')}</span>
+                        <span className="hidden sm:inline">
+                          {t('subtitle')}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Button
@@ -86,7 +88,9 @@ export default function AnalyticsSection() {
                           className="gap-2"
                         >
                           <ExternalLinkIcon className="size-4" />
-                          <span className="hidden sm:inline">{t('openExternal')}</span>
+                          <span className="hidden sm:inline">
+                            {t('openExternal')}
+                          </span>
                         </Button>
                         <Button
                           variant="outline"
@@ -96,7 +100,9 @@ export default function AnalyticsSection() {
                         >
                           <MaximizeIcon className="size-4" />
                           <span className="hidden sm:inline">
-                            {isFullscreen ? t('exitFullscreen') : t('fullscreen')}
+                            {isFullscreen
+                              ? t('exitFullscreen')
+                              : t('fullscreen')}
                           </span>
                         </Button>
                       </div>
@@ -185,4 +191,3 @@ export default function AnalyticsSection() {
     </>
   );
 }
-
