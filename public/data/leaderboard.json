@@ -28,23 +28,23 @@
   ],
   "photonTop3": [
     {
+      "appKey": "latex-formula-agent",
+      "teamName": "AI公式助手",
+      "photons": 14762,
+      "rank": 1,
+      "reward": 500
+    },
+    {
       "appKey": "aithena1",
       "teamName": "AITHENA",
       "photons": 6020,
-      "rank": 1,
-      "reward": 500
+      "rank": 2,
+      "reward": 300
     },
     {
       "appKey": "xyzen",
       "teamName": "ScienceOL",
       "photons": 4863,
-      "rank": 2,
-      "reward": 300
-    },
-    {
-      "appKey": "pdftranslater",
-      "teamName": "白菜PDF论文翻译-PDF translater",
-      "photons": 2459,
       "rank": 3,
       "reward": 200
     }
