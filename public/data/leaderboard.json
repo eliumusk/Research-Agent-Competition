@@ -70,6 +70,12 @@
         "teamName": "AITHENA",
         "photons": 21449,
         "reward": 1000
+      },
+      {
+        "appKey": "latex-formula-agent",
+        "teamName": "AI公式助手",
+        "photons": 14762,
+        "reward": 1000
       }
     ]
   }
