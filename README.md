@@ -36,8 +36,8 @@ By default, you should have access to all 5 repositories. If you find that youâ€
 - [mksaas-template (ready)](https://github.com/MkSaaSHQ/mksaas-template): https://demo.mksaas.com
 - [mksaas-blog (ready)](https://github.com/MkSaaSHQ/mksaas-blog): https://mksaas.me
 - [mksaas-haitang (ready)](https://github.com/MkSaaSHQ/mksaas-haitang): https://haitang.app
-- [mksaas-outfit (ready)](https://github.com/MkSaaSHQ/mksaas-outfit)
-- [mksaas-app (WIP)](https://github.com/MkSaaSHQ/mksaas-app): https://mkdollar.com
+- [mksaas-app (ready)](https://github.com/MkSaaSHQ/mksaas-app): https://mkdollar.com
+- [mksaas-outfit (ready)](https://github.com/MkSaaSHQ/mksaas-outfit): built by [@yihui_indie](https://x.com/yihui_indie)
 
 ## Notice
 

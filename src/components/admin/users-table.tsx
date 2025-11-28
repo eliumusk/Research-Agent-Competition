@@ -399,7 +399,7 @@ export function UsersTable({
 
   return (
     <div className="w-full space-y-4">
-      <div className="px-4 lg:px-6">
+      <div className="">
         <DataTableAdvancedToolbar table={table}>
           <div className="flex flex-1 flex-wrap items-center gap-2">
             <div className="relative">
@@ -439,7 +439,7 @@ export function UsersTable({
           </div>
         </DataTableAdvancedToolbar>
       </div>
-      <div className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+      <div className="relative flex flex-col gap-4 overflow-auto">
         <div className="overflow-hidden rounded-lg border">
           <Table>
             <TableHeader className="bg-muted sticky top-0 z-10">
