@@ -1,4 +1,4 @@
-import { betterFetch } from '@better-fetch/fetch';
+import { getSessionCookie } from 'better-auth/cookies';
 import createMiddleware from 'next-intl/middleware';
 import { type NextRequest, NextResponse } from 'next/server';
 import {
@@ -7,8 +7,6 @@ import {
   LOCALE_COOKIE_NAME,
   routing,
 } from './i18n/routing';
-import type { Session } from './lib/auth-types';
-import { getBaseUrl } from './lib/urls/urls';
 import {
   DEFAULT_LOGIN_REDIRECT,
   protectedRoutes,
@@ -22,10 +20,18 @@ const intlMiddleware = createMiddleware(routing);
  * https://nextjs.org/docs/app/building-your-application/routing/middleware
  *
  * 2. Better Auth middleware
- * https://www.better-auth.com/docs/integrations/next#middleware
+ * https://www.better-auth.com/docs/integrations/next#cookie-based-checks-recommended-for-all-versions
  *
- * In Next.js middleware, it's recommended to only check for the existence of a session cookie
- * to handle redirection. To avoid blocking requests by making API or database calls.
+ * SECURITY WARNING:
+ * The getSessionCookie function ONLY checks for the existence of a session cookie.
+ * It does NOT validate the session. Anyone can manually create a cookie to bypass this check.
+ * You MUST always validate the session on your server for any protected actions or pages.
+ *
+ * This middleware only performs fast cookie-based redirection. Actual session validation
+ * happens in:
+ * - Protected pages: via layout.tsx using getSession() from server
+ * - Protected API routes: via auth.api.getSession({ headers })
+ * - Server actions: via safe-action middleware
  */
 export default async function middleware(req: NextRequest) {
   const { nextUrl } = req;
@@ -53,18 +59,11 @@ export default async function middleware(req: NextRequest) {
     }
   }
 
-  // do not use getSession() here, it will cause error related to edge runtime
-  // const session = await getSession();
-  const { data: session } = await betterFetch<Session>(
-    '/api/auth/get-session',
-    {
-      baseURL: getBaseUrl(),
-      headers: {
-        cookie: req.headers.get('cookie') || '', // Forward the cookies from the request
-      },
-    }
-  );
-  const isLoggedIn = !!session;
+  // Cookie-based session check for fast redirection
+  // WARNING: This only checks cookie existence, NOT validity
+  // Actual validation happens in protected layouts and API routes
+  const sessionCookie = getSessionCookie(req);
+  const isLoggedIn = !!sessionCookie;
   // console.log('middleware, isLoggedIn', isLoggedIn);
 
   // Get the pathname of the request (e.g. /zh/dashboard to /dashboard)

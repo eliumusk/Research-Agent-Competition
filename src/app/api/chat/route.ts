@@ -1,9 +1,16 @@
+import { requireSession, unauthorizedResponse } from '@/lib/require-session';
 import { type UIMessage, convertToModelMessages, streamText } from 'ai';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  // Protected API route: validate session
+  const session = await requireSession(req);
+  if (!session) {
+    return unauthorizedResponse();
+  }
+
   const {
     messages,
     model,
