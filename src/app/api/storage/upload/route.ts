@@ -1,9 +1,16 @@
 import { MAX_FILE_SIZE } from '@/lib/constants';
+import { requireSession, unauthorizedResponse } from '@/lib/require-session';
 import { uploadFile } from '@/storage';
 import { StorageError } from '@/storage/types';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
+  // Protected API route: validate session
+  const session = await requireSession(request);
+  if (!session) {
+    return unauthorizedResponse();
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
