@@ -1,4 +1,5 @@
 import { websiteConfig } from '@/config/website';
+import { BeehiivNewsletterProvider } from './provider/beehiiv';
 import { ResendNewsletterProvider } from './provider/resend';
 import type { NewsletterProvider } from './types';
 
@@ -24,12 +25,17 @@ export const getNewsletterProvider = (): NewsletterProvider => {
  */
 export const initializeNewsletterProvider = (): NewsletterProvider => {
   if (!newsletterProvider) {
-    if (websiteConfig.newsletter.provider === 'resend') {
-      newsletterProvider = new ResendNewsletterProvider();
-    } else {
-      throw new Error(
-        `Unsupported newsletter provider: ${websiteConfig.newsletter.provider}`
-      );
+    switch (websiteConfig.newsletter.provider) {
+      case 'resend':
+        newsletterProvider = new ResendNewsletterProvider();
+        break;
+      case 'beehiiv':
+        newsletterProvider = new BeehiivNewsletterProvider();
+        break;
+      default:
+        throw new Error(
+          `Unsupported newsletter provider: ${websiteConfig.newsletter.provider}`
+        );
     }
   }
 

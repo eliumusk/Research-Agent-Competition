@@ -146,7 +146,7 @@ export interface MailConfig {
  */
 export interface NewsletterConfig {
   enable: boolean;                   // Whether to enable the newsletter
-  provider: 'resend';                 // The newsletter provider, only resend is supported for now
+  provider: 'resend' | 'beehiiv';    // The newsletter provider
   autoSubscribeAfterSignUp?: boolean; // Whether to automatically subscribe users to the newsletter after sign up
 }
 
