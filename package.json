@@ -146,6 +146,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@swc/helpers": "^0.5.17",
     "@tailwindcss/postcss": "^4.0.14",
     "@tanstack/eslint-plugin-query": "^5.83.1",
     "@types/mdx": "^2.0.13",
