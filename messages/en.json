@@ -1304,7 +1304,35 @@
   },
   "AIChatPage": {
     "title": "AI Chat",
-    "description": "MkSaaS lets you make AI SaaS in days, simply and effortlessly"
+    "description": "Talk directly to the developer documentation, simply and effortlessly",
+    "actions": {
+      "newChat": "New chat"
+    },
+    "emptyState": {
+      "title": "Start a private conversation",
+      "description": "Ask about your product, workflows, or data sources — the agent stays in session and remembers the full context."
+    },
+    "input": {
+      "placeholder": "Ask anything…",
+      "send": "Send message"
+    },
+    "status": {
+      "thinking": "Thinking"
+    },
+    "highlights": {
+      "agent": {
+        "title": "Agent-native experience",
+        "description": "Talk directly to SciMaster‘s friend with full session memory and MCP tools."
+      },
+      "loop": {
+        "title": "Fast iteration loop",
+        "description": "Use the floating chat to debug workflows, summarize data, or answer ad-hoc questions."
+      },
+      "embed": {
+        "title": "Real-time updates",
+        "description": "Update the latest version of the developer documentation, giving contestants instant help."
+      }
+    }
   },
   "AIVideoPage": {
     "title": "AI Video",

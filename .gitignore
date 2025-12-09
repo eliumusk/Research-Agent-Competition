@@ -12,7 +12,8 @@
 
 # testing
 /coverage
-
+agno.db
+*.pyc
 # next.js
 /.next/
 /out/

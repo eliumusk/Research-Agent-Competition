@@ -577,7 +577,35 @@
   },
   "AIChatPage": {
     "title": "AI 聊天",
-    "description": "MkSaaS 让您在几天内轻松构建您的 AI SaaS，简单且毫不费力"
+    "description": "直接与开发者文档对话，简单且毫不费力",
+    "actions": {
+      "newChat": "新建对话"
+    },
+    "emptyState": {
+      "title": "开始一段专属对话",
+      "description": "无论是比赛规则、开发者文档还是代码示例都可以提问，赛大师会调用工具并记住上下文。"
+    },
+    "input": {
+      "placeholder": "想聊点什么？",
+      "send": "发送消息"
+    },
+    "status": {
+      "thinking": "思考中"
+    },
+    "highlights": {
+      "agent": {
+        "title": "原生 Agent 体验",
+        "description": "直接与赛大师对话，继承完整会话记忆与 MCP 工具能力。"
+      },
+      "loop": {
+        "title": "极速迭代回路",
+        "description": "借助浮窗聊天快速获取信息、总结数据或回答临时问题。"
+      },
+      "embed": {
+        "title": "实时更新",
+        "description": "更新最新版开发者文档，为选手提供即时帮助。"
+      }
+    }
   },
   "AIVideoPage": {
     "title": "AI 视频",
