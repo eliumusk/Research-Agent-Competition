@@ -4,7 +4,7 @@ import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
 import { blogSource, categorySource } from '@/lib/source';
 import type { Locale } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 // Generate all static params for SSG (locale + category + pagination)
@@ -60,6 +60,10 @@ export default async function BlogCategoryPage({
   params,
 }: BlogCategoryPageProps) {
   const { locale, slug, page } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const localePosts = blogSource.getPages(locale);
   const publishedPosts = localePosts.filter((post) => post.data.published);
   const filteredPosts = publishedPosts.filter((post) =>

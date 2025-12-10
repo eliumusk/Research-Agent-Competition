@@ -11,6 +11,7 @@ import { TailwindIndicator } from '@/components/layout/tailwind-indicator';
 import { routing } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
 import { type Locale, NextIntlClientProvider, hasLocale } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
@@ -41,6 +42,10 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  // Enable static rendering for this layout
+  // https://next-intl.dev/docs/getting-started/app-router/with-i18n-routing#static-rendering
+  setRequestLocale(locale);
 
   return (
     <html suppressHydrationWarning lang={locale}>

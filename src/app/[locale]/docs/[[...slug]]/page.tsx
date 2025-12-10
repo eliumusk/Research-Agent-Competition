@@ -9,8 +9,6 @@ import {
 } from '@/components/ui/hover-card';
 import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
-import { checkPremiumAccess } from '@/lib/premium-access';
-import { getSession } from '@/lib/server';
 import { source } from '@/lib/source';
 import Link from 'fumadocs-core/link';
 import {
@@ -20,7 +18,7 @@ import {
   DocsTitle,
 } from 'fumadocs-ui/page';
 import type { Locale } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
@@ -81,6 +79,10 @@ interface DocPageProps {
  */
 export default async function DocPage({ params }: DocPageProps) {
   const { slug, locale } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const language = locale as string;
   const page = source.getPage(slug, language);
 
@@ -92,13 +94,8 @@ export default async function DocPage({ params }: DocPageProps) {
   const preview = page.data.preview;
   const { premium } = page.data;
 
-  // Check premium access for premium docs
-  const session = await getSession();
-  const hasPremiumAccess =
-    premium && session?.user?.id
-      ? await checkPremiumAccess(session.user.id)
-      : !premium; // Non-premium docs are always accessible
-
+  // Premium access is now checked client-side in PremiumGuard component
+  // This allows the page to remain static while still protecting premium content
   const MDX = page.data.body;
 
   return (
@@ -117,11 +114,7 @@ export default async function DocPage({ params }: DocPageProps) {
         {preview ? <PreviewRenderer preview={preview} /> : null}
 
         {/* MDX Content */}
-        <PremiumGuard
-          isPremium={!!premium}
-          canAccess={hasPremiumAccess}
-          className="max-w-none"
-        >
+        <PremiumGuard isPremium={!!premium} className="max-w-none">
           <MDX
             components={getMDXComponents({
               a: ({
