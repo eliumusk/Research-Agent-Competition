@@ -4,7 +4,7 @@ import { LOCALES } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/metadata';
 import { blogSource } from '@/lib/source';
 import type { Locale } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -31,6 +31,10 @@ interface BlogPageProps {
 
 export default async function BlogPage({ params }: BlogPageProps) {
   const { locale } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const localePosts = blogSource.getPages(locale);
   const publishedPosts = localePosts.filter((post) => post.data.published);
   const sortedPosts = publishedPosts.sort((a, b) => {

@@ -7,7 +7,7 @@ export enum Routes {
   Root = '/',
 
   // marketing pages
-  FAQ = '/#faq',
+  FAQ = '/#faqs',
   Features = '/#features',
   Pricing = '/pricing', // change to /#pricing if you want to use the pricing section in homepage
   Blog = '/blog',

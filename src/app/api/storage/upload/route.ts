@@ -1,9 +1,16 @@
 import { MAX_FILE_SIZE } from '@/lib/constants';
+import { requireSession, unauthorizedResponse } from '@/lib/require-session';
 import { uploadFile } from '@/storage';
 import { StorageError } from '@/storage/types';
 import { type NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
+  // Protected API route: validate session
+  const session = await requireSession(request);
+  if (!session) {
+    return unauthorizedResponse();
+  }
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -13,7 +20,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Validate file size (max 10MB)
+    // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       console.log('uploadFile, file size exceeds the server limit', file.size);
       return NextResponse.json(
@@ -58,14 +65,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-// Increase the body size limit for file uploads (default is 4MB)
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
-  // For Next.js 13+ App Router, use maxDuration instead
-  maxDuration: 30, // 30 seconds timeout
-};

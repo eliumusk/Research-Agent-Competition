@@ -1,7 +1,8 @@
 /**
- * Max file size (10MB)
+ * Max file size (4MB)
+ * https://vercel.com/docs/functions/limitations#request-body-size
  */
-export const MAX_FILE_SIZE = 10 * 1024 * 1024;
+export const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
 /**
  * in next 30 days for credits expiration

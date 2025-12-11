@@ -1,6 +1,6 @@
 import AllPostsButton from '@/components/blog/all-posts-button';
-import BlogGrid from '@/components/blog/blog-grid';
 import { AppLinkCard } from '@/components/blog/app-link-card';
+import BlogGrid from '@/components/blog/blog-grid';
 import { TeamLeaderCard } from '@/components/blog/team-leader-card';
 import { TechReportCard } from '@/components/blog/tech-report-card';
 import { getMDXComponents } from '@/components/docs/mdx-components';
@@ -10,14 +10,12 @@ import { websiteConfig } from '@/config/website';
 import { LocaleLink } from '@/i18n/navigation';
 import { formatDate } from '@/lib/formatter';
 import { constructMetadata } from '@/lib/metadata';
-import { checkPremiumAccess } from '@/lib/premium-access';
-import { getSession } from '@/lib/server';
 import { type BlogType, blogSource, categorySource } from '@/lib/source';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { CalendarIcon, FileTextIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -79,6 +77,10 @@ interface BlogPostPageProps {
 
 export default async function BlogPostPage(props: BlogPostPageProps) {
   const { locale, slug } = await props.params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const post = blogSource.getPage(slug, locale);
   if (!post) {
     notFound();
@@ -103,13 +105,8 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
     .getPages(locale)
     .filter((category) => categories.includes(category.slugs[0] ?? ''));
 
-  // Check premium access for premium posts
-  const session = await getSession();
-  const hasPremiumAccess =
-    premium && session?.user?.id
-      ? await checkPremiumAccess(session.user.id)
-      : !premium; // Non-premium posts are always accessible
-
+  // Premium access is now checked client-side in PremiumGuard component
+  // This allows the page to remain static while still protecting premium content
   const MDX = post.data.body;
 
   // getTranslations may cause error DYNAMIC_SERVER_USAGE, so we set dynamic to force-static
@@ -163,11 +160,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
           {/* in order to make the mdx.css work, we need to add the className prose to the div */}
           {/* https://github.com/tailwindlabs/tailwindcss-typography */}
           <div className="mt-8">
-            <PremiumGuard
-              isPremium={!!premium}
-              canAccess={hasPremiumAccess}
-              className="max-w-none"
-            >
+            <PremiumGuard isPremium={!!premium} className="max-w-none">
               <MDX components={getMDXComponents()} />
             </PremiumGuard>
           </div>

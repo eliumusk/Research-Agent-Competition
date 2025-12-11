@@ -4,6 +4,12 @@ Make AI SaaS in a weekend.
 
 The complete Next.js boilerplate for building profitable SaaS, with auth, payments, i18n, newsletter, dashboard, blog, docs, blocks, themes, SEO and more.
 
+## Branches
+
+- [main](https://github.com/MkSaaSHQ/mksaas-template): The `main` branch can be deployed on Vercel or with Docker, and uses Postgres as database by default, you can check out this [deployment guide](https://mksaas.com/zh/docs/deployment/vercel) for more details.
+- [cloudflare](https://github.com/MkSaaSHQ/mksaas-template/tree/cloudflare): The `cloudflare` branch can be deployed on Cloudflare Worker, and uses Postgres as database by default, you can check out this [deployment guide](https://mksaas.com/zh/docs/deployment/cloudflare) for more details.
+- [cloudflare-d1](https://github.com/MkSaaSHQ/mksaas-template/tree/cloudflare-d1): The `cloudflare-d1` branch can be deployed on Cloudflare Worker, and uses Cloudflare D1 as database by default, you can check out this [deployment guide](https://mksaas.com/zh/docs/deployment/cloudflare-d1) for more details.
+
 ## Author
 
 This project is created by [Fox](https://x.com/indie_maker_fox), the founder of [MkSaaS](https://mksaas.com) and [Mkdirs](https://mkdirs.com). The official X account for [MkSaaS](https://mksaas.com) is [@mksaascom](https://x.com/mksaascom), you can follow this account for the updates about MkSaaS.
@@ -30,8 +36,8 @@ By default, you should have access to all 5 repositories. If you find that youâ€
 - [mksaas-template (ready)](https://github.com/MkSaaSHQ/mksaas-template): https://demo.mksaas.com
 - [mksaas-blog (ready)](https://github.com/MkSaaSHQ/mksaas-blog): https://mksaas.me
 - [mksaas-haitang (ready)](https://github.com/MkSaaSHQ/mksaas-haitang): https://haitang.app
-- [mksaas-outfit (ready)](https://github.com/MkSaaSHQ/mksaas-outfit)
-- [mksaas-app (WIP)](https://github.com/MkSaaSHQ/mksaas-app): https://mksaas.app
+- [mksaas-app (ready)](https://github.com/MkSaaSHQ/mksaas-app): https://mkdollar.com
+- [mksaas-outfit (ready)](https://github.com/MkSaaSHQ/mksaas-outfit): built by [@yihui_indie](https://x.com/yihui_indie)
 
 ## Notice
 

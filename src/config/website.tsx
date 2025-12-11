@@ -9,10 +9,6 @@ import type { WebsiteConfig } from '@/types';
  */
 export const websiteConfig: WebsiteConfig = {
   ui: {
-    theme: {
-      defaultTheme: 'default',
-      enableSwitch: true,
-    },
     mode: {
       defaultMode: 'dark',
       enableSwitch: true,

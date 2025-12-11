@@ -1,9 +1,9 @@
+import { randomUUID } from 'crypto';
 import {
   type UIMessage,
   type UIMessageChunk,
   createUIMessageStreamResponse,
 } from 'ai';
-import { randomUUID } from 'crypto';
 import {
   SESSION_COOKIE,
   USER_COOKIE,
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     .find((message) => message.role === 'user');
   const textPart = lastUserMessage?.parts.find(
     (part): part is { type: 'text'; text: string } =>
-      part.type === 'text' && typeof part.text === 'string',
+      part.type === 'text' && typeof part.text === 'string'
   );
 
   if (!textPart?.text?.trim()) {
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       headers: {
         Accept: 'text/event-stream',
       },
-    },
+    }
   );
 
   if (!response.ok || !response.body) {
@@ -160,9 +160,7 @@ function createChatStream(source: ReadableStream<Uint8Array>) {
         controller.error(error);
       }
 
-      function processBufferChunk(
-        pending: string,
-      ): string {
+      function processBufferChunk(pending: string): string {
         let workingBuffer = pending;
         let separatorIndex = workingBuffer.indexOf('\n\n');
 

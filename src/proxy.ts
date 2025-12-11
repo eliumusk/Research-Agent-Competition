@@ -1,4 +1,4 @@
-import { betterFetch } from '@better-fetch/fetch';
+import { getSessionCookie } from 'better-auth/cookies';
 import createMiddleware from 'next-intl/middleware';
 import { type NextRequest, NextResponse } from 'next/server';
 import {
@@ -7,8 +7,6 @@ import {
   LOCALE_COOKIE_NAME,
   routing,
 } from './i18n/routing';
-import type { Session } from './lib/auth-types';
-import { getBaseUrl } from './lib/urls/urls';
 import {
   DEFAULT_LOGIN_REDIRECT,
   protectedRoutes,
@@ -18,18 +16,26 @@ import {
 const intlMiddleware = createMiddleware(routing);
 
 /**
- * 1. Next.js middleware
+ * Next.js 16 Proxy (formerly Middleware)
  * https://nextjs.org/docs/app/building-your-application/routing/middleware
  *
- * 2. Better Auth middleware
- * https://www.better-auth.com/docs/integrations/next#middleware
+ * Better Auth integration
+ * https://www.better-auth.com/docs/integrations/next#cookie-based-checks-recommended-for-all-versions
  *
- * In Next.js middleware, it's recommended to only check for the existence of a session cookie
- * to handle redirection. To avoid blocking requests by making API or database calls.
+ * SECURITY WARNING:
+ * The getSessionCookie function ONLY checks for the existence of a session cookie.
+ * It does NOT validate the session. Anyone can manually create a cookie to bypass this check.
+ * You MUST always validate the session on your server for any protected actions or pages.
+ *
+ * This proxy only performs fast cookie-based redirection. Actual session validation
+ * happens in:
+ * - Protected pages: via layout.tsx using getSession() from server
+ * - Protected API routes: via auth.api.getSession({ headers })
+ * - Server actions: via safe-action middleware
  */
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   const { nextUrl } = req;
-  console.log('>> middleware start, pathname', nextUrl.pathname);
+  console.log('>> proxy start, pathname', nextUrl.pathname);
 
   // Handle internal docs link redirection for internationalization
   // Check if this is a docs page without locale prefix
@@ -46,26 +52,19 @@ export default async function middleware(req: NextRequest) {
     ) {
       const localizedPath = `/${preferredLocale}${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
       console.log(
-        '<< middleware end, redirecting docs link to preferred locale:',
+        '<< proxy end, redirecting docs link to preferred locale:',
         localizedPath
       );
       return NextResponse.redirect(new URL(localizedPath, nextUrl));
     }
   }
 
-  // do not use getSession() here, it will cause error related to edge runtime
-  // const session = await getSession();
-  const { data: session } = await betterFetch<Session>(
-    '/api/auth/get-session',
-    {
-      baseURL: getBaseUrl(),
-      headers: {
-        cookie: req.headers.get('cookie') || '', // Forward the cookies from the request
-      },
-    }
-  );
-  const isLoggedIn = !!session;
-  // console.log('middleware, isLoggedIn', isLoggedIn);
+  // Cookie-based session check for fast redirection
+  // WARNING: This only checks cookie existence, NOT validity
+  // Actual validation happens in protected layouts and API routes
+  const sessionCookie = getSessionCookie(req);
+  const isLoggedIn = !!sessionCookie;
+  // console.log('proxy, isLoggedIn', isLoggedIn);
 
   // Get the pathname of the request (e.g. /zh/dashboard to /dashboard)
   const pathnameWithoutLocale = getPathnameWithoutLocale(
@@ -80,7 +79,7 @@ export default async function middleware(req: NextRequest) {
     );
     if (isNotAllowedRoute) {
       console.log(
-        '<< middleware end, not allowed route, already logged in, redirecting to dashboard'
+        '<< proxy end, not allowed route, already logged in, redirecting to dashboard'
       );
       return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
@@ -89,7 +88,7 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) =>
     new RegExp(`^${route}$`).test(pathnameWithoutLocale)
   );
-  // console.log('middleware, isProtectedRoute', isProtectedRoute);
+  // console.log('proxy, isProtectedRoute', isProtectedRoute);
 
   // If the route is a protected route, redirect to login if user is not logged in
   if (!isLoggedIn && isProtectedRoute) {
@@ -99,7 +98,7 @@ export default async function middleware(req: NextRequest) {
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     console.log(
-      '<< middleware end, not logged in, redirecting to login, callbackUrl',
+      '<< proxy end, not logged in, redirecting to login, callbackUrl',
       callbackUrl
     );
     return NextResponse.redirect(
@@ -108,7 +107,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Apply intlMiddleware for all routes
-  console.log('<< middleware end, applying intlMiddleware');
+  console.log('<< proxy end, applying intlMiddleware');
   return intlMiddleware(req);
 }
 
@@ -122,7 +121,7 @@ function getPathnameWithoutLocale(pathname: string, locales: string[]): string {
 
 /**
  * Next.js internationalized routing
- * specify the routes the middleware applies to
+ * specify the routes the proxy applies to
  *
  * https://next-intl.dev/docs/routing#base-path
  */
@@ -135,3 +134,4 @@ export const config = {
     '/((?!api|_next|_vercel|.*\\..*).*)',
   ],
 };
+

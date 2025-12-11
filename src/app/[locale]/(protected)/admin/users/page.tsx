@@ -1,4 +1,4 @@
-import { UsersPageClient } from '@/components/admin/users-page';
+import { UsersPageClient } from '@/components/admin/users-page-client';
 
 /**
  * Users page
@@ -7,5 +7,9 @@ import { UsersPageClient } from '@/components/admin/users-page';
  * it is protected and only accessible to the admin role
  */
 export default function UsersPage() {
-  return <UsersPageClient />;
+  return (
+    <div className=" px-4 lg:px-6">
+      <UsersPageClient />
+    </div>
+  );
 }

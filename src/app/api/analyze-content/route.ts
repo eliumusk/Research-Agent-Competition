@@ -16,6 +16,7 @@ import {
   validateFirecrawlConfig,
   webContentAnalyzerConfig,
 } from '@/ai/text/utils/web-content-analyzer-config';
+import { requireSession, unauthorizedResponse } from '@/lib/require-session';
 import { createDeepSeek } from '@ai-sdk/deepseek';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
@@ -301,6 +302,12 @@ async function analyzeContent(
 }
 
 export async function POST(req: NextRequest) {
+  // Protected API route: validate session
+  const session = await requireSession(req);
+  if (!session) {
+    return unauthorizedResponse();
+  }
+
   const requestId = Math.random().toString(36).substring(7);
   const startTime = performance.now();
 

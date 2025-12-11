@@ -16,14 +16,6 @@
       "dark": "深色模式",
       "system": "跟随系统"
     },
-    "theme": {
-      "label": "切换主题",
-      "default": "默认",
-      "blue": "蓝色",
-      "green": "绿色",
-      "amber": "橙色",
-      "neutral": "中性"
-    },
     "copy": "复制",
     "save": "保存",
     "saving": "保存中...",
@@ -42,7 +34,14 @@
       "nextPage": "下一页",
       "previousPage": "上一页",
       "ascending": "升序",
-      "descending": "降序"
+      "descending": "降序",
+      "resetSorting": "重置",
+      "hideColumn": "隐藏",
+      "viewOptions": "视图",
+      "toggleColumns": "切换列显示",
+      "searchColumns": "搜索列...",
+      "noColumns": "未找到列",
+      "clearFilters": "清除筛选"
     }
   },
 

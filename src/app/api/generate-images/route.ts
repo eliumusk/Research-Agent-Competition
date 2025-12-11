@@ -1,5 +1,6 @@
 import type { GenerateImageRequest } from '@/ai/image/lib/api-types';
 import type { ProviderKey } from '@/ai/image/lib/provider-config';
+import { requireSession, unauthorizedResponse } from '@/lib/require-session';
 import { createFal } from '@ai-sdk/fal';
 import { fireworks } from '@ai-sdk/fireworks';
 import { openai } from '@ai-sdk/openai';
@@ -60,6 +61,12 @@ const withTimeout = <T>(
 };
 
 export async function POST(req: NextRequest) {
+  // Protected API route: validate session
+  const session = await requireSession(req);
+  if (!session) {
+    return unauthorizedResponse();
+  }
+
   const requestId = Math.random().toString(36).substring(7);
   const { prompt, provider, modelId } =
     (await req.json()) as GenerateImageRequest;

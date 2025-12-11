@@ -12,7 +12,6 @@ import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Card } from 'fumadocs-ui/components/card';
 import { Heading } from 'fumadocs-ui/components/heading';
-import { RootToggle } from 'fumadocs-ui/components/layout/root-toggle';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
@@ -193,30 +192,6 @@ export function steps(): ReactNode {
             <p>Some text here</p>
           </Step>
         </Steps>
-      </div>
-    </Wrapper>
-  );
-}
-
-export function rootToggle(): ReactNode {
-  return (
-    <Wrapper>
-      <div className="not-prose mx-auto grid max-w-[240px] rounded-lg bg-fd-background">
-        <RootToggle
-          className="p-3"
-          options={[
-            {
-              title: 'Hello World',
-              description: 'The example item of root toggle',
-              url: '/docs/ui',
-            },
-            {
-              title: 'Other page',
-              description: 'The example item of root toggle',
-              url: '/docs/headless',
-            },
-          ]}
-        />
       </div>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 # Newsletter Module
 
-This module provides functionality for managing newsletter subscriptions using various email service providers. Currently, it supports [Resend](https://resend.com) for handling newsletter subscriptions.
+This module provides functionality for managing newsletter subscriptions using various email service providers. Currently, it supports [Resend](https://resend.com) and [Beehiiv](https://beehiiv.com) for handling newsletter subscriptions.
 
 ## Overview
 
@@ -16,7 +16,8 @@ The newsletter system is designed to be:
 ```
 src/newsletter/
 ├── provider/       # Newsletter provider implementations
-│   └── resend.ts   # Resend.com provider implementation
+│   ├── resend.ts   # Resend.com provider implementation
+│   └── beehiiv.ts  # Beehiiv provider implementation
 ├── index.ts        # Main API and utility functions
 ├── types.ts        # TypeScript types and interfaces
 └── README.md       # This documentation
@@ -41,7 +42,7 @@ The newsletter module is configured in two ways:
 export const websiteConfig = {
   // ...other config
   newsletter: {
-    provider: 'resend', // Newsletter provider to use
+    provider: 'resend', // Newsletter provider to use: 'resend' or 'beehiiv'
     autoSubscribeAfterSignUp: false, // Whether to automatically subscribe users after sign up
   },
   // ...other config
@@ -52,8 +53,11 @@ export const websiteConfig = {
 
 ```
 # Required for Resend provider
-RESEND_API_KEY=your-resend-api-key
-RESEND_AUDIENCE_ID=your-audience-id
+RESEND_API_KEY=YOUR-RESEND-API-KEY
+
+# Required for Beehiiv provider
+BEEHIIV_API_KEY=YOUR-BEEHIIV-API-KEY
+BEEHIIV_PUBLICATION_ID=YOUR-BEEHIIV-PUBLICATION-ID
 ```
 
 ## Basic Usage
@@ -82,7 +86,7 @@ import { sendEmail } from '@/mail';
 export async function subscribeWithConfirmation(email: string) {
   // Subscribe the user
   const success = await subscribe(email);
-  
+
   if (success) {
     // Send a confirmation email
     await sendEmail({
@@ -94,7 +98,7 @@ export async function subscribeWithConfirmation(email: string) {
       },
     });
   }
-  
+
   return success;
 }
 ```
@@ -105,11 +109,11 @@ export async function subscribeWithConfirmation(email: string) {
 You can create and use your own newsletter provider implementation:
 
 ```typescript
-import { 
-  NewsletterProvider, 
+import {
+  NewsletterProvider,
   SubscribeNewsletterParams,
   UnsubscribeNewsletterParams,
-  CheckSubscribeStatusParams 
+  CheckSubscribeStatusParams
 } from '@/newsletter/types';
 
 export class CustomNewsletterProvider implements NewsletterProvider {
@@ -145,14 +149,20 @@ import { CustomNewsletterProvider } from './provider/custom-provider';
 
 export const initializeNewsletterProvider = (): NewsletterProvider => {
   if (!newsletterProvider) {
-    if (websiteConfig.newsletter.provider === 'resend') {
-      newsletterProvider = new ResendNewsletterProvider();
-    } else if (websiteConfig.newsletter.provider === 'custom') {
-      newsletterProvider = new CustomNewsletterProvider();
-    } else {
-      throw new Error(
-        `Unsupported newsletter provider: ${websiteConfig.newsletter.provider}`
-      );
+    switch (websiteConfig.newsletter.provider) {
+      case 'resend':
+        newsletterProvider = new ResendNewsletterProvider();
+        break;
+      case 'beehiiv':
+        newsletterProvider = new BeehiivNewsletterProvider();
+        break;
+      case 'custom':
+        newsletterProvider = new CustomNewsletterProvider();
+        break;
+      default:
+        throw new Error(
+          `Unsupported newsletter provider: ${websiteConfig.newsletter.provider}`
+        );
     }
   }
 

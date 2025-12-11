@@ -100,8 +100,8 @@ export function CreditCheckoutButton({
       });
 
       // Redirect to checkout page
-      if (result?.data?.success && result.data.data?.url) {
-        window.location.href = result.data.data?.url;
+      if (result?.data?.success && result?.data?.data?.url) {
+        window.location.href = result?.data?.data?.url;
       } else {
         console.error('Create credit checkout session error, result:', result);
         toast.error(t('checkoutFailed'));

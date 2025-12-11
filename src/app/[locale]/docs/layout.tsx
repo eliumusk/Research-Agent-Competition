@@ -9,7 +9,7 @@ import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { HomeIcon } from 'lucide-react';
 import type { Locale } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
 import '@/styles/mdx.css';
@@ -38,6 +38,10 @@ export default async function DocsRootLayout({
   params,
 }: DocsLayoutProps) {
   const { locale } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const t = await getTranslations({ locale, namespace: 'DocsPage' });
 
   // Docs layout configurations

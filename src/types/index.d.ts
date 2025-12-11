@@ -28,7 +28,6 @@ export type WebsiteConfig = {
  */
 export interface UiConfig {
   mode?: ModeConfig;
-  theme?: ThemeConfig;
 }
 
 /**
@@ -42,11 +41,6 @@ export interface MetadataConfig {
 export interface ModeConfig {
   defaultMode?: 'light' | 'dark' | 'system';                  // The default mode of the website
   enableSwitch?: boolean;                                     // Whether to enable the mode switch
-}
-
-export interface ThemeConfig {
-  defaultTheme?: 'default' | 'blue' | 'green' | 'amber' | 'neutral'; // The default theme of the website
-  enableSwitch?: boolean;                                     // Whether to enable the theme switch
 }
 
 export interface ImagesConfig {
@@ -152,7 +146,7 @@ export interface MailConfig {
  */
 export interface NewsletterConfig {
   enable: boolean;                   // Whether to enable the newsletter
-  provider: 'resend';                 // The newsletter provider, only resend is supported for now
+  provider: 'resend' | 'beehiiv';    // The newsletter provider
   autoSubscribeAfterSignUp?: boolean; // Whether to automatically subscribe users to the newsletter after sign up
 }
 

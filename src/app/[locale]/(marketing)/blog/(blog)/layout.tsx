@@ -2,7 +2,7 @@ import { BlogCategoryFilter } from '@/components/blog/blog-category-filter';
 import HomeNewsletterSection from '@/components/home/home-newsletter';
 import Container from '@/components/layout/container';
 import { categorySource } from '@/lib/source';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { PropsWithChildren } from 'react';
 
 interface BlogListLayoutProps extends PropsWithChildren {
@@ -14,6 +14,10 @@ export default async function BlogListLayout({
   params,
 }: BlogListLayoutProps) {
   const { locale } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   const t = await getTranslations('BlogPage');
 
   // Filter categories by locale

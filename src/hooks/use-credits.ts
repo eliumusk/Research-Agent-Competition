@@ -10,6 +10,12 @@ import {
 } from '@tanstack/react-query';
 import type { SortingState } from '@tanstack/react-table';
 
+// Simple filter interface
+interface SimpleFilter {
+  id: string;
+  value: string;
+}
+
 // Query keys
 export const creditsKeys = {
   all: ['credits'] as const,
@@ -21,6 +27,7 @@ export const creditsKeys = {
     pageSize: number;
     search: string;
     sorting: SortingState;
+    filters: SimpleFilter[];
   }) => [...creditsKeys.transactions(), filters] as const,
 };
 
@@ -94,12 +101,13 @@ export function useConsumeCredits() {
   });
 }
 
-// Hook to fetch credit transactions with pagination, search, and sorting
+// Hook to fetch credit transactions with pagination, search, sorting, and filters
 export function useCreditTransactions(
   pageIndex: number,
   pageSize: number,
   search: string,
-  sorting: SortingState
+  sorting: SortingState,
+  filters: SimpleFilter[]
 ) {
   return useQuery({
     queryKey: creditsKeys.transactionsList({
@@ -107,6 +115,7 @@ export function useCreditTransactions(
       pageSize,
       search,
       sorting,
+      filters,
     }),
     queryFn: async () => {
       const result = await getCreditTransactionsAction({
@@ -114,6 +123,7 @@ export function useCreditTransactions(
         pageSize,
         search,
         sorting,
+        filters,
       });
 
       if (!result?.data?.success) {

@@ -24,9 +24,11 @@
       "tailwind.config.ts",
       "src/components/ui/*.tsx",
       "src/components/magicui/*.tsx",
+      "src/components/diceui/*.tsx",
       "src/components/animate-ui/*.tsx",
       "src/components/tailark/*.tsx",
       "src/components/ai-elements/*.tsx",
+      "src/components/data-table/**",
       "src/app/[[]locale]/preview/**",
       "src/payment/types.ts",
       "src/credits/types.ts",
@@ -71,32 +73,7 @@
         "noSvgWithoutTitle": "off",
         "useKeyWithClickEvents": "off"
       }
-    },
-    "ignore": [
-      ".next/**",
-      ".open-next/**",
-      ".wrangler/**",
-      ".cursor/**",
-      ".claude/**",
-      ".conductor/**",
-      ".kiro/**",
-      ".vscode/**",
-      ".source/**",
-      "node_modules/**",
-      "dist/**",
-      "build/**",
-      "src/db/**",
-      "tailwind.config.ts",
-      "src/components/ui/*.tsx",
-      "src/components/magicui/*.tsx",
-      "src/components/animate-ui/*.tsx",
-      "src/components/tailark/*.tsx",
-      "src/components/ai-elements/*.tsx",
-      "src/app/[[]locale]/preview/**",
-      "src/payment/types.ts",
-      "src/credits/types.ts",
-      "src/types/index.d.ts"
-    ]
+    }
   },
   "javascript": {
     "formatter": {
