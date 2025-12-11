@@ -1,11 +1,9 @@
-'use client';
-
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function RulesSection() {
-  const t = useTranslations('Competition.rules');
+export default async function RulesSection() {
+  const t = await getTranslations('Competition.rules');
 
   const rules = [
     {

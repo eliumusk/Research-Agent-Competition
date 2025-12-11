@@ -1,12 +1,10 @@
-'use client';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Award, BarChart3, Sparkles, TrendingUp, Users } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function EvaluationSection() {
-  const t = useTranslations('Competition.evaluation');
+export default async function EvaluationSection() {
+  const t = await getTranslations('Competition.evaluation');
 
   const criteria = [
     {

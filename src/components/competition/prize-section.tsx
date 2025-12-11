@@ -1,9 +1,6 @@
-'use client';
-
-import { BorderBeam } from '@/components/magicui/border-beam';
+import PrizeHighlightCard from '@/components/competition/prize-highlight-card';
+import PrizeTotalCard from '@/components/competition/prize-total-card';
 import { DotPattern } from '@/components/magicui/dot-pattern';
-import { MagicCard } from '@/components/magicui/magic-card';
-import { AnimatedNumber } from '@/components/ui/animated-number';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ScrollReveal,
@@ -11,8 +8,7 @@ import {
   StaggerItem,
 } from '@/components/ui/scroll-reveal';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
-import { useTheme } from 'next-themes';
+import { getTranslations } from 'next-intl/server';
 
 interface PrizeCardProps {
   track: string;
@@ -54,9 +50,8 @@ function PrizeCard({ track, prizes, className }: PrizeCardProps) {
   );
 }
 
-export default function PrizeSection() {
-  const t = useTranslations('Competition.prizes');
-  const { theme } = useTheme();
+export default async function PrizeSection() {
+  const t = await getTranslations('Competition.prizes');
 
   const deepTrackPrizes = [
     { rank: '🥇', amount: '¥100,000', count: t('gold') },
@@ -72,7 +67,6 @@ export default function PrizeSection() {
 
   return (
     <section id="prizes" className="relative px-4 py-16">
-      {/* Background Pattern */}
       <div className="absolute inset-0 -z-10">
         <DotPattern
           className={cn(
@@ -83,7 +77,6 @@ export default function PrizeSection() {
       </div>
 
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <ScrollReveal direction="up" delay={0.1}>
           <div className="mb-12 text-center">
             <div className="mb-4 inline-block rounded-full border bg-muted px-4 py-1.5 text-sm font-medium">
@@ -98,24 +91,12 @@ export default function PrizeSection() {
           </div>
         </ScrollReveal>
 
-        {/* Total Prize Pool */}
         <ScrollReveal direction="up" delay={0.2}>
           <div className="mb-12 relative">
-            <Card className="group border-2 bg-gradient-to-br from-primary/5 via-background to-background transition-all hover:shadow-xl hover:scale-[1.02] relative overflow-hidden">
-              <BorderBeam size={300} duration={15} delay={0} />
-              <CardContent className="py-8 text-center relative z-10">
-                <div className="mb-2 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-                  {t('totalPool')}
-                </div>
-                <div className="font-mono text-5xl font-bold tracking-tight lg:text-6xl">
-                  ¥<AnimatedNumber value={1000000} duration={3} />
-                </div>
-              </CardContent>
-            </Card>
+            <PrizeTotalCard label={t('totalPool')} amount={1000000} />
           </div>
         </ScrollReveal>
 
-        {/* Prize Tracks */}
         <StaggerContainer
           className="grid gap-6 lg:grid-cols-2"
           staggerDelay={0.15}
@@ -128,43 +109,23 @@ export default function PrizeSection() {
           </StaggerItem>
         </StaggerContainer>
 
-        {/* Additional Prizes */}
         <StaggerContainer
           className="mt-6 grid gap-6 md:grid-cols-2"
           staggerDelay={0.1}
         >
           <StaggerItem>
-            <MagicCard
-              className="py-6 px-6"
-              gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="mb-1 font-semibold">{t('excellence')}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {t('excellenceDesc')}
-                  </div>
-                </div>
-                <div className="font-mono text-2xl font-semibold">¥80,000</div>
-              </div>
-            </MagicCard>
+            <PrizeHighlightCard
+              label={t('excellence')}
+              description={t('excellenceDesc')}
+              amount="¥80,000"
+            />
           </StaggerItem>
-
           <StaggerItem>
-            <MagicCard
-              className="py-6 px-6"
-              gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="mb-1 font-semibold">{t('iteration')}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {t('iterationDesc')}
-                  </div>
-                </div>
-                <div className="font-mono text-2xl font-semibold">¥200,000</div>
-              </div>
-            </MagicCard>
+            <PrizeHighlightCard
+              label={t('iteration')}
+              description={t('iterationDesc')}
+              amount="¥200,000"
+            />
           </StaggerItem>
         </StaggerContainer>
       </div>

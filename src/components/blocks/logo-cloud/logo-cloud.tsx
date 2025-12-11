@@ -1,4 +1,19 @@
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+
+const logos = [
+  { src: '/svg/nvidia.svg', alt: 'Nvidia Logo', height: 20 },
+  { src: '/svg/column.svg', alt: 'Column Logo', height: 16 },
+  { src: '/svg/github.svg', alt: 'GitHub Logo', height: 16 },
+  { src: '/svg/nike.svg', alt: 'Nike Logo', height: 20 },
+  { src: '/svg/laravel.svg', alt: 'Laravel Logo', height: 16 },
+  { src: '/svg/lilly.svg', alt: 'Lilly Logo', height: 28 },
+  { src: '/svg/lemonsqueezy.svg', alt: 'Lemon Squeezy Logo', height: 20 },
+  { src: '/svg/openai.svg', alt: 'OpenAI Logo', height: 24 },
+  { src: '/svg/tailwindcss.svg', alt: 'Tailwind CSS Logo', height: 16 },
+  { src: '/svg/vercel.svg', alt: 'Vercel Logo', height: 20 },
+  { src: '/svg/zapier.svg', alt: 'Zapier Logo', height: 20 },
+];
 
 export default function LogoCloudSection() {
   const t = useTranslations('HomePage.logocloud');
@@ -9,83 +24,19 @@ export default function LogoCloudSection() {
         <h2 className="text-center text-xl font-medium">{t('title')}</h2>
 
         <div className="mx-auto mt-20 flex max-w-4xl flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-16 sm:gap-y-12">
-          <img
-            className="h-5 w-fit dark:invert"
-            src="/svg/nvidia.svg"
-            alt="Nvidia Logo"
-            height="20"
-            width="auto"
-          />
-          <img
-            className="h-4 w-fit dark:invert"
-            src="/svg/column.svg"
-            alt="Column Logo"
-            height="16"
-            width="auto"
-          />
-          <img
-            className="h-4 w-fit dark:invert"
-            src="/svg/github.svg"
-            alt="GitHub Logo"
-            height="16"
-            width="auto"
-          />
-          <img
-            className="h-5 w-fit dark:invert"
-            src="/svg/nike.svg"
-            alt="Nike Logo"
-            height="20"
-            width="auto"
-          />
-          <img
-            className="h-4 w-fit dark:invert"
-            src="/svg/laravel.svg"
-            alt="Laravel Logo"
-            height="16"
-            width="auto"
-          />
-          <img
-            className="h-7 w-fit dark:invert"
-            src="/svg/lilly.svg"
-            alt="Lilly Logo"
-            height="28"
-            width="auto"
-          />
-          <img
-            className="h-5 w-fit dark:invert"
-            src="/svg/lemonsqueezy.svg"
-            alt="Lemon Squeezy Logo"
-            height="20"
-            width="auto"
-          />
-          <img
-            className="h-6 w-fit dark:invert"
-            src="/svg/openai.svg"
-            alt="OpenAI Logo"
-            height="24"
-            width="auto"
-          />
-          <img
-            className="h-4 w-fit dark:invert"
-            src="/svg/tailwindcss.svg"
-            alt="Tailwind CSS Logo"
-            height="16"
-            width="auto"
-          />
-          <img
-            className="h-5 w-fit dark:invert"
-            src="/svg/vercel.svg"
-            alt="Vercel Logo"
-            height="20"
-            width="auto"
-          />
-          <img
-            className="h-5 w-fit dark:invert"
-            src="/svg/zapier.svg"
-            alt="Zapier Logo"
-            height="20"
-            width="auto"
-          />
+          {logos.map((logo) => (
+            <Image
+              key={logo.src}
+              src={logo.src}
+              alt={logo.alt}
+              width={160}
+              height={logo.height}
+              sizes="(max-width: 640px) 40vw, 160px"
+              className="w-auto dark:invert"
+              style={{ height: `${logo.height}px` }}
+              loading="lazy"
+            />
+          ))}
         </div>
       </div>
     </section>

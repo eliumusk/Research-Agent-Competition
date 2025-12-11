@@ -1,31 +1,20 @@
-'use client';
+import VisionCTA from '@/components/competition/vision-cta';
+import { getTranslations } from 'next-intl/server';
 
-import { PulsatingButton } from '@/components/magicui/pulsating-button';
-import { Button } from '@/components/ui/button';
-import { LocaleLink } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
-import { useTheme } from 'next-themes';
-
-export default function VisionSection() {
-  const t = useTranslations('Competition.vision');
-  const { theme } = useTheme();
+export default async function VisionSection() {
+  const t = await getTranslations('Competition.vision');
 
   return (
     <section id="vision" className="relative overflow-hidden px-4 py-24">
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
-
-      {/* Decorative elements */}
       <div className="absolute left-0 top-0 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
       <div className="absolute bottom-0 right-0 size-64 translate-x-1/2 translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
 
       <div className="relative mx-auto max-w-4xl text-center">
-        {/* Badge */}
         <div className="mb-6 inline-block rounded-full border bg-background px-4 py-1.5 text-sm font-medium shadow-sm">
           {t('badge')}
         </div>
 
-        {/* Main quote */}
         <blockquote className="mb-8 space-y-6">
           <p className="text-balance text-3xl font-semibold leading-tight tracking-tight lg:text-5xl">
             {t('quote')}
@@ -35,49 +24,22 @@ export default function VisionSection() {
           </p>
         </blockquote>
 
-        {/* Key points */}
         <div className="mb-12 grid gap-4 text-left sm:grid-cols-2">
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <div className="mb-2 text-sm font-medium uppercase tracking-wider text-primary">
               {t('point1.label')}
             </div>
-            <p className="text-sm text-muted-foreground">
-              {t('point1.description')}
-            </p>
+            <p className="text-sm text-muted-foreground">{t('point1.description')}</p>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <div className="mb-2 text-sm font-medium uppercase tracking-wider text-primary">
               {t('point2.label')}
             </div>
-            <p className="text-sm text-muted-foreground">
-              {t('point2.description')}
-            </p>
+            <p className="text-sm text-muted-foreground">{t('point2.description')}</p>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <LocaleLink
-            href="https://www.bohrium.com/competitions/8831838064?tab=introduce"
-            target="_blank"
-          >
-            <PulsatingButton
-              className="rounded-xl px-8"
-              pulseColor={theme === 'dark' ? '#ffffff40' : '#00000040'}
-              duration="2s"
-            >
-              {t('cta')}
-            </PulsatingButton>
-          </LocaleLink>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="rounded-xl px-8"
-          >
-            <LocaleLink href="#prizes">{t('learnMore')}</LocaleLink>
-          </Button>
-        </div>
+        <VisionCTA primaryLabel={t('cta')} secondaryLabel={t('learnMore')} />
       </div>
     </section>
   );

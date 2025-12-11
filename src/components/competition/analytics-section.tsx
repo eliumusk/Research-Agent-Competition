@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { BarChart3Icon, ExternalLinkIcon, MaximizeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const BI_REPORT_URL =
   'https://bi.aliyuncs.com/token3rd/dashboard/view/pc.htm?pageId=f253d1fe-2dc8-4016-b98b-aff79f0e11cc&accessTicket=b7c1023f-c296-4b48-8aef-8b90866b4703&dd_orientation=auto';
@@ -17,16 +17,75 @@ const BI_REPORT_URL =
 export default function AnalyticsSection() {
   const t = useTranslations('Competition.analytics');
   const { theme } = useTheme();
-  const [isLoading, setIsLoading] = useState(true);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const loadNowLabel = '加载实时数据';
+  const loadedLabel = '实时数据已加载';
+  const placeholderLabel = '点击上方按钮加载实时数据';
 
-  const handleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node || shouldLoad) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '0px 0px 200px 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoad]);
 
-  const handleOpenExternal = () => {
+  useEffect(() => {
+    document.body.style.overflow = isFullscreen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isFullscreen]);
+
+  useEffect(() => {
+    if (shouldLoad) {
+      setIsLoading(true);
+    }
+  }, [shouldLoad]);
+
+  const handleOpenExternal = useCallback(() => {
     window.open(BI_REPORT_URL, '_blank', 'noopener,noreferrer');
-  };
+  }, []);
+
+  const handleLoadDashboard = useCallback(() => {
+    if (!shouldLoad) {
+      setShouldLoad(true);
+    }
+  }, [shouldLoad]);
+
+  const handleFullscreenToggle = useCallback(() => {
+    if (!shouldLoad) return;
+    setIsFullscreen((prev) => !prev);
+  }, [shouldLoad]);
+
+  const containerClasses = useMemo(
+    () =>
+      cn(
+        'relative transition-all duration-300',
+        isFullscreen &&
+          'fixed inset-0 z-50 flex items-center justify-center bg-background/95 px-4 py-8'
+      ),
+    [isFullscreen]
+  );
+
+  const frameHeight = isFullscreen
+    ? 'h-full'
+    : 'h-[500px] sm:h-[600px] lg:h-[700px]';
 
   return (
     <>
@@ -70,8 +129,11 @@ export default function AnalyticsSection() {
                   }
                 />
 
-                <Card className="border-0 shadow-none relative z-10">
-                  <CardContent className="p-4 sm:p-6 lg:p-8">
+                <Card className={cn('border-0 shadow-none relative z-10', isFullscreen && 'w-full h-full')}>
+                  <CardContent
+                    ref={containerRef}
+                    className={cn('p-4 sm:p-6 lg:p-8', isFullscreen && 'h-full')}
+                  >
                     {/* Action Buttons */}
                     <div className="flex items-center justify-between mb-4 gap-2">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -81,6 +143,15 @@ export default function AnalyticsSection() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
+                        <Button
+                          variant="default"
+                          size="sm"
+                          onClick={handleLoadDashboard}
+                          disabled={shouldLoad}
+                          className="gap-2"
+                        >
+                          {shouldLoad ? loadedLabel : loadNowLabel}
+                        </Button>
                         <Button
                           variant="outline"
                           size="sm"
@@ -95,8 +166,9 @@ export default function AnalyticsSection() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={handleFullscreen}
+                          onClick={handleFullscreenToggle}
                           className="gap-2"
+                          disabled={!shouldLoad}
                         >
                           <MaximizeIcon className="size-4" />
                           <span className="hidden sm:inline">
@@ -111,37 +183,45 @@ export default function AnalyticsSection() {
                     {/* iframe Container */}
                     <div
                       className={cn(
-                        'relative rounded-lg overflow-hidden bg-muted/30',
-                        'border-2 border-border/50',
-                        'transition-all duration-300'
+                        containerClasses,
+                        'rounded-lg border-2 border-border/50 bg-muted/30'
                       )}
                     >
-                      {/* Loading Overlay */}
-                      {isLoading && (
-                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-                          <div className="flex flex-col items-center gap-4">
-                            <div className="size-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                      <div className={cn('relative w-full', frameHeight)}>
+                        {!shouldLoad && (
+                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm">
                             <p className="text-sm text-muted-foreground">
-                              {t('loading')}
+                              {placeholderLabel}
                             </p>
+                            <Button onClick={handleLoadDashboard}>
+                              {loadNowLabel}
+                            </Button>
                           </div>
-                        </div>
-                      )}
-
-                      {/* iframe */}
-                      <iframe
-                        src={BI_REPORT_URL}
-                        className={cn(
-                          'w-full border-0 transition-all duration-300',
-                          isFullscreen
-                            ? 'h-[calc(100vh-12rem)]'
-                            : 'h-[500px] sm:h-[600px] lg:h-[700px]'
                         )}
-                        title={t('title')}
-                        onLoad={() => setIsLoading(false)}
-                        allow="fullscreen"
-                        loading="lazy"
-                      />
+
+                        {shouldLoad ? (
+                          <iframe
+                            src={BI_REPORT_URL}
+                            className="w-full h-full border-0"
+                            title={t('title')}
+                            onLoad={() => setIsLoading(false)}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-muted" />
+                        )}
+
+                        {shouldLoad && isLoading && (
+                          <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="size-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                              <p className="text-sm text-muted-foreground">
+                                {t('loading')}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Info Footer */}
@@ -156,38 +236,6 @@ export default function AnalyticsSection() {
         </div>
       </section>
 
-      {/* Fullscreen Overlay */}
-      {isFullscreen && (
-        <div
-          className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm"
-          onClick={handleFullscreen}
-        >
-          <div className="container mx-auto h-full py-8 px-4">
-            <div className="h-full flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold">{t('title')}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleFullscreen}
-                  className="gap-2"
-                >
-                  <MaximizeIcon className="size-4" />
-                  {t('exitFullscreen')}
-                </Button>
-              </div>
-              <div className="flex-1 rounded-lg overflow-hidden border-2 border-border">
-                <iframe
-                  src={BI_REPORT_URL}
-                  className="w-full h-full border-0"
-                  title={t('title')}
-                  allow="fullscreen"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

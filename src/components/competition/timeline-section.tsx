@@ -1,9 +1,7 @@
-'use client';
-
 import { Card, CardContent } from '@/components/ui/card';
 import { EnhancedBackground } from '@/components/ui/enhanced-background';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 interface TimelineEvent {
   date: string;
@@ -12,8 +10,8 @@ interface TimelineEvent {
   status: 'completed' | 'current' | 'upcoming';
 }
 
-export default function TimelineSection() {
-  const t = useTranslations('Competition.timeline');
+export default async function TimelineSection() {
+  const t = await getTranslations('Competition.timeline');
 
   const events: TimelineEvent[] = [
     {

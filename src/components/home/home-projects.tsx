@@ -1,4 +1,5 @@
 import { Card } from '@/components/ui/card';
+import Image from 'next/image';
 import type * as React from 'react';
 import { HeaderSection } from '../layout/header-section';
 
@@ -82,8 +83,16 @@ const ProjectCard = ({
       <Card className="p-6 group cursor-pointer transition-all duration-300 ease-in-out hover:scale-105">
         <div className="relative overflow-hidden">
           <div className="flex items-center justify-start gap-4">
-            <div className="*:size-10">
-              <img src={image} alt={title} className="rounded-lg" />
+            <div className="relative size-10 overflow-hidden rounded-lg">
+              <Image
+                src={image}
+                alt={title}
+                title={title}
+                sizes="40px"
+                fill
+                className="object-cover"
+                loading="lazy"
+              />
             </div>
             <h3 className="text-base font-medium">{title}</h3>
           </div>

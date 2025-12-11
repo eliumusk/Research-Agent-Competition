@@ -1,3 +1,7 @@
+'use client';
+
+import Image from 'next/image';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import type { AvatarProps } from '@radix-ui/react-avatar';
 import { User2Icon } from 'lucide-react';
@@ -22,6 +26,9 @@ export function UserAvatar({
   className,
   ...props
 }: UserAvatarProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
   return (
     <div
       className={cn(
@@ -31,36 +38,31 @@ export function UserAvatar({
       {...props}
     >
       {/* Always render fallback to maintain layout */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div
+        className={cn(
+          'absolute inset-0 flex items-center justify-center transition-opacity',
+          isLoaded && !hasError ? 'opacity-0' : 'opacity-100'
+        )}
+      >
         <span className="sr-only">{name}</span>
         <User2Icon className="size-4" />
       </div>
 
       {/* Image overlay */}
-      {image && (
-        <img
+      {image && !hasError && (
+        <Image
           alt={name}
           title={name}
           src={image}
-          className="absolute inset-0 size-full object-cover"
+          fill
+          sizes="32px"
+          className={cn(
+            'absolute inset-0 size-full object-cover transition-opacity',
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          )}
+          onLoadingComplete={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
           loading="lazy"
-          onLoad={(e) => {
-            // Hide fallback when image loads
-            const fallback = e.currentTarget
-              .previousElementSibling as HTMLElement;
-            if (fallback) {
-              fallback.style.opacity = '0';
-            }
-          }}
-          onError={(e) => {
-            // Show fallback if image fails
-            const fallback = e.currentTarget
-              .previousElementSibling as HTMLElement;
-            if (fallback) {
-              fallback.style.opacity = '1';
-            }
-            e.currentTarget.style.display = 'none';
-          }}
         />
       )}
     </div>

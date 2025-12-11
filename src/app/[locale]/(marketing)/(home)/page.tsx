@@ -14,6 +14,8 @@ import { constructMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
 import type { Locale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
+import { BlogGridSkeleton } from '@/components/blog/blog-grid';
 
 /**
  * https://next-intl.dev/docs/environments/actions-metadata-route-handlers#metadata-api
@@ -62,10 +64,16 @@ export default async function HomePage(props: HomePageProps) {
 
         <VisionSection />
 
-        <HomeBlogSection locale={locale} />
-        <LeaderboardSection />
+        <Suspense fallback={<BlogGridSkeleton count={6} />}>
+          <HomeBlogSection locale={locale} />
+        </Suspense>
+        <Suspense fallback={<div className="px-4 py-12 text-center text-muted-foreground">Loading leaderboard...</div>}>
+          <LeaderboardSection />
+        </Suspense>
 
-        <AnalyticsSection />
+        <Suspense fallback={<div className="px-4 py-12 text-center text-muted-foreground">Loading analytics...</div>}>
+          <AnalyticsSection />
+        </Suspense>
       </div>
     </>
   );
