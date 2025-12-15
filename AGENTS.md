@@ -17,3 +17,5 @@ Follow the Conventional Commit style (`feat:`, `fix:`, `chore:`) observed in the
 
 ## Configuration & Secrets
 Copy `env.example` to `.env` before running commands. Store production credentials with your deployment provider (Vercel, Cloudflare) and never commit secrets. Use scoped API keys for `opennextjs-cloudflare` or `wrangler`, rotate keys tied to providers in `src/ai`, and remove temporary debugging logs before merging.
+
+更新排行榜数据是pnpm update-leaderboard

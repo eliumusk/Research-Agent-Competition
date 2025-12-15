@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2025-12-07T09:10:04.283034Z",
-  "sourceFile": "大赛数据_20251207_1701.xlsx",
-  "weekRange": "2025/12/01～2025/12/07",
+  "generatedAt": "2025-12-15T02:18:16.371094Z",
+  "sourceFile": "大赛数据_20251214_1009.xlsx",
+  "weekRange": "2025/12/08～2025/12/14",
   "subscriptionGrowthAvailable": true,
   "subscriptionGrowthTop3": [
     {
-      "appKey": "aithena1",
-      "teamName": "AITHENA",
-      "growth": 85,
+      "appKey": "ai-reference-agent",
+      "teamName": "AI文献引用管理智能体",
+      "growth": 91,
       "rank": 1,
       "reward": 500
     },
     {
-      "appKey": "ai-reference-agent",
-      "teamName": "AI文献引用管理智能体",
-      "growth": 73,
+      "appKey": "aithena1",
+      "teamName": "AITHENA",
+      "growth": 88,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "ai-translator",
-      "teamName": "AI翻译智能体",
-      "growth": 66,
+      "appKey": "papergo",
+      "teamName": "投刊管家",
+      "growth": 80,
       "rank": 3,
       "reward": 200
     }
   ],
   "photonTop3": [
     {
-      "appKey": "ai4inspiration",
-      "teamName": "颢穹",
-      "photons": 19318,
+      "appKey": "papergo",
+      "teamName": "投刊管家",
+      "photons": 32800,
       "rank": 1,
       "reward": 500
     },
     {
-      "appKey": "papergo",
-      "teamName": "投刊管家",
-      "photons": 5000,
+      "appKey": "xyzen",
+      "teamName": "ScienceOL",
+      "photons": 28802,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "latex-formula-agent",
-      "teamName": "AI公式助手",
-      "photons": 4265,
+      "appKey": "ai-reference-agent",
+      "teamName": "AI文献引用管理智能体",
+      "photons": 22394,
       "rank": 3,
       "reward": 200
     }
@@ -54,7 +54,7 @@
       {
         "appKey": "aithena1",
         "teamName": "AITHENA",
-        "subscriptions": 1255,
+        "subscriptions": 1343,
         "reward": 1000
       }
     ],
@@ -62,25 +62,37 @@
       {
         "appKey": "xyzen",
         "teamName": "ScienceOL",
-        "photons": 42625,
-        "reward": 1000
-      },
-      {
-        "appKey": "latex-formula-agent",
-        "teamName": "AI公式助手",
-        "photons": 26236,
-        "reward": 1000
-      },
-      {
-        "appKey": "aithena1",
-        "teamName": "AITHENA",
-        "photons": 25889,
+        "photons": 71591,
         "reward": 1000
       },
       {
         "appKey": "ai4inspiration",
         "teamName": "颢穹",
-        "photons": 21768,
+        "photons": 43802,
+        "reward": 1000
+      },
+      {
+        "appKey": "papergo",
+        "teamName": "投刊管家",
+        "photons": 38600,
+        "reward": 1000
+      },
+      {
+        "appKey": "aithena1",
+        "teamName": "AITHENA",
+        "photons": 27499,
+        "reward": 1000
+      },
+      {
+        "appKey": "latex-formula-agent",
+        "teamName": "AI公式助手",
+        "photons": 26661,
+        "reward": 1000
+      },
+      {
+        "appKey": "ai-reference-agent",
+        "teamName": "AI文献引用管理智能体",
+        "photons": 23093,
         "reward": 1000
       }
     ]
