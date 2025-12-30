@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2025-12-21T10:13:48.344204Z",
-  "sourceFile": "大赛数据_20251221_1810.xlsx",
-  "weekRange": "2025/12/15～2025/12/21",
+  "generatedAt": "2025-12-30T09:14:09.431666Z",
+  "sourceFile": "大赛数据_20251228_2111.xlsx",
+  "weekRange": "2025/12/22～2025/12/28",
   "subscriptionGrowthAvailable": true,
   "subscriptionGrowthTop3": [
     {
-      "appKey": "ai4inspiration",
-      "teamName": "颢穹",
-      "growth": 100,
+      "appKey": "journalagent2",
+      "teamName": "投稿期刊推荐智能体",
+      "growth": 550,
       "rank": 1,
       "reward": 500
     },
     {
-      "appKey": "aithena1",
-      "teamName": "AITHENA",
-      "growth": 90,
+      "appKey": "nexusnmr",
+      "teamName": "NexusNMR",
+      "growth": 533,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "researchpathfinder",
-      "teamName": "ResearchPathfinder",
-      "growth": 52,
+      "appKey": "xyzen",
+      "teamName": "ScienceOL",
+      "growth": 231,
       "rank": 3,
       "reward": 200
     }
   ],
   "photonTop3": [
     {
-      "appKey": "papergo",
-      "teamName": "投刊管家",
-      "photons": 28700,
+      "appKey": "nexusnmr",
+      "teamName": "NexusNMR",
+      "photons": 77414,
       "rank": 1,
       "reward": 500
     },
     {
       "appKey": "xyzen",
       "teamName": "ScienceOL",
-      "photons": 22719,
+      "photons": 42697,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "ai4inspiration",
-      "teamName": "颢穹",
-      "photons": 18924,
+      "appKey": "journalagent2",
+      "teamName": "投稿期刊推荐智能体",
+      "photons": 26940,
       "rank": 3,
       "reward": 200
     }
@@ -52,9 +52,21 @@
   "milestones": {
     "subscription500": [
       {
+        "appKey": "nexusnmr",
+        "teamName": "NexusNMR",
+        "subscriptions": 533,
+        "reward": 1000
+      },
+      {
         "appKey": "aithena1",
         "teamName": "AITHENA",
-        "subscriptions": 1433,
+        "subscriptions": 1570,
+        "reward": 1000
+      },
+      {
+        "appKey": "journalagent2",
+        "teamName": "投稿期刊推荐智能体",
+        "subscriptions": 608,
         "reward": 1000
       }
     ],
@@ -62,49 +74,73 @@
       {
         "appKey": "xyzen",
         "teamName": "ScienceOL",
-        "photons": 94292,
-        "reward": 1000
-      },
-      {
-        "appKey": "papergo",
-        "teamName": "投刊管家",
-        "photons": 67300,
+        "photons": 137447,
         "reward": 1000
       },
       {
         "appKey": "ai4inspiration",
         "teamName": "颢穹",
-        "photons": 62726,
+        "photons": 91728,
+        "reward": 1000
+      },
+      {
+        "appKey": "papergo",
+        "teamName": "投刊管家",
+        "photons": 79800,
+        "reward": 1000
+      },
+      {
+        "appKey": "nexusnmr",
+        "teamName": "NexusNMR",
+        "photons": 77414,
         "reward": 1000
       },
       {
         "appKey": "aithena1",
         "teamName": "AITHENA",
-        "photons": 29869,
+        "photons": 36259,
+        "reward": 1000
+      },
+      {
+        "appKey": "journalagent2",
+        "teamName": "投稿期刊推荐智能体",
+        "photons": 26940,
         "reward": 1000
       },
       {
         "appKey": "latex-formula-agent",
         "teamName": "AI公式助手",
-        "photons": 26716,
+        "photons": 26762,
         "reward": 1000
       },
       {
         "appKey": "ai-reference-agent",
         "teamName": "AI文献引用管理智能体",
-        "photons": 23101,
+        "photons": 23520,
+        "reward": 1000
+      },
+      {
+        "appKey": "le-agent",
+        "teamName": "乐",
+        "photons": 20900,
+        "reward": 1000
+      },
+      {
+        "appKey": "bioinfo-mcp",
+        "teamName": "BioinfoMCP",
+        "photons": 18030,
         "reward": 1000
       },
       {
         "appKey": "data-analysis-agent",
         "teamName": "AI数据分析智能体",
-        "photons": 13685,
+        "photons": 14485,
         "reward": 1000
       },
       {
         "appKey": "ai-translator",
         "teamName": "AI翻译智能体",
-        "photons": 10246,
+        "photons": 10405,
         "reward": 1000
       },
       {
