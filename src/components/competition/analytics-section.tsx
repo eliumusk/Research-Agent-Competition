@@ -12,7 +12,7 @@ import { useTheme } from 'next-themes';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const BI_REPORT_URL =
-  'https://bi.aliyuncs.com/token3rd/dashboard/view/pc.htm?pageId=f253d1fe-2dc8-4016-b98b-aff79f0e11cc&accessTicket=b7c1023f-c296-4b48-8aef-8b90866b4703&dd_orientation=auto';
+  'https://bi.aliyuncs.com/token3rd/dashboard/view/pc.htm?pageId=f253d1fe-2dc8-4016-b98b-aff79f0e11cc&accessTicket=a6c9ea3f-d8fb-4de3-bda0-1c8c818f49ff&dd_orientation=auto&qbi_version_param=1';
 
 export default function AnalyticsSection() {
   const t = useTranslations('Competition.analytics');
@@ -129,10 +129,18 @@ export default function AnalyticsSection() {
                   }
                 />
 
-                <Card className={cn('border-0 shadow-none relative z-10', isFullscreen && 'w-full h-full')}>
+                <Card
+                  className={cn(
+                    'border-0 shadow-none relative z-10',
+                    isFullscreen && 'w-full h-full'
+                  )}
+                >
                   <CardContent
                     ref={containerRef}
-                    className={cn('p-4 sm:p-6 lg:p-8', isFullscreen && 'h-full')}
+                    className={cn(
+                      'p-4 sm:p-6 lg:p-8',
+                      isFullscreen && 'h-full'
+                    )}
                   >
                     {/* Action Buttons */}
                     <div className="flex items-center justify-between mb-4 gap-2">
@@ -235,7 +243,6 @@ export default function AnalyticsSection() {
           </ScrollReveal>
         </div>
       </section>
-
     </>
   );
 }
