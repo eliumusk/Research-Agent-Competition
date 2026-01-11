@@ -1,50 +1,50 @@
 {
-  "generatedAt": "2026-01-04T13:43:58.913260Z",
-  "sourceFile": "大赛数据_20260104_1459.xlsx",
-  "weekRange": "2025/12/29～2026/01/04",
+  "generatedAt": "2026-01-11T13:59:52.052295Z",
+  "sourceFile": "大赛数据_20260111_2153.xlsx",
+  "weekRange": "2026/01/05～2026/01/11",
   "subscriptionGrowthAvailable": true,
   "subscriptionGrowthTop3": [
     {
-      "appKey": "gaussian-copilot",
-      "teamName": "Gaussian软件智能助理",
-      "growth": 504,
+      "appKey": "nexusnmr",
+      "teamName": "NexusNMR",
+      "growth": 823,
       "rank": 1,
       "reward": 500
     },
     {
-      "appKey": "xyzen",
-      "teamName": "ScienceOL",
-      "growth": 189,
+      "appKey": "polish-agent",
+      "teamName": "科研润色助手",
+      "growth": 575,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "pcicwmds",
-      "teamName": "知衡（ZhiHeng）",
-      "growth": 166,
+      "appKey": "cite-atlas",
+      "teamName": "文献星图",
+      "growth": 331,
       "rank": 3,
       "reward": 200
     }
   ],
   "photonTop3": [
     {
-      "appKey": "xyzen",
-      "teamName": "ScienceOL",
-      "photons": 43761,
+      "appKey": "nexusnmr",
+      "teamName": "NexusNMR",
+      "photons": 144260,
       "rank": 1,
       "reward": 500
     },
     {
-      "appKey": "easystat",
-      "teamName": "EasyStat",
-      "photons": 8100,
+      "appKey": "xyzen",
+      "teamName": "ScienceOL",
+      "photons": 140038,
       "rank": 2,
       "reward": 300
     },
     {
-      "appKey": "wrjai",
-      "teamName": "基本ai大模型下的视频人脸追踪识别记录",
-      "photons": 6000,
+      "appKey": "pcicwmds",
+      "teamName": "知衡（ZhiHeng）",
+      "photons": 76800,
       "rank": 3,
       "reward": 200
     }
@@ -54,37 +54,43 @@
       {
         "appKey": "xyzen",
         "teamName": "ScienceOL",
-        "subscriptions": 507,
+        "subscriptions": 687,
         "reward": 1000
       },
       {
         "appKey": "nexusnmr",
         "teamName": "NexusNMR",
-        "subscriptions": 549,
+        "subscriptions": 823,
+        "reward": 1000
+      },
+      {
+        "appKey": "papergo",
+        "teamName": "投刊管家",
+        "subscriptions": 573,
         "reward": 1000
       },
       {
         "appKey": "aithena1",
         "teamName": "AITHENA",
-        "subscriptions": 1627,
+        "subscriptions": 1719,
         "reward": 1000
       },
       {
         "appKey": "journalagent2",
         "teamName": "投稿期刊推荐智能体",
-        "subscriptions": 653,
+        "subscriptions": 662,
         "reward": 1000
       },
       {
         "appKey": "gaussian-copilot",
         "teamName": "Gaussian软件智能助理",
-        "subscriptions": 504,
+        "subscriptions": 512,
         "reward": 1000
       },
       {
         "appKey": "polish-agent",
         "teamName": "科研润色助手",
-        "subscriptions": 536,
+        "subscriptions": 575,
         "reward": 1000
       }
     ],
@@ -92,85 +98,103 @@
       {
         "appKey": "xyzen",
         "teamName": "ScienceOL",
-        "photons": 184455,
-        "reward": 1000
-      },
-      {
-        "appKey": "ai4inspiration",
-        "teamName": "颢穹",
-        "photons": 96068,
-        "reward": 1000
-      },
-      {
-        "appKey": "papergo",
-        "teamName": "投刊管家",
-        "photons": 86300,
+        "photons": 336103,
         "reward": 1000
       },
       {
         "appKey": "nexusnmr",
         "teamName": "NexusNMR",
-        "photons": 81021,
+        "photons": 262411,
+        "reward": 1000
+      },
+      {
+        "appKey": "papergo",
+        "teamName": "投刊管家",
+        "photons": 118814,
+        "reward": 1000
+      },
+      {
+        "appKey": "ai4inspiration",
+        "teamName": "颢穹",
+        "photons": 96092,
+        "reward": 1000
+      },
+      {
+        "appKey": "pcicwmds",
+        "teamName": "知衡（ZhiHeng）",
+        "photons": 77850,
         "reward": 1000
       },
       {
         "appKey": "aithena1",
         "teamName": "AITHENA",
-        "photons": 38089,
+        "photons": 40069,
         "reward": 1000
       },
       {
         "appKey": "latex-formula-agent",
         "teamName": "AI公式助手",
-        "photons": 31473,
+        "photons": 35433,
+        "reward": 1000
+      },
+      {
+        "appKey": "easystat",
+        "teamName": "EasyStat",
+        "photons": 32300,
+        "reward": 1000
+      },
+      {
+        "appKey": "research-metlearn",
+        "teamName": "ResearchMetaLearn",
+        "photons": 32090,
         "reward": 1000
       },
       {
         "appKey": "journalagent2",
         "teamName": "投稿期刊推荐智能体",
-        "photons": 28690,
+        "photons": 28780,
         "reward": 1000
       },
       {
         "appKey": "le-agent",
         "teamName": "乐",
-        "photons": 24950,
+        "photons": 28002,
         "reward": 1000
       },
       {
         "appKey": "gaussian-copilot",
         "teamName": "Gaussian软件智能助理",
-        "photons": 24785,
+        "photons": 24805,
         "reward": 1000
       },
       {
         "appKey": "ai-reference-agent",
         "teamName": "AI文献引用管理智能体",
-        "photons": 23524,
+        "photons": 23528,
+        "reward": 1000
+      },
+      {
+        "appKey": "cite-atlas",
+        "teamName": "文献星图",
+        "photons": 20312,
         "reward": 1000
       },
       {
         "appKey": "agora-minds",
         "teamName": "Agora Minds",
-        "photons": 18430,
+        "photons": 19430,
         "reward": 1000
       },
       {
         "appKey": "researchmind",
         "teamName": "ResearchMind",
-        "photons": 17017,
+        "photons": 18537,
         "reward": 1000
       },
       {
         "appKey": "data-analysis-agent",
         "teamName": "AI数据分析智能体",
         "photons": 15528,
-        "reward": 1000
-      },
-      {
-        "appKey": "cite-atlas",
-        "teamName": "文献星图",
-        "photons": 11112,
         "reward": 1000
       },
       {
@@ -182,7 +206,7 @@
       {
         "appKey": "ai-translator",
         "teamName": "AI翻译智能体",
-        "photons": 10526,
+        "photons": 10641,
         "reward": 1000
       },
       {
