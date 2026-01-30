@@ -1,7 +1,7 @@
-import AnalyticsSection from '@/components/competition/analytics-section';
+import AwardsSection from '@/components/competition/awards-section';
 import BackgroundSection from '@/components/competition/background-section';
 import EvaluationSection from '@/components/competition/evaluation-section';
-import LeaderboardSection from '@/components/competition/leaderboard-section';
+import FinalsSection from '@/components/competition/finals-section';
 import PrizeSection from '@/components/competition/prize-section';
 import RulesSection from '@/components/competition/rules-section';
 import TimelineSection from '@/components/competition/timeline-section';
@@ -50,6 +50,12 @@ export default async function HomePage(props: HomePageProps) {
       <div className="flex flex-col">
         <HomeHeroSection />
 
+        <AwardsSection />
+
+        <FinalsSection />
+
+        <TimelineSection />
+
         <BackgroundSection />
 
         <TracksSection />
@@ -60,19 +66,10 @@ export default async function HomePage(props: HomePageProps) {
 
         <RulesSection />
 
-        <TimelineSection />
-
         <VisionSection />
 
         <Suspense fallback={<BlogGridSkeleton count={6} />}>
           <HomeBlogSection locale={locale} />
-        </Suspense>
-        <Suspense fallback={<div className="px-4 py-12 text-center text-muted-foreground">Loading leaderboard...</div>}>
-          <LeaderboardSection />
-        </Suspense>
-
-        <Suspense fallback={<div className="px-4 py-12 text-center text-muted-foreground">Loading analytics...</div>}>
-          <AnalyticsSection />
         </Suspense>
       </div>
     </>

@@ -106,6 +106,12 @@
       "works": {
         "title": "获奖作品"
       },
+      "awards": {
+        "title": "获奖名单"
+      },
+      "finals": {
+        "title": "决赛总榜"
+      },
       "rules": {
         "title": "参赛规则"
       },
@@ -405,7 +411,7 @@
       },
       "note": "详细规则请参阅大赛",
       "noteLink": "官方文档",
-      "noteSuffix": "，如有疑问请联系组委会"
+      "noteSuffix": ""
     },
     "prizes": {
       "badge": "奖金设置",
@@ -443,10 +449,26 @@
         "description": "30 强同台竞技，两个赛道独立评审。评委从创新性、完成度、应用价值多个维度评分。"
       },
       "event4": {
-        "date": "2026.5",
-        "title": "颁奖典礼",
-        "description": "在北京科学智能峰会上举行颁奖典礼。"
+        "date": "2026.01.30",
+        "title": "结果公示",
+        "description": "决赛名单与总分公布。"
       }
+    },
+    "awards": {
+      "badge": "获奖名单",
+      "title": "获奖名单",
+      "subtitle": "每赛道 1 金 2 银 3 铜，优秀奖 8 项",
+      "gold": "金奖",
+      "silver": "银奖",
+      "bronze": "铜奖",
+      "excellenceTitle": "优秀奖（不分赛道）"
+    },
+    "finals": {
+      "badge": "决赛总榜",
+      "title": "决赛成绩公示",
+      "publishedAt": "公布日期 {date}",
+      "scoreLabel": "总分",
+      "notice": "成绩与奖项由大赛组委会依据公示规则与评审程序确认并公布，总分保留 1 位小数并按四舍五入处理，最终解释权归组委会所有。"
     },
     "analytics": {
       "badge": "每日榜单",
@@ -482,17 +504,17 @@
     "description": "展示优秀参赛作品，探索科研智能体的无限可能",
     "hero": {
       "title": "玻尔 + SciMaster 科研智能体开发大赛",
-      "tagline": "让创造可持续",
+      "tagline": "决赛结果已公布",
       "description": "探索科研智能体的无限可能，展示创新成果，推动科研技术发展",
       "introduction": "大赛介绍",
-      "primary": "立刻参赛",
-      "secondary": "大赛飞书知识库",
+      "primary": "查看获奖名单",
+      "secondary": "查看决赛总榜",
       "follow": "关注大赛动态",
       "read": "了解更多",
-      "intro": "本次大赛旨在推动科研智能体技术的发展，鼓励创新应用，展示优秀作品。欢迎所有对科研智能体开发感兴趣的个人和团队参与！",
-      "stat1": "总奖金池",
-      "stat2": "报名截止日期",
-      "stat3": "决赛名额"
+      "intro": "",
+      "stat1": "支队伍报名",
+      "stat2": "奖金激励",
+      "stat3": "智能体落地"
     },
     "logocloud": {
       "title": "您最爱公司都是我们的合作伙伴"

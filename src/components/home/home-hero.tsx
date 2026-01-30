@@ -9,7 +9,6 @@ import { AnimatedNumber } from '@/components/ui/animated-number';
 import { Button } from '@/components/ui/button';
 import { EnhancedBackground } from '@/components/ui/enhanced-background';
 import { LocaleLink } from '@/i18n/navigation';
-import { Routes } from '@/routes';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import React from 'react';
@@ -38,10 +37,8 @@ const transitionVariants = {
 export default function HomeHeroSection() {
   const t = useTranslations('HomePage.hero');
   const { theme } = useTheme();
-  const linkPrimary =
-    'https://www.bohrium.com/competitions/8831838064?tab=introduce';
-  const linkSecondary =
-    'https://dptechnology.feishu.cn/wiki/LYQLwyHWniSCUkk0afHcJd0wnOf';
+  const linkPrimary = '/#awards';
+  const linkSecondary = '/#finals';
 
   return (
     <>
@@ -135,7 +132,7 @@ export default function HomeHeroSection() {
                   }}
                   className="mt-12 flex flex-row items-center justify-center gap-4"
                 >
-                  <LocaleLink href={linkPrimary} target="_blank" key={1}>
+                  <LocaleLink href={linkPrimary} key={1}>
                     <PulsatingButton
                       className="rounded-xl px-8 text-base"
                       pulseColor={theme === 'dark' ? '#ffffff40' : '#00000040'}
@@ -177,7 +174,10 @@ export default function HomeHeroSection() {
                     gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
                   >
                     <div className="mb-1 font-mono text-3xl font-bold">
-                      ¥<AnimatedNumber value={1000000} duration={2.5} />
+                      <AnimatedNumber value={160} duration={1.5} />
+                      <span className="ml-1 text-base font-medium text-muted-foreground">
+                        余
+                      </span>
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat1')}
@@ -188,8 +188,7 @@ export default function HomeHeroSection() {
                     gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
                   >
                     <div className="mb-1 font-mono text-3xl font-bold">
-                      <AnimatedNumber value={12} decimals={0} />
-                      .10
+                      ¥<AnimatedNumber value={1000000} duration={2.5} />
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat2')}
@@ -200,7 +199,7 @@ export default function HomeHeroSection() {
                     gradientColor={theme === 'dark' ? '#262626' : '#D9D9D955'}
                   >
                     <div className="mb-1 font-mono text-3xl font-bold">
-                      <AnimatedNumber value={30} duration={1.5} />
+                      <AnimatedNumber value={62} duration={1.5} />
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {t('stat3')}

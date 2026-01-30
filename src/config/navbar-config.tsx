@@ -57,6 +57,16 @@ export function useNavbarLinks(): NestedMenuItem[] {
       external: false,
     },
     {
+      title: t('awards.title'),
+      href: '/#awards',
+      external: false,
+    },
+    {
+      title: t('finals.title'),
+      href: '/#finals',
+      external: false,
+    },
+    {
       title: t('rules.title'),
       href: '/#rules',
       external: false,
@@ -65,16 +75,6 @@ export function useNavbarLinks(): NestedMenuItem[] {
       title: t('ai.items.chat.title'),
       href: Routes.AIChat,
       external: false,
-    },
-    {
-      title: t('analytics.title'),
-      href: '/#analytics',
-      external: false,
-    },
-    {
-      title: t('register.title'),
-      href: 'https://www.bohrium.com/competitions/8831838064?tab=introduce',
-      external: true,
     },
     // {
     //   title: t('features.title'),

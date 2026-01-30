@@ -332,6 +332,12 @@
       "works": {
         "title": "Award-Winning Works"
       },
+      "awards": {
+        "title": "Award List"
+      },
+      "finals": {
+        "title": "Finals Ranking"
+      },
       "rules": {
         "title": "Rules"
       },
@@ -928,7 +934,7 @@
       },
       "note": "Please refer to the",
       "noteLink": "official competition documentation",
-      "noteSuffix": " for detailed rules. Contact the organizing committee if you have any questions"
+      "noteSuffix": ""
     },
     "prizes": {
       "badge": "Prize Pool",
@@ -966,10 +972,26 @@
         "description": "Top 30 teams compete. Two tracks evaluated independently across multiple dimensions, including innovation, completion, and practical value."
       },
       "event4": {
-        "date": "2026.5",
-        "title": "Award Ceremony",
-        "description": "Final rankings will be announced and prizes awarded at the Beijing Science Intelligence Summit."
+        "date": "2026.01.30",
+        "title": "Results Announcement",
+        "description": "Finalist list and total scores are published."
       }
+    },
+    "awards": {
+      "badge": "Award List",
+      "title": "Award List",
+      "subtitle": "1 Gold, 2 Silver, 3 Bronze per track; 8 Excellence Awards total",
+      "gold": "Gold",
+      "silver": "Silver",
+      "bronze": "Bronze",
+      "excellenceTitle": "Excellence Awards (All Tracks)"
+    },
+    "finals": {
+      "badge": "Finals Ranking",
+      "title": "Final Scores",
+      "publishedAt": "Published on {date}",
+      "scoreLabel": "Total Score",
+      "notice": "Results and awards are confirmed and announced by the Competition Committee in accordance with the published rules and evaluation procedures. Total scores are rounded to one decimal place. The Committee reserves the final right of interpretation."
     },
     "analytics": {
       "badge": "Daily Leaderboard",
@@ -1005,17 +1027,17 @@
     "description": "Showcase excellent competition entries and explore the infinite possibilities of research AI agents",
     "hero": {
       "title": "Bohrium + SciMaster AI Agent Competition",
-      "tagline": "Making Creation Sustainable",
+      "tagline": "Final Results Published",
       "description": "Explore the infinite possibilities of research AI agents, showcase innovative achievements, and promote the development of scientific research technology",
       "introduction": "Competition Introduction",
-      "primary": "Register Now",
-      "secondary": "View Lark Wiki",
+      "primary": "View Award List",
+      "secondary": "View Finals Ranking",
       "follow": "Follow Competition Updates",
       "read": "Learn More",
-      "intro": "This competition aims to promote the development of research AI agent technology, encourage innovative applications, and showcase excellent works. Welcome all individuals and teams interested in research AI agent development to participate!",
-      "stat1": "Total Prize Pool",
-      "stat2": "Registration Deadline",
-      "stat3": "Finalist Spots"
+      "intro": "",
+      "stat1": "Teams Registered",
+      "stat2": "Prize Incentives",
+      "stat3": "Agents Deployed"
     },
     "logocloud": {
       "title": "Your favorite companies are our partners"

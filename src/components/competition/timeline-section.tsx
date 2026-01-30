@@ -24,19 +24,19 @@ export default async function TimelineSection() {
       date: t('event2.date'),
       title: t('event2.title'),
       description: t('event2.description'),
-      status: 'current',
+      status: 'completed',
     },
     {
       date: t('event3.date'),
       title: t('event3.title'),
       description: t('event3.description'),
-      status: 'upcoming',
+      status: 'completed',
     },
     {
       date: t('event4.date'),
       title: t('event4.title'),
       description: t('event4.description'),
-      status: 'upcoming',
+      status: 'completed',
     },
   ];
 
